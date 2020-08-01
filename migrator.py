@@ -12,11 +12,21 @@ try:
 
     if connection.is_connected():
         db_Info = connection.get_server_info()
-        print("Connected to MySQL Server version ", db_Info)
         cursor = connection.cursor()
-        cursor.execute("select database();")
-        record = cursor.fetchone()
-        print("You're connected to database: ", record)
+        cursor.execute("select title from migrations")
+        rows = cursor.fetchall()
+        executed_migrations = [item[0] for item in rows]
+        
+        migrations_list_files = os.listdir("db_migrations")
+        migrations_list = [m.replace('.sql','') for m in migrations_list_files]
+        print (migrations_list)
+        print (executed_migrations)
+
+        pending = list(set(migrations_list)-set(executed_migrations))
+        print ('pending')
+        print (pending)
+
+        
 
 except Error as e:
     print("Error while connecting to MySQL", e)
