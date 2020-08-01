@@ -19,13 +19,19 @@ try:
         
         migrations_list_files = os.listdir("db_migrations")
         migrations_list = [m.replace('.sql','') for m in migrations_list_files]
-        print (migrations_list)
-        print (executed_migrations)
+        #print (migrations_list)
+        #print (executed_migrations)
 
         pending = list(set(migrations_list)-set(executed_migrations))
-        print ('pending')
-        print (pending)
-
+        #print ('pending')
+        #print (pending)
+        for sql_file in pending:
+            with open('db_migrations/' + sql_file           +'.sql', 'r') as file:
+                sql = file.read().replace(os.linesep, '')
+            # print (sql)
+            cursor.execute(sql)
+            cursor.execute("INSERT INTO `migrations` ( `title`) VALUES ('"+ sql_file +"')")
+            connection.commit();
         
 
 except Error as e:
