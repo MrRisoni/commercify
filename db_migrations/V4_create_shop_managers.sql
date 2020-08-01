@@ -1,0 +1,7 @@
+CREATE TABLE shop_managers (
+  shm_id BIGINT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  shm_shop_id BIGINT(10) UNSIGNED NOT NULL,
+  shm_manager_id BIGINT(10) UNSIGNED NOT NULL,
+  PRIMARY KEY(shm_id)
+);
+
