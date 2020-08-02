@@ -3,7 +3,7 @@
     <persistence-unit name="commercify">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
-        <class>models.GroupModel</class>
+        <class>entities.GroupModel</class>
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"/>
             <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>

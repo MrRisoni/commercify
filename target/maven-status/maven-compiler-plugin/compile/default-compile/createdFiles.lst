@@ -1,5 +1,7 @@
-models/HibernateUtil.class
-models/Cuisine_.class
-models/Cuisine.class
+core/GeneralController.class
+repositories/CurrencyRepo.class
+entities/Currency_.class
 core/GreetingController.class
 core/Application.class
+entities/Currency.class
+entities/HibernateUtil.class

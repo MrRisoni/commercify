@@ -1,4 +1,4 @@
-package models;
+package entities;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
