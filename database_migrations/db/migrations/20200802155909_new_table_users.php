@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 use Phinx\Migration\AbstractMigration;
 
-final class NewTableCurrencies extends AbstractMigration
+final class NewTableUsers extends AbstractMigration
 {
     /**
      * Change Method.
@@ -18,7 +18,9 @@ final class NewTableCurrencies extends AbstractMigration
      */
     public function change(): void
     {
- $users = $this->table('users');
+
+        // for bigint search MySQLAdapter
+        $users = $this->table('users', ['signed' => false]);
         $users->addColumn('username', 'string', ['limit' => 20])
               ->addColumn('password', 'string', ['limit' => 40])
               ->addColumn('password_salt', 'string', ['limit' => 40])
