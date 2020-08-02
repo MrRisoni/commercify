@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Aug 02, 2020 at 08:38 AM
+-- Generation Time: Aug 02, 2020 at 04:55 PM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 7.4.8
 
@@ -29,10 +29,10 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `currencies` (
-  `cur_id` bigint(10) UNSIGNED NOT NULL,
-  `cur_title` varchar(55) NOT NULL,
-  `cur_symbol` varchar(5) NOT NULL,
-  `cur_rate` decimal(6,2) UNSIGNED DEFAULT 0.00
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `title` varchar(55) NOT NULL,
+  `code` varchar(3) NOT NULL,
+  `rate` decimal(5,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -42,39 +42,48 @@ CREATE TABLE `currencies` (
 --
 
 CREATE TABLE `languages` (
-  `lan_id` bigint(10) UNSIGNED NOT NULL,
-  `lan_title` varchar(55) NOT NULL,
-  `lan_code` varchar(5) NOT NULL
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `title` varchar(55) NOT NULL,
+  `code` varchar(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `migrations`
+-- Table structure for table `phinxlog`
 --
 
-CREATE TABLE `migrations` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `title` varchar(255) NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT current_timestamp()
+CREATE TABLE `phinxlog` (
+  `version` bigint(20) NOT NULL,
+  `migration_name` varchar(100) DEFAULT NULL,
+  `start_time` timestamp NULL DEFAULT NULL,
+  `end_time` timestamp NULL DEFAULT NULL,
+  `breakpoint` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `migrations`
+-- Dumping data for table `phinxlog`
 --
 
-INSERT INTO `migrations` (`id`, `title`, `created_at`) VALUES
-(2, 'V1_create_reviews', '2020-08-01 20:35:56'),
-(3, 'V2_create_shop_categories', '2020-08-01 20:36:56'),
-(6, 'V3_create_shop_categories_children', '2020-08-01 20:46:26'),
-(7, 'V5_create_user_roles', '2020-08-01 20:49:11'),
-(8, 'V4_create_shop_managers', '2020-08-01 20:49:11'),
-(9, 'V6_create_languages', '2020-08-01 20:51:24'),
-(12, 'V7_create_shop_languages', '2020-08-02 11:18:20'),
-(13, 'V8_create_currencies', '2020-08-02 11:22:20'),
-(14, 'V9_shop_currencies', '2020-08-02 11:23:17'),
-(16, 'V10_create_products', '2020-08-02 11:35:49'),
-(17, 'V11_create_products_tags', '2020-08-02 11:38:21');
+INSERT INTO `phinxlog` (`version`, `migration_name`, `start_time`, `end_time`, `breakpoint`) VALUES
+(20200802155909, 'NewTableUsers', '2020-08-02 13:12:39', '2020-08-02 13:12:39', 0),
+(20200802161342, 'NewTableUserRoles', '2020-08-02 13:14:53', '2020-08-02 13:14:53', 0),
+(20200802161613, 'NewTableCurrencies', '2020-08-02 13:18:07', '2020-08-02 13:18:07', 0),
+(20200802161825, 'NewTableLanguages', '2020-08-02 13:19:12', '2020-08-02 13:19:12', 0),
+(20200802162029, 'NewTableShopCategories', '2020-08-02 13:21:07', '2020-08-02 13:21:07', 0),
+(20200802162114, 'NewTableProductCategories', '2020-08-02 13:22:10', '2020-08-02 13:22:10', 0),
+(20200802162241, 'NewTableShops', '2020-08-02 13:26:37', '2020-08-02 13:26:37', 0),
+(20200802162756, 'NewTableShopCurrencies', '2020-08-02 13:29:41', '2020-08-02 13:29:41', 0),
+(20200802163002, 'NewTableShopLanguages', '2020-08-02 13:31:50', '2020-08-02 13:31:50', 0),
+(20200802163006, 'NewTableShopManagers', '2020-08-02 13:31:50', '2020-08-02 13:31:50', 0),
+(20200802163214, 'NewTableShopCategoriesBelongs', '2020-08-02 13:33:12', '2020-08-02 13:33:12', 0),
+(20200802163409, 'NewTableShopReviews', '2020-08-02 13:36:09', '2020-08-02 13:36:09', 0),
+(20200802163632, 'NewTableProducts', '2020-08-02 13:42:47', '2020-08-02 13:42:47', 0),
+(20200802164440, 'NewTableProductAttributes', '2020-08-02 13:49:05', '2020-08-02 13:49:05', 0),
+(20200802164943, 'NewTableProductTags', '2020-08-02 13:50:30', '2020-08-02 13:50:30', 0),
+(20200802165044, 'NewTableProductGallery', '2020-08-02 13:51:40', '2020-08-02 13:51:41', 0),
+(20200802165204, 'NewTableProductDescription', '2020-08-02 13:53:16', '2020-08-02 13:53:16', 0),
+(20200802165341, 'NewTableProductGalleryTags', '2020-08-02 13:55:03', '2020-08-02 13:55:03', 0);
 
 -- --------------------------------------------------------
 
@@ -83,22 +92,35 @@ INSERT INTO `migrations` (`id`, `title`, `created_at`) VALUES
 --
 
 CREATE TABLE `products` (
-  `pro_id` bigint(10) UNSIGNED NOT NULL,
-  `pro_shop_id` bigint(10) UNSIGNED NOT NULL,
-  `pro_category_id` bigint(10) UNSIGNED NOT NULL,
-  `pro_currncy_id` bigint(10) UNSIGNED NOT NULL,
-  `pro_code` varchar(65) NOT NULL,
-  `pro_title` varchar(85) NOT NULL,
-  `pro_price` decimal(10,2) UNSIGNED DEFAULT 0.00,
-  `pro_discount_percent` decimal(5,2) UNSIGNED DEFAULT 0.00,
-  `pro_kilos` decimal(5,2) UNSIGNED DEFAULT 0.00,
-  `pro_length` decimal(6,2) UNSIGNED DEFAULT 0.00 COMMENT 'in cm',
-  `pro_width` decimal(6,2) UNSIGNED DEFAULT 0.00 COMMENT 'in cm',
-  `pro_heigth` decimal(6,2) UNSIGNED DEFAULT 0.00 COMMENT 'in cm',
-  `pro_active` tinyint(1) UNSIGNED NOT NULL DEFAULT 1,
-  `pro_stock` bigint(10) UNSIGNED NOT NULL,
-  `pro_created_at` datetime NOT NULL,
-  `pro_updated_at` datetime NOT NULL
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `shop_id` bigint(20) UNSIGNED NOT NULL,
+  `category_id` bigint(20) UNSIGNED NOT NULL,
+  `currency_id` bigint(20) UNSIGNED NOT NULL,
+  `code` varchar(120) NOT NULL,
+  `price` decimal(10,2) NOT NULL,
+  `discount_percent` decimal(5,2) NOT NULL,
+  `kilos` decimal(5,2) NOT NULL,
+  `dim_l` decimal(6,2) NOT NULL,
+  `dim_w` decimal(6,2) NOT NULL,
+  `dim_h` decimal(6,2) NOT NULL,
+  `active` tinyint(1) NOT NULL,
+  `stock` bigint(20) UNSIGNED NOT NULL,
+  `created` datetime NOT NULL,
+  `updated` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `product_attributes`
+--
+
+CREATE TABLE `product_attributes` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `product_id` bigint(20) UNSIGNED NOT NULL,
+  `language_id` bigint(20) UNSIGNED NOT NULL,
+  `title` varchar(55) NOT NULL,
+  `value` varchar(55) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -108,8 +130,47 @@ CREATE TABLE `products` (
 --
 
 CREATE TABLE `product_categories` (
-  `prc_id` bigint(10) UNSIGNED NOT NULL,
-  `prc_title` varchar(65) NOT NULL
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `title` varchar(55) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `product_description`
+--
+
+CREATE TABLE `product_description` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `product_id` bigint(20) UNSIGNED NOT NULL,
+  `language_id` bigint(20) UNSIGNED NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `descr` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `product_gallery`
+--
+
+CREATE TABLE `product_gallery` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `product_id` bigint(20) UNSIGNED NOT NULL,
+  `file_path` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `product_gallery_tag`
+--
+
+CREATE TABLE `product_gallery_tag` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `image_id` bigint(20) UNSIGNED NOT NULL,
+  `language_id` bigint(20) UNSIGNED NOT NULL,
+  `tag` varchar(55) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -119,24 +180,10 @@ CREATE TABLE `product_categories` (
 --
 
 CREATE TABLE `product_tags` (
-  `prtg_id` bigint(10) UNSIGNED NOT NULL,
-  `prtg_product_id` bigint(10) UNSIGNED NOT NULL,
-  `prtg_tag` varchar(55) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `reviews`
---
-
-CREATE TABLE `reviews` (
-  `rew_id` bigint(10) UNSIGNED NOT NULL,
-  `rew_user_id` bigint(10) UNSIGNED NOT NULL,
-  `rew_shops_id` bigint(10) UNSIGNED NOT NULL,
-  `rew_created_at` datetime NOT NULL,
-  `rew_stars` decimal(2,1) UNSIGNED DEFAULT 0.0,
-  `rew_comments` text DEFAULT NULL
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `product_id` bigint(20) UNSIGNED NOT NULL,
+  `language_id` bigint(20) UNSIGNED NOT NULL,
+  `tag` varchar(55) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -146,10 +193,10 @@ CREATE TABLE `reviews` (
 --
 
 CREATE TABLE `shops` (
-  `shop_id` bigint(20) UNSIGNED NOT NULL,
-  `shop_title` bigint(20) UNSIGNED NOT NULL,
-  `shop_owner_id` bigint(20) UNSIGNED NOT NULL,
-  `shop_created_at` datetime NOT NULL
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `title` varchar(55) NOT NULL,
+  `owner_id` bigint(20) UNSIGNED NOT NULL,
+  `created` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -159,9 +206,9 @@ CREATE TABLE `shops` (
 --
 
 CREATE TABLE `shop_belongs_categories` (
-  `sht_id` bigint(10) UNSIGNED NOT NULL,
-  `sht_shop_id` bigint(10) UNSIGNED NOT NULL,
-  `sht_category_id` bigint(10) UNSIGNED NOT NULL
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `shop_id` bigint(20) UNSIGNED NOT NULL,
+  `category_id` bigint(20) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -171,8 +218,8 @@ CREATE TABLE `shop_belongs_categories` (
 --
 
 CREATE TABLE `shop_categories` (
-  `cat_id` bigint(10) UNSIGNED NOT NULL,
-  `cat_title` varchar(65) NOT NULL
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `title` varchar(55) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -182,9 +229,9 @@ CREATE TABLE `shop_categories` (
 --
 
 CREATE TABLE `shop_currencies` (
-  `shcr_id` bigint(10) UNSIGNED NOT NULL,
-  `shcr_shop_id` bigint(10) UNSIGNED NOT NULL,
-  `shcr_currency_id` bigint(10) UNSIGNED NOT NULL
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `shop_id` bigint(20) UNSIGNED NOT NULL,
+  `currency_id` bigint(20) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -194,9 +241,9 @@ CREATE TABLE `shop_currencies` (
 --
 
 CREATE TABLE `shop_languages` (
-  `shl_id` bigint(10) UNSIGNED NOT NULL,
-  `shl_shop_id` bigint(10) UNSIGNED NOT NULL,
-  `shl_language_id` bigint(10) UNSIGNED NOT NULL
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `shop_id` bigint(20) UNSIGNED NOT NULL,
+  `language_id` bigint(20) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -206,9 +253,24 @@ CREATE TABLE `shop_languages` (
 --
 
 CREATE TABLE `shop_managers` (
-  `shm_id` bigint(10) UNSIGNED NOT NULL,
-  `shm_shop_id` bigint(10) UNSIGNED NOT NULL,
-  `shm_manager_id` bigint(10) UNSIGNED NOT NULL
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `shop_id` bigint(20) UNSIGNED NOT NULL,
+  `manager_id` bigint(20) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `shop_reviews`
+--
+
+CREATE TABLE `shop_reviews` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `shop_id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `stars` decimal(2,1) NOT NULL,
+  `comment` varchar(255) NOT NULL,
+  `created` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -218,9 +280,15 @@ CREATE TABLE `shop_managers` (
 --
 
 CREATE TABLE `users` (
-  `usr_id` bigint(20) UNSIGNED NOT NULL,
-  `usr_email` varchar(55) NOT NULL,
-  `usr_created_at` datetime NOT NULL
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `username` varchar(20) NOT NULL,
+  `password` varchar(40) NOT NULL,
+  `password_salt` varchar(40) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `first_name` varchar(30) NOT NULL,
+  `last_name` varchar(30) NOT NULL,
+  `created` datetime NOT NULL,
+  `updated` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -230,8 +298,8 @@ CREATE TABLE `users` (
 --
 
 CREATE TABLE `user_roles` (
-  `rol_id` bigint(10) UNSIGNED NOT NULL,
-  `rol_title` varchar(35) NOT NULL
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `title` varchar(55) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -242,93 +310,144 @@ CREATE TABLE `user_roles` (
 -- Indexes for table `currencies`
 --
 ALTER TABLE `currencies`
-  ADD PRIMARY KEY (`cur_id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `code` (`code`);
 
 --
 -- Indexes for table `languages`
 --
 ALTER TABLE `languages`
-  ADD PRIMARY KEY (`lan_id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `code` (`code`);
 
 --
--- Indexes for table `migrations`
+-- Indexes for table `phinxlog`
 --
-ALTER TABLE `migrations`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `title` (`title`);
+ALTER TABLE `phinxlog`
+  ADD PRIMARY KEY (`version`);
 
 --
 -- Indexes for table `products`
 --
 ALTER TABLE `products`
-  ADD PRIMARY KEY (`pro_id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `shop_id` (`shop_id`,`code`),
+  ADD KEY `category_id` (`category_id`),
+  ADD KEY `currency_id` (`currency_id`);
+
+--
+-- Indexes for table `product_attributes`
+--
+ALTER TABLE `product_attributes`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `product_id` (`product_id`),
+  ADD KEY `language_id` (`language_id`);
 
 --
 -- Indexes for table `product_categories`
 --
 ALTER TABLE `product_categories`
-  ADD PRIMARY KEY (`prc_id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `title` (`title`);
+
+--
+-- Indexes for table `product_description`
+--
+ALTER TABLE `product_description`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `product_id` (`product_id`),
+  ADD KEY `language_id` (`language_id`);
+
+--
+-- Indexes for table `product_gallery`
+--
+ALTER TABLE `product_gallery`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `product_id` (`product_id`);
+
+--
+-- Indexes for table `product_gallery_tag`
+--
+ALTER TABLE `product_gallery_tag`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `image_id` (`image_id`),
+  ADD KEY `language_id` (`language_id`);
 
 --
 -- Indexes for table `product_tags`
 --
 ALTER TABLE `product_tags`
-  ADD PRIMARY KEY (`prtg_id`);
-
---
--- Indexes for table `reviews`
---
-ALTER TABLE `reviews`
-  ADD PRIMARY KEY (`rew_id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `product_id` (`product_id`),
+  ADD KEY `language_id` (`language_id`);
 
 --
 -- Indexes for table `shops`
 --
 ALTER TABLE `shops`
-  ADD PRIMARY KEY (`shop_id`),
-  ADD KEY `shop_owner_id` (`shop_owner_id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `owner_id` (`owner_id`);
 
 --
 -- Indexes for table `shop_belongs_categories`
 --
 ALTER TABLE `shop_belongs_categories`
-  ADD PRIMARY KEY (`sht_id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `shop_id` (`shop_id`),
+  ADD KEY `category_id` (`category_id`);
 
 --
 -- Indexes for table `shop_categories`
 --
 ALTER TABLE `shop_categories`
-  ADD PRIMARY KEY (`cat_id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `title` (`title`);
 
 --
 -- Indexes for table `shop_currencies`
 --
 ALTER TABLE `shop_currencies`
-  ADD PRIMARY KEY (`shcr_id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `shop_id` (`shop_id`),
+  ADD KEY `currency_id` (`currency_id`);
 
 --
 -- Indexes for table `shop_languages`
 --
 ALTER TABLE `shop_languages`
-  ADD PRIMARY KEY (`shl_id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `shop_id` (`shop_id`),
+  ADD KEY `language_id` (`language_id`);
 
 --
 -- Indexes for table `shop_managers`
 --
 ALTER TABLE `shop_managers`
-  ADD PRIMARY KEY (`shm_id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `shop_id` (`shop_id`),
+  ADD KEY `manager_id` (`manager_id`);
+
+--
+-- Indexes for table `shop_reviews`
+--
+ALTER TABLE `shop_reviews`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `shop_id` (`shop_id`),
+  ADD KEY `user_id` (`user_id`);
 
 --
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`usr_id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `username` (`username`,`email`);
 
 --
 -- Indexes for table `user_roles`
 --
 ALTER TABLE `user_roles`
-  ADD PRIMARY KEY (`rol_id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `title` (`title`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -338,101 +457,196 @@ ALTER TABLE `user_roles`
 -- AUTO_INCREMENT for table `currencies`
 --
 ALTER TABLE `currencies`
-  MODIFY `cur_id` bigint(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `languages`
 --
 ALTER TABLE `languages`
-  MODIFY `lan_id` bigint(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `migrations`
---
-ALTER TABLE `migrations`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `pro_id` bigint(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `product_attributes`
+--
+ALTER TABLE `product_attributes`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `product_categories`
 --
 ALTER TABLE `product_categories`
-  MODIFY `prc_id` bigint(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `product_description`
+--
+ALTER TABLE `product_description`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `product_gallery`
+--
+ALTER TABLE `product_gallery`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `product_gallery_tag`
+--
+ALTER TABLE `product_gallery_tag`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `product_tags`
 --
 ALTER TABLE `product_tags`
-  MODIFY `prtg_id` bigint(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `reviews`
---
-ALTER TABLE `reviews`
-  MODIFY `rew_id` bigint(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `shops`
 --
 ALTER TABLE `shops`
-  MODIFY `shop_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `shop_belongs_categories`
 --
 ALTER TABLE `shop_belongs_categories`
-  MODIFY `sht_id` bigint(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `shop_categories`
 --
 ALTER TABLE `shop_categories`
-  MODIFY `cat_id` bigint(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `shop_currencies`
 --
 ALTER TABLE `shop_currencies`
-  MODIFY `shcr_id` bigint(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `shop_languages`
 --
 ALTER TABLE `shop_languages`
-  MODIFY `shl_id` bigint(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `shop_managers`
 --
 ALTER TABLE `shop_managers`
-  MODIFY `shm_id` bigint(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `shop_reviews`
+--
+ALTER TABLE `shop_reviews`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `usr_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `user_roles`
 --
 ALTER TABLE `user_roles`
-  MODIFY `rol_id` bigint(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables
 --
 
 --
+-- Constraints for table `products`
+--
+ALTER TABLE `products`
+  ADD CONSTRAINT `products_ibfk_1` FOREIGN KEY (`shop_id`) REFERENCES `shops` (`id`),
+  ADD CONSTRAINT `products_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `product_categories` (`id`),
+  ADD CONSTRAINT `products_ibfk_3` FOREIGN KEY (`currency_id`) REFERENCES `currencies` (`id`);
+
+--
+-- Constraints for table `product_attributes`
+--
+ALTER TABLE `product_attributes`
+  ADD CONSTRAINT `product_attributes_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`),
+  ADD CONSTRAINT `product_attributes_ibfk_2` FOREIGN KEY (`language_id`) REFERENCES `languages` (`id`);
+
+--
+-- Constraints for table `product_description`
+--
+ALTER TABLE `product_description`
+  ADD CONSTRAINT `product_description_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`),
+  ADD CONSTRAINT `product_description_ibfk_2` FOREIGN KEY (`language_id`) REFERENCES `languages` (`id`);
+
+--
+-- Constraints for table `product_gallery`
+--
+ALTER TABLE `product_gallery`
+  ADD CONSTRAINT `product_gallery_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`);
+
+--
+-- Constraints for table `product_gallery_tag`
+--
+ALTER TABLE `product_gallery_tag`
+  ADD CONSTRAINT `product_gallery_tag_ibfk_1` FOREIGN KEY (`image_id`) REFERENCES `product_gallery` (`id`),
+  ADD CONSTRAINT `product_gallery_tag_ibfk_2` FOREIGN KEY (`language_id`) REFERENCES `languages` (`id`);
+
+--
+-- Constraints for table `product_tags`
+--
+ALTER TABLE `product_tags`
+  ADD CONSTRAINT `product_tags_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`),
+  ADD CONSTRAINT `product_tags_ibfk_2` FOREIGN KEY (`language_id`) REFERENCES `languages` (`id`);
+
+--
 -- Constraints for table `shops`
 --
 ALTER TABLE `shops`
-  ADD CONSTRAINT `shops_ibfk_1` FOREIGN KEY (`shop_owner_id`) REFERENCES `users` (`usr_id`);
+  ADD CONSTRAINT `shops_ibfk_1` FOREIGN KEY (`owner_id`) REFERENCES `users` (`id`);
+
+--
+-- Constraints for table `shop_belongs_categories`
+--
+ALTER TABLE `shop_belongs_categories`
+  ADD CONSTRAINT `shop_belongs_categories_ibfk_1` FOREIGN KEY (`shop_id`) REFERENCES `shops` (`id`),
+  ADD CONSTRAINT `shop_belongs_categories_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `shop_categories` (`id`);
+
+--
+-- Constraints for table `shop_currencies`
+--
+ALTER TABLE `shop_currencies`
+  ADD CONSTRAINT `shop_currencies_ibfk_1` FOREIGN KEY (`shop_id`) REFERENCES `shops` (`id`),
+  ADD CONSTRAINT `shop_currencies_ibfk_2` FOREIGN KEY (`currency_id`) REFERENCES `currencies` (`id`);
+
+--
+-- Constraints for table `shop_languages`
+--
+ALTER TABLE `shop_languages`
+  ADD CONSTRAINT `shop_languages_ibfk_1` FOREIGN KEY (`shop_id`) REFERENCES `shops` (`id`),
+  ADD CONSTRAINT `shop_languages_ibfk_2` FOREIGN KEY (`language_id`) REFERENCES `languages` (`id`);
+
+--
+-- Constraints for table `shop_managers`
+--
+ALTER TABLE `shop_managers`
+  ADD CONSTRAINT `shop_managers_ibfk_1` FOREIGN KEY (`shop_id`) REFERENCES `shops` (`id`),
+  ADD CONSTRAINT `shop_managers_ibfk_2` FOREIGN KEY (`manager_id`) REFERENCES `users` (`id`);
+
+--
+-- Constraints for table `shop_reviews`
+--
+ALTER TABLE `shop_reviews`
+  ADD CONSTRAINT `shop_reviews_ibfk_1` FOREIGN KEY (`shop_id`) REFERENCES `shops` (`id`),
+  ADD CONSTRAINT `shop_reviews_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

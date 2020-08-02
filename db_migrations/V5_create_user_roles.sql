@@ -1,6 +1,0 @@
-CREATE TABLE user_roles (
- rol_id BIGINT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-   rol_title VARCHAR(35) NOT  NULL,
-  PRIMARY KEY(rol_id)
-);
-

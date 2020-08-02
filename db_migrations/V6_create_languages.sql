@@ -1,7 +1,0 @@
-CREATE TABLE languages (
- lan_id BIGINT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
- lan_title VARCHAR(55) NOT  NULL,
- lan_code VARCHAR(5) NOT  NULL,
-  PRIMARY KEY(lan_id)
-);
-
