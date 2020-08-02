@@ -1,0 +1,16 @@
+CREATE TABLE products (
+  pro_id BIGINT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  pro_shop_id BIGINT(10) UNSIGNED NOT NULL,
+  pro_category_id BIGINT(10) UNSIGNED NOT NULL,
+  pro_currncy_id BIGINT(10) UNSIGNED NOT NULL,
+  pro_code VARCHAR(65) NOT  NULL,
+  pro_title VARCHAR(85) NOT  NULL,
+  pro_price DECIMAL(10,2) UNSIGNED DEFAULT 0,
+  pro_discount_percent DECIMAL(5,2) UNSIGNED DEFAULT 0,
+  pro_active TINYINT(1) UNSIGNED NOT NULL DEFAULT 1,
+  pro_stock BIGINT(10) UNSIGNED NOT NULL,
+  pro_created_at DATETIME NOT NULL,
+  pro_updated_at DATETIME NOT NULL,
+
+  PRIMARY KEY(pro_id)
+);
