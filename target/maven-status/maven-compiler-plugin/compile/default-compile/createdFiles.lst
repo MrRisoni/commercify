@@ -5,8 +5,10 @@ core/ShopController.class
 entities/ShopCategory_.class
 core/Application.class
 entities/Currency.class
+entities/ProductAttribute.class
 entities/Language.class
 entities/Currency_.class
+core/ProductController.class
 entities/User.class
 core/GreetingController.class
 entities/ShopCategory.class
@@ -14,4 +16,5 @@ repositories/ShopRepo.class
 entities/Language_.class
 entities/HibernateUtil.class
 entities/User_.class
+entities/ProductAttribute_.class
 entities/Shop.class
