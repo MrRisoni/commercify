@@ -16,6 +16,8 @@
         <mapping class="entities.Currency"/>
         <mapping class="entities.Language"/>
         <mapping class="entities.Shop"/>
+        <mapping class="entities.User"/>
+        <mapping class="entities.ShopCategory"/>
 
 
 
