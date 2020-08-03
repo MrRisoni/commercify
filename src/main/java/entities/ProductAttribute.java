@@ -1,5 +1,8 @@
 package entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
@@ -14,6 +17,11 @@ public class ProductAttribute {
     @OneToOne
     @JoinColumn(name = "language_id")
     private Language langObj;
+
+    @OneToOne
+    @JoinColumn(name = "product_id")
+    @JsonIgnore
+    private Product productObj;
 
 
     @NotNull
@@ -57,5 +65,13 @@ public class ProductAttribute {
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+    public Product getProductObj() {
+        return productObj;
+    }
+
+    public void setProductObj(Product productObj) {
+        this.productObj = productObj;
     }
 }

@@ -19,6 +19,7 @@
         <mapping class="entities.User"/>
         <mapping class="entities.ShopCategory"/>
         <mapping class="entities.ProductAttribute"/>
+        <mapping class="entities.Product"/>
 
 
 
