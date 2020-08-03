@@ -5,5 +5,5 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CurrencyRepo extends CrudRepository<Currency, Long> {
+public interface CurrencyRepo extends CrudRepository<entities.Currency, Long> {
 }

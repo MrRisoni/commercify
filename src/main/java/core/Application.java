@@ -15,7 +15,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 @SpringBootApplication
 @EntityScan("entities")
-@EnableJpaRepositories("spring_repos")
+@EnableJpaRepositories("repositories")
 public class Application {
 
      public static void main(String[] args) {

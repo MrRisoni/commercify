@@ -14,6 +14,8 @@
         <property name="connection.pool_size">100</property>
 
         <mapping class="entities.Currency"/>
+        <mapping class="entities.Language"/>
+        <mapping class="entities.Shop"/>
 
 
 
