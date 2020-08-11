@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Aug 11, 2020 at 11:00 AM
+-- Generation Time: Aug 11, 2020 at 12:18 PM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 7.4.8
 
@@ -270,7 +270,11 @@ INSERT INTO `phinxlog` (`version`, `migration_name`, `start_time`, `end_time`, `
 (20200811103524, 'CodWeightRules', '2020-08-11 07:36:20', '2020-08-11 07:36:21', 0),
 (20200811104321, 'CreateTaxRules', '2020-08-11 07:46:34', '2020-08-11 07:46:34', 0),
 (20200811105032, 'AddBillShipAddress', '2020-08-11 07:53:42', '2020-08-11 07:53:42', 0),
-(20200811105356, 'OrderItems', '2020-08-11 08:00:40', '2020-08-11 08:00:40', 0);
+(20200811105356, 'OrderItems', '2020-08-11 08:00:40', '2020-08-11 08:00:40', 0),
+(20200811110620, 'TaxRegionsRules', '2020-08-11 08:07:52', '2020-08-11 08:07:52', 0),
+(20200811110922, 'TaxShopCustomCodeNames', '2020-08-11 08:12:51', '2020-08-11 08:12:51', 0),
+(20200811111314, 'AddTaxCodeToTaxRules', '2020-08-11 09:12:14', '2020-08-11 09:12:14', 0),
+(20200811121350, 'BindTaxCodesToCategories', '2020-08-11 09:17:58', '2020-08-11 09:17:58', 0);
 
 -- --------------------------------------------------------
 
@@ -701,6 +705,18 @@ INSERT INTO `shop_managers` (`id`, `shop_id`, `manager_id`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `shop_product_cateogory_taxes`
+--
+
+CREATE TABLE `shop_product_cateogory_taxes` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `shop_category_id` bigint(20) UNSIGNED NOT NULL,
+  `tax_code_id` bigint(20) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `shop_reviews`
 --
 
@@ -742,12 +758,45 @@ CREATE TABLE `shop_ship_zones` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `shop_tax_code_names`
+--
+
+CREATE TABLE `shop_tax_code_names` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `shop_id` bigint(20) UNSIGNED NOT NULL,
+  `code` varchar(250) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `shop_tax_region_rules`
+--
+
+CREATE TABLE `shop_tax_region_rules` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `shop_id` bigint(20) UNSIGNED NOT NULL,
+  `tax_code_id` bigint(20) UNSIGNED NOT NULL,
+  `region_id` bigint(20) UNSIGNED NOT NULL,
+  `title` varchar(52) NOT NULL,
+  `country_code` varchar(3) NOT NULL,
+  `flat_cost` decimal(10,2) NOT NULL,
+  `rate` decimal(10,2) NOT NULL,
+  `created` datetime NOT NULL,
+  `updated` datetime DEFAULT NULL,
+  `active` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `shop_tax_rules`
 --
 
 CREATE TABLE `shop_tax_rules` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `shop_id` bigint(20) UNSIGNED NOT NULL,
+  `tax_code_id` bigint(20) UNSIGNED NOT NULL,
   `title` varchar(52) NOT NULL,
   `country_code` varchar(3) NOT NULL,
   `flat_cost` decimal(10,2) NOT NULL,
@@ -1131,6 +1180,14 @@ ALTER TABLE `shop_managers`
   ADD KEY `manager_id` (`manager_id`);
 
 --
+-- Indexes for table `shop_product_cateogory_taxes`
+--
+ALTER TABLE `shop_product_cateogory_taxes`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `shop_category_id` (`shop_category_id`,`tax_code_id`),
+  ADD KEY `tax_code_id` (`tax_code_id`);
+
+--
 -- Indexes for table `shop_reviews`
 --
 ALTER TABLE `shop_reviews`
@@ -1154,11 +1211,28 @@ ALTER TABLE `shop_ship_zones`
   ADD KEY `shop_id` (`shop_id`);
 
 --
+-- Indexes for table `shop_tax_code_names`
+--
+ALTER TABLE `shop_tax_code_names`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `shop_id` (`shop_id`,`code`);
+
+--
+-- Indexes for table `shop_tax_region_rules`
+--
+ALTER TABLE `shop_tax_region_rules`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `shop_id` (`shop_id`),
+  ADD KEY `region_id` (`region_id`),
+  ADD KEY `tax_code_id` (`tax_code_id`);
+
+--
 -- Indexes for table `shop_tax_rules`
 --
 ALTER TABLE `shop_tax_rules`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `shop_id` (`shop_id`);
+  ADD KEY `shop_id` (`shop_id`),
+  ADD KEY `tax_code_id` (`tax_code_id`);
 
 --
 -- Indexes for table `shop_weight_cod_rules`
@@ -1417,6 +1491,12 @@ ALTER TABLE `shop_managers`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT for table `shop_product_cateogory_taxes`
+--
+ALTER TABLE `shop_product_cateogory_taxes`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `shop_reviews`
 --
 ALTER TABLE `shop_reviews`
@@ -1432,6 +1512,18 @@ ALTER TABLE `shop_shipping_classes_regions`
 -- AUTO_INCREMENT for table `shop_ship_zones`
 --
 ALTER TABLE `shop_ship_zones`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `shop_tax_code_names`
+--
+ALTER TABLE `shop_tax_code_names`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `shop_tax_region_rules`
+--
+ALTER TABLE `shop_tax_region_rules`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
@@ -1652,6 +1744,13 @@ ALTER TABLE `shop_managers`
   ADD CONSTRAINT `shop_managers_ibfk_2` FOREIGN KEY (`manager_id`) REFERENCES `users` (`id`);
 
 --
+-- Constraints for table `shop_product_cateogory_taxes`
+--
+ALTER TABLE `shop_product_cateogory_taxes`
+  ADD CONSTRAINT `shop_product_cateogory_taxes_ibfk_1` FOREIGN KEY (`shop_category_id`) REFERENCES `shop_belongs_categories` (`id`),
+  ADD CONSTRAINT `shop_product_cateogory_taxes_ibfk_2` FOREIGN KEY (`tax_code_id`) REFERENCES `shop_tax_code_names` (`id`);
+
+--
 -- Constraints for table `shop_reviews`
 --
 ALTER TABLE `shop_reviews`
@@ -1672,10 +1771,25 @@ ALTER TABLE `shop_ship_zones`
   ADD CONSTRAINT `shop_ship_zones_ibfk_1` FOREIGN KEY (`shop_id`) REFERENCES `shops` (`id`);
 
 --
+-- Constraints for table `shop_tax_code_names`
+--
+ALTER TABLE `shop_tax_code_names`
+  ADD CONSTRAINT `shop_tax_code_names_ibfk_1` FOREIGN KEY (`shop_id`) REFERENCES `shops` (`id`);
+
+--
+-- Constraints for table `shop_tax_region_rules`
+--
+ALTER TABLE `shop_tax_region_rules`
+  ADD CONSTRAINT `shop_tax_region_rules_ibfk_1` FOREIGN KEY (`shop_id`) REFERENCES `shops` (`id`),
+  ADD CONSTRAINT `shop_tax_region_rules_ibfk_2` FOREIGN KEY (`region_id`) REFERENCES `globe_regions` (`id`),
+  ADD CONSTRAINT `shop_tax_region_rules_ibfk_3` FOREIGN KEY (`tax_code_id`) REFERENCES `shop_tax_code_names` (`id`);
+
+--
 -- Constraints for table `shop_tax_rules`
 --
 ALTER TABLE `shop_tax_rules`
-  ADD CONSTRAINT `shop_tax_rules_ibfk_1` FOREIGN KEY (`shop_id`) REFERENCES `shops` (`id`);
+  ADD CONSTRAINT `shop_tax_rules_ibfk_1` FOREIGN KEY (`shop_id`) REFERENCES `shops` (`id`),
+  ADD CONSTRAINT `shop_tax_rules_ibfk_2` FOREIGN KEY (`tax_code_id`) REFERENCES `shop_tax_code_names` (`id`);
 
 --
 -- Constraints for table `shop_weight_cod_rules`
