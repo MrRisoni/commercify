@@ -5,17 +5,7 @@ use Phinx\Migration\AbstractMigration;
 
 final class TableOrders extends AbstractMigration
 {
-    /**
-     * Change Method.
-     *
-     * Write your reversible migrations using this method.
-     *
-     * More information on writing migrations is available here:
-     * https://book.cakephp.org/phinx/0/en/migrations.html#the-change-method
-     *
-     * Remember to call "create()" or "update()" and NOT "save()" when working
-     * with the Table class.
-     */
+
     public function change(): void
     {
         $orders= $this->table('orders', ['signed' => false]);
@@ -39,10 +29,6 @@ final class TableOrders extends AbstractMigration
         ->addForeignKey('status_id', 'order_status', 'id', ['delete'=> 'RESTRICT', 'update'=> 'RESTRICT'])
         ->addForeignKey('pay_method_id', 'payment_methods', 'id', ['delete'=> 'RESTRICT', 'update'=> 'RESTRICT'])
         ->addForeignKey('ship_class_id', 'shop_courier_classes', 'id', ['delete'=> 'RESTRICT', 'update'=> 'RESTRICT'])
-        ->create();
-
-
-
         ->create();
     }
 }

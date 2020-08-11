@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Aug 11, 2020 at 06:05 AM
+-- Generation Time: Aug 11, 2020 at 06:56 AM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 7.4.8
 
@@ -133,6 +133,42 @@ INSERT INTO `languages` (`id`, `title`, `code`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `orders`
+--
+
+CREATE TABLE `orders` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `shop_id` bigint(20) UNSIGNED NOT NULL,
+  `status_id` bigint(20) UNSIGNED NOT NULL,
+  `pay_method_id` bigint(20) UNSIGNED NOT NULL,
+  `ship_class_id` bigint(20) UNSIGNED NOT NULL,
+  `currency` varchar(3) NOT NULL,
+  `total` decimal(10,2) NOT NULL,
+  `net` decimal(10,2) NOT NULL,
+  `tax` decimal(10,2) NOT NULL,
+  `shipping` decimal(10,2) NOT NULL,
+  `success` tinyint(1) NOT NULL,
+  `void` tinyint(1) NOT NULL,
+  `refund` tinyint(1) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `order_status`
+--
+
+CREATE TABLE `order_status` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `title` varchar(55) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `payment_methods`
 --
 
@@ -203,7 +239,9 @@ INSERT INTO `phinxlog` (`version`, `migration_name`, `start_time`, `end_time`, `
 (20200811052807, 'TableShippingZonesRegions', '2020-08-11 02:29:31', '2020-08-11 02:29:31', 0),
 (20200811054511, 'TableShippingClasses', '2020-08-11 02:47:10', '2020-08-11 02:47:10', 0),
 (20200811054839, 'TableEnableShipClassRegions', '2020-08-11 02:50:59', '2020-08-11 02:50:59', 0),
-(20200811055306, 'TableWeightShipRules', '2020-08-11 03:05:45', '2020-08-11 03:05:45', 0);
+(20200811055306, 'TableWeightShipRules', '2020-08-11 03:05:45', '2020-08-11 03:05:45', 0),
+(20200811063853, 'TableOrderStatus', '2020-08-11 03:40:10', '2020-08-11 03:40:10', 0),
+(20200811064213, 'TableOrders', '2020-08-11 03:56:52', '2020-08-11 03:56:52', 0);
 
 -- --------------------------------------------------------
 
@@ -771,6 +809,23 @@ ALTER TABLE `languages`
   ADD UNIQUE KEY `code` (`code`);
 
 --
+-- Indexes for table `orders`
+--
+ALTER TABLE `orders`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `shop_id` (`shop_id`),
+  ADD KEY `status_id` (`status_id`),
+  ADD KEY `pay_method_id` (`pay_method_id`),
+  ADD KEY `ship_class_id` (`ship_class_id`);
+
+--
+-- Indexes for table `order_status`
+--
+ALTER TABLE `order_status`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `payment_methods`
 --
 ALTER TABLE `payment_methods`
@@ -1062,6 +1117,18 @@ ALTER TABLE `languages`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT for table `orders`
+--
+ALTER TABLE `orders`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `order_status`
+--
+ALTER TABLE `order_status`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `payment_methods`
 --
 ALTER TABLE `payment_methods`
@@ -1262,6 +1329,16 @@ ALTER TABLE `user_roles`
 --
 ALTER TABLE `billing_address`
   ADD CONSTRAINT `billing_address_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+
+--
+-- Constraints for table `orders`
+--
+ALTER TABLE `orders`
+  ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `orders_ibfk_2` FOREIGN KEY (`shop_id`) REFERENCES `shops` (`id`),
+  ADD CONSTRAINT `orders_ibfk_3` FOREIGN KEY (`status_id`) REFERENCES `order_status` (`id`),
+  ADD CONSTRAINT `orders_ibfk_4` FOREIGN KEY (`pay_method_id`) REFERENCES `payment_methods` (`id`),
+  ADD CONSTRAINT `orders_ibfk_5` FOREIGN KEY (`ship_class_id`) REFERENCES `shop_courier_classes` (`id`);
 
 --
 -- Constraints for table `products`
