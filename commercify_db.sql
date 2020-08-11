@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Aug 11, 2020 at 05:29 AM
+-- Generation Time: Aug 11, 2020 at 06:05 AM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 7.4.8
 
@@ -200,7 +200,10 @@ INSERT INTO `phinxlog` (`version`, `migration_name`, `start_time`, `end_time`, `
 (20200811051511, 'TableShippingZones', '2020-08-11 02:18:52', '2020-08-11 02:18:52', 0),
 (20200811051914, 'TableShippingZonesZipCodes', '2020-08-11 02:20:36', '2020-08-11 02:20:36', 0),
 (20200811052705, 'TableGlobeRegions', '2020-08-11 02:27:58', '2020-08-11 02:27:58', 0),
-(20200811052807, 'TableShippingZonesRegions', '2020-08-11 02:29:31', '2020-08-11 02:29:31', 0);
+(20200811052807, 'TableShippingZonesRegions', '2020-08-11 02:29:31', '2020-08-11 02:29:31', 0),
+(20200811054511, 'TableShippingClasses', '2020-08-11 02:47:10', '2020-08-11 02:47:10', 0),
+(20200811054839, 'TableEnableShipClassRegions', '2020-08-11 02:50:59', '2020-08-11 02:50:59', 0),
+(20200811055306, 'TableWeightShipRules', '2020-08-11 03:05:45', '2020-08-11 03:05:45', 0);
 
 -- --------------------------------------------------------
 
@@ -494,6 +497,19 @@ CREATE TABLE `shop_couriers` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `shop_courier_classes`
+--
+
+CREATE TABLE `shop_courier_classes` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `shop_courier_id` bigint(20) UNSIGNED NOT NULL,
+  `title` varchar(52) NOT NULL,
+  `active` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `shop_currencies`
 --
 
@@ -618,6 +634,19 @@ CREATE TABLE `shop_reviews` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `shop_shipping_classes_regions`
+--
+
+CREATE TABLE `shop_shipping_classes_regions` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `ship_class_id` bigint(20) UNSIGNED NOT NULL,
+  `region_id` bigint(20) UNSIGNED NOT NULL,
+  `active` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `shop_ship_zones`
 --
 
@@ -626,6 +655,31 @@ CREATE TABLE `shop_ship_zones` (
   `shop_id` bigint(20) UNSIGNED NOT NULL,
   `title` varchar(55) NOT NULL,
   `ship_cost` decimal(10,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `shop_weight_ship_rules`
+--
+
+CREATE TABLE `shop_weight_ship_rules` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `shop_id` bigint(20) UNSIGNED NOT NULL,
+  `shipping_class_id` bigint(20) UNSIGNED NOT NULL,
+  `title` varchar(52) NOT NULL,
+  `taxable` tinyint(1) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `less_than_kg` decimal(10,2) NOT NULL,
+  `less_equal` tinyint(1) NOT NULL,
+  `over_than_kg` decimal(10,2) NOT NULL,
+  `over_equal` tinyint(1) NOT NULL,
+  `base_cost` decimal(10,2) NOT NULL,
+  `charge` decimal(10,2) NOT NULL,
+  `over_total_weight` decimal(10,2) NOT NULL,
+  `for_each_kg` decimal(10,2) NOT NULL,
+  `active` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -858,6 +912,13 @@ ALTER TABLE `shop_couriers`
   ADD KEY `courier_id` (`courier_id`);
 
 --
+-- Indexes for table `shop_courier_classes`
+--
+ALTER TABLE `shop_courier_classes`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `shop_courier_id` (`shop_courier_id`);
+
+--
 -- Indexes for table `shop_currencies`
 --
 ALTER TABLE `shop_currencies`
@@ -918,11 +979,27 @@ ALTER TABLE `shop_reviews`
   ADD KEY `user_id` (`user_id`);
 
 --
+-- Indexes for table `shop_shipping_classes_regions`
+--
+ALTER TABLE `shop_shipping_classes_regions`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `ship_class_id` (`ship_class_id`),
+  ADD KEY `region_id` (`region_id`);
+
+--
 -- Indexes for table `shop_ship_zones`
 --
 ALTER TABLE `shop_ship_zones`
   ADD PRIMARY KEY (`id`),
   ADD KEY `shop_id` (`shop_id`);
+
+--
+-- Indexes for table `shop_weight_ship_rules`
+--
+ALTER TABLE `shop_weight_ship_rules`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `shop_id` (`shop_id`),
+  ADD KEY `shipping_class_id` (`shipping_class_id`);
 
 --
 -- Indexes for table `users`
@@ -1093,6 +1170,12 @@ ALTER TABLE `shop_couriers`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `shop_courier_classes`
+--
+ALTER TABLE `shop_courier_classes`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `shop_currencies`
 --
 ALTER TABLE `shop_currencies`
@@ -1141,9 +1224,21 @@ ALTER TABLE `shop_reviews`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `shop_shipping_classes_regions`
+--
+ALTER TABLE `shop_shipping_classes_regions`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `shop_ship_zones`
 --
 ALTER TABLE `shop_ship_zones`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `shop_weight_ship_rules`
+--
+ALTER TABLE `shop_weight_ship_rules`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
@@ -1269,6 +1364,12 @@ ALTER TABLE `shop_couriers`
   ADD CONSTRAINT `shop_couriers_ibfk_2` FOREIGN KEY (`courier_id`) REFERENCES `courriers` (`id`);
 
 --
+-- Constraints for table `shop_courier_classes`
+--
+ALTER TABLE `shop_courier_classes`
+  ADD CONSTRAINT `shop_courier_classes_ibfk_1` FOREIGN KEY (`shop_courier_id`) REFERENCES `shop_couriers` (`id`);
+
+--
 -- Constraints for table `shop_currencies`
 --
 ALTER TABLE `shop_currencies`
@@ -1321,10 +1422,24 @@ ALTER TABLE `shop_reviews`
   ADD CONSTRAINT `shop_reviews_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
 
 --
+-- Constraints for table `shop_shipping_classes_regions`
+--
+ALTER TABLE `shop_shipping_classes_regions`
+  ADD CONSTRAINT `shop_shipping_classes_regions_ibfk_1` FOREIGN KEY (`ship_class_id`) REFERENCES `shop_courier_classes` (`id`),
+  ADD CONSTRAINT `shop_shipping_classes_regions_ibfk_2` FOREIGN KEY (`region_id`) REFERENCES `globe_regions` (`id`);
+
+--
 -- Constraints for table `shop_ship_zones`
 --
 ALTER TABLE `shop_ship_zones`
   ADD CONSTRAINT `shop_ship_zones_ibfk_1` FOREIGN KEY (`shop_id`) REFERENCES `shops` (`id`);
+
+--
+-- Constraints for table `shop_weight_ship_rules`
+--
+ALTER TABLE `shop_weight_ship_rules`
+  ADD CONSTRAINT `shop_weight_ship_rules_ibfk_1` FOREIGN KEY (`shop_id`) REFERENCES `shops` (`id`),
+  ADD CONSTRAINT `shop_weight_ship_rules_ibfk_2` FOREIGN KEY (`shipping_class_id`) REFERENCES `shop_courier_classes` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
