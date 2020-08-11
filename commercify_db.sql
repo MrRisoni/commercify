@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Aug 11, 2020 at 06:56 AM
+-- Generation Time: Aug 11, 2020 at 11:00 AM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 7.4.8
 
@@ -139,6 +139,8 @@ INSERT INTO `languages` (`id`, `title`, `code`) VALUES
 CREATE TABLE `orders` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
+  `shipping_address_id` bigint(20) UNSIGNED NOT NULL,
+  `billing_address_id` bigint(20) UNSIGNED NOT NULL,
   `shop_id` bigint(20) UNSIGNED NOT NULL,
   `status_id` bigint(20) UNSIGNED NOT NULL,
   `pay_method_id` bigint(20) UNSIGNED NOT NULL,
@@ -153,6 +155,27 @@ CREATE TABLE `orders` (
   `refund` tinyint(1) NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `order_items`
+--
+
+CREATE TABLE `order_items` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `order_id` bigint(20) UNSIGNED NOT NULL,
+  `product_id` bigint(20) UNSIGNED NOT NULL,
+  `status_id` bigint(20) UNSIGNED NOT NULL,
+  `quantity` int(11) UNSIGNED NOT NULL,
+  `tracking_no` varchar(52) NOT NULL,
+  `net_price` decimal(10,2) NOT NULL,
+  `taxes` decimal(10,2) NOT NULL,
+  `gift_cost` decimal(10,2) NOT NULL,
+  `success` tinyint(1) NOT NULL,
+  `void` tinyint(1) NOT NULL,
+  `refund` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -241,7 +264,13 @@ INSERT INTO `phinxlog` (`version`, `migration_name`, `start_time`, `end_time`, `
 (20200811054839, 'TableEnableShipClassRegions', '2020-08-11 02:50:59', '2020-08-11 02:50:59', 0),
 (20200811055306, 'TableWeightShipRules', '2020-08-11 03:05:45', '2020-08-11 03:05:45', 0),
 (20200811063853, 'TableOrderStatus', '2020-08-11 03:40:10', '2020-08-11 03:40:10', 0),
-(20200811064213, 'TableOrders', '2020-08-11 03:56:52', '2020-08-11 03:56:52', 0);
+(20200811064213, 'TableOrders', '2020-08-11 03:56:52', '2020-08-11 03:56:52', 0),
+(20200811101628, 'TableGiftWraps', '2020-08-11 07:18:53', '2020-08-11 07:18:53', 0),
+(20200811103059, 'AddCostCostToCourrierClasses', '2020-08-11 07:31:35', '2020-08-11 07:31:35', 0),
+(20200811103524, 'CodWeightRules', '2020-08-11 07:36:20', '2020-08-11 07:36:21', 0),
+(20200811104321, 'CreateTaxRules', '2020-08-11 07:46:34', '2020-08-11 07:46:34', 0),
+(20200811105032, 'AddBillShipAddress', '2020-08-11 07:53:42', '2020-08-11 07:53:42', 0),
+(20200811105356, 'OrderItems', '2020-08-11 08:00:40', '2020-08-11 08:00:40', 0);
 
 -- --------------------------------------------------------
 
@@ -268,16 +297,17 @@ CREATE TABLE `products` (
   `created` datetime NOT NULL,
   `updated` datetime DEFAULT NULL,
   `taxable` tinyint(1) NOT NULL,
-  `disable_cod` tinyint(1) NOT NULL
+  `disable_cod` tinyint(1) NOT NULL,
+  `gift_wrap_cost` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`id`, `shop_id`, `category_id`, `currency_id`, `code`, `img_url`, `thumbnail_url`, `price`, `discount_percent`, `kilos`, `dim_l`, `dim_w`, `dim_h`, `active`, `stock`, `created`, `updated`, `taxable`, `disable_cod`) VALUES
-(1, 1, 1, 1, 'SelmaLagerlefNielsHolgresson', '', '', '15.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-03 11:52:31', '2020-08-03 11:52:31', 0, 0),
-(2, 1, 1, 1, 'StringbergDromspel', '', '', '15.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-03 11:52:31', '2020-08-03 11:52:31', 0, 0);
+INSERT INTO `products` (`id`, `shop_id`, `category_id`, `currency_id`, `code`, `img_url`, `thumbnail_url`, `price`, `discount_percent`, `kilos`, `dim_l`, `dim_w`, `dim_h`, `active`, `stock`, `created`, `updated`, `taxable`, `disable_cod`, `gift_wrap_cost`) VALUES
+(1, 1, 1, 1, 'SelmaLagerlefNielsHolgresson', '', '', '15.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-03 11:52:31', '2020-08-03 11:52:31', 0, 0, '0.00'),
+(2, 1, 1, 1, 'StringbergDromspel', '', '', '15.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-03 11:52:31', '2020-08-03 11:52:31', 0, 0, '0.00');
 
 -- --------------------------------------------------------
 
@@ -542,7 +572,8 @@ CREATE TABLE `shop_courier_classes` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `shop_courier_id` bigint(20) UNSIGNED NOT NULL,
   `title` varchar(52) NOT NULL,
-  `active` tinyint(1) NOT NULL
+  `active` tinyint(1) NOT NULL,
+  `cod_base_cost` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -614,6 +645,19 @@ CREATE TABLE `shop_disable_zip_codes` (
   `shop_id` bigint(20) UNSIGNED NOT NULL,
   `country_code` varchar(2) NOT NULL,
   `zip` varchar(12) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `shop_giftwrap`
+--
+
+CREATE TABLE `shop_giftwrap` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `shop_id` bigint(20) UNSIGNED NOT NULL,
+  `image_path` varchar(52) NOT NULL,
+  `active` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -693,6 +737,49 @@ CREATE TABLE `shop_ship_zones` (
   `shop_id` bigint(20) UNSIGNED NOT NULL,
   `title` varchar(55) NOT NULL,
   `ship_cost` decimal(10,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `shop_tax_rules`
+--
+
+CREATE TABLE `shop_tax_rules` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `shop_id` bigint(20) UNSIGNED NOT NULL,
+  `title` varchar(52) NOT NULL,
+  `country_code` varchar(3) NOT NULL,
+  `flat_cost` decimal(10,2) NOT NULL,
+  `rate` decimal(10,2) NOT NULL,
+  `created` datetime NOT NULL,
+  `updated` datetime DEFAULT NULL,
+  `active` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `shop_weight_cod_rules`
+--
+
+CREATE TABLE `shop_weight_cod_rules` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `shop_id` bigint(20) UNSIGNED NOT NULL,
+  `shipping_class_id` bigint(20) UNSIGNED NOT NULL,
+  `title` varchar(52) NOT NULL,
+  `taxable` tinyint(1) NOT NULL,
+  `less_than_kg` decimal(10,2) NOT NULL,
+  `less_equal` tinyint(1) NOT NULL,
+  `over_than_kg` decimal(10,2) NOT NULL,
+  `over_equal` tinyint(1) NOT NULL,
+  `base_cost` decimal(10,2) NOT NULL,
+  `charge` decimal(10,2) NOT NULL,
+  `over_total_weight` decimal(10,2) NOT NULL,
+  `for_each_kg` decimal(10,2) NOT NULL,
+  `active` tinyint(1) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -817,7 +904,18 @@ ALTER TABLE `orders`
   ADD KEY `shop_id` (`shop_id`),
   ADD KEY `status_id` (`status_id`),
   ADD KEY `pay_method_id` (`pay_method_id`),
-  ADD KEY `ship_class_id` (`ship_class_id`);
+  ADD KEY `ship_class_id` (`ship_class_id`),
+  ADD KEY `shipping_address_id` (`shipping_address_id`),
+  ADD KEY `billing_address_id` (`billing_address_id`);
+
+--
+-- Indexes for table `order_items`
+--
+ALTER TABLE `order_items`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `order_id` (`order_id`),
+  ADD KEY `product_id` (`product_id`),
+  ADD KEY `status_id` (`status_id`);
 
 --
 -- Indexes for table `order_status`
@@ -1010,6 +1108,13 @@ ALTER TABLE `shop_disable_zip_codes`
   ADD KEY `shop_id` (`shop_id`);
 
 --
+-- Indexes for table `shop_giftwrap`
+--
+ALTER TABLE `shop_giftwrap`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `shop_id` (`shop_id`);
+
+--
 -- Indexes for table `shop_languages`
 --
 ALTER TABLE `shop_languages`
@@ -1047,6 +1152,21 @@ ALTER TABLE `shop_shipping_classes_regions`
 ALTER TABLE `shop_ship_zones`
   ADD PRIMARY KEY (`id`),
   ADD KEY `shop_id` (`shop_id`);
+
+--
+-- Indexes for table `shop_tax_rules`
+--
+ALTER TABLE `shop_tax_rules`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `shop_id` (`shop_id`);
+
+--
+-- Indexes for table `shop_weight_cod_rules`
+--
+ALTER TABLE `shop_weight_cod_rules`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `shop_id` (`shop_id`),
+  ADD KEY `shipping_class_id` (`shipping_class_id`);
 
 --
 -- Indexes for table `shop_weight_ship_rules`
@@ -1120,6 +1240,12 @@ ALTER TABLE `languages`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `order_items`
+--
+ALTER TABLE `order_items`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
@@ -1273,6 +1399,12 @@ ALTER TABLE `shop_disable_zip_codes`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `shop_giftwrap`
+--
+ALTER TABLE `shop_giftwrap`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `shop_languages`
 --
 ALTER TABLE `shop_languages`
@@ -1300,6 +1432,18 @@ ALTER TABLE `shop_shipping_classes_regions`
 -- AUTO_INCREMENT for table `shop_ship_zones`
 --
 ALTER TABLE `shop_ship_zones`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `shop_tax_rules`
+--
+ALTER TABLE `shop_tax_rules`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `shop_weight_cod_rules`
+--
+ALTER TABLE `shop_weight_cod_rules`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
@@ -1338,7 +1482,17 @@ ALTER TABLE `orders`
   ADD CONSTRAINT `orders_ibfk_2` FOREIGN KEY (`shop_id`) REFERENCES `shops` (`id`),
   ADD CONSTRAINT `orders_ibfk_3` FOREIGN KEY (`status_id`) REFERENCES `order_status` (`id`),
   ADD CONSTRAINT `orders_ibfk_4` FOREIGN KEY (`pay_method_id`) REFERENCES `payment_methods` (`id`),
-  ADD CONSTRAINT `orders_ibfk_5` FOREIGN KEY (`ship_class_id`) REFERENCES `shop_courier_classes` (`id`);
+  ADD CONSTRAINT `orders_ibfk_5` FOREIGN KEY (`ship_class_id`) REFERENCES `shop_courier_classes` (`id`),
+  ADD CONSTRAINT `orders_ibfk_6` FOREIGN KEY (`shipping_address_id`) REFERENCES `shipping_address` (`id`),
+  ADD CONSTRAINT `orders_ibfk_7` FOREIGN KEY (`billing_address_id`) REFERENCES `billing_address` (`id`);
+
+--
+-- Constraints for table `order_items`
+--
+ALTER TABLE `order_items`
+  ADD CONSTRAINT `order_items_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`),
+  ADD CONSTRAINT `order_items_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`),
+  ADD CONSTRAINT `order_items_ibfk_3` FOREIGN KEY (`status_id`) REFERENCES `order_status` (`id`);
 
 --
 -- Constraints for table `products`
@@ -1478,6 +1632,12 @@ ALTER TABLE `shop_disable_zip_codes`
   ADD CONSTRAINT `shop_disable_zip_codes_ibfk_1` FOREIGN KEY (`shop_id`) REFERENCES `shops` (`id`);
 
 --
+-- Constraints for table `shop_giftwrap`
+--
+ALTER TABLE `shop_giftwrap`
+  ADD CONSTRAINT `shop_giftwrap_ibfk_1` FOREIGN KEY (`shop_id`) REFERENCES `shops` (`id`);
+
+--
 -- Constraints for table `shop_languages`
 --
 ALTER TABLE `shop_languages`
@@ -1510,6 +1670,19 @@ ALTER TABLE `shop_shipping_classes_regions`
 --
 ALTER TABLE `shop_ship_zones`
   ADD CONSTRAINT `shop_ship_zones_ibfk_1` FOREIGN KEY (`shop_id`) REFERENCES `shops` (`id`);
+
+--
+-- Constraints for table `shop_tax_rules`
+--
+ALTER TABLE `shop_tax_rules`
+  ADD CONSTRAINT `shop_tax_rules_ibfk_1` FOREIGN KEY (`shop_id`) REFERENCES `shops` (`id`);
+
+--
+-- Constraints for table `shop_weight_cod_rules`
+--
+ALTER TABLE `shop_weight_cod_rules`
+  ADD CONSTRAINT `shop_weight_cod_rules_ibfk_1` FOREIGN KEY (`shop_id`) REFERENCES `shops` (`id`),
+  ADD CONSTRAINT `shop_weight_cod_rules_ibfk_2` FOREIGN KEY (`shipping_class_id`) REFERENCES `shop_courier_classes` (`id`);
 
 --
 -- Constraints for table `shop_weight_ship_rules`
