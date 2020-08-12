@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Aug 11, 2020 at 12:18 PM
+-- Generation Time: Aug 12, 2020 at 05:49 AM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 7.4.8
 
@@ -52,6 +52,13 @@ CREATE TABLE `continents` (
   `code` varchar(2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `continents`
+--
+
+INSERT INTO `continents` (`id`, `title`, `code`) VALUES
+(1, 'Europe', 'EU');
+
 -- --------------------------------------------------------
 
 --
@@ -65,6 +72,14 @@ CREATE TABLE `countries` (
   `continent` varchar(2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `countries`
+--
+
+INSERT INTO `countries` (`id`, `title`, `code`, `continent`) VALUES
+(1, 'Greece', 'GR', 'EU'),
+(2, 'Germany', 'DE', 'EU');
+
 -- --------------------------------------------------------
 
 --
@@ -75,6 +90,17 @@ CREATE TABLE `courriers` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `title` varchar(80) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `courriers`
+--
+
+INSERT INTO `courriers` (`id`, `title`) VALUES
+(1, 'ACS'),
+(2, 'Speedex'),
+(3, 'UPS'),
+(4, 'DHL'),
+(5, 'ΕΛΤΑ Courrier');
 
 -- --------------------------------------------------------
 
@@ -108,6 +134,14 @@ CREATE TABLE `globe_regions` (
   `country_code` varchar(2) NOT NULL,
   `title` varchar(120) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `globe_regions`
+--
+
+INSERT INTO `globe_regions` (`id`, `country_code`, `title`) VALUES
+(1, 'GR', 'Νησία Ιονίου'),
+(2, 'GR', 'Στερέα Ελλάδα');
 
 -- --------------------------------------------------------
 
@@ -200,6 +234,17 @@ CREATE TABLE `payment_methods` (
   `title` varchar(55) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `payment_methods`
+--
+
+INSERT INTO `payment_methods` (`id`, `title`) VALUES
+(1, 'Cash on delivery'),
+(2, 'Credit Card'),
+(3, 'Bank transfer'),
+(4, 'Paypal'),
+(5, 'Western Union');
+
 -- --------------------------------------------------------
 
 --
@@ -274,7 +319,10 @@ INSERT INTO `phinxlog` (`version`, `migration_name`, `start_time`, `end_time`, `
 (20200811110620, 'TaxRegionsRules', '2020-08-11 08:07:52', '2020-08-11 08:07:52', 0),
 (20200811110922, 'TaxShopCustomCodeNames', '2020-08-11 08:12:51', '2020-08-11 08:12:51', 0),
 (20200811111314, 'AddTaxCodeToTaxRules', '2020-08-11 09:12:14', '2020-08-11 09:12:14', 0),
-(20200811121350, 'BindTaxCodesToCategories', '2020-08-11 09:17:58', '2020-08-11 09:17:58', 0);
+(20200811121350, 'BindTaxCodesToCategories', '2020-08-11 09:17:58', '2020-08-11 09:17:58', 0),
+(20200812043725, 'AddSKUTOProducts', '2020-08-12 01:39:43', '2020-08-12 01:39:43', 0),
+(20200812053402, 'AddDefaultLangToShop', '2020-08-12 02:36:25', '2020-08-12 02:36:25', 0),
+(20200812054731, 'AddShopIdToProductReviews', '2020-08-12 02:49:09', '2020-08-12 02:49:09', 0);
 
 -- --------------------------------------------------------
 
@@ -288,6 +336,7 @@ CREATE TABLE `products` (
   `category_id` bigint(20) UNSIGNED NOT NULL,
   `currency_id` bigint(20) UNSIGNED NOT NULL,
   `code` varchar(120) NOT NULL,
+  `SKU` varchar(50) NOT NULL,
   `img_url` varchar(255) NOT NULL,
   `thumbnail_url` varchar(255) NOT NULL,
   `price` decimal(10,2) NOT NULL,
@@ -309,9 +358,9 @@ CREATE TABLE `products` (
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`id`, `shop_id`, `category_id`, `currency_id`, `code`, `img_url`, `thumbnail_url`, `price`, `discount_percent`, `kilos`, `dim_l`, `dim_w`, `dim_h`, `active`, `stock`, `created`, `updated`, `taxable`, `disable_cod`, `gift_wrap_cost`) VALUES
-(1, 1, 1, 1, 'SelmaLagerlefNielsHolgresson', '', '', '15.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-03 11:52:31', '2020-08-03 11:52:31', 0, 0, '0.00'),
-(2, 1, 1, 1, 'StringbergDromspel', '', '', '15.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-03 11:52:31', '2020-08-03 11:52:31', 0, 0, '0.00');
+INSERT INTO `products` (`id`, `shop_id`, `category_id`, `currency_id`, `code`, `SKU`, `img_url`, `thumbnail_url`, `price`, `discount_percent`, `kilos`, `dim_l`, `dim_w`, `dim_h`, `active`, `stock`, `created`, `updated`, `taxable`, `disable_cod`, `gift_wrap_cost`) VALUES
+(1, 1, 1, 1, 'SelmaLagerlefNielsHolgresson', '', '', '', '15.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-03 11:52:31', '2020-08-03 11:52:31', 0, 0, '0.00'),
+(2, 1, 1, 1, 'StringbergDromspel', '', '', '', '15.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-03 11:52:31', '2020-08-03 11:52:31', 0, 0, '0.00');
 
 -- --------------------------------------------------------
 
@@ -370,6 +419,13 @@ CREATE TABLE `product_description` (
   `descr` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `product_description`
+--
+
+INSERT INTO `product_description` (`id`, `product_id`, `language_id`, `title`, `descr`) VALUES
+(1, 1, 1, 'The wonderful journey of Niels Holgersson over Sweden', '');
+
 -- --------------------------------------------------------
 
 --
@@ -403,6 +459,8 @@ CREATE TABLE `product_gallery_tag` (
 
 CREATE TABLE `product_reviews` (
   `id` bigint(20) UNSIGNED NOT NULL,
+  `product_id` bigint(20) UNSIGNED NOT NULL DEFAULT 1,
+  `shop_id` bigint(20) UNSIGNED NOT NULL DEFAULT 1,
   `product_ud` bigint(20) UNSIGNED NOT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
   `stars` decimal(2,1) NOT NULL,
@@ -476,6 +534,7 @@ CREATE TABLE `shops` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `title` varchar(55) NOT NULL,
   `owner_id` bigint(20) UNSIGNED NOT NULL,
+  `default_lang_id` bigint(20) UNSIGNED NOT NULL DEFAULT 1,
   `created` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -483,8 +542,8 @@ CREATE TABLE `shops` (
 -- Dumping data for table `shops`
 --
 
-INSERT INTO `shops` (`id`, `title`, `owner_id`, `created`) VALUES
-(1, 'vivliofagos', 1, '2020-08-03 08:22:05');
+INSERT INTO `shops` (`id`, `title`, `owner_id`, `default_lang_id`, `created`) VALUES
+(1, 'vivliofagos', 1, 1, '2020-08-03 08:22:05');
 
 -- --------------------------------------------------------
 
@@ -500,6 +559,13 @@ CREATE TABLE `shop_banks` (
   `iban` varchar(52) NOT NULL,
   `swift_code` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `shop_banks`
+--
+
+INSERT INTO `shop_banks` (`id`, `shop_id`, `bank`, `account_no`, `iban`, `swift_code`) VALUES
+(1, 1, 'Pireaus', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -554,6 +620,13 @@ CREATE TABLE `shop_countries` (
   `country_code` varchar(2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `shop_countries`
+--
+
+INSERT INTO `shop_countries` (`id`, `shop_id`, `country_code`) VALUES
+(1, 1, 'GR');
+
 -- --------------------------------------------------------
 
 --
@@ -565,6 +638,13 @@ CREATE TABLE `shop_couriers` (
   `shop_id` bigint(20) UNSIGNED NOT NULL,
   `courier_id` bigint(20) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `shop_couriers`
+--
+
+INSERT INTO `shop_couriers` (`id`, `shop_id`, `courier_id`) VALUES
+(1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -579,6 +659,14 @@ CREATE TABLE `shop_courier_classes` (
   `active` tinyint(1) NOT NULL,
   `cod_base_cost` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `shop_courier_classes`
+--
+
+INSERT INTO `shop_courier_classes` (`id`, `shop_courier_id`, `title`, `active`, `cod_base_cost`) VALUES
+(1, 1, 'Standard', 1, '5.00'),
+(2, 1, 'Express', 1, '10.00');
 
 -- --------------------------------------------------------
 
@@ -1037,7 +1125,9 @@ ALTER TABLE `product_gallery_tag`
 ALTER TABLE `product_reviews`
   ADD PRIMARY KEY (`id`),
   ADD KEY `product_ud` (`product_ud`),
-  ADD KEY `user_id` (`user_id`);
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `shop_id` (`shop_id`),
+  ADD KEY `product_id` (`product_id`);
 
 --
 -- Indexes for table `product_tags`
@@ -1074,7 +1164,8 @@ ALTER TABLE `shipping_zones_zip_codes`
 --
 ALTER TABLE `shops`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `owner_id` (`owner_id`);
+  ADD KEY `owner_id` (`owner_id`),
+  ADD KEY `default_lang_id` (`default_lang_id`);
 
 --
 -- Indexes for table `shop_banks`
@@ -1278,19 +1369,19 @@ ALTER TABLE `billing_address`
 -- AUTO_INCREMENT for table `continents`
 --
 ALTER TABLE `continents`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `countries`
 --
 ALTER TABLE `countries`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `courriers`
 --
 ALTER TABLE `courriers`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `currencies`
@@ -1302,7 +1393,7 @@ ALTER TABLE `currencies`
 -- AUTO_INCREMENT for table `globe_regions`
 --
 ALTER TABLE `globe_regions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `languages`
@@ -1332,7 +1423,7 @@ ALTER TABLE `order_status`
 -- AUTO_INCREMENT for table `payment_methods`
 --
 ALTER TABLE `payment_methods`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `products`
@@ -1356,7 +1447,7 @@ ALTER TABLE `product_categories`
 -- AUTO_INCREMENT for table `product_description`
 --
 ALTER TABLE `product_description`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `product_gallery`
@@ -1410,7 +1501,7 @@ ALTER TABLE `shops`
 -- AUTO_INCREMENT for table `shop_banks`
 --
 ALTER TABLE `shop_banks`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `shop_belongs_categories`
@@ -1428,19 +1519,19 @@ ALTER TABLE `shop_categories`
 -- AUTO_INCREMENT for table `shop_countries`
 --
 ALTER TABLE `shop_countries`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `shop_couriers`
 --
 ALTER TABLE `shop_couriers`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `shop_courier_classes`
 --
 ALTER TABLE `shop_courier_classes`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `shop_currencies`
@@ -1626,7 +1717,9 @@ ALTER TABLE `product_gallery_tag`
 --
 ALTER TABLE `product_reviews`
   ADD CONSTRAINT `product_reviews_ibfk_1` FOREIGN KEY (`product_ud`) REFERENCES `products` (`id`),
-  ADD CONSTRAINT `product_reviews_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+  ADD CONSTRAINT `product_reviews_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `product_reviews_ibfk_3` FOREIGN KEY (`shop_id`) REFERENCES `shops` (`id`),
+  ADD CONSTRAINT `product_reviews_ibfk_4` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`);
 
 --
 -- Constraints for table `product_tags`
@@ -1658,7 +1751,8 @@ ALTER TABLE `shipping_zones_zip_codes`
 -- Constraints for table `shops`
 --
 ALTER TABLE `shops`
-  ADD CONSTRAINT `shops_ibfk_1` FOREIGN KEY (`owner_id`) REFERENCES `users` (`id`);
+  ADD CONSTRAINT `shops_ibfk_1` FOREIGN KEY (`owner_id`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `shops_ibfk_2` FOREIGN KEY (`default_lang_id`) REFERENCES `languages` (`id`);
 
 --
 -- Constraints for table `shop_banks`
