@@ -1,0 +1,34 @@
+{
+"footer" : {
+    "fore" :"#56ffg",
+    "back" :"#56ffg",
+    "img" : "",
+    "height": 35px,
+    "title":"",
+    "subtitle":"",
+    "copyright":"",
+    "font":"",
+    "font-size":"",
+},
+"header" : {
+    "fore" :"#56ffg",
+    "back" :"#56ffg",
+    "img" : "",
+    "height": 35px,
+    "title":"",
+    "subtitle":"",
+    "font":"",
+    "font-size":"",
+},
+"basket" : {
+    "position":"right",
+    "currency":"left"
+},
+"button" : {
+    "fore" :"#56ffg",
+    "back" :"#56ffg",
+    "font":"",
+    "font-size":"",
+    "radius":0px,
+},
+}

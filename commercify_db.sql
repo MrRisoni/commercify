@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Aug 12, 2020 at 05:49 AM
+-- Generation Time: Aug 12, 2020 at 04:09 PM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 7.4.8
 
@@ -322,7 +322,10 @@ INSERT INTO `phinxlog` (`version`, `migration_name`, `start_time`, `end_time`, `
 (20200811121350, 'BindTaxCodesToCategories', '2020-08-11 09:17:58', '2020-08-11 09:17:58', 0),
 (20200812043725, 'AddSKUTOProducts', '2020-08-12 01:39:43', '2020-08-12 01:39:43', 0),
 (20200812053402, 'AddDefaultLangToShop', '2020-08-12 02:36:25', '2020-08-12 02:36:25', 0),
-(20200812054731, 'AddShopIdToProductReviews', '2020-08-12 02:49:09', '2020-08-12 02:49:09', 0);
+(20200812054731, 'AddShopIdToProductReviews', '2020-08-12 02:49:09', '2020-08-12 02:49:09', 0),
+(20200812140958, 'AddVisibilityToProducts', '2020-08-12 11:13:15', '2020-08-12 11:13:15', 0),
+(20200812143604, 'AddNormalPriceToProducts', '2020-08-12 11:37:34', '2020-08-12 11:37:34', 0),
+(20200812160546, 'ShopStyling', '2020-08-12 13:08:06', '2020-08-12 13:08:06', 0);
 
 -- --------------------------------------------------------
 
@@ -340,6 +343,7 @@ CREATE TABLE `products` (
   `img_url` varchar(255) NOT NULL,
   `thumbnail_url` varchar(255) NOT NULL,
   `price` decimal(10,2) NOT NULL,
+  `normal_price` decimal(10,2) NOT NULL,
   `discount_percent` decimal(5,2) NOT NULL,
   `kilos` decimal(5,2) NOT NULL,
   `dim_l` decimal(6,2) NOT NULL,
@@ -351,16 +355,21 @@ CREATE TABLE `products` (
   `updated` datetime DEFAULT NULL,
   `taxable` tinyint(1) NOT NULL,
   `disable_cod` tinyint(1) NOT NULL,
-  `gift_wrap_cost` decimal(10,2) NOT NULL
+  `gift_wrap_cost` decimal(10,2) NOT NULL,
+  `visible` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`id`, `shop_id`, `category_id`, `currency_id`, `code`, `SKU`, `img_url`, `thumbnail_url`, `price`, `discount_percent`, `kilos`, `dim_l`, `dim_w`, `dim_h`, `active`, `stock`, `created`, `updated`, `taxable`, `disable_cod`, `gift_wrap_cost`) VALUES
-(1, 1, 1, 1, 'SelmaLagerlefNielsHolgresson', '', '', '', '15.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-03 11:52:31', '2020-08-03 11:52:31', 0, 0, '0.00'),
-(2, 1, 1, 1, 'StringbergDromspel', '', '', '', '15.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-03 11:52:31', '2020-08-03 11:52:31', 0, 0, '0.00');
+INSERT INTO `products` (`id`, `shop_id`, `category_id`, `currency_id`, `code`, `SKU`, `img_url`, `thumbnail_url`, `price`, `normal_price`, `discount_percent`, `kilos`, `dim_l`, `dim_w`, `dim_h`, `active`, `stock`, `created`, `updated`, `taxable`, `disable_cod`, `gift_wrap_cost`, `visible`) VALUES
+(1, 1, 1, 1, 'SelmaLagerlefNielsHolgresson', '', '', '', '15.00', '0.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-03 11:52:31', '2020-08-03 11:52:31', 0, 0, '0.00', 0),
+(2, 1, 1, 1, 'StringbergDromspel', '', '', '', '15.00', '0.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-03 11:52:31', '2020-08-03 11:52:31', 0, 0, '0.00', 0),
+(3, 1, 1, 1, 'StringbergDamaskusI\r\n', '', '', '', '15.00', '0.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-03 11:52:31', '2020-08-03 11:52:31', 0, 0, '0.00', 0),
+(4, 1, 1, 1, 'StringbergDamaskusII\r\n', '', '', '', '15.00', '0.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-03 11:52:31', '2020-08-03 11:52:31', 0, 0, '0.00', 0),
+(5, 1, 1, 1, 'StringbergDamaskusIII\r\n', '', '', '', '15.00', '0.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-03 11:52:31', '2020-08-03 11:52:31', 0, 0, '0.00', 0),
+(6, 1, 1, 1, 'StringbergSpoksSonaten\r\n', '', '', '', '15.00', '0.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-03 11:52:31', '2020-08-03 11:52:31', 0, 0, '0.00', 0);
 
 -- --------------------------------------------------------
 
@@ -403,7 +412,10 @@ CREATE TABLE `product_categories` (
 --
 
 INSERT INTO `product_categories` (`id`, `title`) VALUES
-(1, 'Books');
+(1, 'Books'),
+(3, 'Clothing'),
+(2, 'Jewel'),
+(4, 'Shoes');
 
 -- --------------------------------------------------------
 
@@ -424,7 +436,12 @@ CREATE TABLE `product_description` (
 --
 
 INSERT INTO `product_description` (`id`, `product_id`, `language_id`, `title`, `descr`) VALUES
-(1, 1, 1, 'The wonderful journey of Niels Holgersson over Sweden', '');
+(1, 1, 1, 'The wonderful journey of Niels Holgersson over Sweden', ''),
+(2, 2, 1, 'Dreamplay', ''),
+(3, 3, 1, 'Προς Δαμασκόν Ι', ''),
+(4, 4, 1, 'Προς Δαμασκόν ΙΙ', ''),
+(5, 5, 1, 'Προς Δαμασκόν ΙΙΙ', ''),
+(6, 6, 1, 'Η Σονάτα των Φαντασμάτων', '');
 
 -- --------------------------------------------------------
 
@@ -461,12 +478,18 @@ CREATE TABLE `product_reviews` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `product_id` bigint(20) UNSIGNED NOT NULL DEFAULT 1,
   `shop_id` bigint(20) UNSIGNED NOT NULL DEFAULT 1,
-  `product_ud` bigint(20) UNSIGNED NOT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
   `stars` decimal(2,1) NOT NULL,
   `comment` varchar(255) NOT NULL,
   `created` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `product_reviews`
+--
+
+INSERT INTO `product_reviews` (`id`, `product_id`, `shop_id`, `user_id`, `stars`, `comment`, `created`) VALUES
+(1, 1, 1, 2, '3.0', '', '2020-08-04 08:54:22');
 
 -- --------------------------------------------------------
 
@@ -846,6 +869,18 @@ CREATE TABLE `shop_ship_zones` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `shop_styling`
+--
+
+CREATE TABLE `shop_styling` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `shop_id` bigint(20) UNSIGNED NOT NULL,
+  `style` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `shop_tax_code_names`
 --
 
@@ -1124,7 +1159,6 @@ ALTER TABLE `product_gallery_tag`
 --
 ALTER TABLE `product_reviews`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `product_ud` (`product_ud`),
   ADD KEY `user_id` (`user_id`),
   ADD KEY `shop_id` (`shop_id`),
   ADD KEY `product_id` (`product_id`);
@@ -1302,6 +1336,13 @@ ALTER TABLE `shop_ship_zones`
   ADD KEY `shop_id` (`shop_id`);
 
 --
+-- Indexes for table `shop_styling`
+--
+ALTER TABLE `shop_styling`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `shop_id` (`shop_id`);
+
+--
 -- Indexes for table `shop_tax_code_names`
 --
 ALTER TABLE `shop_tax_code_names`
@@ -1429,7 +1470,7 @@ ALTER TABLE `payment_methods`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `product_attributes`
@@ -1441,13 +1482,13 @@ ALTER TABLE `product_attributes`
 -- AUTO_INCREMENT for table `product_categories`
 --
 ALTER TABLE `product_categories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `product_description`
 --
 ALTER TABLE `product_description`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `product_gallery`
@@ -1465,7 +1506,7 @@ ALTER TABLE `product_gallery_tag`
 -- AUTO_INCREMENT for table `product_reviews`
 --
 ALTER TABLE `product_reviews`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `product_tags`
@@ -1606,6 +1647,12 @@ ALTER TABLE `shop_ship_zones`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `shop_styling`
+--
+ALTER TABLE `shop_styling`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `shop_tax_code_names`
 --
 ALTER TABLE `shop_tax_code_names`
@@ -1716,7 +1763,6 @@ ALTER TABLE `product_gallery_tag`
 -- Constraints for table `product_reviews`
 --
 ALTER TABLE `product_reviews`
-  ADD CONSTRAINT `product_reviews_ibfk_1` FOREIGN KEY (`product_ud`) REFERENCES `products` (`id`),
   ADD CONSTRAINT `product_reviews_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
   ADD CONSTRAINT `product_reviews_ibfk_3` FOREIGN KEY (`shop_id`) REFERENCES `shops` (`id`),
   ADD CONSTRAINT `product_reviews_ibfk_4` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`);
@@ -1863,6 +1909,12 @@ ALTER TABLE `shop_shipping_classes_regions`
 --
 ALTER TABLE `shop_ship_zones`
   ADD CONSTRAINT `shop_ship_zones_ibfk_1` FOREIGN KEY (`shop_id`) REFERENCES `shops` (`id`);
+
+--
+-- Constraints for table `shop_styling`
+--
+ALTER TABLE `shop_styling`
+  ADD CONSTRAINT `shop_styling_ibfk_1` FOREIGN KEY (`shop_id`) REFERENCES `shops` (`id`);
 
 --
 -- Constraints for table `shop_tax_code_names`
