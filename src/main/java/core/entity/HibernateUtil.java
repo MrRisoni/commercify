@@ -1,4 +1,4 @@
-package entities;
+package core.entity;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;

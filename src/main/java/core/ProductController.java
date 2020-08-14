@@ -1,6 +1,6 @@
 package core;
 
-import entities.HibernateUtil;
+import core.entity.HibernateUtil;
 import entities.Language;
 import entities.Product;
 import entities.ProductAttribute;
