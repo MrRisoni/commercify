@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.5
+-- version 5.0.2
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Aug 16, 2020 at 03:32 PM
+-- Host: 127.0.0.1
+-- Generation Time: Aug 16, 2020 at 05:47 PM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 7.4.8
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -19,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `commercify_db`
+-- Database: `commercify`
 --
 
 -- --------------------------------------------------------
@@ -338,6 +337,7 @@ CREATE TABLE `products` (
   `shop_id` bigint(20) UNSIGNED NOT NULL,
   `category_id` bigint(20) UNSIGNED NOT NULL,
   `currency_id` bigint(20) UNSIGNED NOT NULL,
+  `manufacturer_id` bigint(20) UNSIGNED NOT NULL DEFAULT 1,
   `code` varchar(120) NOT NULL,
   `SKU` varchar(50) NOT NULL,
   `img_url` varchar(255) NOT NULL,
@@ -363,13 +363,13 @@ CREATE TABLE `products` (
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`id`, `shop_id`, `category_id`, `currency_id`, `code`, `SKU`, `img_url`, `thumbnail_url`, `price`, `normal_price`, `discount_percent`, `kilos`, `dim_l`, `dim_w`, `dim_h`, `active`, `stock`, `created`, `updated`, `taxable`, `disable_cod`, `gift_wrap_cost`, `visible`) VALUES
-(1, 1, 1, 1, 'SelmaLagerlefNielsHolgresson', '', '', '', '15.00', '0.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-03 11:52:31', '2020-08-03 11:52:31', 0, 0, '0.00', 0),
-(2, 1, 1, 1, 'StringbergDromspel', '', '', '', '15.00', '0.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-03 11:52:31', '2020-08-03 11:52:31', 0, 0, '0.00', 0),
-(3, 1, 1, 1, 'StringbergDamaskusI\r\n', '', '', '', '15.00', '0.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-03 11:52:31', '2020-08-03 11:52:31', 0, 0, '0.00', 0),
-(4, 1, 1, 1, 'StringbergDamaskusII\r\n', '', '', '', '15.00', '0.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-03 11:52:31', '2020-08-03 11:52:31', 0, 0, '0.00', 0),
-(5, 1, 1, 1, 'StringbergDamaskusIII\r\n', '', '', '', '15.00', '0.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-03 11:52:31', '2020-08-03 11:52:31', 0, 0, '0.00', 0),
-(6, 1, 1, 1, 'StringbergSpoksSonaten\r\n', '', '', '', '15.00', '0.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-03 11:52:31', '2020-08-03 11:52:31', 0, 0, '0.00', 0);
+INSERT INTO `products` (`id`, `shop_id`, `category_id`, `currency_id`, `manufacturer_id`, `code`, `SKU`, `img_url`, `thumbnail_url`, `price`, `normal_price`, `discount_percent`, `kilos`, `dim_l`, `dim_w`, `dim_h`, `active`, `stock`, `created`, `updated`, `taxable`, `disable_cod`, `gift_wrap_cost`, `visible`) VALUES
+(1, 1, 1, 1, 1, 'SelmaLagerlefNielsHolgresson', '', '', '', '15.00', '0.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-03 11:52:31', '2020-08-03 11:52:31', 0, 0, '0.00', 0),
+(2, 1, 1, 1, 1, 'StringbergDromspel', '', '', '', '15.00', '0.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-03 11:52:31', '2020-08-03 11:52:31', 0, 0, '0.00', 0),
+(3, 1, 1, 1, 1, 'StringbergDamaskusI\r\n', '', '', '', '15.00', '0.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-03 11:52:31', '2020-08-03 11:52:31', 0, 0, '0.00', 0),
+(4, 1, 1, 1, 1, 'StringbergDamaskusII\r\n', '', '', '', '15.00', '0.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-03 11:52:31', '2020-08-03 11:52:31', 0, 0, '0.00', 0),
+(5, 1, 1, 1, 1, 'StringbergDamaskusIII\r\n', '', '', '', '15.00', '0.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-03 11:52:31', '2020-08-03 11:52:31', 0, 0, '0.00', 0),
+(6, 1, 1, 1, 1, 'StringbergSpoksSonaten\r\n', '', '', '', '15.00', '0.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-03 11:52:31', '2020-08-03 11:52:31', 0, 0, '0.00', 0);
 
 -- --------------------------------------------------------
 
@@ -404,6 +404,8 @@ INSERT INTO `product_attributes` (`id`, `product_id`, `language_id`, `title`, `v
 
 CREATE TABLE `product_categories` (
   `id` bigint(20) UNSIGNED NOT NULL,
+  `shop_id` bigint(20) UNSIGNED NOT NULL DEFAULT 1,
+  `parent_category_id` bigint(20) UNSIGNED NOT NULL,
   `title` varchar(55) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -411,11 +413,11 @@ CREATE TABLE `product_categories` (
 -- Dumping data for table `product_categories`
 --
 
-INSERT INTO `product_categories` (`id`, `title`) VALUES
-(1, 'Books'),
-(3, 'Clothing'),
-(2, 'Jewel'),
-(4, 'Shoes');
+INSERT INTO `product_categories` (`id`, `shop_id`, `parent_category_id`, `title`) VALUES
+(1, 1, 0, 'Books'),
+(2, 1, 0, 'Jewel'),
+(3, 1, 0, 'Clothing'),
+(4, 1, 0, 'Shoes');
 
 -- --------------------------------------------------------
 
@@ -765,6 +767,19 @@ CREATE TABLE `shop_disable_zip_codes` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `shop_eulas`
+--
+
+CREATE TABLE `shop_eulas` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `shop_id` bigint(20) UNSIGNED NOT NULL,
+  `language_id` bigint(20) UNSIGNED NOT NULL,
+  `terms` longtext NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `shop_giftwrap`
 --
 
@@ -812,6 +827,25 @@ CREATE TABLE `shop_managers` (
 
 INSERT INTO `shop_managers` (`id`, `shop_id`, `manager_id`) VALUES
 (1, 1, 2);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `shop_manufacturers`
+--
+
+CREATE TABLE `shop_manufacturers` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `shop_id` bigint(20) UNSIGNED NOT NULL,
+  `title` varchar(55) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `shop_manufacturers`
+--
+
+INSERT INTO `shop_manufacturers` (`id`, `shop_id`, `title`) VALUES
+(1, 1, 'Asus');
 
 -- --------------------------------------------------------
 
@@ -876,6 +910,18 @@ CREATE TABLE `shop_styling` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `shop_id` bigint(20) UNSIGNED NOT NULL,
   `style` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `shop_suppliers`
+--
+
+CREATE TABLE `shop_suppliers` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `shop_id` bigint(20) UNSIGNED NOT NULL,
+  `title` varchar(55) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -977,6 +1023,18 @@ CREATE TABLE `shop_weight_ship_rules` (
   `over_total_weight` decimal(10,2) NOT NULL,
   `for_each_kg` decimal(10,2) NOT NULL,
   `active` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `suppliers_supplies`
+--
+
+CREATE TABLE `suppliers_supplies` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `supplier_id` bigint(20) UNSIGNED NOT NULL,
+  `product_id` bigint(20) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -1114,7 +1172,8 @@ ALTER TABLE `products`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `shop_id` (`shop_id`,`code`),
   ADD KEY `category_id` (`category_id`),
-  ADD KEY `currency_id` (`currency_id`);
+  ADD KEY `currency_id` (`currency_id`),
+  ADD KEY `manufacturer_id` (`manufacturer_id`);
 
 --
 -- Indexes for table `product_attributes`
@@ -1129,7 +1188,8 @@ ALTER TABLE `product_attributes`
 --
 ALTER TABLE `product_categories`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `title` (`title`);
+  ADD UNIQUE KEY `title` (`title`),
+  ADD KEY `shop_id` (`shop_id`);
 
 --
 -- Indexes for table `product_description`
@@ -1282,6 +1342,14 @@ ALTER TABLE `shop_disable_zip_codes`
   ADD KEY `shop_id` (`shop_id`);
 
 --
+-- Indexes for table `shop_eulas`
+--
+ALTER TABLE `shop_eulas`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `shop_id` (`shop_id`),
+  ADD KEY `language_id` (`language_id`);
+
+--
 -- Indexes for table `shop_giftwrap`
 --
 ALTER TABLE `shop_giftwrap`
@@ -1303,6 +1371,13 @@ ALTER TABLE `shop_managers`
   ADD PRIMARY KEY (`id`),
   ADD KEY `shop_id` (`shop_id`),
   ADD KEY `manager_id` (`manager_id`);
+
+--
+-- Indexes for table `shop_manufacturers`
+--
+ALTER TABLE `shop_manufacturers`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `shop_id` (`shop_id`);
 
 --
 -- Indexes for table `shop_product_cateogory_taxes`
@@ -1339,6 +1414,13 @@ ALTER TABLE `shop_ship_zones`
 -- Indexes for table `shop_styling`
 --
 ALTER TABLE `shop_styling`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `shop_id` (`shop_id`);
+
+--
+-- Indexes for table `shop_suppliers`
+--
+ALTER TABLE `shop_suppliers`
   ADD PRIMARY KEY (`id`),
   ADD KEY `shop_id` (`shop_id`);
 
@@ -1381,6 +1463,14 @@ ALTER TABLE `shop_weight_ship_rules`
   ADD PRIMARY KEY (`id`),
   ADD KEY `shop_id` (`shop_id`),
   ADD KEY `shipping_class_id` (`shipping_class_id`);
+
+--
+-- Indexes for table `suppliers_supplies`
+--
+ALTER TABLE `suppliers_supplies`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `supplier_id` (`supplier_id`),
+  ADD KEY `product_id` (`product_id`);
 
 --
 -- Indexes for table `users`
@@ -1605,6 +1695,12 @@ ALTER TABLE `shop_disable_zip_codes`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `shop_eulas`
+--
+ALTER TABLE `shop_eulas`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `shop_giftwrap`
 --
 ALTER TABLE `shop_giftwrap`
@@ -1620,6 +1716,12 @@ ALTER TABLE `shop_languages`
 -- AUTO_INCREMENT for table `shop_managers`
 --
 ALTER TABLE `shop_managers`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `shop_manufacturers`
+--
+ALTER TABLE `shop_manufacturers`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
@@ -1653,6 +1755,12 @@ ALTER TABLE `shop_styling`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `shop_suppliers`
+--
+ALTER TABLE `shop_suppliers`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `shop_tax_code_names`
 --
 ALTER TABLE `shop_tax_code_names`
@@ -1680,6 +1788,12 @@ ALTER TABLE `shop_weight_cod_rules`
 -- AUTO_INCREMENT for table `shop_weight_ship_rules`
 --
 ALTER TABLE `shop_weight_ship_rules`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `suppliers_supplies`
+--
+ALTER TABLE `suppliers_supplies`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
@@ -1730,7 +1844,8 @@ ALTER TABLE `order_items`
 ALTER TABLE `products`
   ADD CONSTRAINT `products_ibfk_1` FOREIGN KEY (`shop_id`) REFERENCES `shops` (`id`),
   ADD CONSTRAINT `products_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `product_categories` (`id`),
-  ADD CONSTRAINT `products_ibfk_3` FOREIGN KEY (`currency_id`) REFERENCES `currencies` (`id`);
+  ADD CONSTRAINT `products_ibfk_3` FOREIGN KEY (`currency_id`) REFERENCES `currencies` (`id`),
+  ADD CONSTRAINT `products_ibfk_4` FOREIGN KEY (`manufacturer_id`) REFERENCES `shop_manufacturers` (`id`);
 
 --
 -- Constraints for table `product_attributes`
@@ -1738,6 +1853,12 @@ ALTER TABLE `products`
 ALTER TABLE `product_attributes`
   ADD CONSTRAINT `product_attributes_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`),
   ADD CONSTRAINT `product_attributes_ibfk_2` FOREIGN KEY (`language_id`) REFERENCES `languages` (`id`);
+
+--
+-- Constraints for table `product_categories`
+--
+ALTER TABLE `product_categories`
+  ADD CONSTRAINT `product_categories_ibfk_1` FOREIGN KEY (`shop_id`) REFERENCES `shops` (`id`);
 
 --
 -- Constraints for table `product_description`
@@ -1864,6 +1985,13 @@ ALTER TABLE `shop_disable_zip_codes`
   ADD CONSTRAINT `shop_disable_zip_codes_ibfk_1` FOREIGN KEY (`shop_id`) REFERENCES `shops` (`id`);
 
 --
+-- Constraints for table `shop_eulas`
+--
+ALTER TABLE `shop_eulas`
+  ADD CONSTRAINT `shop_eulas_ibfk_1` FOREIGN KEY (`shop_id`) REFERENCES `shops` (`id`),
+  ADD CONSTRAINT `shop_eulas_ibfk_2` FOREIGN KEY (`language_id`) REFERENCES `languages` (`id`);
+
+--
 -- Constraints for table `shop_giftwrap`
 --
 ALTER TABLE `shop_giftwrap`
@@ -1882,6 +2010,12 @@ ALTER TABLE `shop_languages`
 ALTER TABLE `shop_managers`
   ADD CONSTRAINT `shop_managers_ibfk_1` FOREIGN KEY (`shop_id`) REFERENCES `shops` (`id`),
   ADD CONSTRAINT `shop_managers_ibfk_2` FOREIGN KEY (`manager_id`) REFERENCES `users` (`id`);
+
+--
+-- Constraints for table `shop_manufacturers`
+--
+ALTER TABLE `shop_manufacturers`
+  ADD CONSTRAINT `shop_manufacturers_ibfk_1` FOREIGN KEY (`shop_id`) REFERENCES `shops` (`id`);
 
 --
 -- Constraints for table `shop_product_cateogory_taxes`
@@ -1917,6 +2051,12 @@ ALTER TABLE `shop_styling`
   ADD CONSTRAINT `shop_styling_ibfk_1` FOREIGN KEY (`shop_id`) REFERENCES `shops` (`id`);
 
 --
+-- Constraints for table `shop_suppliers`
+--
+ALTER TABLE `shop_suppliers`
+  ADD CONSTRAINT `shop_suppliers_ibfk_1` FOREIGN KEY (`shop_id`) REFERENCES `shops` (`id`);
+
+--
 -- Constraints for table `shop_tax_code_names`
 --
 ALTER TABLE `shop_tax_code_names`
@@ -1950,6 +2090,13 @@ ALTER TABLE `shop_weight_cod_rules`
 ALTER TABLE `shop_weight_ship_rules`
   ADD CONSTRAINT `shop_weight_ship_rules_ibfk_1` FOREIGN KEY (`shop_id`) REFERENCES `shops` (`id`),
   ADD CONSTRAINT `shop_weight_ship_rules_ibfk_2` FOREIGN KEY (`shipping_class_id`) REFERENCES `shop_courier_classes` (`id`);
+
+--
+-- Constraints for table `suppliers_supplies`
+--
+ALTER TABLE `suppliers_supplies`
+  ADD CONSTRAINT `suppliers_supplies_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`),
+  ADD CONSTRAINT `suppliers_supplies_ibfk_2` FOREIGN KEY (`supplier_id`) REFERENCES `shop_suppliers` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
