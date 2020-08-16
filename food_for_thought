@@ -1,9 +1,12 @@
+ create bookshop, computer shop
  
+ display product attributes from a category and allow a user to multi select
+ e.g a usr is browsing laptops 
+ and select different manufacturers
 
 Quickly create products
 Configure features and values
 
-Attaching files or display additional information in product pages
  
 
 Create categories & subcategories
@@ -16,58 +19,22 @@ Get an overview of manufacturers and suppliers with sorting order and filters
 
 
 
-Offers payment methods
-Configure the shipping methods
-
-
-
-Configure the display of the products
-Organize your products in your store
-Configure filters, sort order and pagination of products
-Display results with the main information about the products listed
-
-
-
-Configure the one page checkout
-
-
-Let your customer choose the addresses select shipping & payment methods
 
 Let customers to validate their orders
 
 
-Comply to laws
-
-Create CMS pages or blocks focused on legal information
 Display legal contents on the specific & appropriate pages
-Make your checkout process compliant with the European (German) laws
-Comply with the European laws by displaying information about the shipping information and prices
-Apply the revocation terms
-
-
-Run Taxes
-
-Configure taxes depending on the locations
-Apply tax to the shipping and wrapping fee
 
 
 
 Configure coupons
 Choose the discount mode
-Create price rules
-Make special offers on various basis: products, customer or on order
-Offers free shipping
-Highlight your Products
 
-Suggest products to your customers
 
 Let customers add gift wrapping
 
 
-Increase Engagement
 
-Reduce abandonment cart rate by sending emails
-Reengage customers by sending them an email containing viewed products
 
 
 Manage Orders
@@ -76,11 +43,10 @@ Run Orders
 Get an overview of the orders
 Create orders from the admin
 Edit an order on customer request
-Create a workflow of statuses for both order & return process
+
 Receive notification for new orders
 Inform Your Customer of the evolution of their orders
 
-Create templates of emails & send default emails
 
 
 Configure the customer account creation form
@@ -91,31 +57,12 @@ Allow your customers to run & track their orders
 Manage the addresses of your customers
 Create new customers or edit the existing ones
 Import / Exports lists of customers
-Easily find customers
-Personalize the user experience of your customers by creating customers groups
-Run your Customer Service
-
-Access to the summary of the customer service activity
-Receive notifications
-Create an IMAP access & send the requests to the right employee
-Set default replies
-Allow your customers to process return
-Generate credit slips to refund your unsatisfied customers
-Turn any cart into an order following a customer request
-Display a contact information & form with pre-defined subjects
-Get Insights
-General
 
 
-Measures the impact of promotional campaigns
+
 Reports about traffic
 
 
 Get a full range of insights about your products
 
-
-Get data about sales
-
-
-Configure mail notifications to receive automatic alerts
 
