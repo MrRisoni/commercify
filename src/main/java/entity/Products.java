@@ -1,6 +1,8 @@
 
 package entity;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Collection;
@@ -107,6 +109,7 @@ public class Products implements Serializable {
     @NotNull
     @Column(name = "created")
     @Temporal(TemporalType.TIMESTAMP)
+    @CreationTimestamp
     private Date created;
 
     @Column(name = "updated")

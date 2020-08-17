@@ -64,7 +64,6 @@
         <mapping class="entity.SuppliersSupplies"/>
         <mapping class="entity.ShopEulas"/>
         <mapping class="entity.ShopManufacturers"/>
-        <mapping class="entity.Phinxlog"/>
         <mapping class="entity.ProductAttributesValues"/>
         <mapping class="entity.ShopSuppliers"/>
         <mapping class="entity.ProductCategoryAttributes"/>

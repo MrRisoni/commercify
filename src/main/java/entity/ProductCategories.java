@@ -1,6 +1,9 @@
 
 package entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
+
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.*;
@@ -10,7 +13,8 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "product_categories")
-
+@org.hibernate.annotations.NamedQuery(name = "ProductCategories_fetchByShopId",
+        query = "from ProductCategories where shopId.id = :shop_id")
 public class ProductCategories implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -18,17 +22,20 @@ public class ProductCategories implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
+    @JsonView(JackSonViewer.IShopProductCategory.class)
     private Long id;
 
     @Basic(optional = false)
     @NotNull
     @Column(name = "parent_category_id")
+    @JsonView(JackSonViewer.IShopProductCategory.class)
     private long parentCategoryId;
 
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 55)
     @Column(name = "title")
+    @JsonView(JackSonViewer.IShopProductCategory.class)
     private String title;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "categoryId")

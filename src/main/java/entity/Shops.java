@@ -1,6 +1,8 @@
 
 package entity;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
@@ -32,6 +34,7 @@ public class Shops implements Serializable {
     @NotNull
     @Column(name = "created")
     @Temporal(TemporalType.TIMESTAMP)
+    @CreationTimestamp
     private Date created;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "shopId")

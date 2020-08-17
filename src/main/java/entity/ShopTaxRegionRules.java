@@ -1,6 +1,8 @@
 
 package entity;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Collection;
@@ -47,6 +49,7 @@ public class ShopTaxRegionRules implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "created")
+    @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     private Date created;
 

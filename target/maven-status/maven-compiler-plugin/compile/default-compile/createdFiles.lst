@@ -100,7 +100,6 @@ repositories\CurrencyRepo.class
 entity\ProductReviews_.class
 entity\ProductTags_.class
 entity\ShopWeightCodRules_.class
-entity\Phinxlog_.class
 entity\ShopWeightShipRules.class
 entity\ShopTranslations_.class
 entity\Users.class
@@ -109,6 +108,7 @@ entity\ProductReviews.class
 entity\ShopTranslations.class
 entity\ShopCurrencies_.class
 entity\ShopManufacturers.class
+entity\JackSonViewer$IShopProductCategory.class
 entity\Products.class
 core\ShopController.class
 entity\ProductAttributesValues.class
@@ -116,6 +116,5 @@ entity\ShopDisableCodZipcode_.class
 entity\Courriers_.class
 entity\Countries_.class
 entity\OrderStatus_.class
-entity\Phinxlog.class
 entity\ShopManagers_.class
 entity\JackSonViewer.class

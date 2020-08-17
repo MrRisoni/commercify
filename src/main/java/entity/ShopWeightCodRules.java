@@ -1,6 +1,8 @@
 
 package entity;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Collection;
@@ -81,6 +83,7 @@ public class ShopWeightCodRules implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "created_at")
+    @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
 
@@ -247,6 +250,4 @@ public class ShopWeightCodRules implements Serializable {
         this.shippingClassId = shippingClassId;
     }
 
-}
-    
 }

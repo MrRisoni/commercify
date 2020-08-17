@@ -52,7 +52,6 @@
     <class>entity.SuppliersSupplies</class>
     <class>entity.ShopEulas</class>
     <class>entity.ShopManufacturers</class>
-    <class>entity.Phinxlog</class>
     <class>entity.ProductAttributesValues</class>
     <class>entity.ShopSuppliers</class>
     <class>entity.ProductCategoryAttributes</class>

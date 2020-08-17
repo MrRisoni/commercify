@@ -1,6 +1,8 @@
 
 package entity;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Collection;
@@ -37,6 +39,7 @@ public class ShopReviews implements Serializable {
     @NotNull
     @Column(name = "created")
     @Temporal(TemporalType.TIMESTAMP)
+    @CreationTimestamp
     private Date created;
 
     @JoinColumn(name = "shop_id", referencedColumnName = "id")

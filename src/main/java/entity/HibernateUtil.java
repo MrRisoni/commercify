@@ -1,9 +1,11 @@
 package entity;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import com.fasterxml.jackson.databind.MapperFeature;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -13,24 +15,36 @@ import java.util.Map;
 
 public class HibernateUtil {
 
+
+
     private static SessionFactory sessionFactory;
 
     private static EntityManager em = null;
+
+    private static ObjectMapper customMapper = null;
+
+    public static ObjectMapper getCustomMapper()
+    {
+        if (customMapper == null) {
+            customMapper = new ObjectMapper();
+            customMapper.disable(MapperFeature.DEFAULT_VIEW_INCLUSION);
+        }
+        return customMapper;
+
+    }
 
     public static  EntityManager getEM()
     {
         if (em == null) {
             Map<String, Object> configOverrides = new HashMap<String, Object>();
-            System.out.println("SYSTEM ENV");
             configOverrides.put("javax.persistence.jdbc.password", "");
             configOverrides.put("javax.persistence.jdbc.user", "root");
-            if (System.getenv("SPRING_APP_DB_HOST") != null) {
                 String dbUrl = "jdbc:mysql://localhost:3306/commercify_db?serverTimezone=UTC";
                 configOverrides.put("javax.persistence.jdbc.url",dbUrl);
                 System.out.println("URL CON");
                 System.out.println(dbUrl);
 
-            }
+
 
             EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("commercifydb",configOverrides);
             em = entityManagerFactory.createEntityManager();
@@ -44,11 +58,10 @@ public class HibernateUtil {
         Map<String,String> HerokuSettings = new HashMap<>();
         HerokuSettings.put("hibernate.connection.password","");
         HerokuSettings.put("hibernate.connection.user","root");
-        if (System.getenv("SPRING_APP_DB_HOST") != null) {
             String dbUrl = "jdbc:mysql://localhost:3306/commercify_db?serverTimezone=UTC";
             HerokuSettings.put("hibernate.connection.url",dbUrl);
             System.out.println(dbUrl);
-        }
+
 
         final StandardServiceRegistry registry = new StandardServiceRegistryBuilder().
                 configure("hibernate.cfg.xml").
