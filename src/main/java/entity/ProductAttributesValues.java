@@ -1,6 +1,8 @@
 
 package entity;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.*;
@@ -17,12 +19,14 @@ public class ProductAttributesValues implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
+    @JsonView(JackSonViewer.IShopProduct.class)
     private Long id;
 
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 55)
     @Column(name = "value")
+    @JsonView(JackSonViewer.IShopProduct.class)
     private String value;
 
     @JoinColumn(name = "product_id", referencedColumnName = "id")
@@ -31,6 +35,7 @@ public class ProductAttributesValues implements Serializable {
 
     @JoinColumn(name = "attribute_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
+    @JsonView(JackSonViewer.IShopProduct.class)
     private ProductCategoryAttributes attributeId;
 
     public ProductAttributesValues() {

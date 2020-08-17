@@ -38,14 +38,14 @@ public class ProductCategories implements Serializable {
     @JsonView(JackSonViewer.IShopProductCategory.class)
     private String title;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "categoryId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "categoryId",fetch = FetchType.LAZY)
     private Collection<Products> productsCollection;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productCategoryId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productCategoryId",fetch = FetchType.LAZY)
     private Collection<ProductCategoryAttributes> productCategoryAttributesCollection;
 
     @JoinColumn(name = "shop_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false,fetch = FetchType.LAZY)
     private Shops shopId;
 
     public ProductCategories() {

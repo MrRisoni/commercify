@@ -1,6 +1,8 @@
 
 package entity;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.*;
@@ -17,25 +19,30 @@ public class ProductCategoryAttributes implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
+    @JsonView(JackSonViewer.IShopProduct.class)
     private Long id;
 
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 55)
     @Column(name = "title")
+    @JsonView(JackSonViewer.IShopProduct.class)
     private String title;
 
     @Basic(optional = false)
     @NotNull
     @Column(name = "filterable")
+    @JsonView(JackSonViewer.IShopProduct.class)
     private short filterable;
 
     @Basic(optional = false)
     @NotNull
     @Column(name = "rangeable")
+    @JsonView(JackSonViewer.IShopProduct.class)
     private short rangeable;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "attributeId")
+    @JsonView(JackSonViewer.IShopProduct.class)
     private Collection<ProductAttributesValues> productAttributesValuesCollection;
 
     @JoinColumn(name = "product_category_id", referencedColumnName = "id")

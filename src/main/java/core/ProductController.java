@@ -1,23 +1,34 @@
 package core;
 
 import entity.HibernateUtil;
+import entity.JackSonViewer;
 import entity.ProductAttributesValues;
+import entity.Products;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import repositories.ProductRepo;
+import repositories.ShopRepo;
 
 import javax.persistence.criteria.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin
 public class ProductController {
 
-   /* @RequestMapping(value=  "/api/product/{productId}/{lang}" , method = RequestMethod.GET)
-    public List<ProductAttributesValues> getProduct(@PathVariable Long productId, @PathVariable String lang)
+    @Autowired
+    ProductRepo prodRp;
+
+
+   @RequestMapping(value=  "/api/product/{productId}" , method = RequestMethod.GET)
+    public HashMap<String,Object> getProduct(@PathVariable Long productId)
     {
-        Session s = HibernateUtil.getSessionFactory().openSession();
+       /* Session s = HibernateUtil.getSessionFactory().openSession();
         CriteriaBuilder cb = s.getCriteriaBuilder();
         CriteriaQuery<ProductAttribute> cr = cb.createQuery(ProductAttribute.class);
         Root<ProductAttribute> riza = cr.from(ProductAttribute.class);
@@ -36,12 +47,24 @@ public class ProductController {
         Query<ProductAttribute> qry = s.createQuery(cr);
 
         // only for lang 2
+*/
 
+        try {
+            HashMap<String, Object> rsp = new HashMap<>();
 
+            Optional<Products> fetch = prodRp.findById(2L);
+            Products proion = fetch.orElse(null);
 
-        return qry.getResultList();
+            rsp.put("favorites", HibernateUtil.getCustomMapper().writerWithView(JackSonViewer.IShopProduct.class).writeValueAsString(proion));
+            return rsp;
+        }
+        catch (Exception ex){
+            System.out.println(ex.getMessage());
+            return null;
 
-    }*/
+        }
+
+    }
 
 
 }
