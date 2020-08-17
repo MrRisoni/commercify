@@ -11,8 +11,6 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "shop_eulas")
-@NamedQueries({
-    @NamedQuery(name = "ShopEulas.findAll", query = "SELECT s FROM ShopEulas s")})
 public class ShopEulas implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -21,15 +19,18 @@ public class ShopEulas implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Long id;
+
     @Basic(optional = false)
     @NotNull
     @Lob
     @Size(min = 1, max = 2147483647)
     @Column(name = "terms")
     private String terms;
+
     @JoinColumn(name = "shop_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Shops shopId;
+
     @JoinColumn(name = "language_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Languages languageId;
@@ -78,24 +79,4 @@ public class ShopEulas implements Serializable {
         this.languageId = languageId;
     }
 
-
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ShopEulas)) {
-            return false;
-        }
-        ShopEulas other = (ShopEulas) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "entity.ShopEulas[ id=" + id + " ]";
-    }
-    
 }

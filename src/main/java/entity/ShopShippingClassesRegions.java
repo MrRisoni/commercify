@@ -10,8 +10,6 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "shop_shipping_classes_regions")
-@NamedQueries({
-    @NamedQuery(name = "ShopShippingClassesRegions.findAll", query = "SELECT s FROM ShopShippingClassesRegions s")})
 public class ShopShippingClassesRegions implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -20,13 +18,16 @@ public class ShopShippingClassesRegions implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Long id;
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "active")
     private boolean active;
+
     @JoinColumn(name = "ship_class_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private ShopCourierClasses shipClassId;
+
     @JoinColumn(name = "region_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private GlobeRegions regionId;
@@ -74,25 +75,4 @@ public class ShopShippingClassesRegions implements Serializable {
     public void setRegionId(GlobeRegions regionId) {
         this.regionId = regionId;
     }
-
-
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ShopShippingClassesRegions)) {
-            return false;
-        }
-        ShopShippingClassesRegions other = (ShopShippingClassesRegions) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "entity.ShopShippingClassesRegions[ id=" + id + " ]";
-    }
-    
 }

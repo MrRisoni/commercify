@@ -8,11 +8,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 
-
 @Entity
 @Table(name = "shop_disable_cod_zipcode")
-@NamedQueries({
-    @NamedQuery(name = "ShopDisableCodZipcode.findAll", query = "SELECT s FROM ShopDisableCodZipcode s")})
 public class ShopDisableCodZipcode implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -21,16 +18,19 @@ public class ShopDisableCodZipcode implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Long id;
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 2)
     @Column(name = "country_code")
     private String countryCode;
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 20)
     @Column(name = "zip_code")
     private String zipCode;
+
     @JoinColumn(name = "shop_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Shops shopId;
@@ -80,24 +80,4 @@ public class ShopDisableCodZipcode implements Serializable {
         this.shopId = shopId;
     }
 
-
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ShopDisableCodZipcode)) {
-            return false;
-        }
-        ShopDisableCodZipcode other = (ShopDisableCodZipcode) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "entity.ShopDisableCodZipcode[ id=" + id + " ]";
-    }
-    
 }

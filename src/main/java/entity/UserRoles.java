@@ -11,8 +11,6 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "user_roles")
-@NamedQueries({
-    @NamedQuery(name = "UserRoles.findAll", query = "SELECT u FROM UserRoles u")})
 public class UserRoles implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -21,6 +19,7 @@ public class UserRoles implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Long id;
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 55)
@@ -55,24 +54,4 @@ public class UserRoles implements Serializable {
         this.title = title;
     }
 
-
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof UserRoles)) {
-            return false;
-        }
-        UserRoles other = (UserRoles) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "entity.UserRoles[ id=" + id + " ]";
-    }
-    
 }

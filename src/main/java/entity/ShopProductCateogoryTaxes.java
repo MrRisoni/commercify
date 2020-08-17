@@ -11,8 +11,6 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "shop_product_cateogory_taxes")
-@NamedQueries({
-    @NamedQuery(name = "ShopProductCateogoryTaxes.findAll", query = "SELECT s FROM ShopProductCateogoryTaxes s")})
 public class ShopProductCateogoryTaxes implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -21,9 +19,11 @@ public class ShopProductCateogoryTaxes implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Long id;
+
     @JoinColumn(name = "shop_category_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private ShopBelongsCategories shopCategoryId;
+
     @JoinColumn(name = "tax_code_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private ShopTaxCodeNames taxCodeId;
@@ -58,25 +58,4 @@ public class ShopProductCateogoryTaxes implements Serializable {
     public void setTaxCodeId(ShopTaxCodeNames taxCodeId) {
         this.taxCodeId = taxCodeId;
     }
-
-
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ShopProductCateogoryTaxes)) {
-            return false;
-        }
-        ShopProductCateogoryTaxes other = (ShopProductCateogoryTaxes) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "entity.ShopProductCateogoryTaxes[ id=" + id + " ]";
-    }
-    
 }

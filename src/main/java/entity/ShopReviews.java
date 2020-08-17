@@ -2,7 +2,9 @@
 package entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Collection;
+import java.util.Date;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -10,8 +12,6 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "shop_reviews")
-@NamedQueries({
-    @NamedQuery(name = "ShopReviews.findAll", query = "SELECT s FROM ShopReviews s")})
 public class ShopReviews implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -20,24 +20,29 @@ public class ShopReviews implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Long id;
+
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Basic(optional = false)
     @NotNull
     @Column(name = "stars")
     private BigDecimal stars;
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
     @Column(name = "comment")
     private String comment;
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "created")
     @Temporal(TemporalType.TIMESTAMP)
     private Date created;
+
     @JoinColumn(name = "shop_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Shops shopId;
+
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Users userId;
@@ -103,25 +108,4 @@ public class ShopReviews implements Serializable {
     public void setUserId(Users userId) {
         this.userId = userId;
     }
-
-
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ShopReviews)) {
-            return false;
-        }
-        ShopReviews other = (ShopReviews) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "entity.ShopReviews[ id=" + id + " ]";
-    }
-    
 }

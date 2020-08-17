@@ -2,6 +2,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Collection;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -9,11 +10,8 @@ import javax.validation.constraints.Size;
 
 
 
-
 @Entity
 @Table(name = "shop_courier_classes")
-@NamedQueries({
-    @NamedQuery(name = "ShopCourierClasses.findAll", query = "SELECT s FROM ShopCourierClasses s")})
 public class ShopCourierClasses implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -22,29 +20,37 @@ public class ShopCourierClasses implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Long id;
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 52)
     @Column(name = "title")
     private String title;
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "active")
     private boolean active;
+
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Basic(optional = false)
     @NotNull
     @Column(name = "cod_base_cost")
     private BigDecimal codBaseCost;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "shippingClassId")
     private Collection<ShopWeightShipRules> shopWeightShipRulesCollection;
+
     @JoinColumn(name = "shop_courier_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private ShopCouriers shopCourierId;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "shipClassId")
     private Collection<Orders> ordersCollection;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "shipClassId")
     private Collection<ShopShippingClassesRegions> shopShippingClassesRegionsCollection;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "shippingClassId")
     private Collection<ShopWeightCodRules> shopWeightCodRulesCollection;
 
@@ -139,23 +145,4 @@ public class ShopCourierClasses implements Serializable {
     }
 
 
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ShopCourierClasses)) {
-            return false;
-        }
-        ShopCourierClasses other = (ShopCourierClasses) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "entity.ShopCourierClasses[ id=" + id + " ]";
-    }
-    
 }

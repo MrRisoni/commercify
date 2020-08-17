@@ -2,6 +2,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Collection;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -12,8 +13,6 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "shop_ship_zones")
-@NamedQueries({
-    @NamedQuery(name = "ShopShipZones.findAll", query = "SELECT s FROM ShopShipZones s")})
 public class ShopShipZones implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -22,21 +21,26 @@ public class ShopShipZones implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Long id;
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 55)
     @Column(name = "title")
     private String title;
+
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Basic(optional = false)
     @NotNull
     @Column(name = "ship_cost")
     private BigDecimal shipCost;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "zoneId")
     private Collection<ShippingZonesRegions> shippingZonesRegionsCollection;
+
     @JoinColumn(name = "shop_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Shops shopId;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "zoneId")
     private Collection<ShippingZonesZipCodes> shippingZonesZipCodesCollection;
 
@@ -102,25 +106,4 @@ public class ShopShipZones implements Serializable {
     public void setShippingZonesZipCodesCollection(Collection<ShippingZonesZipCodes> shippingZonesZipCodesCollection) {
         this.shippingZonesZipCodesCollection = shippingZonesZipCodesCollection;
     }
-
-
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ShopShipZones)) {
-            return false;
-        }
-        ShopShipZones other = (ShopShipZones) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "entity.ShopShipZones[ id=" + id + " ]";
-    }
-    
 }

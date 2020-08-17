@@ -2,7 +2,9 @@
 package entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Collection;
+import java.util.Date;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -10,8 +12,6 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "shop_tax_region_rules")
-@NamedQueries({
-    @NamedQuery(name = "ShopTaxRegionRules.findAll", query = "SELECT s FROM ShopTaxRegionRules s")})
 public class ShopTaxRegionRules implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -20,43 +20,53 @@ public class ShopTaxRegionRules implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Long id;
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 52)
     @Column(name = "title")
     private String title;
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 3)
     @Column(name = "country_code")
     private String countryCode;
+
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Basic(optional = false)
     @NotNull
     @Column(name = "flat_cost")
     private BigDecimal flatCost;
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "rate")
     private BigDecimal rate;
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "created")
     @Temporal(TemporalType.TIMESTAMP)
     private Date created;
+
     @Column(name = "updated")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updated;
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "active")
     private boolean active;
+
     @JoinColumn(name = "shop_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Shops shopId;
+
     @JoinColumn(name = "region_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private GlobeRegions regionId;
+
     @JoinColumn(name = "tax_code_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private ShopTaxCodeNames taxCodeId;
@@ -166,24 +176,4 @@ public class ShopTaxRegionRules implements Serializable {
         this.taxCodeId = taxCodeId;
     }
 
-
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ShopTaxRegionRules)) {
-            return false;
-        }
-        ShopTaxRegionRules other = (ShopTaxRegionRules) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "entity.ShopTaxRegionRules[ id=" + id + " ]";
-    }
-    
 }

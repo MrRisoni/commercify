@@ -3,6 +3,7 @@ package entity;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Date;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -12,8 +13,6 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "shops")
-@NamedQueries({
-    @NamedQuery(name = "Shops.findAll", query = "SELECT s FROM Shops s")})
 public class Shops implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -22,78 +21,111 @@ public class Shops implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Long id;
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 55)
     @Column(name = "title")
     private String title;
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "created")
     @Temporal(TemporalType.TIMESTAMP)
     private Date created;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "shopId")
     private Collection<ShopDisableCodCountries> shopDisableCodCountriesCollection;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "shopId")
     private Collection<ShopManufacturers> shopManufacturersCollection;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "shopId")
     private Collection<ShopTaxRegionRules> shopTaxRegionRulesCollection;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "shopId")
     private Collection<ShopDisableZipCodes> shopDisableZipCodesCollection;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "shopId")
     private Collection<ShopWeightShipRules> shopWeightShipRulesCollection;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "shopId")
     private Collection<ShopShipZones> shopShipZonesCollection;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "shopId")
     private Collection<ShopManagers> shopManagersCollection;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "shopId")
     private Collection<ShopLanguages> shopLanguagesCollection;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "shopId")
     private Collection<ShopStyling> shopStylingCollection;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "shopId")
     private Collection<ShopCouriers> shopCouriersCollection;
+
     @JoinColumn(name = "owner_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Users ownerId;
+
     @JoinColumn(name = "default_lang_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Languages defaultLangId;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "shopId")
     private Collection<Orders> ordersCollection;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "shopId")
     private Collection<ShopTaxCodeNames> shopTaxCodeNamesCollection;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "shopId")
     private Collection<ShopGiftwrap> shopGiftwrapCollection;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "shopId")
     private Collection<ShopTranslations> shopTranslationsCollection;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "shopId")
     private Collection<ShopSuppliers> shopSuppliersCollection;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "shopId")
     private Collection<ShopReviews> shopReviewsCollection;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "shopId")
     private Collection<ProductReviews> productReviewsCollection;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "shopId")
     private Collection<Products> productsCollection;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "shopId")
     private Collection<ShopTaxRules> shopTaxRulesCollection;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "shopId")
     private Collection<ShopDisableCodContinents> shopDisableCodContinentsCollection;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "shopId")
     private Collection<ProductCategoryAttributes> productCategoryAttributesCollection;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "shopId")
     private Collection<ShopDisableCodZipcode> shopDisableCodZipcodeCollection;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "shopId")
     private Collection<ShopBelongsCategories> shopBelongsCategoriesCollection;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "shopId")
     private Collection<ShopEulas> shopEulasCollection;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "shopId")
     private Collection<ProductCategories> productCategoriesCollection;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "shopId")
     private Collection<ShopBanks> shopBanksCollection;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "shopId")
     private Collection<ShopCurrencies> shopCurrenciesCollection;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "shopId")
     private Collection<ShopCountries> shopCountriesCollection;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "shopId")
     private Collection<ShopWeightCodRules> shopWeightCodRulesCollection;
 
@@ -411,24 +443,4 @@ public class Shops implements Serializable {
         this.shopWeightCodRulesCollection = shopWeightCodRulesCollection;
     }
 
-
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Shops)) {
-            return false;
-        }
-        Shops other = (Shops) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "entity.Shops[ id=" + id + " ]";
-    }
-    
 }
