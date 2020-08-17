@@ -1,6 +1,6 @@
 package core;
 
-import entities.Currency;
+import entity.Currencies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +18,7 @@ public class GeneralController {
     CurrencyRepo curRepo;
 
     @RequestMapping(value=  "/api/currencies" , method = RequestMethod.GET)
-    public Iterable<Currency> getCurrencies() {
+    public Iterable<Currencies> getCurrencies() {
        return curRepo.findAll();
     }
 }

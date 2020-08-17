@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="1.0" xmlns="http://java.sun.com/xml/ns/persistence">
-  <persistence-unit name="commercify">
+  <persistence-unit name="commercifydb">
     <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
     <class>entity.ShopCouriers</class>
     <class>entity.Shops</class>
@@ -51,6 +51,14 @@
     <class>entity.ShopBanks</class>
     <class>entity.ShopTaxRules</class>
     <class>entity.ShopCurrencies</class>
+    <class>entity.SuppliersSupplies</class>
+    <class>entity.ShopEulas</class>
+    <class>entity.ShopManufacturers</class>
+    <class>entity.Phinxlog</class>
+    <class>entity.ProductAttributesValues</class>
+    <class>entity.ShopSuppliers</class>
+    <class>entity.ProductCategoryAttributes</class>
+    <class>entity.ShopTranslations</class>
     <properties>
       <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"/>
       <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>

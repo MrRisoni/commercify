@@ -6,9 +6,9 @@
 package entity;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.Date;
+import java.util.Collection;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,23 +18,23 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author ekatania
  */
 @Entity
-@Table(name = "shop_reviews")
+@Table(name = "shop_suppliers")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "ShopReviews.findAll", query = "SELECT s FROM ShopReviews s")})
-public class ShopReviews implements Serializable {
+    @NamedQuery(name = "ShopSuppliers.findAll", query = "SELECT s FROM ShopSuppliers s")})
+public class ShopSuppliers implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -42,40 +42,27 @@ public class ShopReviews implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Long id;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Basic(optional = false)
     @NotNull
-    @Column(name = "stars")
-    private BigDecimal stars;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 255)
-    @Column(name = "comment")
-    private String comment;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "created")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date created;
+    @Size(min = 1, max = 55)
+    @Column(name = "title")
+    private String title;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "supplierId")
+    private Collection<SuppliersSupplies> suppliersSuppliesCollection;
     @JoinColumn(name = "shop_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Shops shopId;
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Users userId;
 
-    public ShopReviews() {
+    public ShopSuppliers() {
     }
 
-    public ShopReviews(Long id) {
+    public ShopSuppliers(Long id) {
         this.id = id;
     }
 
-    public ShopReviews(Long id, BigDecimal stars, String comment, Date created) {
+    public ShopSuppliers(Long id, String title) {
         this.id = id;
-        this.stars = stars;
-        this.comment = comment;
-        this.created = created;
+        this.title = title;
     }
 
     public Long getId() {
@@ -86,28 +73,21 @@ public class ShopReviews implements Serializable {
         this.id = id;
     }
 
-    public BigDecimal getStars() {
-        return stars;
+    public String getTitle() {
+        return title;
     }
 
-    public void setStars(BigDecimal stars) {
-        this.stars = stars;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String getComment() {
-        return comment;
+    @XmlTransient
+    public Collection<SuppliersSupplies> getSuppliersSuppliesCollection() {
+        return suppliersSuppliesCollection;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
-
-    public Date getCreated() {
-        return created;
-    }
-
-    public void setCreated(Date created) {
-        this.created = created;
+    public void setSuppliersSuppliesCollection(Collection<SuppliersSupplies> suppliersSuppliesCollection) {
+        this.suppliersSuppliesCollection = suppliersSuppliesCollection;
     }
 
     public Shops getShopId() {
@@ -116,14 +96,6 @@ public class ShopReviews implements Serializable {
 
     public void setShopId(Shops shopId) {
         this.shopId = shopId;
-    }
-
-    public Users getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Users userId) {
-        this.userId = userId;
     }
 
     @Override
@@ -136,10 +108,10 @@ public class ShopReviews implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ShopReviews)) {
+        if (!(object instanceof ShopSuppliers)) {
             return false;
         }
-        ShopReviews other = (ShopReviews) object;
+        ShopSuppliers other = (ShopSuppliers) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -148,7 +120,7 @@ public class ShopReviews implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.ShopReviews[ id=" + id + " ]";
+        return "entity.ShopSuppliers[ id=" + id + " ]";
     }
     
 }

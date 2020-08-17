@@ -6,9 +6,7 @@
 package entity;
 
 import java.io.Serializable;
-import java.util.Collection;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,23 +16,21 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author ekatania
  */
 @Entity
-@Table(name = "product_gallery")
+@Table(name = "shipping_zones_zip_codes")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "ProductGallery.findAll", query = "SELECT p FROM ProductGallery p")})
-public class ProductGallery implements Serializable {
+    @NamedQuery(name = "ShippingZonesZipCodes.findAll", query = "SELECT s FROM ShippingZonesZipCodes s")})
+public class ShippingZonesZipCodes implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -44,25 +40,29 @@ public class ProductGallery implements Serializable {
     private Long id;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 255)
-    @Column(name = "file_path")
-    private String filePath;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "imageId")
-    private Collection<ProductGalleryTag> productGalleryTagCollection;
-    @JoinColumn(name = "product_id", referencedColumnName = "id")
+    @Size(min = 1, max = 2)
+    @Column(name = "country_code")
+    private String countryCode;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 20)
+    @Column(name = "zip_code")
+    private String zipCode;
+    @JoinColumn(name = "zone_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Products productId;
+    private ShopShipZones zoneId;
 
-    public ProductGallery() {
+    public ShippingZonesZipCodes() {
     }
 
-    public ProductGallery(Long id) {
+    public ShippingZonesZipCodes(Long id) {
         this.id = id;
     }
 
-    public ProductGallery(Long id, String filePath) {
+    public ShippingZonesZipCodes(Long id, String countryCode, String zipCode) {
         this.id = id;
-        this.filePath = filePath;
+        this.countryCode = countryCode;
+        this.zipCode = zipCode;
     }
 
     public Long getId() {
@@ -73,29 +73,28 @@ public class ProductGallery implements Serializable {
         this.id = id;
     }
 
-    public String getFilePath() {
-        return filePath;
+    public String getCountryCode() {
+        return countryCode;
     }
 
-    public void setFilePath(String filePath) {
-        this.filePath = filePath;
+    public void setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
     }
 
-    @XmlTransient
-    public Collection<ProductGalleryTag> getProductGalleryTagCollection() {
-        return productGalleryTagCollection;
+    public String getZipCode() {
+        return zipCode;
     }
 
-    public void setProductGalleryTagCollection(Collection<ProductGalleryTag> productGalleryTagCollection) {
-        this.productGalleryTagCollection = productGalleryTagCollection;
+    public void setZipCode(String zipCode) {
+        this.zipCode = zipCode;
     }
 
-    public Products getProductId() {
-        return productId;
+    public ShopShipZones getZoneId() {
+        return zoneId;
     }
 
-    public void setProductId(Products productId) {
-        this.productId = productId;
+    public void setZoneId(ShopShipZones zoneId) {
+        this.zoneId = zoneId;
     }
 
     @Override
@@ -108,10 +107,10 @@ public class ProductGallery implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ProductGallery)) {
+        if (!(object instanceof ShippingZonesZipCodes)) {
             return false;
         }
-        ProductGallery other = (ProductGallery) object;
+        ShippingZonesZipCodes other = (ShippingZonesZipCodes) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -120,7 +119,7 @@ public class ProductGallery implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.ProductGallery[ id=" + id + " ]";
+        return "entity.ShippingZonesZipCodes[ id=" + id + " ]";
     }
     
 }

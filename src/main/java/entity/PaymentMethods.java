@@ -14,8 +14,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -30,11 +28,11 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author ekatania
  */
 @Entity
-@Table(name = "product_gallery")
+@Table(name = "payment_methods")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "ProductGallery.findAll", query = "SELECT p FROM ProductGallery p")})
-public class ProductGallery implements Serializable {
+    @NamedQuery(name = "PaymentMethods.findAll", query = "SELECT p FROM PaymentMethods p")})
+public class PaymentMethods implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -44,25 +42,22 @@ public class ProductGallery implements Serializable {
     private Long id;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 255)
-    @Column(name = "file_path")
-    private String filePath;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "imageId")
-    private Collection<ProductGalleryTag> productGalleryTagCollection;
-    @JoinColumn(name = "product_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Products productId;
+    @Size(min = 1, max = 55)
+    @Column(name = "title")
+    private String title;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "payMethodId")
+    private Collection<Orders> ordersCollection;
 
-    public ProductGallery() {
+    public PaymentMethods() {
     }
 
-    public ProductGallery(Long id) {
+    public PaymentMethods(Long id) {
         this.id = id;
     }
 
-    public ProductGallery(Long id, String filePath) {
+    public PaymentMethods(Long id, String title) {
         this.id = id;
-        this.filePath = filePath;
+        this.title = title;
     }
 
     public Long getId() {
@@ -73,29 +68,21 @@ public class ProductGallery implements Serializable {
         this.id = id;
     }
 
-    public String getFilePath() {
-        return filePath;
+    public String getTitle() {
+        return title;
     }
 
-    public void setFilePath(String filePath) {
-        this.filePath = filePath;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     @XmlTransient
-    public Collection<ProductGalleryTag> getProductGalleryTagCollection() {
-        return productGalleryTagCollection;
+    public Collection<Orders> getOrdersCollection() {
+        return ordersCollection;
     }
 
-    public void setProductGalleryTagCollection(Collection<ProductGalleryTag> productGalleryTagCollection) {
-        this.productGalleryTagCollection = productGalleryTagCollection;
-    }
-
-    public Products getProductId() {
-        return productId;
-    }
-
-    public void setProductId(Products productId) {
-        this.productId = productId;
+    public void setOrdersCollection(Collection<Orders> ordersCollection) {
+        this.ordersCollection = ordersCollection;
     }
 
     @Override
@@ -108,10 +95,10 @@ public class ProductGallery implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ProductGallery)) {
+        if (!(object instanceof PaymentMethods)) {
             return false;
         }
-        ProductGallery other = (ProductGallery) object;
+        PaymentMethods other = (PaymentMethods) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -120,7 +107,7 @@ public class ProductGallery implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.ProductGallery[ id=" + id + " ]";
+        return "entity.PaymentMethods[ id=" + id + " ]";
     }
     
 }

@@ -30,11 +30,11 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author ekatania
  */
 @Entity
-@Table(name = "shop_reviews")
+@Table(name = "shop_tax_rules")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "ShopReviews.findAll", query = "SELECT s FROM ShopReviews s")})
-public class ShopReviews implements Serializable {
+    @NamedQuery(name = "ShopTaxRules.findAll", query = "SELECT s FROM ShopTaxRules s")})
+public class ShopTaxRules implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -42,40 +42,59 @@ public class ShopReviews implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Long id;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 52)
+    @Column(name = "title")
+    private String title;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 3)
+    @Column(name = "country_code")
+    private String countryCode;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Basic(optional = false)
     @NotNull
-    @Column(name = "stars")
-    private BigDecimal stars;
+    @Column(name = "flat_cost")
+    private BigDecimal flatCost;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 255)
-    @Column(name = "comment")
-    private String comment;
+    @Column(name = "rate")
+    private BigDecimal rate;
     @Basic(optional = false)
     @NotNull
     @Column(name = "created")
     @Temporal(TemporalType.TIMESTAMP)
     private Date created;
+    @Column(name = "updated")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date updated;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "active")
+    private boolean active;
     @JoinColumn(name = "shop_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Shops shopId;
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JoinColumn(name = "tax_code_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Users userId;
+    private ShopTaxCodeNames taxCodeId;
 
-    public ShopReviews() {
+    public ShopTaxRules() {
     }
 
-    public ShopReviews(Long id) {
+    public ShopTaxRules(Long id) {
         this.id = id;
     }
 
-    public ShopReviews(Long id, BigDecimal stars, String comment, Date created) {
+    public ShopTaxRules(Long id, String title, String countryCode, BigDecimal flatCost, BigDecimal rate, Date created, boolean active) {
         this.id = id;
-        this.stars = stars;
-        this.comment = comment;
+        this.title = title;
+        this.countryCode = countryCode;
+        this.flatCost = flatCost;
+        this.rate = rate;
         this.created = created;
+        this.active = active;
     }
 
     public Long getId() {
@@ -86,20 +105,36 @@ public class ShopReviews implements Serializable {
         this.id = id;
     }
 
-    public BigDecimal getStars() {
-        return stars;
+    public String getTitle() {
+        return title;
     }
 
-    public void setStars(BigDecimal stars) {
-        this.stars = stars;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String getComment() {
-        return comment;
+    public String getCountryCode() {
+        return countryCode;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
+    public void setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
+    }
+
+    public BigDecimal getFlatCost() {
+        return flatCost;
+    }
+
+    public void setFlatCost(BigDecimal flatCost) {
+        this.flatCost = flatCost;
+    }
+
+    public BigDecimal getRate() {
+        return rate;
+    }
+
+    public void setRate(BigDecimal rate) {
+        this.rate = rate;
     }
 
     public Date getCreated() {
@@ -110,6 +145,22 @@ public class ShopReviews implements Serializable {
         this.created = created;
     }
 
+    public Date getUpdated() {
+        return updated;
+    }
+
+    public void setUpdated(Date updated) {
+        this.updated = updated;
+    }
+
+    public boolean getActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
     public Shops getShopId() {
         return shopId;
     }
@@ -118,12 +169,12 @@ public class ShopReviews implements Serializable {
         this.shopId = shopId;
     }
 
-    public Users getUserId() {
-        return userId;
+    public ShopTaxCodeNames getTaxCodeId() {
+        return taxCodeId;
     }
 
-    public void setUserId(Users userId) {
-        this.userId = userId;
+    public void setTaxCodeId(ShopTaxCodeNames taxCodeId) {
+        this.taxCodeId = taxCodeId;
     }
 
     @Override
@@ -136,10 +187,10 @@ public class ShopReviews implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ShopReviews)) {
+        if (!(object instanceof ShopTaxRules)) {
             return false;
         }
-        ShopReviews other = (ShopReviews) object;
+        ShopTaxRules other = (ShopTaxRules) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -148,7 +199,7 @@ public class ShopReviews implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.ShopReviews[ id=" + id + " ]";
+        return "entity.ShopTaxRules[ id=" + id + " ]";
     }
     
 }

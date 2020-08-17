@@ -6,8 +6,6 @@
 package entity;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,10 +17,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -30,11 +25,11 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author ekatania
  */
 @Entity
-@Table(name = "shop_reviews")
+@Table(name = "shop_currencies")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "ShopReviews.findAll", query = "SELECT s FROM ShopReviews s")})
-public class ShopReviews implements Serializable {
+    @NamedQuery(name = "ShopCurrencies.findAll", query = "SELECT s FROM ShopCurrencies s")})
+public class ShopCurrencies implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -42,40 +37,32 @@ public class ShopReviews implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Long id;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Basic(optional = false)
     @NotNull
-    @Column(name = "stars")
-    private BigDecimal stars;
+    @Column(name = "disable_cod")
+    private boolean disableCod;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 255)
-    @Column(name = "comment")
-    private String comment;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "created")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date created;
+    @Column(name = "disable_cod_greater_than")
+    private boolean disableCodGreaterThan;
     @JoinColumn(name = "shop_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Shops shopId;
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JoinColumn(name = "currency_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Users userId;
+    private Currencies currencyId;
 
-    public ShopReviews() {
+    public ShopCurrencies() {
     }
 
-    public ShopReviews(Long id) {
+    public ShopCurrencies(Long id) {
         this.id = id;
     }
 
-    public ShopReviews(Long id, BigDecimal stars, String comment, Date created) {
+    public ShopCurrencies(Long id, boolean disableCod, boolean disableCodGreaterThan) {
         this.id = id;
-        this.stars = stars;
-        this.comment = comment;
-        this.created = created;
+        this.disableCod = disableCod;
+        this.disableCodGreaterThan = disableCodGreaterThan;
     }
 
     public Long getId() {
@@ -86,28 +73,20 @@ public class ShopReviews implements Serializable {
         this.id = id;
     }
 
-    public BigDecimal getStars() {
-        return stars;
+    public boolean getDisableCod() {
+        return disableCod;
     }
 
-    public void setStars(BigDecimal stars) {
-        this.stars = stars;
+    public void setDisableCod(boolean disableCod) {
+        this.disableCod = disableCod;
     }
 
-    public String getComment() {
-        return comment;
+    public boolean getDisableCodGreaterThan() {
+        return disableCodGreaterThan;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
-
-    public Date getCreated() {
-        return created;
-    }
-
-    public void setCreated(Date created) {
-        this.created = created;
+    public void setDisableCodGreaterThan(boolean disableCodGreaterThan) {
+        this.disableCodGreaterThan = disableCodGreaterThan;
     }
 
     public Shops getShopId() {
@@ -118,12 +97,12 @@ public class ShopReviews implements Serializable {
         this.shopId = shopId;
     }
 
-    public Users getUserId() {
-        return userId;
+    public Currencies getCurrencyId() {
+        return currencyId;
     }
 
-    public void setUserId(Users userId) {
-        this.userId = userId;
+    public void setCurrencyId(Currencies currencyId) {
+        this.currencyId = currencyId;
     }
 
     @Override
@@ -136,10 +115,10 @@ public class ShopReviews implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ShopReviews)) {
+        if (!(object instanceof ShopCurrencies)) {
             return false;
         }
-        ShopReviews other = (ShopReviews) object;
+        ShopCurrencies other = (ShopCurrencies) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -148,7 +127,7 @@ public class ShopReviews implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.ShopReviews[ id=" + id + " ]";
+        return "entity.ShopCurrencies[ id=" + id + " ]";
     }
     
 }

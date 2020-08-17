@@ -6,8 +6,6 @@
 package entity;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,8 +17,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -30,11 +26,11 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author ekatania
  */
 @Entity
-@Table(name = "shop_reviews")
+@Table(name = "shop_banks")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "ShopReviews.findAll", query = "SELECT s FROM ShopReviews s")})
-public class ShopReviews implements Serializable {
+    @NamedQuery(name = "ShopBanks.findAll", query = "SELECT s FROM ShopBanks s")})
+public class ShopBanks implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -42,40 +38,43 @@ public class ShopReviews implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Long id;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Basic(optional = false)
     @NotNull
-    @Column(name = "stars")
-    private BigDecimal stars;
+    @Size(min = 1, max = 52)
+    @Column(name = "bank")
+    private String bank;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 255)
-    @Column(name = "comment")
-    private String comment;
+    @Size(min = 1, max = 52)
+    @Column(name = "account_no")
+    private String accountNo;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "created")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date created;
+    @Size(min = 1, max = 52)
+    @Column(name = "iban")
+    private String iban;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 10)
+    @Column(name = "swift_code")
+    private String swiftCode;
     @JoinColumn(name = "shop_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Shops shopId;
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Users userId;
 
-    public ShopReviews() {
+    public ShopBanks() {
     }
 
-    public ShopReviews(Long id) {
+    public ShopBanks(Long id) {
         this.id = id;
     }
 
-    public ShopReviews(Long id, BigDecimal stars, String comment, Date created) {
+    public ShopBanks(Long id, String bank, String accountNo, String iban, String swiftCode) {
         this.id = id;
-        this.stars = stars;
-        this.comment = comment;
-        this.created = created;
+        this.bank = bank;
+        this.accountNo = accountNo;
+        this.iban = iban;
+        this.swiftCode = swiftCode;
     }
 
     public Long getId() {
@@ -86,28 +85,36 @@ public class ShopReviews implements Serializable {
         this.id = id;
     }
 
-    public BigDecimal getStars() {
-        return stars;
+    public String getBank() {
+        return bank;
     }
 
-    public void setStars(BigDecimal stars) {
-        this.stars = stars;
+    public void setBank(String bank) {
+        this.bank = bank;
     }
 
-    public String getComment() {
-        return comment;
+    public String getAccountNo() {
+        return accountNo;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
+    public void setAccountNo(String accountNo) {
+        this.accountNo = accountNo;
     }
 
-    public Date getCreated() {
-        return created;
+    public String getIban() {
+        return iban;
     }
 
-    public void setCreated(Date created) {
-        this.created = created;
+    public void setIban(String iban) {
+        this.iban = iban;
+    }
+
+    public String getSwiftCode() {
+        return swiftCode;
+    }
+
+    public void setSwiftCode(String swiftCode) {
+        this.swiftCode = swiftCode;
     }
 
     public Shops getShopId() {
@@ -116,14 +123,6 @@ public class ShopReviews implements Serializable {
 
     public void setShopId(Shops shopId) {
         this.shopId = shopId;
-    }
-
-    public Users getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Users userId) {
-        this.userId = userId;
     }
 
     @Override
@@ -136,10 +135,10 @@ public class ShopReviews implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ShopReviews)) {
+        if (!(object instanceof ShopBanks)) {
             return false;
         }
-        ShopReviews other = (ShopReviews) object;
+        ShopBanks other = (ShopBanks) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -148,7 +147,7 @@ public class ShopReviews implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.ShopReviews[ id=" + id + " ]";
+        return "entity.ShopBanks[ id=" + id + " ]";
     }
     
 }

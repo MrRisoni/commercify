@@ -17,8 +17,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -26,11 +24,11 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author ekatania
  */
 @Entity
-@Table(name = "product_gallery_tag")
+@Table(name = "shop_product_cateogory_taxes")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "ProductGalleryTag.findAll", query = "SELECT p FROM ProductGalleryTag p")})
-public class ProductGalleryTag implements Serializable {
+    @NamedQuery(name = "ShopProductCateogoryTaxes.findAll", query = "SELECT s FROM ShopProductCateogoryTaxes s")})
+public class ShopProductCateogoryTaxes implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -38,25 +36,18 @@ public class ProductGalleryTag implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Long id;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 55)
-    @Column(name = "tag")
-    private String tag;
-    @JoinColumn(name = "image_id", referencedColumnName = "id")
+    @JoinColumn(name = "shop_category_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private ProductGallery imageId;
+    private ShopBelongsCategories shopCategoryId;
+    @JoinColumn(name = "tax_code_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private ShopTaxCodeNames taxCodeId;
 
-    public ProductGalleryTag() {
+    public ShopProductCateogoryTaxes() {
     }
 
-    public ProductGalleryTag(Long id) {
+    public ShopProductCateogoryTaxes(Long id) {
         this.id = id;
-    }
-
-    public ProductGalleryTag(Long id, String tag) {
-        this.id = id;
-        this.tag = tag;
     }
 
     public Long getId() {
@@ -67,20 +58,20 @@ public class ProductGalleryTag implements Serializable {
         this.id = id;
     }
 
-    public String getTag() {
-        return tag;
+    public ShopBelongsCategories getShopCategoryId() {
+        return shopCategoryId;
     }
 
-    public void setTag(String tag) {
-        this.tag = tag;
+    public void setShopCategoryId(ShopBelongsCategories shopCategoryId) {
+        this.shopCategoryId = shopCategoryId;
     }
 
-    public ProductGallery getImageId() {
-        return imageId;
+    public ShopTaxCodeNames getTaxCodeId() {
+        return taxCodeId;
     }
 
-    public void setImageId(ProductGallery imageId) {
-        this.imageId = imageId;
+    public void setTaxCodeId(ShopTaxCodeNames taxCodeId) {
+        this.taxCodeId = taxCodeId;
     }
 
     @Override
@@ -93,10 +84,10 @@ public class ProductGalleryTag implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ProductGalleryTag)) {
+        if (!(object instanceof ShopProductCateogoryTaxes)) {
             return false;
         }
-        ProductGalleryTag other = (ProductGalleryTag) object;
+        ShopProductCateogoryTaxes other = (ShopProductCateogoryTaxes) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -105,7 +96,7 @@ public class ProductGalleryTag implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.ProductGalleryTag[ id=" + id + " ]";
+        return "entity.ShopProductCateogoryTaxes[ id=" + id + " ]";
     }
     
 }

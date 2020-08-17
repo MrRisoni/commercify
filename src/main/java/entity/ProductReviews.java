@@ -30,11 +30,11 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author ekatania
  */
 @Entity
-@Table(name = "shop_reviews")
+@Table(name = "product_reviews")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "ShopReviews.findAll", query = "SELECT s FROM ShopReviews s")})
-public class ShopReviews implements Serializable {
+    @NamedQuery(name = "ProductReviews.findAll", query = "SELECT p FROM ProductReviews p")})
+public class ProductReviews implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -57,21 +57,24 @@ public class ShopReviews implements Serializable {
     @Column(name = "created")
     @Temporal(TemporalType.TIMESTAMP)
     private Date created;
-    @JoinColumn(name = "shop_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Shops shopId;
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Users userId;
+    @JoinColumn(name = "shop_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Shops shopId;
+    @JoinColumn(name = "product_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Products productId;
 
-    public ShopReviews() {
+    public ProductReviews() {
     }
 
-    public ShopReviews(Long id) {
+    public ProductReviews(Long id) {
         this.id = id;
     }
 
-    public ShopReviews(Long id, BigDecimal stars, String comment, Date created) {
+    public ProductReviews(Long id, BigDecimal stars, String comment, Date created) {
         this.id = id;
         this.stars = stars;
         this.comment = comment;
@@ -110,6 +113,14 @@ public class ShopReviews implements Serializable {
         this.created = created;
     }
 
+    public Users getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Users userId) {
+        this.userId = userId;
+    }
+
     public Shops getShopId() {
         return shopId;
     }
@@ -118,12 +129,12 @@ public class ShopReviews implements Serializable {
         this.shopId = shopId;
     }
 
-    public Users getUserId() {
-        return userId;
+    public Products getProductId() {
+        return productId;
     }
 
-    public void setUserId(Users userId) {
-        this.userId = userId;
+    public void setProductId(Products productId) {
+        this.productId = productId;
     }
 
     @Override
@@ -136,10 +147,10 @@ public class ShopReviews implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ShopReviews)) {
+        if (!(object instanceof ProductReviews)) {
             return false;
         }
-        ShopReviews other = (ShopReviews) object;
+        ProductReviews other = (ProductReviews) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -148,7 +159,7 @@ public class ShopReviews implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.ShopReviews[ id=" + id + " ]";
+        return "entity.ProductReviews[ id=" + id + " ]";
     }
     
 }

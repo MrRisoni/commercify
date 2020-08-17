@@ -6,8 +6,6 @@
 package entity;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,12 +13,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -30,11 +27,11 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author ekatania
  */
 @Entity
-@Table(name = "shop_reviews")
+@Table(name = "shop_eulas")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "ShopReviews.findAll", query = "SELECT s FROM ShopReviews s")})
-public class ShopReviews implements Serializable {
+    @NamedQuery(name = "ShopEulas.findAll", query = "SELECT s FROM ShopEulas s")})
+public class ShopEulas implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -42,40 +39,29 @@ public class ShopReviews implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Long id;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Basic(optional = false)
     @NotNull
-    @Column(name = "stars")
-    private BigDecimal stars;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 255)
-    @Column(name = "comment")
-    private String comment;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "created")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date created;
+    @Lob
+    @Size(min = 1, max = 2147483647)
+    @Column(name = "terms")
+    private String terms;
     @JoinColumn(name = "shop_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Shops shopId;
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JoinColumn(name = "language_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Users userId;
+    private Languages languageId;
 
-    public ShopReviews() {
+    public ShopEulas() {
     }
 
-    public ShopReviews(Long id) {
+    public ShopEulas(Long id) {
         this.id = id;
     }
 
-    public ShopReviews(Long id, BigDecimal stars, String comment, Date created) {
+    public ShopEulas(Long id, String terms) {
         this.id = id;
-        this.stars = stars;
-        this.comment = comment;
-        this.created = created;
+        this.terms = terms;
     }
 
     public Long getId() {
@@ -86,28 +72,12 @@ public class ShopReviews implements Serializable {
         this.id = id;
     }
 
-    public BigDecimal getStars() {
-        return stars;
+    public String getTerms() {
+        return terms;
     }
 
-    public void setStars(BigDecimal stars) {
-        this.stars = stars;
-    }
-
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
-
-    public Date getCreated() {
-        return created;
-    }
-
-    public void setCreated(Date created) {
-        this.created = created;
+    public void setTerms(String terms) {
+        this.terms = terms;
     }
 
     public Shops getShopId() {
@@ -118,12 +88,12 @@ public class ShopReviews implements Serializable {
         this.shopId = shopId;
     }
 
-    public Users getUserId() {
-        return userId;
+    public Languages getLanguageId() {
+        return languageId;
     }
 
-    public void setUserId(Users userId) {
-        this.userId = userId;
+    public void setLanguageId(Languages languageId) {
+        this.languageId = languageId;
     }
 
     @Override
@@ -136,10 +106,10 @@ public class ShopReviews implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ShopReviews)) {
+        if (!(object instanceof ShopEulas)) {
             return false;
         }
-        ShopReviews other = (ShopReviews) object;
+        ShopEulas other = (ShopEulas) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -148,7 +118,7 @@ public class ShopReviews implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.ShopReviews[ id=" + id + " ]";
+        return "entity.ShopEulas[ id=" + id + " ]";
     }
     
 }

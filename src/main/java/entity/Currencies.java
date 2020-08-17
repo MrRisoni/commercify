@@ -6,6 +6,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -28,11 +29,11 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author ekatania
  */
 @Entity
-@Table(name = "order_status")
+@Table(name = "currencies")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "OrderStatus.findAll", query = "SELECT o FROM OrderStatus o")})
-public class OrderStatus implements Serializable {
+    @NamedQuery(name = "Currencies.findAll", query = "SELECT c FROM Currencies c")})
+public class Currencies implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -45,21 +46,33 @@ public class OrderStatus implements Serializable {
     @Size(min = 1, max = 55)
     @Column(name = "title")
     private String title;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "statusId")
-    private Collection<OrderItems> orderItemsCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "statusId")
-    private Collection<Orders> ordersCollection;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 3)
+    @Column(name = "code")
+    private String code;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "rate")
+    private BigDecimal rate;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "currencyId")
+    private Collection<Products> productsCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "currencyId")
+    private Collection<ShopCurrencies> shopCurrenciesCollection;
 
-    public OrderStatus() {
+    public Currencies() {
     }
 
-    public OrderStatus(Long id) {
+    public Currencies(Long id) {
         this.id = id;
     }
 
-    public OrderStatus(Long id, String title) {
+    public Currencies(Long id, String title, String code, BigDecimal rate) {
         this.id = id;
         this.title = title;
+        this.code = code;
+        this.rate = rate;
     }
 
     public Long getId() {
@@ -78,22 +91,38 @@ public class OrderStatus implements Serializable {
         this.title = title;
     }
 
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public BigDecimal getRate() {
+        return rate;
+    }
+
+    public void setRate(BigDecimal rate) {
+        this.rate = rate;
+    }
+
     @XmlTransient
-    public Collection<OrderItems> getOrderItemsCollection() {
-        return orderItemsCollection;
+    public Collection<Products> getProductsCollection() {
+        return productsCollection;
     }
 
-    public void setOrderItemsCollection(Collection<OrderItems> orderItemsCollection) {
-        this.orderItemsCollection = orderItemsCollection;
+    public void setProductsCollection(Collection<Products> productsCollection) {
+        this.productsCollection = productsCollection;
     }
 
     @XmlTransient
-    public Collection<Orders> getOrdersCollection() {
-        return ordersCollection;
+    public Collection<ShopCurrencies> getShopCurrenciesCollection() {
+        return shopCurrenciesCollection;
     }
 
-    public void setOrdersCollection(Collection<Orders> ordersCollection) {
-        this.ordersCollection = ordersCollection;
+    public void setShopCurrenciesCollection(Collection<ShopCurrencies> shopCurrenciesCollection) {
+        this.shopCurrenciesCollection = shopCurrenciesCollection;
     }
 
     @Override
@@ -106,10 +135,10 @@ public class OrderStatus implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof OrderStatus)) {
+        if (!(object instanceof Currencies)) {
             return false;
         }
-        OrderStatus other = (OrderStatus) object;
+        Currencies other = (Currencies) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -118,7 +147,7 @@ public class OrderStatus implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.OrderStatus[ id=" + id + " ]";
+        return "entity.Currencies[ id=" + id + " ]";
     }
     
 }

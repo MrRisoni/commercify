@@ -6,35 +6,29 @@
 package entity;
 
 import java.io.Serializable;
-import java.util.Collection;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author ekatania
  */
 @Entity
-@Table(name = "product_gallery")
+@Table(name = "countries")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "ProductGallery.findAll", query = "SELECT p FROM ProductGallery p")})
-public class ProductGallery implements Serializable {
+    @NamedQuery(name = "Countries.findAll", query = "SELECT c FROM Countries c")})
+public class Countries implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -44,25 +38,32 @@ public class ProductGallery implements Serializable {
     private Long id;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 255)
-    @Column(name = "file_path")
-    private String filePath;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "imageId")
-    private Collection<ProductGalleryTag> productGalleryTagCollection;
-    @JoinColumn(name = "product_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Products productId;
+    @Size(min = 1, max = 80)
+    @Column(name = "title")
+    private String title;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 2)
+    @Column(name = "code")
+    private String code;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 2)
+    @Column(name = "continent")
+    private String continent;
 
-    public ProductGallery() {
+    public Countries() {
     }
 
-    public ProductGallery(Long id) {
+    public Countries(Long id) {
         this.id = id;
     }
 
-    public ProductGallery(Long id, String filePath) {
+    public Countries(Long id, String title, String code, String continent) {
         this.id = id;
-        this.filePath = filePath;
+        this.title = title;
+        this.code = code;
+        this.continent = continent;
     }
 
     public Long getId() {
@@ -73,29 +74,28 @@ public class ProductGallery implements Serializable {
         this.id = id;
     }
 
-    public String getFilePath() {
-        return filePath;
+    public String getTitle() {
+        return title;
     }
 
-    public void setFilePath(String filePath) {
-        this.filePath = filePath;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    @XmlTransient
-    public Collection<ProductGalleryTag> getProductGalleryTagCollection() {
-        return productGalleryTagCollection;
+    public String getCode() {
+        return code;
     }
 
-    public void setProductGalleryTagCollection(Collection<ProductGalleryTag> productGalleryTagCollection) {
-        this.productGalleryTagCollection = productGalleryTagCollection;
+    public void setCode(String code) {
+        this.code = code;
     }
 
-    public Products getProductId() {
-        return productId;
+    public String getContinent() {
+        return continent;
     }
 
-    public void setProductId(Products productId) {
-        this.productId = productId;
+    public void setContinent(String continent) {
+        this.continent = continent;
     }
 
     @Override
@@ -108,10 +108,10 @@ public class ProductGallery implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ProductGallery)) {
+        if (!(object instanceof Countries)) {
             return false;
         }
-        ProductGallery other = (ProductGallery) object;
+        Countries other = (Countries) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -120,7 +120,7 @@ public class ProductGallery implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.ProductGallery[ id=" + id + " ]";
+        return "entity.Countries[ id=" + id + " ]";
     }
     
 }

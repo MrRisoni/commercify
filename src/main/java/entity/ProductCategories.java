@@ -14,6 +14,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -28,11 +30,11 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author ekatania
  */
 @Entity
-@Table(name = "order_status")
+@Table(name = "product_categories")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "OrderStatus.findAll", query = "SELECT o FROM OrderStatus o")})
-public class OrderStatus implements Serializable {
+    @NamedQuery(name = "ProductCategories.findAll", query = "SELECT p FROM ProductCategories p")})
+public class ProductCategories implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -42,23 +44,31 @@ public class OrderStatus implements Serializable {
     private Long id;
     @Basic(optional = false)
     @NotNull
+    @Column(name = "parent_category_id")
+    private long parentCategoryId;
+    @Basic(optional = false)
+    @NotNull
     @Size(min = 1, max = 55)
     @Column(name = "title")
     private String title;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "statusId")
-    private Collection<OrderItems> orderItemsCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "statusId")
-    private Collection<Orders> ordersCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "categoryId")
+    private Collection<Products> productsCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productCategoryId")
+    private Collection<ProductCategoryAttributes> productCategoryAttributesCollection;
+    @JoinColumn(name = "shop_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Shops shopId;
 
-    public OrderStatus() {
+    public ProductCategories() {
     }
 
-    public OrderStatus(Long id) {
+    public ProductCategories(Long id) {
         this.id = id;
     }
 
-    public OrderStatus(Long id, String title) {
+    public ProductCategories(Long id, long parentCategoryId, String title) {
         this.id = id;
+        this.parentCategoryId = parentCategoryId;
         this.title = title;
     }
 
@@ -70,6 +80,14 @@ public class OrderStatus implements Serializable {
         this.id = id;
     }
 
+    public long getParentCategoryId() {
+        return parentCategoryId;
+    }
+
+    public void setParentCategoryId(long parentCategoryId) {
+        this.parentCategoryId = parentCategoryId;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -79,21 +97,29 @@ public class OrderStatus implements Serializable {
     }
 
     @XmlTransient
-    public Collection<OrderItems> getOrderItemsCollection() {
-        return orderItemsCollection;
+    public Collection<Products> getProductsCollection() {
+        return productsCollection;
     }
 
-    public void setOrderItemsCollection(Collection<OrderItems> orderItemsCollection) {
-        this.orderItemsCollection = orderItemsCollection;
+    public void setProductsCollection(Collection<Products> productsCollection) {
+        this.productsCollection = productsCollection;
     }
 
     @XmlTransient
-    public Collection<Orders> getOrdersCollection() {
-        return ordersCollection;
+    public Collection<ProductCategoryAttributes> getProductCategoryAttributesCollection() {
+        return productCategoryAttributesCollection;
     }
 
-    public void setOrdersCollection(Collection<Orders> ordersCollection) {
-        this.ordersCollection = ordersCollection;
+    public void setProductCategoryAttributesCollection(Collection<ProductCategoryAttributes> productCategoryAttributesCollection) {
+        this.productCategoryAttributesCollection = productCategoryAttributesCollection;
+    }
+
+    public Shops getShopId() {
+        return shopId;
+    }
+
+    public void setShopId(Shops shopId) {
+        this.shopId = shopId;
     }
 
     @Override
@@ -106,10 +132,10 @@ public class OrderStatus implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof OrderStatus)) {
+        if (!(object instanceof ProductCategories)) {
             return false;
         }
-        OrderStatus other = (OrderStatus) object;
+        ProductCategories other = (ProductCategories) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -118,7 +144,7 @@ public class OrderStatus implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.OrderStatus[ id=" + id + " ]";
+        return "entity.ProductCategories[ id=" + id + " ]";
     }
     
 }

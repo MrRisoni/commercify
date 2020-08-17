@@ -17,8 +17,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -26,11 +24,11 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author ekatania
  */
 @Entity
-@Table(name = "product_gallery_tag")
+@Table(name = "shop_managers")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "ProductGalleryTag.findAll", query = "SELECT p FROM ProductGalleryTag p")})
-public class ProductGalleryTag implements Serializable {
+    @NamedQuery(name = "ShopManagers.findAll", query = "SELECT s FROM ShopManagers s")})
+public class ShopManagers implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -38,25 +36,18 @@ public class ProductGalleryTag implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Long id;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 55)
-    @Column(name = "tag")
-    private String tag;
-    @JoinColumn(name = "image_id", referencedColumnName = "id")
+    @JoinColumn(name = "shop_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private ProductGallery imageId;
+    private Shops shopId;
+    @JoinColumn(name = "manager_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Users managerId;
 
-    public ProductGalleryTag() {
+    public ShopManagers() {
     }
 
-    public ProductGalleryTag(Long id) {
+    public ShopManagers(Long id) {
         this.id = id;
-    }
-
-    public ProductGalleryTag(Long id, String tag) {
-        this.id = id;
-        this.tag = tag;
     }
 
     public Long getId() {
@@ -67,20 +58,20 @@ public class ProductGalleryTag implements Serializable {
         this.id = id;
     }
 
-    public String getTag() {
-        return tag;
+    public Shops getShopId() {
+        return shopId;
     }
 
-    public void setTag(String tag) {
-        this.tag = tag;
+    public void setShopId(Shops shopId) {
+        this.shopId = shopId;
     }
 
-    public ProductGallery getImageId() {
-        return imageId;
+    public Users getManagerId() {
+        return managerId;
     }
 
-    public void setImageId(ProductGallery imageId) {
-        this.imageId = imageId;
+    public void setManagerId(Users managerId) {
+        this.managerId = managerId;
     }
 
     @Override
@@ -93,10 +84,10 @@ public class ProductGalleryTag implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ProductGalleryTag)) {
+        if (!(object instanceof ShopManagers)) {
             return false;
         }
-        ProductGalleryTag other = (ProductGalleryTag) object;
+        ShopManagers other = (ShopManagers) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -105,7 +96,7 @@ public class ProductGalleryTag implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.ProductGalleryTag[ id=" + id + " ]";
+        return "entity.ShopManagers[ id=" + id + " ]";
     }
     
 }
