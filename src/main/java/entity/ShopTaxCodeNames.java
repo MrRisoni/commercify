@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package entity;
 
 import java.io.Serializable;
@@ -22,16 +18,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
-/**
- *
- * @author ekatania
- */
+
+
+
 @Entity
 @Table(name = "shop_tax_code_names")
-@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "ShopTaxCodeNames.findAll", query = "SELECT s FROM ShopTaxCodeNames s")})
 public class ShopTaxCodeNames implements Serializable {
@@ -85,7 +77,7 @@ public class ShopTaxCodeNames implements Serializable {
         this.code = code;
     }
 
-    @XmlTransient
+
     public Collection<ShopProductCateogoryTaxes> getShopProductCateogoryTaxesCollection() {
         return shopProductCateogoryTaxesCollection;
     }
@@ -94,7 +86,7 @@ public class ShopTaxCodeNames implements Serializable {
         this.shopProductCateogoryTaxesCollection = shopProductCateogoryTaxesCollection;
     }
 
-    @XmlTransient
+
     public Collection<ShopTaxRegionRules> getShopTaxRegionRulesCollection() {
         return shopTaxRegionRulesCollection;
     }
@@ -111,7 +103,7 @@ public class ShopTaxCodeNames implements Serializable {
         this.shopId = shopId;
     }
 
-    @XmlTransient
+
     public Collection<ShopTaxRules> getShopTaxRulesCollection() {
         return shopTaxRulesCollection;
     }

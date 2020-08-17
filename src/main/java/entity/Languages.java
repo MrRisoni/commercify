@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package entity;
 
 import java.io.Serializable;
@@ -20,16 +16,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
-/**
- *
- * @author ekatania
- */
+
+
+
 @Entity
 @Table(name = "languages")
-@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Languages.findAll", query = "SELECT l FROM Languages l")})
 public class Languages implements Serializable {
@@ -96,7 +88,7 @@ public class Languages implements Serializable {
         this.code = code;
     }
 
-    @XmlTransient
+
     public Collection<ShopLanguages> getShopLanguagesCollection() {
         return shopLanguagesCollection;
     }
@@ -105,7 +97,7 @@ public class Languages implements Serializable {
         this.shopLanguagesCollection = shopLanguagesCollection;
     }
 
-    @XmlTransient
+
     public Collection<Shops> getShopsCollection() {
         return shopsCollection;
     }
@@ -114,7 +106,7 @@ public class Languages implements Serializable {
         this.shopsCollection = shopsCollection;
     }
 
-    @XmlTransient
+
     public Collection<ShopTranslations> getShopTranslationsCollection() {
         return shopTranslationsCollection;
     }
@@ -123,7 +115,7 @@ public class Languages implements Serializable {
         this.shopTranslationsCollection = shopTranslationsCollection;
     }
 
-    @XmlTransient
+
     public Collection<ShopEulas> getShopEulasCollection() {
         return shopEulasCollection;
     }

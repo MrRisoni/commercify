@@ -33,7 +33,6 @@
     <class>entity.ShippingAddress</class>
     <class>entity.ShopLanguages</class>
     <class>entity.ProductTags</class>
-    <class>entity.ProductDescription</class>
     <class>entity.Continents</class>
     <class>entity.ShopCountries</class>
     <class>entity.ShopDisableCodCountries</class>
@@ -42,7 +41,6 @@
     <class>entity.GlobeRegions</class>
     <class>entity.ShopDisableZipCodes</class>
     <class>entity.ProductGallery</class>
-    <class>entity.ProductAttributes</class>
     <class>entity.ShopGiftwrap</class>
     <class>entity.BillingAddress</class>
     <class>entity.ShopStyling</class>

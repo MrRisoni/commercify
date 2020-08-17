@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package entity;
 
 import java.io.Serializable;
@@ -26,16 +22,12 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
-/**
- *
- * @author ekatania
- */
+
+
+
 @Entity
 @Table(name = "products")
-@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Products.findAll", query = "SELECT p FROM Products p")})
 public class Products implements Serializable {
@@ -152,12 +144,16 @@ public class Products implements Serializable {
     @JoinColumn(name = "shop_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Shops shopId;
+
     @JoinColumn(name = "category_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private ProductCategories categoryId;
+
+
     @JoinColumn(name = "currency_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Currencies currencyId;
+
     @JoinColumn(name = "manufacturer_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private ShopManufacturers manufacturerId;
@@ -369,7 +365,7 @@ public class Products implements Serializable {
         this.visible = visible;
     }
 
-    @XmlTransient
+
     public Collection<ProductTags> getProductTagsCollection() {
         return productTagsCollection;
     }
@@ -378,7 +374,7 @@ public class Products implements Serializable {
         this.productTagsCollection = productTagsCollection;
     }
 
-    @XmlTransient
+
     public Collection<SuppliersSupplies> getSuppliersSuppliesCollection() {
         return suppliersSuppliesCollection;
     }
@@ -387,7 +383,7 @@ public class Products implements Serializable {
         this.suppliersSuppliesCollection = suppliersSuppliesCollection;
     }
 
-    @XmlTransient
+
     public Collection<OrderItems> getOrderItemsCollection() {
         return orderItemsCollection;
     }
@@ -396,7 +392,7 @@ public class Products implements Serializable {
         this.orderItemsCollection = orderItemsCollection;
     }
 
-    @XmlTransient
+
     public Collection<ProductAttributesValues> getProductAttributesValuesCollection() {
         return productAttributesValuesCollection;
     }
@@ -405,7 +401,7 @@ public class Products implements Serializable {
         this.productAttributesValuesCollection = productAttributesValuesCollection;
     }
 
-    @XmlTransient
+
     public Collection<ProductGallery> getProductGalleryCollection() {
         return productGalleryCollection;
     }
@@ -414,7 +410,7 @@ public class Products implements Serializable {
         this.productGalleryCollection = productGalleryCollection;
     }
 
-    @XmlTransient
+
     public Collection<ProductReviews> getProductReviewsCollection() {
         return productReviewsCollection;
     }

@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package entity;
 
 import java.io.Serializable;
@@ -21,16 +17,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
-/**
- *
- * @author ekatania
- */
+
+
+
 @Entity
 @Table(name = "currencies")
-@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Currencies.findAll", query = "SELECT c FROM Currencies c")})
 public class Currencies implements Serializable {
@@ -56,8 +48,10 @@ public class Currencies implements Serializable {
     @NotNull
     @Column(name = "rate")
     private BigDecimal rate;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "currencyId")
     private Collection<Products> productsCollection;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "currencyId")
     private Collection<ShopCurrencies> shopCurrenciesCollection;
 
@@ -107,7 +101,7 @@ public class Currencies implements Serializable {
         this.rate = rate;
     }
 
-    @XmlTransient
+
     public Collection<Products> getProductsCollection() {
         return productsCollection;
     }
@@ -116,7 +110,7 @@ public class Currencies implements Serializable {
         this.productsCollection = productsCollection;
     }
 
-    @XmlTransient
+
     public Collection<ShopCurrencies> getShopCurrenciesCollection() {
         return shopCurrenciesCollection;
     }

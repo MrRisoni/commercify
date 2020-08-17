@@ -13,8 +13,62 @@
         <property name="use_sql_comments">true</property>
         <property name="connection.pool_size">100</property>
 
-     
 
+        <mapping class="entity.ShopCouriers"/>
+        <mapping class="entity.Shops"/>
+        <mapping class="entity.UserRoles"/>
+        <mapping class="entity.ShopWeightCodRules"/>
+        <mapping class="entity.ShopTaxCodeNames"/>
+        <mapping class="entity.ShippingZonesZipCodes"/>
+        <mapping class="entity.Users"/>
+        <mapping class="entity.ShopTaxRegionRules"/>
+        <mapping class="entity.ShopCategories"/>
+        <mapping class="entity.ProductCategories"/>
+        <mapping class="entity.ShopManagers"/>
+        <mapping class="entity.ProductReviews"/>
+        <mapping class="entity.Countries"/>
+        <mapping class="entity.ShopShippingClassesRegions"/>
+        <mapping class="entity.Courriers"/>
+        <mapping class="entity.OrderItems"/>
+        <mapping class="entity.PaymentMethods"/>
+        <mapping class="entity.ShopShipZones"/>
+        <mapping class="entity.ShopBelongsCategories"/>
+        <mapping class="entity.ShopReviews"/>
+        <mapping class="entity.Products"/>
+        <mapping class="entity.ShopDisableCodZipcode"/>
+        <mapping class="entity.OrderStatus"/>
+        <mapping class="entity.ShopDisableCodContinents"/>
+        <mapping class="entity.ShopWeightShipRules"/>
+        <mapping class="entity.Languages"/>
+        <mapping class="entity.ShopCourierClasses"/>
+        <mapping class="entity.ShopProductCateogoryTaxes"/>
+        <mapping class="entity.ShippingAddress"/>
+        <mapping class="entity.ShopLanguages"/>
+        <mapping class="entity.ProductTags"/>
+        <mapping class="entity.Continents"/>
+        <mapping class="entity.ShopCountries"/>
+        <mapping class="entity.ShopDisableCodCountries"/>
+        <mapping class="entity.Orders"/>
+        <mapping class="entity.ProductGalleryTag"/>
+        <mapping class="entity.GlobeRegions"/>
+        <mapping class="entity.ShopDisableZipCodes"/>
+        <mapping class="entity.ProductGallery"/>
+        <mapping class="entity.ShopGiftwrap"/>
+        <mapping class="entity.BillingAddress"/>
+        <mapping class="entity.ShopStyling"/>
+        <mapping class="entity.Currencies"/>
+        <mapping class="entity.ShippingZonesRegions"/>
+        <mapping class="entity.ShopBanks"/>
+        <mapping class="entity.ShopTaxRules"/>
+        <mapping class="entity.ShopCurrencies"/>
+        <mapping class="entity.SuppliersSupplies"/>
+        <mapping class="entity.ShopEulas"/>
+        <mapping class="entity.ShopManufacturers"/>
+        <mapping class="entity.Phinxlog"/>
+        <mapping class="entity.ProductAttributesValues"/>
+        <mapping class="entity.ShopSuppliers"/>
+        <mapping class="entity.ProductCategoryAttributes"/>
+        <mapping class="entity.ShopTranslations"/>
 
 
     </session-factory>

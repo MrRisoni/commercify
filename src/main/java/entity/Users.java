@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package entity;
 
 import java.io.Serializable;
@@ -23,16 +19,12 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
-/**
- *
- * @author ekatania
- */
+
+
+
 @Entity
 @Table(name = "users")
-@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Users.findAll", query = "SELECT u FROM Users u")})
 public class Users implements Serializable {
@@ -43,57 +35,73 @@ public class Users implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Long id;
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 20)
     @Column(name = "username")
+
     private String username;
     @Basic(optional = false)
+
     @NotNull
     @Size(min = 1, max = 40)
     @Column(name = "password")
     private String password;
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 40)
     @Column(name = "password_salt")
     private String passwordSalt;
+
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
     @Column(name = "email")
     private String email;
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 30)
     @Column(name = "first_name")
     private String firstName;
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 30)
     @Column(name = "last_name")
     private String lastName;
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "created")
     @Temporal(TemporalType.TIMESTAMP)
     private Date created;
+
     @Column(name = "updated")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updated;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
     private Collection<BillingAddress> billingAddressCollection;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "managerId")
     private Collection<ShopManagers> shopManagersCollection;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "ownerId")
     private Collection<Shops> shopsCollection;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
     private Collection<Orders> ordersCollection;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
     private Collection<ShopReviews> shopReviewsCollection;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
     private Collection<ProductReviews> productReviewsCollection;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
     private Collection<ShippingAddress> shippingAddressCollection;
 
@@ -187,7 +195,7 @@ public class Users implements Serializable {
         this.updated = updated;
     }
 
-    @XmlTransient
+
     public Collection<BillingAddress> getBillingAddressCollection() {
         return billingAddressCollection;
     }
@@ -196,7 +204,7 @@ public class Users implements Serializable {
         this.billingAddressCollection = billingAddressCollection;
     }
 
-    @XmlTransient
+
     public Collection<ShopManagers> getShopManagersCollection() {
         return shopManagersCollection;
     }
@@ -205,7 +213,7 @@ public class Users implements Serializable {
         this.shopManagersCollection = shopManagersCollection;
     }
 
-    @XmlTransient
+
     public Collection<Shops> getShopsCollection() {
         return shopsCollection;
     }
@@ -214,7 +222,7 @@ public class Users implements Serializable {
         this.shopsCollection = shopsCollection;
     }
 
-    @XmlTransient
+
     public Collection<Orders> getOrdersCollection() {
         return ordersCollection;
     }
@@ -223,7 +231,7 @@ public class Users implements Serializable {
         this.ordersCollection = ordersCollection;
     }
 
-    @XmlTransient
+
     public Collection<ShopReviews> getShopReviewsCollection() {
         return shopReviewsCollection;
     }
@@ -232,7 +240,7 @@ public class Users implements Serializable {
         this.shopReviewsCollection = shopReviewsCollection;
     }
 
-    @XmlTransient
+
     public Collection<ProductReviews> getProductReviewsCollection() {
         return productReviewsCollection;
     }
@@ -241,7 +249,7 @@ public class Users implements Serializable {
         this.productReviewsCollection = productReviewsCollection;
     }
 
-    @XmlTransient
+
     public Collection<ShippingAddress> getShippingAddressCollection() {
         return shippingAddressCollection;
     }

@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package entity;
 
 import java.io.Serializable;
@@ -25,16 +21,12 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
-/**
- *
- * @author ekatania
- */
+
+
+
 @Entity
 @Table(name = "shops")
-@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Shops.findAll", query = "SELECT s FROM Shops s")})
 public class Shops implements Serializable {
@@ -157,7 +149,7 @@ public class Shops implements Serializable {
         this.created = created;
     }
 
-    @XmlTransient
+
     public Collection<ShopDisableCodCountries> getShopDisableCodCountriesCollection() {
         return shopDisableCodCountriesCollection;
     }
@@ -166,7 +158,7 @@ public class Shops implements Serializable {
         this.shopDisableCodCountriesCollection = shopDisableCodCountriesCollection;
     }
 
-    @XmlTransient
+
     public Collection<ShopManufacturers> getShopManufacturersCollection() {
         return shopManufacturersCollection;
     }
@@ -175,7 +167,7 @@ public class Shops implements Serializable {
         this.shopManufacturersCollection = shopManufacturersCollection;
     }
 
-    @XmlTransient
+
     public Collection<ShopTaxRegionRules> getShopTaxRegionRulesCollection() {
         return shopTaxRegionRulesCollection;
     }
@@ -184,7 +176,7 @@ public class Shops implements Serializable {
         this.shopTaxRegionRulesCollection = shopTaxRegionRulesCollection;
     }
 
-    @XmlTransient
+
     public Collection<ShopDisableZipCodes> getShopDisableZipCodesCollection() {
         return shopDisableZipCodesCollection;
     }
@@ -193,7 +185,7 @@ public class Shops implements Serializable {
         this.shopDisableZipCodesCollection = shopDisableZipCodesCollection;
     }
 
-    @XmlTransient
+
     public Collection<ShopWeightShipRules> getShopWeightShipRulesCollection() {
         return shopWeightShipRulesCollection;
     }
@@ -202,7 +194,7 @@ public class Shops implements Serializable {
         this.shopWeightShipRulesCollection = shopWeightShipRulesCollection;
     }
 
-    @XmlTransient
+
     public Collection<ShopShipZones> getShopShipZonesCollection() {
         return shopShipZonesCollection;
     }
@@ -211,7 +203,7 @@ public class Shops implements Serializable {
         this.shopShipZonesCollection = shopShipZonesCollection;
     }
 
-    @XmlTransient
+
     public Collection<ShopManagers> getShopManagersCollection() {
         return shopManagersCollection;
     }
@@ -220,7 +212,7 @@ public class Shops implements Serializable {
         this.shopManagersCollection = shopManagersCollection;
     }
 
-    @XmlTransient
+
     public Collection<ShopLanguages> getShopLanguagesCollection() {
         return shopLanguagesCollection;
     }
@@ -229,7 +221,7 @@ public class Shops implements Serializable {
         this.shopLanguagesCollection = shopLanguagesCollection;
     }
 
-    @XmlTransient
+
     public Collection<ShopStyling> getShopStylingCollection() {
         return shopStylingCollection;
     }
@@ -238,7 +230,7 @@ public class Shops implements Serializable {
         this.shopStylingCollection = shopStylingCollection;
     }
 
-    @XmlTransient
+
     public Collection<ShopCouriers> getShopCouriersCollection() {
         return shopCouriersCollection;
     }
@@ -263,7 +255,7 @@ public class Shops implements Serializable {
         this.defaultLangId = defaultLangId;
     }
 
-    @XmlTransient
+
     public Collection<Orders> getOrdersCollection() {
         return ordersCollection;
     }
@@ -272,7 +264,7 @@ public class Shops implements Serializable {
         this.ordersCollection = ordersCollection;
     }
 
-    @XmlTransient
+
     public Collection<ShopTaxCodeNames> getShopTaxCodeNamesCollection() {
         return shopTaxCodeNamesCollection;
     }
@@ -281,7 +273,7 @@ public class Shops implements Serializable {
         this.shopTaxCodeNamesCollection = shopTaxCodeNamesCollection;
     }
 
-    @XmlTransient
+
     public Collection<ShopGiftwrap> getShopGiftwrapCollection() {
         return shopGiftwrapCollection;
     }
@@ -290,7 +282,7 @@ public class Shops implements Serializable {
         this.shopGiftwrapCollection = shopGiftwrapCollection;
     }
 
-    @XmlTransient
+
     public Collection<ShopTranslations> getShopTranslationsCollection() {
         return shopTranslationsCollection;
     }
@@ -299,7 +291,7 @@ public class Shops implements Serializable {
         this.shopTranslationsCollection = shopTranslationsCollection;
     }
 
-    @XmlTransient
+
     public Collection<ShopSuppliers> getShopSuppliersCollection() {
         return shopSuppliersCollection;
     }
@@ -308,7 +300,7 @@ public class Shops implements Serializable {
         this.shopSuppliersCollection = shopSuppliersCollection;
     }
 
-    @XmlTransient
+
     public Collection<ShopReviews> getShopReviewsCollection() {
         return shopReviewsCollection;
     }
@@ -317,7 +309,7 @@ public class Shops implements Serializable {
         this.shopReviewsCollection = shopReviewsCollection;
     }
 
-    @XmlTransient
+
     public Collection<ProductReviews> getProductReviewsCollection() {
         return productReviewsCollection;
     }
@@ -326,7 +318,7 @@ public class Shops implements Serializable {
         this.productReviewsCollection = productReviewsCollection;
     }
 
-    @XmlTransient
+
     public Collection<Products> getProductsCollection() {
         return productsCollection;
     }
@@ -335,7 +327,7 @@ public class Shops implements Serializable {
         this.productsCollection = productsCollection;
     }
 
-    @XmlTransient
+
     public Collection<ShopTaxRules> getShopTaxRulesCollection() {
         return shopTaxRulesCollection;
     }
@@ -344,7 +336,7 @@ public class Shops implements Serializable {
         this.shopTaxRulesCollection = shopTaxRulesCollection;
     }
 
-    @XmlTransient
+
     public Collection<ShopDisableCodContinents> getShopDisableCodContinentsCollection() {
         return shopDisableCodContinentsCollection;
     }
@@ -353,7 +345,7 @@ public class Shops implements Serializable {
         this.shopDisableCodContinentsCollection = shopDisableCodContinentsCollection;
     }
 
-    @XmlTransient
+
     public Collection<ProductCategoryAttributes> getProductCategoryAttributesCollection() {
         return productCategoryAttributesCollection;
     }
@@ -362,7 +354,7 @@ public class Shops implements Serializable {
         this.productCategoryAttributesCollection = productCategoryAttributesCollection;
     }
 
-    @XmlTransient
+
     public Collection<ShopDisableCodZipcode> getShopDisableCodZipcodeCollection() {
         return shopDisableCodZipcodeCollection;
     }
@@ -371,7 +363,7 @@ public class Shops implements Serializable {
         this.shopDisableCodZipcodeCollection = shopDisableCodZipcodeCollection;
     }
 
-    @XmlTransient
+
     public Collection<ShopBelongsCategories> getShopBelongsCategoriesCollection() {
         return shopBelongsCategoriesCollection;
     }
@@ -380,7 +372,7 @@ public class Shops implements Serializable {
         this.shopBelongsCategoriesCollection = shopBelongsCategoriesCollection;
     }
 
-    @XmlTransient
+
     public Collection<ShopEulas> getShopEulasCollection() {
         return shopEulasCollection;
     }
@@ -389,7 +381,7 @@ public class Shops implements Serializable {
         this.shopEulasCollection = shopEulasCollection;
     }
 
-    @XmlTransient
+
     public Collection<ProductCategories> getProductCategoriesCollection() {
         return productCategoriesCollection;
     }
@@ -398,7 +390,7 @@ public class Shops implements Serializable {
         this.productCategoriesCollection = productCategoriesCollection;
     }
 
-    @XmlTransient
+
     public Collection<ShopBanks> getShopBanksCollection() {
         return shopBanksCollection;
     }
@@ -407,7 +399,7 @@ public class Shops implements Serializable {
         this.shopBanksCollection = shopBanksCollection;
     }
 
-    @XmlTransient
+
     public Collection<ShopCurrencies> getShopCurrenciesCollection() {
         return shopCurrenciesCollection;
     }
@@ -416,7 +408,7 @@ public class Shops implements Serializable {
         this.shopCurrenciesCollection = shopCurrenciesCollection;
     }
 
-    @XmlTransient
+
     public Collection<ShopCountries> getShopCountriesCollection() {
         return shopCountriesCollection;
     }
@@ -425,7 +417,7 @@ public class Shops implements Serializable {
         this.shopCountriesCollection = shopCountriesCollection;
     }
 
-    @XmlTransient
+
     public Collection<ShopWeightCodRules> getShopWeightCodRulesCollection() {
         return shopWeightCodRulesCollection;
     }

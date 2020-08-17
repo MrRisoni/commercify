@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package entity;
 
 import java.io.Serializable;
@@ -22,16 +18,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
-/**
- *
- * @author ekatania
- */
+
+
+
 @Entity
 @Table(name = "shop_manufacturers")
-@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "ShopManufacturers.findAll", query = "SELECT s FROM ShopManufacturers s")})
 public class ShopManufacturers implements Serializable {
@@ -89,7 +81,7 @@ public class ShopManufacturers implements Serializable {
         this.shopId = shopId;
     }
 
-    @XmlTransient
+
     public Collection<Products> getProductsCollection() {
         return productsCollection;
     }

@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package entity;
 
 import java.io.Serializable;
@@ -20,16 +16,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
-/**
- *
- * @author ekatania
- */
+
+
+
 @Entity
 @Table(name = "globe_regions")
-@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "GlobeRegions.findAll", query = "SELECT g FROM GlobeRegions g")})
 public class GlobeRegions implements Serializable {
@@ -94,7 +86,7 @@ public class GlobeRegions implements Serializable {
         this.title = title;
     }
 
-    @XmlTransient
+
     public Collection<ShopTaxRegionRules> getShopTaxRegionRulesCollection() {
         return shopTaxRegionRulesCollection;
     }
@@ -103,7 +95,7 @@ public class GlobeRegions implements Serializable {
         this.shopTaxRegionRulesCollection = shopTaxRegionRulesCollection;
     }
 
-    @XmlTransient
+
     public Collection<ShippingZonesRegions> getShippingZonesRegionsCollection() {
         return shippingZonesRegionsCollection;
     }
@@ -112,7 +104,7 @@ public class GlobeRegions implements Serializable {
         this.shippingZonesRegionsCollection = shippingZonesRegionsCollection;
     }
 
-    @XmlTransient
+
     public Collection<ShopShippingClassesRegions> getShopShippingClassesRegionsCollection() {
         return shopShippingClassesRegionsCollection;
     }

@@ -1,9 +1,7 @@
 package core;
 
 import entity.HibernateUtil;
-import entities.Language;
-import entities.Product;
-import entities.ProductAttribute;
+import entity.ProductAttributesValues;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.web.bind.annotation.*;
@@ -16,8 +14,8 @@ import java.util.List;
 @CrossOrigin
 public class ProductController {
 
-    @RequestMapping(value=  "/api/product/{productId}/{lang}" , method = RequestMethod.GET)
-    public List<ProductAttribute> getProduct(@PathVariable Long productId, @PathVariable String lang)
+   /* @RequestMapping(value=  "/api/product/{productId}/{lang}" , method = RequestMethod.GET)
+    public List<ProductAttributesValues> getProduct(@PathVariable Long productId, @PathVariable String lang)
     {
         Session s = HibernateUtil.getSessionFactory().openSession();
         CriteriaBuilder cb = s.getCriteriaBuilder();
@@ -43,7 +41,7 @@ public class ProductController {
 
         return qry.getResultList();
 
-    }
+    }*/
 
 
 }

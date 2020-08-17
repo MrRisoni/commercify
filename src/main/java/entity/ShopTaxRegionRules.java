@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package entity;
 
 import java.io.Serializable;
@@ -23,15 +19,11 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
 
-/**
- *
- * @author ekatania
- */
+
+
 @Entity
 @Table(name = "shop_tax_region_rules")
-@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "ShopTaxRegionRules.findAll", query = "SELECT s FROM ShopTaxRegionRules s")})
 public class ShopTaxRegionRules implements Serializable {

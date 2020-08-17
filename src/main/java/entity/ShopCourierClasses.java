@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package entity;
 
 import java.io.Serializable;
@@ -23,16 +19,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
-/**
- *
- * @author ekatania
- */
+
+
+
 @Entity
 @Table(name = "shop_courier_classes")
-@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "ShopCourierClasses.findAll", query = "SELECT s FROM ShopCourierClasses s")})
 public class ShopCourierClasses implements Serializable {
@@ -115,7 +107,7 @@ public class ShopCourierClasses implements Serializable {
         this.codBaseCost = codBaseCost;
     }
 
-    @XmlTransient
+
     public Collection<ShopWeightShipRules> getShopWeightShipRulesCollection() {
         return shopWeightShipRulesCollection;
     }
@@ -132,7 +124,7 @@ public class ShopCourierClasses implements Serializable {
         this.shopCourierId = shopCourierId;
     }
 
-    @XmlTransient
+
     public Collection<Orders> getOrdersCollection() {
         return ordersCollection;
     }
@@ -141,7 +133,7 @@ public class ShopCourierClasses implements Serializable {
         this.ordersCollection = ordersCollection;
     }
 
-    @XmlTransient
+
     public Collection<ShopShippingClassesRegions> getShopShippingClassesRegionsCollection() {
         return shopShippingClassesRegionsCollection;
     }
@@ -150,7 +142,7 @@ public class ShopCourierClasses implements Serializable {
         this.shopShippingClassesRegionsCollection = shopShippingClassesRegionsCollection;
     }
 
-    @XmlTransient
+
     public Collection<ShopWeightCodRules> getShopWeightCodRulesCollection() {
         return shopWeightCodRulesCollection;
     }

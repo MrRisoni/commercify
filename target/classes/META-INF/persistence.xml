@@ -1,16 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="1.0">
-    <persistence-unit name="commercify">
-        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-
-        <class>entities.GroupModel</class>
-        <properties>
-            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"/>
-            <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
-            <property name="hibernate.show_sql" value="true"/>
-            <property name="hibernate.format_sql" value="true"/>
-            <property name="hibernate.use_sql_comments" value="true"/>
-            <property name="hibernate.hbm2ddl.auto" value="none"/>
-        </properties>
-    </persistence-unit>
+<persistence version="1.0" xmlns="http://java.sun.com/xml/ns/persistence">
+  <persistence-unit name="commercifydb">
+    <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+    <class>entity.ShopCouriers</class>
+    <class>entity.Shops</class>
+    <class>entity.UserRoles</class>
+    <class>entity.ShopWeightCodRules</class>
+    <class>entity.ShopTaxCodeNames</class>
+    <class>entity.ShippingZonesZipCodes</class>
+    <class>entity.Users</class>
+    <class>entity.ShopTaxRegionRules</class>
+    <class>entity.ShopCategories</class>
+    <class>entity.ProductCategories</class>
+    <class>entity.ShopManagers</class>
+    <class>entity.ProductReviews</class>
+    <class>entity.Countries</class>
+    <class>entity.ShopShippingClassesRegions</class>
+    <class>entity.Courriers</class>
+    <class>entity.OrderItems</class>
+    <class>entity.PaymentMethods</class>
+    <class>entity.ShopShipZones</class>
+    <class>entity.ShopBelongsCategories</class>
+    <class>entity.ShopReviews</class>
+    <class>entity.Products</class>
+    <class>entity.ShopDisableCodZipcode</class>
+    <class>entity.OrderStatus</class>
+    <class>entity.ShopDisableCodContinents</class>
+    <class>entity.ShopWeightShipRules</class>
+    <class>entity.Languages</class>
+    <class>entity.ShopCourierClasses</class>
+    <class>entity.ShopProductCateogoryTaxes</class>
+    <class>entity.ShippingAddress</class>
+    <class>entity.ShopLanguages</class>
+    <class>entity.ProductTags</class>
+    <class>entity.Continents</class>
+    <class>entity.ShopCountries</class>
+    <class>entity.ShopDisableCodCountries</class>
+    <class>entity.Orders</class>
+    <class>entity.ProductGalleryTag</class>
+    <class>entity.GlobeRegions</class>
+    <class>entity.ShopDisableZipCodes</class>
+    <class>entity.ProductGallery</class>
+    <class>entity.ShopGiftwrap</class>
+    <class>entity.BillingAddress</class>
+    <class>entity.ShopStyling</class>
+    <class>entity.Currencies</class>
+    <class>entity.ShippingZonesRegions</class>
+    <class>entity.ShopBanks</class>
+    <class>entity.ShopTaxRules</class>
+    <class>entity.ShopCurrencies</class>
+    <class>entity.SuppliersSupplies</class>
+    <class>entity.ShopEulas</class>
+    <class>entity.ShopManufacturers</class>
+    <class>entity.Phinxlog</class>
+    <class>entity.ProductAttributesValues</class>
+    <class>entity.ShopSuppliers</class>
+    <class>entity.ProductCategoryAttributes</class>
+    <class>entity.ShopTranslations</class>
+    <properties>
+      <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"/>
+      <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
+      <property name="hibernate.show_sql" value="true"/>
+      <property name="hibernate.format_sql" value="true"/>
+      <property name="hibernate.use_sql_comments" value="true"/>
+      <property name="hibernate.hbm2ddl.auto" value="none"/>
+    </properties>
+  </persistence-unit>
 </persistence>
