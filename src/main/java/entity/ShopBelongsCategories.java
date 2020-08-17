@@ -3,29 +3,13 @@ package entity;
 
 import java.io.Serializable;
 import java.util.Collection;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 
-
-
 @Entity
 @Table(name = "shop_belongs_categories")
-@NamedQueries({
-    @NamedQuery(name = "ShopBelongsCategories.findAll", query = "SELECT s FROM ShopBelongsCategories s")})
 public class ShopBelongsCategories implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -34,24 +18,30 @@ public class ShopBelongsCategories implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Long id;
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "disable_cod")
     private boolean disableCod;
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
     @Column(name = "thumbnail_url")
     private String thumbnailUrl;
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "show_order")
     private int showOrder;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "shopCategoryId")
     private Collection<ShopProductCateogoryTaxes> shopProductCateogoryTaxesCollection;
+
     @JoinColumn(name = "shop_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Shops shopId;
+
     @JoinColumn(name = "category_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private ShopCategories categoryId;
@@ -127,24 +117,4 @@ public class ShopBelongsCategories implements Serializable {
         this.categoryId = categoryId;
     }
 
-
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ShopBelongsCategories)) {
-            return false;
-        }
-        ShopBelongsCategories other = (ShopBelongsCategories) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "entity.ShopBelongsCategories[ id=" + id + " ]";
-    }
-    
 }

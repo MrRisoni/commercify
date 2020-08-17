@@ -8,12 +8,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 
-
-
 @Entity
 @Table(name = "shop_categories")
-@NamedQueries({
-    @NamedQuery(name = "ShopCategories.findAll", query = "SELECT s FROM ShopCategories s")})
 public class ShopCategories implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -22,11 +18,13 @@ public class ShopCategories implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Long id;
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 55)
     @Column(name = "title")
     private String title;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "categoryId")
     private Collection<ShopBelongsCategories> shopBelongsCategoriesCollection;
 
@@ -67,24 +65,4 @@ public class ShopCategories implements Serializable {
         this.shopBelongsCategoriesCollection = shopBelongsCategoriesCollection;
     }
 
-
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ShopCategories)) {
-            return false;
-        }
-        ShopCategories other = (ShopCategories) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "entity.ShopCategories[ id=" + id + " ]";
-    }
-    
 }

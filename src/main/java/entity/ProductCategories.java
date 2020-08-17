@@ -3,29 +3,14 @@ package entity;
 
 import java.io.Serializable;
 import java.util.Collection;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 
-
-
 @Entity
 @Table(name = "product_categories")
-@NamedQueries({
-    @NamedQuery(name = "ProductCategories.findAll", query = "SELECT p FROM ProductCategories p")})
+
 public class ProductCategories implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -34,19 +19,24 @@ public class ProductCategories implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Long id;
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "parent_category_id")
     private long parentCategoryId;
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 55)
     @Column(name = "title")
     private String title;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "categoryId")
     private Collection<Products> productsCollection;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productCategoryId")
     private Collection<ProductCategoryAttributes> productCategoryAttributesCollection;
+
     @JoinColumn(name = "shop_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Shops shopId;
@@ -115,23 +105,4 @@ public class ProductCategories implements Serializable {
     }
 
 
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ProductCategories)) {
-            return false;
-        }
-        ProductCategories other = (ProductCategories) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "entity.ProductCategories[ id=" + id + " ]";
-    }
-    
 }

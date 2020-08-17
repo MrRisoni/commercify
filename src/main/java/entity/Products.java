@@ -5,31 +5,13 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Date;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 
-
-
 @Entity
 @Table(name = "products")
-@NamedQueries({
-    @NamedQuery(name = "Products.findAll", query = "SELECT p FROM Products p")})
 public class Products implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -38,109 +20,137 @@ public class Products implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Long id;
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 120)
     @Column(name = "code")
     private String code;
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 55)
     @Column(name = "title")
     private String title;
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 55)
     @Column(name = "descr")
     private String descr;
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 50)
     @Column(name = "SKU")
     private String sku;
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
     @Column(name = "img_url")
     private String imgUrl;
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
     @Column(name = "thumbnail_url")
     private String thumbnailUrl;
+
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Basic(optional = false)
     @NotNull
     @Column(name = "price")
     private BigDecimal price;
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "normal_price")
     private BigDecimal normalPrice;
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "discount_percent")
     private BigDecimal discountPercent;
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "kilos")
     private BigDecimal kilos;
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "dim_l")
     private BigDecimal dimL;
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "dim_w")
     private BigDecimal dimW;
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "dim_h")
     private BigDecimal dimH;
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "active")
     private boolean active;
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "stock")
     private long stock;
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "created")
     @Temporal(TemporalType.TIMESTAMP)
     private Date created;
+
     @Column(name = "updated")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updated;
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "taxable")
     private boolean taxable;
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "disable_cod")
     private boolean disableCod;
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "gift_wrap_cost")
     private BigDecimal giftWrapCost;
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "visible")
     private boolean visible;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId")
     private Collection<ProductTags> productTagsCollection;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId")
     private Collection<SuppliersSupplies> suppliersSuppliesCollection;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId")
     private Collection<OrderItems> orderItemsCollection;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId")
     private Collection<ProductAttributesValues> productAttributesValuesCollection;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId")
     private Collection<ProductGallery> productGalleryCollection;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId")
     private Collection<ProductReviews> productReviewsCollection;
+
     @JoinColumn(name = "shop_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Shops shopId;
@@ -451,24 +461,4 @@ public class Products implements Serializable {
         this.manufacturerId = manufacturerId;
     }
 
-
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Products)) {
-            return false;
-        }
-        Products other = (Products) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "entity.Products[ id=" + id + " ]";
-    }
-    
 }

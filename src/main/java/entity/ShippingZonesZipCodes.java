@@ -2,26 +2,14 @@
 package entity;
 
 import java.io.Serializable;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
+import java.util.Collection;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 
-
 @Entity
 @Table(name = "shipping_zones_zip_codes")
-@NamedQueries({
-    @NamedQuery(name = "ShippingZonesZipCodes.findAll", query = "SELECT s FROM ShippingZonesZipCodes s")})
 public class ShippingZonesZipCodes implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -30,16 +18,19 @@ public class ShippingZonesZipCodes implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Long id;
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 2)
     @Column(name = "country_code")
     private String countryCode;
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 20)
     @Column(name = "zip_code")
     private String zipCode;
+
     @JoinColumn(name = "zone_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private ShopShipZones zoneId;
@@ -89,24 +80,4 @@ public class ShippingZonesZipCodes implements Serializable {
         this.zoneId = zoneId;
     }
 
-
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ShippingZonesZipCodes)) {
-            return false;
-        }
-        ShippingZonesZipCodes other = (ShippingZonesZipCodes) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "entity.ShippingZonesZipCodes[ id=" + id + " ]";
-    }
-    
 }

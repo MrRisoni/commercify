@@ -3,29 +3,14 @@ package entity;
 
 import java.io.Serializable;
 import java.util.Collection;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 
 
-
 @Entity
 @Table(name = "shipping_address")
-@NamedQueries({
-    @NamedQuery(name = "ShippingAddress.findAll", query = "SELECT s FROM ShippingAddress s")})
 public class ShippingAddress implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -34,43 +19,52 @@ public class ShippingAddress implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Long id;
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 2)
     @Column(name = "country_code")
     private String countryCode;
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 80)
     @Column(name = "city")
     private String city;
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 80)
     @Column(name = "region")
     private String region;
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 80)
     @Column(name = "full_name")
     private String fullName;
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 80)
     @Column(name = "address")
     private String address;
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 20)
     @Column(name = "street_no")
     private String streetNo;
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 20)
     @Column(name = "post_code")
     private String postCode;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "shippingAddressId")
     private Collection<Orders> ordersCollection;
+
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Users userId;
@@ -174,24 +168,4 @@ public class ShippingAddress implements Serializable {
         this.userId = userId;
     }
 
-
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ShippingAddress)) {
-            return false;
-        }
-        ShippingAddress other = (ShippingAddress) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "entity.ShippingAddress[ id=" + id + " ]";
-    }
-    
 }

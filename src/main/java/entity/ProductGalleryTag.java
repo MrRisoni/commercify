@@ -2,26 +2,14 @@
 package entity;
 
 import java.io.Serializable;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
+import java.util.Collection;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 
-
 @Entity
 @Table(name = "product_gallery_tag")
-@NamedQueries({
-    @NamedQuery(name = "ProductGalleryTag.findAll", query = "SELECT p FROM ProductGalleryTag p")})
 public class ProductGalleryTag implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -30,11 +18,13 @@ public class ProductGalleryTag implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Long id;
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 55)
     @Column(name = "tag")
     private String tag;
+
     @JoinColumn(name = "image_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private ProductGallery imageId;
@@ -74,25 +64,4 @@ public class ProductGalleryTag implements Serializable {
     public void setImageId(ProductGallery imageId) {
         this.imageId = imageId;
     }
-
-
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ProductGalleryTag)) {
-            return false;
-        }
-        ProductGalleryTag other = (ProductGalleryTag) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "entity.ProductGalleryTag[ id=" + id + " ]";
-    }
-    
 }
