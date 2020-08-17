@@ -3,75 +3,67 @@ package entity;
 
 import java.io.Serializable;
 import java.util.Collection;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 
-
-
 @Entity
 @Table(name = "billing_address")
-@NamedQueries({
-    @NamedQuery(name = "BillingAddress.findAll", query = "SELECT b FROM BillingAddress b")})
 public class BillingAddress implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Long id;
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 2)
     @Column(name = "country_code")
     private String countryCode;
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 80)
     @Column(name = "city")
     private String city;
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 80)
     @Column(name = "region")
     private String region;
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 80)
     @Column(name = "full_name")
     private String fullName;
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 80)
     @Column(name = "address")
     private String address;
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 20)
     @Column(name = "street_no")
     private String streetNo;
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 20)
     @Column(name = "post_code")
     private String postCode;
+
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Users userId;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "billingAddressId")
     private Collection<Orders> ordersCollection;
 
@@ -174,12 +166,6 @@ public class BillingAddress implements Serializable {
         this.ordersCollection = ordersCollection;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
 
     @Override
     public boolean equals(Object object) {
@@ -194,9 +180,4 @@ public class BillingAddress implements Serializable {
         return true;
     }
 
-    @Override
-    public String toString() {
-        return "entity.BillingAddress[ id=" + id + " ]";
-    }
-    
-}
+   }

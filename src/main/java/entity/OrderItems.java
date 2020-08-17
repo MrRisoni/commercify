@@ -3,26 +3,13 @@ package entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
+import java.util.Collection;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-
-
 @Entity
 @Table(name = "order_items")
-@NamedQueries({
-    @NamedQuery(name = "OrderItems.findAll", query = "SELECT o FROM OrderItems o")})
 public class OrderItems implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -31,46 +18,57 @@ public class OrderItems implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Long id;
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "quantity")
     private int quantity;
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 52)
     @Column(name = "tracking_no")
     private String trackingNo;
+
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Basic(optional = false)
     @NotNull
     @Column(name = "net_price")
     private BigDecimal netPrice;
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "taxes")
     private BigDecimal taxes;
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "gift_cost")
     private BigDecimal giftCost;
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "success")
     private boolean success;
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "void")
     private boolean void1;
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "refund")
     private boolean refund;
+
     @JoinColumn(name = "order_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Orders orderId;
+
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Products productId;
+
     @JoinColumn(name = "status_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private OrderStatus statusId;
@@ -190,29 +188,4 @@ public class OrderItems implements Serializable {
         this.statusId = statusId;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof OrderItems)) {
-            return false;
-        }
-        OrderItems other = (OrderItems) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "entity.OrderItems[ id=" + id + " ]";
-    }
-    
 }

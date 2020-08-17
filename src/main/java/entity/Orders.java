@@ -5,31 +5,13 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Date;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 
-
-
 @Entity
 @Table(name = "orders")
-@NamedQueries({
-    @NamedQuery(name = "Orders.findAll", query = "SELECT o FROM Orders o")})
 public class Orders implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -38,68 +20,86 @@ public class Orders implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Long id;
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 3)
     @Column(name = "currency")
     private String currency;
+
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Basic(optional = false)
     @NotNull
     @Column(name = "total")
     private BigDecimal total;
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "net")
     private BigDecimal net;
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "tax")
     private BigDecimal tax;
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "shipping")
     private BigDecimal shipping;
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "success")
     private boolean success;
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "void")
-    private boolean void1;
+    private boolean isVoid;
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "refund")
     private boolean refund;
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
+
     @Column(name = "updated_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "orderId")
     private Collection<OrderItems> orderItemsCollection;
+
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Users userId;
+
     @JoinColumn(name = "shop_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Shops shopId;
+
     @JoinColumn(name = "status_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private OrderStatus statusId;
+
     @JoinColumn(name = "pay_method_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private PaymentMethods payMethodId;
+
     @JoinColumn(name = "ship_class_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private ShopCourierClasses shipClassId;
+
     @JoinColumn(name = "shipping_address_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private ShippingAddress shippingAddressId;
+
     @JoinColumn(name = "billing_address_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private BillingAddress billingAddressId;
@@ -119,7 +119,7 @@ public class Orders implements Serializable {
         this.tax = tax;
         this.shipping = shipping;
         this.success = success;
-        this.void1 = void1;
+        this.isVoid = void1;
         this.refund = refund;
         this.createdAt = createdAt;
     }
@@ -180,12 +180,12 @@ public class Orders implements Serializable {
         this.success = success;
     }
 
-    public boolean getVoid1() {
-        return void1;
+    public boolean getVoid() {
+        return isVoid;
     }
 
-    public void setVoid1(boolean void1) {
-        this.void1 = void1;
+    public void setVoid(boolean aVoid) {
+        this.isVoid = aVoid;
     }
 
     public boolean getRefund() {
@@ -276,30 +276,4 @@ public class Orders implements Serializable {
     public void setBillingAddressId(BillingAddress billingAddressId) {
         this.billingAddressId = billingAddressId;
     }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Orders)) {
-            return false;
-        }
-        Orders other = (Orders) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "entity.Orders[ id=" + id + " ]";
-    }
-    
 }

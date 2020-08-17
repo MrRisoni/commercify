@@ -66,12 +66,7 @@ public class ShopManagers implements Serializable {
         this.managerId = managerId;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
+
 
     @Override
     public boolean equals(Object object) {

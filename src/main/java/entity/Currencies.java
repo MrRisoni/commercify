@@ -4,27 +4,13 @@ package entity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Collection;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 
-
-
 @Entity
 @Table(name = "currencies")
-@NamedQueries({
-    @NamedQuery(name = "Currencies.findAll", query = "SELECT c FROM Currencies c")})
 public class Currencies implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -33,16 +19,19 @@ public class Currencies implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Long id;
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 55)
     @Column(name = "title")
     private String title;
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 3)
     @Column(name = "code")
     private String code;
+
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Basic(optional = false)
     @NotNull
@@ -119,29 +108,4 @@ public class Currencies implements Serializable {
         this.shopCurrenciesCollection = shopCurrenciesCollection;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Currencies)) {
-            return false;
-        }
-        Currencies other = (Currencies) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "entity.Currencies[ id=" + id + " ]";
-    }
-    
 }
