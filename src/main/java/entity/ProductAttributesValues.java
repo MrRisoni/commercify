@@ -4,6 +4,7 @@ package entity;
 import com.fasterxml.jackson.annotation.JsonView;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Collection;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -28,6 +29,9 @@ public class ProductAttributesValues implements Serializable {
     @Column(name = "value")
     @JsonView(JackSonViewer.IShopProduct.class)
     private String value;
+
+
+    private BigDecimal valueNumeric;
 
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
@@ -82,5 +86,11 @@ public class ProductAttributesValues implements Serializable {
         this.attributeId = attributeId;
     }
 
+    public BigDecimal getValueNumeric() {
+        return valueNumeric;
+    }
 
+    public void setValueNumeric(BigDecimal valueNumeric) {
+        this.valueNumeric = valueNumeric;
+    }
 }

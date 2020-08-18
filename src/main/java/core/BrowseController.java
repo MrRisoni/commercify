@@ -39,12 +39,16 @@ public class BrowseController {
             CollectionJoin<ProductAttributesValues,Products> joinWithAttributeValues = rootProduct.joinCollection("productAttributesValuesCollection", JoinType.INNER);
             Join<ProductCategoryAttributes,ProductAttributesValues> joinWithAttributes = joinWithAttributeValues.join("attributeId", JoinType.INNER);
 
-            Predicate[] predicates = new Predicate[3];
+            Predicate[] predicates = new Predicate[4];
             predicates[0] = builder.ge(rootProduct.get("price"),90);
             predicates[1] = builder.le(rootProduct.get("price"),4300);
             // weight
             predicates[2] = builder.le(rootProduct.get("kilos"),15.1);
             // limit by ssd!!!
+            predicates[3] = builder.and(builder.equal(joinWithAttributeValues.get("valueNumeric"),1),
+                                 builder.equal(joinWithAttributes.get("id"),9));
+
+
 
             // if set for order price
             criteriaQry.orderBy(builder.asc(rootProduct.get(Products_.price)));
@@ -68,10 +72,10 @@ public class BrowseController {
 
             HashMap<String,Object> rsp =new HashMap<>();
 
-            BigDecimal minWeight = (ResultCount >1) ? criteriaResult.get(0).getKilos() : new BigDecimal(0);
-            BigDecimal maxWeight = (ResultCount >1) ? criteriaResult.get(0).getKilos() : new BigDecimal(0);
-            BigDecimal minPrice = (ResultCount >1) ? criteriaResult.get(0).getPrice() : new BigDecimal(0);
-            BigDecimal maxPrice = (ResultCount >1) ? criteriaResult.get(0).getPrice() : new BigDecimal(0);
+            BigDecimal minWeight = (ResultCount >0) ? criteriaResult.get(0).getKilos() : new BigDecimal(0);
+            BigDecimal maxWeight = (ResultCount >0) ? criteriaResult.get(0).getKilos() : new BigDecimal(0);
+            BigDecimal minPrice = (ResultCount >0) ? criteriaResult.get(0).getPrice() : new BigDecimal(0);
+            BigDecimal maxPrice = (ResultCount >0) ? criteriaResult.get(0).getPrice() : new BigDecimal(0);
 
             for (Products p : criteriaResult) {
                 if (p.getKilos().compareTo(maxWeight)==1) {
@@ -94,6 +98,7 @@ public class BrowseController {
 
             rsp.put("minPrice",minPrice);
             rsp.put("maxPrice",maxPrice);
+            rsp.put("resCount",ResultCount);
 
           //  rsp.put("products",criteriaResult);
 
