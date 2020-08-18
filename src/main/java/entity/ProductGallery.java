@@ -1,6 +1,8 @@
 
 package entity;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.*;
@@ -17,12 +19,14 @@ public class ProductGallery implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
+    @JsonView(JackSonViewer.IShopProduct.class)
     private Long id;
 
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
     @Column(name = "file_path")
+    @JsonView(JackSonViewer.IShopProduct.class)
     private String filePath;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "imageId")

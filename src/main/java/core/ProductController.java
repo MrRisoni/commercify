@@ -52,7 +52,7 @@ public class ProductController {
         try {
             HashMap<String, Object> rsp = new HashMap<>();
 
-            Optional<Products> fetch = prodRp.findById(2L);
+            Optional<Products> fetch = prodRp.findById(7L);
             Products proion = fetch.orElse(null);
 
             rsp.put("favorites", HibernateUtil.getCustomMapper().writerWithView(JackSonViewer.IShopProduct.class).writeValueAsString(proion));

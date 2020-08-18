@@ -28,36 +28,41 @@ public class Products implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 120)
-    @Column(name = "code")
     @JsonView(JackSonViewer.IShopProduct.class)
+    @Column(name = "code")
+
     private String code;
 
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 55)
-    @Column(name = "title")
     @JsonView(JackSonViewer.IShopProduct.class)
+    @Column(name = "title")
+
     private String title;
 
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 55)
-    @Column(name = "descr")
     @JsonView(JackSonViewer.IShopProduct.class)
+    @Column(name = "descr")
+
     private String descr;
 
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 50)
-    @Column(name = "SKU")
     @JsonView(JackSonViewer.IShopProduct.class)
+    @Column(name = "SKU")
+
     private String sku;
 
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
-    @Column(name = "img_url")
     @JsonView(JackSonViewer.IShopProduct.class)
+    @Column(name = "img_url")
+
     private String imgUrl;
 
     @Basic(optional = false)
@@ -160,6 +165,7 @@ public class Products implements Serializable {
     private boolean visible;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId")
+    @JsonView(JackSonViewer.IShopProduct.class)
     private Collection<ProductTags> productTagsCollection;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId",fetch = FetchType.LAZY)
@@ -167,12 +173,12 @@ public class Products implements Serializable {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId",fetch = FetchType.LAZY)
     private Collection<OrderItems> orderItemsCollection;
-
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId")
-    @JsonView(JackSonViewer.IShopProduct.class)
+
     private Collection<ProductAttributesValues> productAttributesValuesCollection;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId",fetch = FetchType.LAZY)
+    @JsonView(JackSonViewer.IShopProduct.class)
     private Collection<ProductGallery> productGalleryCollection;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId",fetch = FetchType.LAZY)
@@ -184,6 +190,7 @@ public class Products implements Serializable {
 
     @JoinColumn(name = "category_id", referencedColumnName = "id")
     @ManyToOne(optional = false,fetch = FetchType.LAZY)
+    @JsonView(JackSonViewer.IShopProduct.class)
     private ProductCategories categoryId;
 
 
@@ -193,7 +200,7 @@ public class Products implements Serializable {
 
     @JoinColumn(name = "manufacturer_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    @JsonView(JackSonViewer.IShopProduct.class)
+
     private ShopManufacturers manufacturerId;
 
     public Products() {
