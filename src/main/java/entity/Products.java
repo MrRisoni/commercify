@@ -17,7 +17,8 @@ import javax.validation.constraints.Size;
 @Table(name = "products")
 @SqlResultSetMapping(name="JediResult", classes = {
         @ConstructorResult(targetClass = Products.class,
-                columns = {@ColumnResult(name="name"), @ColumnResult(name="age")})
+                columns = {@ColumnResult(name="id"), @ColumnResult(name="title"),
+                        @ColumnResult(name="kilos"),@ColumnResult(name="price")})
 })
 public class Products implements Serializable {
 
@@ -34,7 +35,6 @@ public class Products implements Serializable {
     @Size(min = 1, max = 120)
     @JsonView(JackSonViewer.IShopProduct.class)
     @Column(name = "code")
-
     private String code;
 
     @Basic(optional = false)
@@ -42,7 +42,6 @@ public class Products implements Serializable {
     @Size(min = 1, max = 55)
     @JsonView(JackSonViewer.IShopProduct.class)
     @Column(name = "title")
-
     private String title;
 
     @Basic(optional = false)
@@ -50,7 +49,6 @@ public class Products implements Serializable {
     @Size(min = 1, max = 55)
     @JsonView(JackSonViewer.IShopProduct.class)
     @Column(name = "descr")
-
     private String descr;
 
     @Basic(optional = false)
@@ -58,7 +56,6 @@ public class Products implements Serializable {
     @Size(min = 1, max = 50)
     @JsonView(JackSonViewer.IShopProduct.class)
     @Column(name = "SKU")
-
     private String sku;
 
     @Basic(optional = false)
@@ -66,7 +63,6 @@ public class Products implements Serializable {
     @Size(min = 1, max = 255)
     @JsonView(JackSonViewer.IShopProduct.class)
     @Column(name = "img_url")
-
     private String imgUrl;
 
     @Basic(optional = false)
@@ -252,6 +248,13 @@ public class Products implements Serializable {
         this.disableCod = disableCod;
         this.giftWrapCost = giftWrapCost;
         this.visible = visible;
+    }
+
+    public Products(Long id, @NotNull @Size(min = 1, max = 55) String title, @NotNull BigDecimal kilos,@NotNull BigDecimal price) {
+        this.id = id;
+        this.title = title;
+        this.price = price;
+        this.kilos = kilos;
     }
 
     public Long getId() {
