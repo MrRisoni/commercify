@@ -14,6 +14,7 @@ entity\OrderStatus.class
 entity\ShopSuppliers_.class
 entity\ShopWeightShipRules_.class
 entity\ProductTags.class
+pojo\BrowsePojo.class
 entity\ProductCategoryAttributes_.class
 entity\ShopGiftwrap_.class
 entity\Languages_.class
@@ -88,6 +89,7 @@ entity\ShopTaxCodeNames.class
 entity\SuppliersSupplies_.class
 entity\HibernateUtil.class
 core\GeneralController.class
+pojo\ProductFilter.class
 entity\ShopDisableCodZipcode.class
 entity\GlobeRegions.class
 entity\ShopEulas.class
@@ -111,6 +113,7 @@ entity\ShopTranslations.class
 core\BrowseController.class
 entity\ShopCurrencies_.class
 entity\ShopManufacturers.class
+pojo\ProductOrderBy.class
 entity\JackSonViewer$IShopProductCategory.class
 entity\Products.class
 core\ShopController.class
