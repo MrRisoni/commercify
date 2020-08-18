@@ -54,3 +54,4 @@ spring_app.log
 hiberdickens_app.log
 ut.log
 .idea/
+*.lst

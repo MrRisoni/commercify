@@ -55,7 +55,20 @@ public class BrowseController {
             rsp.put("min",criteriaResult.get(0).getPrice());
             rsp.put("max",criteriaResult .get(ResultCount-1).getPrice());
 
+            BigDecimal minWeight = criteriaResult.get(0).getKilos();
+            BigDecimal maxWeight = criteriaResult.get(0).getKilos();
 
+            for (Products p : criteriaResult) {
+                if (p.getKilos().compareTo(maxWeight)==1) {
+                    maxWeight = p.getKilos();
+                }
+                if (p.getKilos().compareTo(minWeight)==-1) {
+                    minWeight = p.getKilos();
+                }
+            }
+
+            rsp.put("minWeight",minWeight);
+            rsp.put("maxWeight",maxWeight);
 
             return rsp;
         }
