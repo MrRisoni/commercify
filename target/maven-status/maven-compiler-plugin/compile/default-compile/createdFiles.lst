@@ -53,6 +53,7 @@ entity\ShopEulas_.class
 entity\JackSonViewer$IOrder.class
 entity\ProductCategories.class
 entity\ShopReviews_.class
+dto\ProductPreview.class
 entity\ProductCategories_.class
 entity\Currencies_.class
 entity\ShippingAddress.class

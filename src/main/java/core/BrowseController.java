@@ -1,5 +1,6 @@
 package core;
 
+import dto.ProductPreview;
 import entity.HibernateUtil;
 import entity.ProductAttributesValues;
 import entity.Products;
@@ -40,23 +41,38 @@ public class BrowseController {
             Root<Products> rootProduct = criteriaQry.from(Products.class);
             CollectionJoin<ProductAttributesValues,Products> joinWithAttributes = rootProduct.joinCollection("productAttributesValuesCollection", JoinType.INNER);
 
-            Predicate[] predicates = new Predicate[2];
+            Predicate[] predicates = new Predicate[3];
             predicates[0] = builder.ge(rootProduct.get("price"),90);
-            predicates[1] = builder.le(rootProduct.get("price"),1300);
-
+            predicates[1] = builder.le(rootProduct.get("price"),4300);
+            // weight
+            predicates[2] = builder.le(rootProduct.get("kilos"),1.1);
 
             // if set for order price
             criteriaQry.orderBy(builder.asc(rootProduct.get(Products_.price)));
+           /* criteriaQry.orderBy(builder.desc(rootProduct.get(Products_.price)));
 
-            List<Products>criteriaResult = em.createQuery( criteriaQry.select(rootProduct).where(predicates) ).getResultList();
+            criteriaQry.orderBy(builder.desc(rootProduct.get(Products_.totalClicks)));
+            criteriaQry.orderBy(builder.desc(rootProduct.get(Products_.totalOrders)));
+            criteriaQry.orderBy(builder.desc(rootProduct.get(Products_.created)));
+*/
+/*
+            criteriaQry.multiselect(builder.construct(ProductPreview.class,
+                    rootProduct.get(Products_.id),
+                    rootProduct.get(Products_.title),
+                    rootProduct.get(Products_.thumbnailUrl),
+                    rootProduct.get(Products_.price)
+            ));*/
+
+            List<Products>criteriaResult = em.createQuery(  criteriaQry.select(rootProduct).where(predicates) ).getResultList();
+
             int ResultCount = criteriaResult.size();
 
             HashMap<String,Object> rsp =new HashMap<>();
-            rsp.put("min",criteriaResult.get(0).getPrice());
-            rsp.put("max",criteriaResult .get(ResultCount-1).getPrice());
 
-            BigDecimal minWeight = criteriaResult.get(0).getKilos();
-            BigDecimal maxWeight = criteriaResult.get(0).getKilos();
+            BigDecimal minWeight = (ResultCount >1) ? criteriaResult.get(0).getKilos() : new BigDecimal(0);
+            BigDecimal maxWeight = (ResultCount >1) ? criteriaResult.get(0).getKilos() : new BigDecimal(0);
+            BigDecimal minPrice = (ResultCount >1) ? criteriaResult.get(0).getPrice() : new BigDecimal(0);
+            BigDecimal maxPrice = (ResultCount >1) ? criteriaResult.get(0).getPrice() : new BigDecimal(0);
 
             for (Products p : criteriaResult) {
                 if (p.getKilos().compareTo(maxWeight)==1) {
@@ -65,10 +81,22 @@ public class BrowseController {
                 if (p.getKilos().compareTo(minWeight)==-1) {
                     minWeight = p.getKilos();
                 }
+
+                if (p.getPrice().compareTo(maxPrice)==1) {
+                    maxPrice = p.getPrice();
+                }
+                if (p.getPrice().compareTo(minPrice)==-1) {
+                    minPrice = p.getPrice();
+                }
             }
 
             rsp.put("minWeight",minWeight);
             rsp.put("maxWeight",maxWeight);
+
+            rsp.put("minPrice",minPrice);
+            rsp.put("maxPrice",maxPrice);
+
+          //  rsp.put("products",criteriaResult);
 
             return rsp;
         }
