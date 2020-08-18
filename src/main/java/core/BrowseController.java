@@ -1,10 +1,7 @@
 package core;
 
 import dto.ProductPreview;
-import entity.HibernateUtil;
-import entity.ProductAttributesValues;
-import entity.Products;
-import entity.Products_;
+import entity.*;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityManager;
@@ -39,13 +36,15 @@ public class BrowseController {
             CriteriaBuilder builder = em.getCriteriaBuilder();
             CriteriaQuery<Products> criteriaQry = builder.createQuery(Products.class);
             Root<Products> rootProduct = criteriaQry.from(Products.class);
-            CollectionJoin<ProductAttributesValues,Products> joinWithAttributes = rootProduct.joinCollection("productAttributesValuesCollection", JoinType.INNER);
+            CollectionJoin<ProductAttributesValues,Products> joinWithAttributeValues = rootProduct.joinCollection("productAttributesValuesCollection", JoinType.INNER);
+            Join<ProductCategoryAttributes,ProductAttributesValues> joinWithAttributes = joinWithAttributeValues.join("attributeId", JoinType.INNER);
 
             Predicate[] predicates = new Predicate[3];
             predicates[0] = builder.ge(rootProduct.get("price"),90);
             predicates[1] = builder.le(rootProduct.get("price"),4300);
             // weight
-            predicates[2] = builder.le(rootProduct.get("kilos"),1.1);
+            predicates[2] = builder.le(rootProduct.get("kilos"),15.1);
+            // limit by ssd!!!
 
             // if set for order price
             criteriaQry.orderBy(builder.asc(rootProduct.get(Products_.price)));
