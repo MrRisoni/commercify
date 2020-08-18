@@ -31,6 +31,7 @@ entity\ShopCategories_.class
 entity\ShopCouriers_.class
 entity\ShopStyling.class
 entity\PaymentMethods.class
+pojo\ProductFilterPojo.class
 entity\ShopShippingClassesRegions.class
 entity\JackSonViewer$IFavoriteRestau.class
 entity\ShopBelongsCategories.class
@@ -89,7 +90,6 @@ entity\ShopTaxCodeNames.class
 entity\SuppliersSupplies_.class
 entity\HibernateUtil.class
 core\GeneralController.class
-pojo\ProductFilter.class
 entity\ShopDisableCodZipcode.class
 entity\GlobeRegions.class
 entity\ShopEulas.class

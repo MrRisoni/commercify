@@ -17,8 +17,7 @@ public class BrowseController {
     @PostMapping(value = "/api/category",
             consumes = {MediaType.APPLICATION_JSON_VALUE}
     )
-    public HashMap<String,Object> getProducts(@RequestBody Object filterCriteria )
-    {
+    public HashMap<String, Object> getProducts(@RequestBody Object filterCriteria) {
         try {
             EntityManager em = HibernateUtil.getEM();
             Gson g = new Gson();
@@ -27,7 +26,7 @@ public class BrowseController {
             System.out.println("ORDER BY ");
             System.out.println(filterVals.getOrderBy().getOrderBy());
             String orderByCol = " price ASC ";
-            switch (filterVals.getOrderBy().getOrderBy()){
+            switch (filterVals.getOrderBy().getOrderBy()) {
                 case "price":
                     orderByCol = " price " + filterVals.getOrderBy().getSortOrder();
                     break;
@@ -40,11 +39,10 @@ public class BrowseController {
                 case "avg_rating":
                     orderByCol = " avg_rating DESC";
                     break;
-                case "new_productss":
+                case "new_products":
                     orderByCol = " created DESC";
                     break;
             }
-
 
             // per page!!!
 
@@ -61,37 +59,55 @@ public class BrowseController {
                 System.out.println(filterPojo.getTo());
 
                 // sql injection!!!
-                smallSQL= "SELECT product_id FROM product_attributes_values WHERE valueNumeric=" + String.valueOf(filterPojo.getValue()) +"  and attribute_id=" + filterPojo.getAttributeId();
+                smallSQL = "SELECT product_id FROM product_attributes_values WHERE attribute_id=" + filterPojo.getAttributeId();
+                if (filterPojo.getType().equals("range")) {
+                    smallSQL += " AND valueNumeric >= " + String.valueOf(filterPojo.getFrom()) + " AND valueNumeric <=" + String.valueOf(filterPojo.getTo());
+                }
+                if (filterPojo.getType().equals("number")) {
+                    smallSQL += " AND valueNumeric = " + String.valueOf(filterPojo.getValue());
+                }
                 filterId = "filtr" + String.valueOf(filtrCounter);
-                joinSql.add("JOIN ( " + smallSQL + " ) AS " + filterId + " ON "+filterId+".product_id=p.id");
+                joinSql.add("JOIN ( " + smallSQL + " ) AS " + filterId + " ON " + filterId + ".product_id=p.id");
 
                 filtrCounter++;
 
             }
 
-           /* String sqlSSD= "SELECT product_id FROM product_attributes_values WHERE valueNumeric=1.0  and attribute_id=9";
 
-            String sqlInches= " SELECT product_id FROM product_attributes_values WHERE valueNumeric<13  and attribute_id=7";
-            int filtrCounter = 0;
 
-            List<String> joinSql = new ArrayList<>();
-            String filterId = "filtr" + String.valueOf(filtrCounter);
-            joinSql.add("JOIN ( " + sqlSSD + " ) AS " + filterId + " ON "+filterId+".product_id=p.id");
-
-            filtrCounter++;
-            filterId = "filtr" + String.valueOf(filtrCounter);
-            joinSql.add("JOIN ( " + sqlInches + " ) AS " + filterId+ " ON "+filterId+".product_id=p.id");
-*/
             // dynamic join....
-            String productSQL= "SELECT p.id FROM products p ";
-            String finalSQL = productSQL + String.join(" ",joinSql);
-            finalSQL += " ORDER BY " + orderByCol;
+            String productSQL = "SELECT p.id,p.title,p.kilos,p.price FROM products p ";
+            String productSQLCount = "SELECT COUNT(p.id) FROM products p ";
 
-            HashMap<String, Object> rsp =new HashMap<>();
-            rsp.put("sql",finalSQL);
+            String finalSQL = productSQL + String.join(" ", joinSql);
+            String finalSQLCount = productSQLCount + String.join(" ", joinSql);
+
+            if (filterVals.getMinPrice() >0 && filterVals.getMaxPrice() >0) {
+                finalSQL += " WHERE p.price >= " + String.valueOf(filterVals.getMinPrice());
+                finalSQL += " AND p.price <= " + String.valueOf(filterVals.getMaxPrice());
+
+                finalSQLCount += " WHERE p.price >= " + String.valueOf(filterVals.getMinPrice());
+                finalSQLCount += " AND p.price <= " + String.valueOf(filterVals.getMaxPrice());
+
+            }
+            int start =  (filterVals.getCurrentPage() >1) ? (filterVals.getCurrentPage() * filterVals.getPerPage()) - filterVals.getPerPage() : 0;
+
+            finalSQL += " ORDER BY " + orderByCol;
+            finalSQL += " LIMIT " + String.valueOf(start)  + ","+ String.valueOf(filterVals.getPerPage());
+            HashMap<String, Object> rsp = new HashMap<>();
+            rsp.put("sql", finalSQL);
 
 
             System.out.println(finalSQL);
+
+            Object resultsCount = em.createNativeQuery(finalSQLCount).getSingleResult();
+            int totalFetchedProducts = Integer.valueOf(resultsCount.toString());
+
+            List<Object[]> products = em.createNativeQuery(finalSQL).getResultList();
+
+
+
+
 
 /*
 
@@ -121,16 +137,16 @@ public class BrowseController {
 
             rsp.put("minPrice",minPrice);
             rsp.put("maxPrice",maxPrice);
-            rsp.put("resCount",ResultCount);
+
+            */
+            rsp.put("resCount",totalFetchedProducts);
 
           //  rsp.put("products",criteriaResult);
-*/
+
 
             return rsp;
 
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             ex.printStackTrace();
             return null;
 
