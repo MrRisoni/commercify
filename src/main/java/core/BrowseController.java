@@ -7,8 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.*;
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 @RestController
 @CrossOrigin
@@ -32,45 +31,31 @@ public class BrowseController {
 
             // get filters and all values,ranges (min-max)
 
+            // for every filter make a query
+            String sqlSSD= "SELECT product_id FROM product_attributes_values WHERE valueNumeric=1.0  and attribute_id=9";
 
-            CriteriaBuilder builder = em.getCriteriaBuilder();
-            CriteriaQuery<Products> criteriaQry = builder.createQuery(Products.class);
-            Root<Products> rootProduct = criteriaQry.from(Products.class);
-            CollectionJoin<ProductAttributesValues,Products> joinWithAttributeValues = rootProduct.joinCollection("productAttributesValuesCollection", JoinType.INNER);
-            Join<ProductCategoryAttributes,ProductAttributesValues> joinWithAttributes = joinWithAttributeValues.join("attributeId", JoinType.INNER);
+            String sqlInches= " SELECT product_id FROM product_attributes_values WHERE valueNumeric<13  and attribute_id=7";
+            int filtrCounter = 0;
 
-            Predicate[] predicates = new Predicate[4];
-            predicates[0] = builder.ge(rootProduct.get("price"),90);
-            predicates[1] = builder.le(rootProduct.get("price"),4300);
-            // weight
-            predicates[2] = builder.le(rootProduct.get("kilos"),15.1);
-            // limit by ssd!!!
-            predicates[3] = builder.and(builder.equal(joinWithAttributeValues.get("valueNumeric"),1),
-                                 builder.equal(joinWithAttributes.get("id"),9));
+            List<String> joinSql = new ArrayList<>();
+            String filterId = "filtr" + String.valueOf(filtrCounter);
+            joinSql.add("JOIN ( " + sqlSSD + " ) AS " + filterId + " ON "+filterId+".product_id=p.id");
+
+            filtrCounter++;
+            filterId = "filtr" + String.valueOf(filtrCounter);
+            joinSql.add("JOIN ( " + sqlInches + " ) AS " + filterId+ " ON "+filterId+".product_id=p.id");
+
+            // dynamic join....
+            String productSQL= "SELECT p.id FROM products p ";
+            String finalSQL = productSQL + String.join(" ",joinSql);
+
+            HashMap<String, Object> rsp =new HashMap<>();
+            rsp.put("sql",finalSQL);
 
 
+            System.out.println(finalSQL);
 
-            // if set for order price
-            criteriaQry.orderBy(builder.asc(rootProduct.get(Products_.price)));
-           /* criteriaQry.orderBy(builder.desc(rootProduct.get(Products_.price)));
-
-            criteriaQry.orderBy(builder.desc(rootProduct.get(Products_.totalClicks)));
-            criteriaQry.orderBy(builder.desc(rootProduct.get(Products_.totalOrders)));
-            criteriaQry.orderBy(builder.desc(rootProduct.get(Products_.created)));
-*/
 /*
-            criteriaQry.multiselect(builder.construct(ProductPreview.class,
-                    rootProduct.get(Products_.id),
-                    rootProduct.get(Products_.title),
-                    rootProduct.get(Products_.thumbnailUrl),
-                    rootProduct.get(Products_.price)
-            ));*/
-
-            List<Products>criteriaResult = em.createQuery(  criteriaQry.select(rootProduct).where(predicates) ).getResultList();
-
-            int ResultCount = criteriaResult.size();
-
-            HashMap<String,Object> rsp =new HashMap<>();
 
             BigDecimal minWeight = (ResultCount >0) ? criteriaResult.get(0).getKilos() : new BigDecimal(0);
             BigDecimal maxWeight = (ResultCount >0) ? criteriaResult.get(0).getKilos() : new BigDecimal(0);
@@ -101,8 +86,10 @@ public class BrowseController {
             rsp.put("resCount",ResultCount);
 
           //  rsp.put("products",criteriaResult);
+*/
 
             return rsp;
+
         }
         catch (Exception ex)
         {
