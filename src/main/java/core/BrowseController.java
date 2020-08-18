@@ -103,7 +103,7 @@ public class BrowseController {
             Object resultsCount = em.createNativeQuery(finalSQLCount).getSingleResult();
             int totalFetchedProducts = Integer.valueOf(resultsCount.toString());
 
-            List<Object[]> products = em.createNativeQuery(finalSQL).getResultList();
+            List<Object[]> products = em.createNativeQuery(finalSQL, "JediResult").getResultList();
 
 
 

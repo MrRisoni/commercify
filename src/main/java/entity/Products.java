@@ -15,6 +15,10 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "products")
+@SqlResultSetMapping(name="JediResult", classes = {
+        @ConstructorResult(targetClass = Products.class,
+                columns = {@ColumnResult(name="name"), @ColumnResult(name="age")})
+})
 public class Products implements Serializable {
 
     private static final long serialVersionUID = 1L;
