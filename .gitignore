@@ -33,6 +33,8 @@ vars_exporter.sh
 bin
 build
 target
+target/
+*.class
 dependency-reduced-pom.xml
 *.sublime-*
 /scratch
@@ -51,3 +53,4 @@ spring_app.log
 *.pdf
 hiberdickens_app.log
 ut.log
+.idea/

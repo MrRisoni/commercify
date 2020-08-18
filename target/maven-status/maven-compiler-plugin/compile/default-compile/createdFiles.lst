@@ -107,6 +107,7 @@ entity\Users.class
 entity\Shops_.class
 entity\ProductReviews.class
 entity\ShopTranslations.class
+core\BrowseController.class
 entity\ShopCurrencies_.class
 entity\ShopManufacturers.class
 entity\JackSonViewer$IShopProductCategory.class

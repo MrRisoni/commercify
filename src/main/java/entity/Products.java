@@ -174,7 +174,7 @@ public class Products implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId",fetch = FetchType.LAZY)
     private Collection<OrderItems> orderItemsCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId")
-
+    @JsonView(JackSonViewer.IShopProduct.class)
     private Collection<ProductAttributesValues> productAttributesValuesCollection;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId",fetch = FetchType.LAZY)
@@ -182,6 +182,7 @@ public class Products implements Serializable {
     private Collection<ProductGallery> productGalleryCollection;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId",fetch = FetchType.LAZY)
+    @JsonView(JackSonViewer.IShopProduct.class)
     private Collection<ProductReviews> productReviewsCollection;
 
     @JoinColumn(name = "shop_id", referencedColumnName = "id")
@@ -193,14 +194,14 @@ public class Products implements Serializable {
     @JsonView(JackSonViewer.IShopProduct.class)
     private ProductCategories categoryId;
 
-
     @JoinColumn(name = "currency_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
+    @JsonView(JackSonViewer.IShopProduct.class)
     private Currencies currencyId;
 
     @JoinColumn(name = "manufacturer_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-
+    @JsonView(JackSonViewer.IShopProduct.class)
     private ShopManufacturers manufacturerId;
 
     public Products() {

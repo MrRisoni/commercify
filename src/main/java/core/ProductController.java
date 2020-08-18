@@ -26,7 +26,7 @@ public class ProductController {
 
 
    @RequestMapping(value=  "/api/product/{productId}" , method = RequestMethod.GET)
-    public HashMap<String,Object> getProduct(@PathVariable Long productId)
+    public String getProduct(@PathVariable Long productId)
     {
        /* Session s = HibernateUtil.getSessionFactory().openSession();
         CriteriaBuilder cb = s.getCriteriaBuilder();
@@ -55,8 +55,8 @@ public class ProductController {
             Optional<Products> fetch = prodRp.findById(7L);
             Products proion = fetch.orElse(null);
 
-            rsp.put("favorites", HibernateUtil.getCustomMapper().writerWithView(JackSonViewer.IShopProduct.class).writeValueAsString(proion));
-            return rsp;
+           // rsp.put("favorites", HibernateUtil.getCustomMapper().writerWithView(JackSonViewer.IShopProduct.class).writeValueAsString(proion));
+            return HibernateUtil.getCustomMapper().writerWithView(JackSonViewer.IShopProduct.class).writeValueAsString(proion);
         }
         catch (Exception ex){
             System.out.println(ex.getMessage());

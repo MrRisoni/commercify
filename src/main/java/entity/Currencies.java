@@ -1,6 +1,8 @@
 
 package entity;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Collection;
@@ -18,6 +20,7 @@ public class Currencies implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
+    @JsonView(JackSonViewer.IShopProduct.class)
     private Long id;
 
     @Basic(optional = false)
@@ -30,6 +33,7 @@ public class Currencies implements Serializable {
     @NotNull
     @Size(min = 1, max = 3)
     @Column(name = "code")
+    @JsonView(JackSonViewer.IShopProduct.class)
     private String code;
 
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation

@@ -1,6 +1,8 @@
 
 package entity;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
@@ -24,13 +26,14 @@ public class Users implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
+    @JsonView(JackSonViewer.IShopProduct.class)
     private Long id;
 
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 20)
+    @JsonView(JackSonViewer.IShopProduct.class)
     @Column(name = "username")
-
     private String username;
     @Basic(optional = false)
 

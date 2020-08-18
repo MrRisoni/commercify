@@ -1,6 +1,8 @@
 
 package entity;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Collection;
@@ -19,28 +21,33 @@ public class ProductReviews implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
+    @JsonView(JackSonViewer.IShopProduct.class)
     private Long id;
 
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Basic(optional = false)
     @NotNull
     @Column(name = "stars")
+    @JsonView(JackSonViewer.IShopProduct.class)
     private BigDecimal stars;
 
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
     @Column(name = "comment")
+    @JsonView(JackSonViewer.IShopProduct.class)
     private String comment;
 
     @Basic(optional = false)
     @NotNull
     @Column(name = "created")
     @Temporal(TemporalType.TIMESTAMP)
+    @JsonView(JackSonViewer.IShopProduct.class)
     private Date created;
 
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
+    @JsonView(JackSonViewer.IShopProduct.class)
     private Users userId;
 
     @JoinColumn(name = "shop_id", referencedColumnName = "id")
