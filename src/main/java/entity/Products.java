@@ -164,6 +164,21 @@ public class Products implements Serializable {
     @JsonView(JackSonViewer.IShopProduct.class)
     private boolean visible;
 
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "total_orders")
+    private long totalOrders;
+
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "total_clicks")
+    private long totalClicks;
+
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "avg_rating")
+    private BigDecimal avgRating;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId")
     @JsonView(JackSonViewer.IShopProduct.class)
     private Collection<ProductTags> productTagsCollection;
@@ -497,4 +512,43 @@ public class Products implements Serializable {
         this.manufacturerId = manufacturerId;
     }
 
+    public boolean isActive() {
+        return active;
+    }
+
+    public boolean isTaxable() {
+        return taxable;
+    }
+
+    public boolean isDisableCod() {
+        return disableCod;
+    }
+
+    public boolean isVisible() {
+        return visible;
+    }
+
+    public long getTotalOrders() {
+        return totalOrders;
+    }
+
+    public void setTotalOrders(long totalOrders) {
+        this.totalOrders = totalOrders;
+    }
+
+    public long getTotalClicks() {
+        return totalClicks;
+    }
+
+    public void setTotalClicks(long totalClicks) {
+        this.totalClicks = totalClicks;
+    }
+
+    public BigDecimal getAvgRating() {
+        return avgRating;
+    }
+
+    public void setAvgRating(BigDecimal avgRating) {
+        this.avgRating = avgRating;
+    }
 }
