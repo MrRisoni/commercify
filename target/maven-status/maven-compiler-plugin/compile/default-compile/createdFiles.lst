@@ -111,6 +111,7 @@ entity\Shops_.class
 entity\ProductReviews.class
 entity\ShopTranslations.class
 core\BrowseController.class
+dto\RangeValues.class
 entity\ShopCurrencies_.class
 entity\ShopManufacturers.class
 pojo\ProductOrderBy.class

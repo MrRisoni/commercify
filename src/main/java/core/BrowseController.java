@@ -29,6 +29,9 @@ public class BrowseController {
     )
     public HashMap<String, Object> getProducts(@RequestBody Object filterCriteria) {
         try {
+            Long shopId = 2L;
+            Long categoryId = 5L;
+
             EntityManager em = HibernateUtil.getEM();
             Gson g = new Gson();
             BrowsePojo filterVals = new Gson().fromJson(g.toJson(filterCriteria), BrowsePojo.class);
@@ -86,13 +89,13 @@ public class BrowseController {
 
             }
             // for every RANGEable attribute get max and min value
-            HashMap<String, RangeValues> ranges = new HashMap<>();
+
             String minMaxAttributeSQL = " SELECT pav.attribute_id,pca.title, MIN(pav.valueNumeric) ,MAX(pav.valueNumeric)  " +
-                                  "   FROM product_attributes_values pav " +
-                                  "  JOIN  product_category_attributes pca ON pca.id = pav.attribute_id " +
-                                  "  WHERE pca.rangeable =1 GROUP BY pav.attribute_id ";
-
-
+                    "  FROM product_attributes_values pav " +
+                    "  JOIN products p " +
+                    "  JOIN  product_category_attributes pca ON pca.id = pav.attribute_id " +
+                    "  WHERE pca.rangeable =1 AND p.shop_id = " + String.valueOf(shopId) +
+                    " AND p.category_id = " + String.valueOf(categoryId) + " GROUP BY pav.attribute_id ";
 
 
             // dynamic join....
@@ -102,28 +105,39 @@ public class BrowseController {
             String finalSQL = productSQL + String.join(" ", joinSqlFiltering);
             String finalSQLCount = productSQLCount + String.join(" ", joinSqlFiltering);
 
-            if (filterVals.getMinPrice() >0 && filterVals.getMaxPrice() >0) {
-                finalSQL += " WHERE p.price >= " + String.valueOf(filterVals.getMinPrice());
+
+            finalSQL += " WHERE p.shop_id = " + String.valueOf(shopId);
+            finalSQL += " AND p.category_id = " + String.valueOf(categoryId);
+
+            finalSQLCount += " WHERE p.shop_id = " + String.valueOf(shopId);
+            finalSQLCount += " AND p.category_id = " + String.valueOf(categoryId);
+
+            if (filterVals.getMinPrice() > 0 && filterVals.getMaxPrice() > 0) {
+                finalSQL += " AND p.price >= " + String.valueOf(filterVals.getMinPrice());
                 finalSQL += " AND p.price <= " + String.valueOf(filterVals.getMaxPrice());
 
-                finalSQLCount += " WHERE p.price >= " + String.valueOf(filterVals.getMinPrice());
+                finalSQLCount += " AND p.price >= " + String.valueOf(filterVals.getMinPrice());
                 finalSQLCount += " AND p.price <= " + String.valueOf(filterVals.getMaxPrice());
+
+
 
                 minMaxAttributeSQL = " SELECT pav.attribute_id,pca.title, MIN(pav.valueNumeric) ,MAX(pav.valueNumeric)  " +
                         "   FROM product_attributes_values pav " +
                         " JOIN products p " +
                         "  JOIN  product_category_attributes pca ON pca.id = pav.attribute_id " +
                         "  WHERE pca.rangeable =1 " +
+                        " AND p.shop_id = " + String.valueOf(shopId) +
+                        " AND p.category_id = " + String.valueOf(categoryId) +
                         " AND  p.price >= " + String.valueOf(filterVals.getMinPrice()) +
-                         " AND p.price <= " + String.valueOf(filterVals.getMaxPrice()) +
+                        " AND p.price <= " + String.valueOf(filterVals.getMaxPrice()) +
                         " GROUP BY pav.attribute_id ";
 
 
             }
-            int start =  (filterVals.getCurrentPage() >1) ? (filterVals.getCurrentPage() * filterVals.getPerPage()) - filterVals.getPerPage() : 0;
+            int start = (filterVals.getCurrentPage() > 1) ? (filterVals.getCurrentPage() * filterVals.getPerPage()) - filterVals.getPerPage() : 0;
 
             finalSQL += " ORDER BY " + orderByCol;
-            finalSQL += " LIMIT " + String.valueOf(start)  + ","+ String.valueOf(filterVals.getPerPage());
+            finalSQL += " LIMIT " + String.valueOf(start) + "," + String.valueOf(filterVals.getPerPage());
             HashMap<String, Object> rsp = new HashMap<>();
             rsp.put("sql", finalSQL);
 
@@ -136,7 +150,12 @@ public class BrowseController {
             List<Object[]> products = em.createNativeQuery(finalSQL).getResultList();
 
             // for every RANGEable attribute get max and min value
-            List<Object[]> rangesResulrs = em.createNativeQuery(minMaxAttributeSQL).getResultList();
+            HashMap<String, RangeValues> ranges = new HashMap<>();
+            List<Object[]> rangesResults = em.createNativeQuery(minMaxAttributeSQL).getResultList();
+           for (Object[] objRange : rangesResults) {
+                ranges.put(objRange[1].toString(),new RangeValues(Double.parseDouble(objRange[2].toString()),Double.parseDouble(objRange[3].toString())));
+            }
+
 
 
 
@@ -172,9 +191,10 @@ public class BrowseController {
             rsp.put("maxPrice",maxPrice);
 
             */
-            rsp.put("resCount",totalFetchedProducts);
+            rsp.put("resCount", totalFetchedProducts);
+            rsp.put("ranges", ranges);
 
-          //  rsp.put("products",criteriaResult);
+            //  rsp.put("products",criteriaResult);
 
 
             return rsp;

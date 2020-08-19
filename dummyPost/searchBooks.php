@@ -26,7 +26,7 @@ curl_setopt($ch, CURLOPT_HTTPHEADER,
     )
 );
 $server_output = curl_exec($ch);
-var_dump($server_output);
+
 curl_close ($ch);
 
 ?>
