@@ -1,6 +1,7 @@
 package core;
 
 import com.google.gson.Gson;
+import dto.RangeValues;
 import entity.*;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,15 @@ import java.util.*;
 @RestController
 @CrossOrigin
 public class BrowseController {
+
+
+ /*   @PostMapping(value = "/api/search",
+            consumes = {MediaType.APPLICATION_JSON_VALUE}
+    )
+    public HashMap<String, Object> searchProducts(@RequestBody Object filterCriteria) {
+
+    }*/
+
 
     @PostMapping(value = "/api/category",
             consumes = {MediaType.APPLICATION_JSON_VALUE}
@@ -48,7 +58,9 @@ public class BrowseController {
 
 
             // for every filter make a query
-            List<String> joinSql = new ArrayList<>();
+            List<String> joinSqlFiltering = new ArrayList<>();
+            List<String> joinSqlAttributeFiltering = new ArrayList<>();
+
             int filtrCounter = 0;
             String filterId = "";
             String smallSQL = "";
@@ -67,11 +79,19 @@ public class BrowseController {
                     smallSQL += " AND valueNumeric = " + String.valueOf(filterPojo.getValue());
                 }
                 filterId = "filtr" + String.valueOf(filtrCounter);
-                joinSql.add("JOIN ( " + smallSQL + " ) AS " + filterId + " ON " + filterId + ".product_id=p.id");
+                joinSqlFiltering.add("JOIN ( " + smallSQL + " ) AS " + filterId + " ON " + filterId + ".product_id=p.id");
+                joinSqlAttributeFiltering.add("JOIN ( " + smallSQL + " ) AS " + filterId + " ON " + filterId + ".product_id=pav.product_id ");
 
                 filtrCounter++;
 
             }
+            // for every RANGEable attribute get max and min value
+            HashMap<String, RangeValues> ranges = new HashMap<>();
+            String minMaxAttributeSQL = " SELECT pav.attribute_id,pca.title, MIN(pav.valueNumeric) ,MAX(pav.valueNumeric)  " +
+                                  "   FROM product_attributes_values pav " +
+                                  "  JOIN  product_category_attributes pca ON pca.id = pav.attribute_id " +
+                                  "  WHERE pca.rangeable =1 GROUP BY pav.attribute_id ";
+
 
 
 
@@ -79,8 +99,8 @@ public class BrowseController {
             String productSQL = "SELECT p.id,p.title,p.kilos,p.price FROM products p ";
             String productSQLCount = "SELECT COUNT(p.id) FROM products p ";
 
-            String finalSQL = productSQL + String.join(" ", joinSql);
-            String finalSQLCount = productSQLCount + String.join(" ", joinSql);
+            String finalSQL = productSQL + String.join(" ", joinSqlFiltering);
+            String finalSQLCount = productSQLCount + String.join(" ", joinSqlFiltering);
 
             if (filterVals.getMinPrice() >0 && filterVals.getMaxPrice() >0) {
                 finalSQL += " WHERE p.price >= " + String.valueOf(filterVals.getMinPrice());
@@ -88,6 +108,16 @@ public class BrowseController {
 
                 finalSQLCount += " WHERE p.price >= " + String.valueOf(filterVals.getMinPrice());
                 finalSQLCount += " AND p.price <= " + String.valueOf(filterVals.getMaxPrice());
+
+                minMaxAttributeSQL = " SELECT pav.attribute_id,pca.title, MIN(pav.valueNumeric) ,MAX(pav.valueNumeric)  " +
+                        "   FROM product_attributes_values pav " +
+                        " JOIN products p " +
+                        "  JOIN  product_category_attributes pca ON pca.id = pav.attribute_id " +
+                        "  WHERE pca.rangeable =1 " +
+                        " AND  p.price >= " + String.valueOf(filterVals.getMinPrice()) +
+                         " AND p.price <= " + String.valueOf(filterVals.getMaxPrice()) +
+                        " GROUP BY pav.attribute_id ";
+
 
             }
             int start =  (filterVals.getCurrentPage() >1) ? (filterVals.getCurrentPage() * filterVals.getPerPage()) - filterVals.getPerPage() : 0;
@@ -104,6 +134,9 @@ public class BrowseController {
             int totalFetchedProducts = Integer.valueOf(resultsCount.toString());
 
             List<Object[]> products = em.createNativeQuery(finalSQL).getResultList();
+
+            // for every RANGEable attribute get max and min value
+            List<Object[]> rangesResulrs = em.createNativeQuery(minMaxAttributeSQL).getResultList();
 
 
 
