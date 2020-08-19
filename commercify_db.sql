@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 19, 2020 at 07:32 AM
+-- Generation Time: Aug 19, 2020 at 08:00 AM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 7.4.8
 
@@ -38,6 +38,13 @@ CREATE TABLE `billing_address` (
   `street_no` varchar(20) NOT NULL,
   `post_code` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `billing_address`
+--
+
+INSERT INTO `billing_address` (`id`, `user_id`, `country_code`, `city`, `region`, `full_name`, `address`, `street_no`, `post_code`) VALUES
+(1, 3, 'GR', 'Athens', '', '', 'Syntagma', '', '');
 
 -- --------------------------------------------------------
 
@@ -181,6 +188,7 @@ CREATE TABLE `orders` (
   `currency` varchar(3) NOT NULL,
   `total` decimal(10,2) NOT NULL,
   `net` decimal(10,2) NOT NULL,
+  `commission` decimal(10,2) UNSIGNED NOT NULL,
   `tax` decimal(10,2) NOT NULL,
   `shipping` decimal(10,2) NOT NULL,
   `success` tinyint(1) NOT NULL,
@@ -189,6 +197,14 @@ CREATE TABLE `orders` (
   `created_at` datetime NOT NULL,
   `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `orders`
+--
+
+INSERT INTO `orders` (`id`, `user_id`, `shipping_address_id`, `billing_address_id`, `shop_id`, `status_id`, `pay_method_id`, `ship_class_id`, `currency`, `total`, `net`, `commission`, `tax`, `shipping`, `success`, `void`, `refund`, `created_at`, `updated_at`) VALUES
+(1, 3, 1, 1, 2, 3, 4, 1, 'EUR', '3560.00', '3520.00', '0.00', '50.00', '30.00', 1, 0, 0, '2020-08-12 08:55:50', '2020-08-12 08:55:50'),
+(2, 3, 1, 1, 2, 3, 3, 1, 'EUR', '2560.00', '2520.00', '0.00', '10.00', '25.00', 1, 0, 0, '2020-08-12 08:55:50', '2020-08-12 08:55:50');
 
 -- --------------------------------------------------------
 
@@ -211,6 +227,15 @@ CREATE TABLE `order_items` (
   `refund` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `order_items`
+--
+
+INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `status_id`, `quantity`, `tracking_no`, `net_price`, `taxes`, `gift_cost`, `success`, `void`, `refund`) VALUES
+(1, 1, 9, 3, 2, '', '3560.00', '12.00', '0.00', 1, 0, 0),
+(2, 2, 8, 3, 1, '', '1456.00', '234.00', '1.00', 1, 0, 0),
+(3, 2, 7, 3, 1, '', '567.00', '23.00', '0.00', 1, 0, 0);
+
 -- --------------------------------------------------------
 
 --
@@ -221,6 +246,17 @@ CREATE TABLE `order_status` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `title` varchar(55) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `order_status`
+--
+
+INSERT INTO `order_status` (`id`, `title`) VALUES
+(1, 'Pending'),
+(2, 'Processing'),
+(3, 'Dispatched'),
+(4, 'Refunded'),
+(5, 'Voided');
 
 -- --------------------------------------------------------
 
@@ -376,7 +412,8 @@ INSERT INTO `products` (`id`, `shop_id`, `category_id`, `currency_id`, `manufact
 (5, 1, 1, 1, 1, 'StringbergDamaskusIII\r\n', '', '', '', '', '', '15.00', '0.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-03 11:52:31', '2020-08-03 11:52:31', 0, 0, '0.00', 0, 0, '0.0', 0),
 (6, 1, 1, 1, 1, 'StringbergSpoksSonaten\r\n', '', '', '', '', '', '15.00', '0.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-03 11:52:31', '2020-08-03 11:52:31', 0, 0, '0.00', 0, 0, '0.0', 0),
 (7, 2, 5, 1, 4, 'MacBookPro13.3AirGray', 'Apple MacBook Air Retina', '', '', '', '', '1300.00', '1300.00', '0.00', '1.29', '30.41', '21.24', '1.61', 1, 50, '2020-08-17 07:48:09', '2020-08-17 07:48:09', 1, 1, '0.00', 1, 0, '0.0', 0),
-(8, 2, 5, 1, 4, 'MacBookPro12.3AirSilber', 'Apple MacBook Air Silver', '', '', '', '', '1100.00', '1100.00', '0.00', '1.29', '30.41', '21.24', '1.61', 1, 50, '2020-08-17 07:48:09', '2020-08-17 07:48:09', 1, 1, '0.00', 1, 0, '0.0', 0);
+(8, 2, 5, 1, 4, 'MacBookPro12.3AirSilber', 'Apple MacBook Air Silver', '', '', '', '', '1100.00', '1100.00', '0.00', '1.29', '30.41', '21.24', '1.61', 1, 50, '2020-08-17 07:48:09', '2020-08-17 07:48:09', 1, 1, '0.00', 1, 0, '0.0', 0),
+(9, 2, 5, 1, 6, 'DELL G5 15-5590 I7-9750H/16/1TB+256GB SSD/RTX2060', 'Laptop DELL G5 15-5590 I7-9750H/16/1TB+256GB SSD/RTX206', '', '', '', '', '1700.00', '1700.00', '0.00', '2.61', '0.00', '0.00', '0.00', 1, 25, '2020-08-19 08:34:31', '2020-08-19 08:34:31', 1, 1, '0.00', 1, 0, '0.0', 0);
 
 -- --------------------------------------------------------
 
@@ -389,36 +426,47 @@ CREATE TABLE `product_attributes_values` (
   `product_id` bigint(20) UNSIGNED NOT NULL,
   `attribute_id` bigint(20) UNSIGNED NOT NULL DEFAULT 1,
   `value` varchar(55) NOT NULL,
-  `valueNumeric` decimal(10,2) UNSIGNED NOT NULL DEFAULT 0.00
+  `valueNumeric` decimal(10,2) UNSIGNED NOT NULL DEFAULT 0.00,
+  `valueBoolean` tinyint(3) UNSIGNED NOT NULL DEFAULT 2 COMMENT 'can either be zero or one ,2 means nothing'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `product_attributes_values`
 --
 
-INSERT INTO `product_attributes_values` (`id`, `product_id`, `attribute_id`, `value`, `valueNumeric`) VALUES
-(1, 1, 1, '658', '0.00'),
-(3, 2, 1, '256', '0.00'),
-(4, 2, 1, '234', '0.00'),
-(5, 1, 1, 'Paperback', '0.00'),
-(6, 7, 1, 'Silver Gray', '0.00'),
-(7, 7, 3, 'Catalina', '0.00'),
-(8, 7, 4, '', '11.00'),
-(9, 7, 5, 'Lithium', '0.00'),
-(10, 7, 6, '', '1.00'),
-(11, 7, 7, '', '14.50'),
-(12, 7, 8, '', '450.00'),
-(13, 7, 9, '', '1.00'),
-(14, 7, 10, '', '8.00'),
-(15, 8, 1, 'Silver ', '0.00'),
-(16, 8, 3, 'Catalina', '0.00'),
-(17, 8, 4, '', '9.00'),
-(18, 8, 5, 'Lithium', '0.00'),
-(19, 8, 6, '', '1.00'),
-(20, 8, 7, '', '12.00'),
-(21, 8, 8, '', '350.00'),
-(22, 8, 9, '', '1.00'),
-(23, 8, 10, '', '6.00');
+INSERT INTO `product_attributes_values` (`id`, `product_id`, `attribute_id`, `value`, `valueNumeric`, `valueBoolean`) VALUES
+(1, 1, 1, '658', '0.00', 2),
+(3, 2, 1, '256', '0.00', 2),
+(6, 7, 1, 'Silver Gray', '0.00', 2),
+(7, 7, 3, 'Catalina', '0.00', 2),
+(8, 7, 4, '', '11.00', 2),
+(9, 7, 5, 'Lithium', '0.00', 2),
+(10, 7, 6, '', '0.00', 1),
+(11, 7, 7, '', '14.50', 2),
+(12, 7, 8, '', '450.00', 2),
+(13, 7, 9, '', '0.00', 1),
+(14, 7, 10, '', '8.00', 2),
+(15, 8, 1, 'Silver ', '0.00', 2),
+(16, 8, 3, 'Catalina', '0.00', 2),
+(17, 8, 4, '', '9.00', 2),
+(18, 8, 5, 'Lithium', '0.00', 2),
+(19, 8, 6, '', '0.00', 1),
+(20, 8, 7, '', '12.00', 2),
+(21, 8, 8, '', '350.00', 2),
+(22, 8, 9, '', '0.00', 1),
+(23, 8, 10, '', '6.00', 2),
+(26, 7, 20, '', '0.00', 0),
+(27, 8, 20, '', '0.00', 0),
+(28, 9, 20, '', '0.00', 1),
+(29, 7, 19, '', '0.00', 2),
+(30, 8, 19, '', '0.00', 2),
+(31, 9, 1, 'Black', '0.00', 2),
+(32, 9, 8, '', '256.00', 2),
+(33, 9, 10, '', '16.00', 2),
+(34, 9, 19, '', '1000.00', 2),
+(35, 9, 12, '', '0.00', 1),
+(36, 9, 7, '', '15.60', 2),
+(37, 9, 21, '', '8.00', 2);
 
 -- --------------------------------------------------------
 
@@ -501,7 +549,10 @@ INSERT INTO `product_category_attributes` (`id`, `shop_id`, `product_category_id
 (15, 1, 1, 'Cover', 0, 0, 0, 0),
 (16, 1, 1, 'ISBN', 0, 0, 1, 0),
 (17, 1, 1, 'Genre', 1, 0, 1, 0),
-(18, 1, 1, 'Language', 1, 0, 0, 0);
+(18, 1, 1, 'Language', 1, 0, 0, 0),
+(19, 2, 5, '2nd Disk size', 1, 1, 0, 0),
+(20, 2, 5, 'Has 2nd disk', 0, 0, 0, 1),
+(21, 2, 5, 'CPU Cores', 0, 1, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -594,6 +645,13 @@ CREATE TABLE `shipping_address` (
   `street_no` varchar(20) NOT NULL,
   `post_code` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `shipping_address`
+--
+
+INSERT INTO `shipping_address` (`id`, `user_id`, `country_code`, `city`, `region`, `full_name`, `address`, `street_no`, `post_code`) VALUES
+(1, 3, 'GR', 'Athens', '', '', 'Syntagma', '', '');
 
 -- --------------------------------------------------------
 
@@ -925,7 +983,8 @@ INSERT INTO `shop_manufacturers` (`id`, `shop_id`, `title`) VALUES
 (2, 2, 'Toshiba'),
 (3, 2, 'HP'),
 (4, 2, 'Apple'),
-(5, 1, 'Reclam Verlag');
+(5, 1, 'Reclam Verlag'),
+(6, 2, 'DELL');
 
 -- --------------------------------------------------------
 
@@ -1155,7 +1214,8 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `username`, `password`, `password_salt`, `email`, `first_name`, `last_name`, `created`, `updated`) VALUES
 (1, 'test', '', '', '', '', '', '2020-08-03 08:16:17', '2020-08-03 08:16:17'),
-(2, 'foo', '', '', 'foo@bar', '', '', '2020-08-03 08:22:37', '2020-08-03 08:22:37');
+(2, 'foo', '', '', 'foo@bar', '', '', '2020-08-03 08:22:37', '2020-08-03 08:22:37'),
+(3, 'richguy', '', '', '', '', '', '0000-00-00 00:00:00', NULL);
 
 -- --------------------------------------------------------
 
@@ -1274,6 +1334,7 @@ ALTER TABLE `products`
 --
 ALTER TABLE `product_attributes_values`
   ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `product_id_2` (`product_id`,`attribute_id`),
   ADD KEY `product_id` (`product_id`),
   ADD KEY `attribute_id` (`attribute_id`);
 
@@ -1602,7 +1663,7 @@ ALTER TABLE `user_roles`
 -- AUTO_INCREMENT for table `billing_address`
 --
 ALTER TABLE `billing_address`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `continents`
@@ -1644,19 +1705,19 @@ ALTER TABLE `languages`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `order_status`
 --
 ALTER TABLE `order_status`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `payment_methods`
@@ -1668,13 +1729,13 @@ ALTER TABLE `payment_methods`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `product_attributes_values`
 --
 ALTER TABLE `product_attributes_values`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `product_attribute_units`
@@ -1692,7 +1753,7 @@ ALTER TABLE `product_categories`
 -- AUTO_INCREMENT for table `product_category_attributes`
 --
 ALTER TABLE `product_category_attributes`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `product_gallery`
@@ -1722,7 +1783,7 @@ ALTER TABLE `product_tags`
 -- AUTO_INCREMENT for table `shipping_address`
 --
 ALTER TABLE `shipping_address`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `shipping_zones_regions`
@@ -1836,7 +1897,7 @@ ALTER TABLE `shop_managers`
 -- AUTO_INCREMENT for table `shop_manufacturers`
 --
 ALTER TABLE `shop_manufacturers`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `shop_product_cateogory_taxes`
@@ -1920,7 +1981,7 @@ ALTER TABLE `suppliers_supplies`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `user_roles`

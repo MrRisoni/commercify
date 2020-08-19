@@ -97,6 +97,11 @@ public class BrowseController {
                     "  WHERE pca.rangeable =1 AND p.shop_id = " + String.valueOf(shopId) +
                     " AND p.category_id = " + String.valueOf(categoryId) + " GROUP BY pav.attribute_id ";
 
+            // GET the count
+            String binaryAttributeSQL = " ";
+/*
+SELECT pav.attribute_id,pca.title, pav.valueNumeric,COUNT(pav.id) FROM product_attributes_values pav JOIN product_category_attributes pca ON pca.id = pav.attribute_id WHERE pca.isBoolean =1 GROUP BY pav.attribute_id,pav.valueNumeric
+ */
 
             // dynamic join....
             String productSQL = "SELECT p.id,p.title,p.kilos,p.price FROM products p ";
