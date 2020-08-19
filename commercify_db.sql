@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 19, 2020 at 08:00 AM
+-- Generation Time: Aug 19, 2020 at 08:54 AM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 7.4.8
 
@@ -117,17 +117,30 @@ INSERT INTO `courriers` (`id`, `title`) VALUES
 CREATE TABLE `currencies` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `title` varchar(55) NOT NULL,
-  `code` varchar(3) NOT NULL,
-  `rate` decimal(5,2) NOT NULL
+  `code` varchar(3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `currencies`
 --
 
-INSERT INTO `currencies` (`id`, `title`, `code`, `rate`) VALUES
-(1, 'Euro', 'EUR', '1.00'),
-(2, 'Swiss Franch', 'CHF', '1.13');
+INSERT INTO `currencies` (`id`, `title`, `code`) VALUES
+(1, 'Euro', 'EUR'),
+(2, 'Swiss Franch', 'CHF');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `currency_rates`
+--
+
+CREATE TABLE `currency_rates` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `from_cur` varchar(3) NOT NULL,
+  `to_cur` varchar(3) NOT NULL,
+  `rate` decimal(10,2) UNSIGNED NOT NULL,
+  `updated_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -186,6 +199,7 @@ CREATE TABLE `orders` (
   `pay_method_id` bigint(20) UNSIGNED NOT NULL,
   `ship_class_id` bigint(20) UNSIGNED NOT NULL,
   `currency` varchar(3) NOT NULL,
+  `currency_rate` decimal(10,2) UNSIGNED NOT NULL,
   `total` decimal(10,2) NOT NULL,
   `net` decimal(10,2) NOT NULL,
   `commission` decimal(10,2) UNSIGNED NOT NULL,
@@ -202,9 +216,9 @@ CREATE TABLE `orders` (
 -- Dumping data for table `orders`
 --
 
-INSERT INTO `orders` (`id`, `user_id`, `shipping_address_id`, `billing_address_id`, `shop_id`, `status_id`, `pay_method_id`, `ship_class_id`, `currency`, `total`, `net`, `commission`, `tax`, `shipping`, `success`, `void`, `refund`, `created_at`, `updated_at`) VALUES
-(1, 3, 1, 1, 2, 3, 4, 1, 'EUR', '3560.00', '3520.00', '0.00', '50.00', '30.00', 1, 0, 0, '2020-08-12 08:55:50', '2020-08-12 08:55:50'),
-(2, 3, 1, 1, 2, 3, 3, 1, 'EUR', '2560.00', '2520.00', '0.00', '10.00', '25.00', 1, 0, 0, '2020-08-12 08:55:50', '2020-08-12 08:55:50');
+INSERT INTO `orders` (`id`, `user_id`, `shipping_address_id`, `billing_address_id`, `shop_id`, `status_id`, `pay_method_id`, `ship_class_id`, `currency`, `currency_rate`, `total`, `net`, `commission`, `tax`, `shipping`, `success`, `void`, `refund`, `created_at`, `updated_at`) VALUES
+(1, 3, 1, 1, 2, 3, 4, 1, 'EUR', '1.00', '3560.00', '3520.00', '0.00', '50.00', '30.00', 1, 0, 0, '2020-08-12 08:55:50', '2020-08-12 08:55:50'),
+(2, 3, 1, 1, 2, 3, 3, 1, 'CHF', '1.89', '2560.00', '2520.00', '0.00', '10.00', '25.00', 1, 0, 0, '2020-08-12 08:55:50', '2020-08-12 08:55:50');
 
 -- --------------------------------------------------------
 
@@ -233,7 +247,7 @@ CREATE TABLE `order_items` (
 
 INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `status_id`, `quantity`, `tracking_no`, `net_price`, `taxes`, `gift_cost`, `success`, `void`, `refund`) VALUES
 (1, 1, 9, 3, 2, '', '3560.00', '12.00', '0.00', 1, 0, 0),
-(2, 2, 8, 3, 1, '', '1456.00', '234.00', '1.00', 1, 0, 0),
+(2, 2, 8, 3, 2, '', '1456.00', '234.00', '1.00', 1, 0, 0),
 (3, 2, 7, 3, 1, '', '567.00', '23.00', '0.00', 1, 0, 0);
 
 -- --------------------------------------------------------
@@ -687,6 +701,7 @@ CREATE TABLE `shipping_zones_zip_codes` (
 CREATE TABLE `shops` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `title` varchar(55) NOT NULL,
+  `basic_currency` varchar(3) NOT NULL DEFAULT 'EUR',
   `owner_id` bigint(20) UNSIGNED NOT NULL,
   `default_lang_id` bigint(20) UNSIGNED NOT NULL DEFAULT 1,
   `created` datetime NOT NULL
@@ -696,9 +711,9 @@ CREATE TABLE `shops` (
 -- Dumping data for table `shops`
 --
 
-INSERT INTO `shops` (`id`, `title`, `owner_id`, `default_lang_id`, `created`) VALUES
-(1, 'vivliofagos', 1, 1, '2020-08-03 08:22:05'),
-(2, 'elektroktenhini', 1, 1, '2020-08-17 07:25:53');
+INSERT INTO `shops` (`id`, `title`, `basic_currency`, `owner_id`, `default_lang_id`, `created`) VALUES
+(1, 'vivliofagos', 'EUR', 1, 1, '2020-08-03 08:22:05'),
+(2, 'elektroktenhini', 'EUR', 1, 1, '2020-08-17 07:25:53');
 
 -- --------------------------------------------------------
 
@@ -844,7 +859,9 @@ CREATE TABLE `shop_currencies` (
 --
 
 INSERT INTO `shop_currencies` (`id`, `shop_id`, `currency_id`, `disable_cod`, `disable_cod_greater_than`) VALUES
-(1, 1, 1, 0, 0);
+(1, 1, 1, 0, 0),
+(2, 2, 1, 0, 0),
+(3, 2, 2, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -1265,6 +1282,13 @@ ALTER TABLE `courriers`
 ALTER TABLE `currencies`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `code` (`code`);
+
+--
+-- Indexes for table `currency_rates`
+--
+ALTER TABLE `currency_rates`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `from_cur` (`from_cur`,`to_cur`);
 
 --
 -- Indexes for table `globe_regions`
@@ -1690,6 +1714,12 @@ ALTER TABLE `currencies`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT for table `currency_rates`
+--
+ALTER TABLE `currency_rates`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `globe_regions`
 --
 ALTER TABLE `globe_regions`
@@ -1843,7 +1873,7 @@ ALTER TABLE `shop_courier_classes`
 -- AUTO_INCREMENT for table `shop_currencies`
 --
 ALTER TABLE `shop_currencies`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `shop_disable_cod_continents`
