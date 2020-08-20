@@ -9,6 +9,7 @@ public class Analytics {
     private BigDecimal gross;
     private BigDecimal net;
     private List<TopCategory> topCategories;
+    private List<TopProduct> topProducts;
 
     public Analytics(Long itemsSold, Long ordersNum, BigDecimal gross, BigDecimal net) {
         this.itemsSold = itemsSold;
@@ -55,5 +56,13 @@ public class Analytics {
 
     public void setTopCategories(List<TopCategory> topCategories) {
         this.topCategories = topCategories;
+    }
+
+    public List<TopProduct> getTopProducts() {
+        return topProducts;
+    }
+
+    public void setTopProducts(List<TopProduct> topProducts) {
+        this.topProducts = topProducts;
     }
 }

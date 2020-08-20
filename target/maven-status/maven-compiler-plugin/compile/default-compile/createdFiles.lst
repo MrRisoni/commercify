@@ -125,6 +125,7 @@ entity\JackSonViewer$IShopProductCategory.class
 entity\Products.class
 core\ShopController.class
 entity\ProductAttributesValues.class
+dto\Top.class
 entity\ShopDisableCodZipcode_.class
 entity\Courriers_.class
 entity\Countries_.class

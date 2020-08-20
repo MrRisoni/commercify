@@ -3,6 +3,7 @@ package core.analytics;
 import dto.Analytics;
 import dto.OrderReport;
 import dto.TopCategory;
+import dto.TopProduct;
 import entity.HibernateUtil;
 import org.hibernate.transform.Transformers;
 import org.hibernate.type.StandardBasicTypes;
@@ -71,8 +72,26 @@ public class RevenueController {
                     .setResultTransformer(Transformers.aliasToBean(TopCategory.class))
                     .getResultList();
 
+            List<TopProduct> topProducts = em.createNativeQuery("SELECT p.id AS Id,p.title, SUM(oi.quantity) AS itemsSold, " +
+                    "  SUM(o.currency_rate * oi.net_price) AS totalNet " +
+                    "  FROM orders o " +
+                    "  JOIN order_items oi ON oi.order_id = o.id " +
+                    "  JOIN products p ON p.id = oi.product_id " +
+                    "  WHERE o.success =1 " +
+                    "  GROUP BY oi.product_id " +
+                    "  ORDER BY SUM(oi.quantity) DESC LIMIT 10  ")
+                    .unwrap(org.hibernate.query.NativeQuery.class)
+                    .addScalar("Id", StandardBasicTypes.LONG)
+                    .addScalar("title")
+                    .addScalar("itemsSold", StandardBasicTypes.LONG)
+                    .addScalar("totalNet")
+                    .setResultTransformer(Transformers.aliasToBean(TopCategory.class))
+                    .getResultList();
+
+
             Analytics anals = new Analytics(itemsSold,ordersNum,gross,net);
             anals.setTopCategories(topCats);
+            anals.setTopProducts(topProducts);
 
             return  anals;
         }catch (Exception ex)
