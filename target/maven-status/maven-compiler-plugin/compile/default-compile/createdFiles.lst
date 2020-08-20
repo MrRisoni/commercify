@@ -24,10 +24,12 @@ entity\Orders_.class
 entity\ShopDisableCodContinents.class
 entity\ShippingZonesRegions_.class
 entity\ShopCourierClasses_.class
+dto\OrderReport.class
 entity\Courriers.class
 repositories\ShopRepo.class
 entity\ShopShippingClassesRegions_.class
 entity\ShopCategories_.class
+dto\BinaryValues.class
 entity\ShopCouriers_.class
 entity\ShopStyling.class
 entity\PaymentMethods.class
@@ -88,6 +90,7 @@ entity\ShopTaxRegionRules_.class
 entity\ShopCategories.class
 entity\ShopTaxCodeNames.class
 entity\SuppliersSupplies_.class
+core\analytics\RevenueController.class
 entity\HibernateUtil.class
 core\GeneralController.class
 entity\ShopDisableCodZipcode.class
