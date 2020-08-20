@@ -46,6 +46,7 @@ entity\ProductGallery.class
 entity\ShopCurrencies.class
 entity\ShopReviews.class
 core\Application.class
+dto\TopCategory.class
 entity\ShopLanguages_.class
 entity\BillingAddress_.class
 entity\OrderItems_.class
@@ -81,7 +82,9 @@ entity\ShopProductCateogoryTaxes_.class
 entity\OrderItems.class
 entity\ShopDisableZipCodes_.class
 entity\ShopStyling_.class
+dto\TopProduct.class
 entity\Products_.class
+dto\Analytics.class
 entity\BillingAddress.class
 entity\ProductGalleryTag_.class
 entity\ShopLanguages.class
