@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 19, 2020 at 08:54 AM
+-- Generation Time: Aug 21, 2020 at 07:29 AM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 7.4.8
 
@@ -223,6 +223,26 @@ INSERT INTO `orders` (`id`, `user_id`, `shipping_address_id`, `billing_address_i
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `orders_status_history`
+--
+
+CREATE TABLE `orders_status_history` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `order_id` bigint(20) UNSIGNED NOT NULL,
+  `status_id` bigint(20) UNSIGNED NOT NULL,
+  `created_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `orders_status_history`
+--
+
+INSERT INTO `orders_status_history` (`id`, `order_id`, `status_id`, `created_at`) VALUES
+(1, 2, 1, '2020-08-12 08:55:50');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `order_items`
 --
 
@@ -249,6 +269,27 @@ INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `status_id`, `quantit
 (1, 1, 9, 3, 2, '', '3560.00', '12.00', '0.00', 1, 0, 0),
 (2, 2, 8, 3, 2, '', '1456.00', '234.00', '1.00', 1, 0, 0),
 (3, 2, 7, 3, 1, '', '567.00', '23.00', '0.00', 1, 0, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `order_items_status_history`
+--
+
+CREATE TABLE `order_items_status_history` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `item_id` bigint(20) UNSIGNED NOT NULL,
+  `status_id` bigint(20) UNSIGNED NOT NULL,
+  `created_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `order_items_status_history`
+--
+
+INSERT INTO `order_items_status_history` (`id`, `item_id`, `status_id`, `created_at`) VALUES
+(1, 2, 1, '2020-08-21 08:20:26'),
+(2, 2, 3, '2020-08-21 08:20:26');
 
 -- --------------------------------------------------------
 
@@ -1230,9 +1271,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `password`, `password_salt`, `email`, `first_name`, `last_name`, `created`, `updated`) VALUES
-(1, 'test', '', '', '', '', '', '2020-08-03 08:16:17', '2020-08-03 08:16:17'),
-(2, 'foo', '', '', 'foo@bar', '', '', '2020-08-03 08:22:37', '2020-08-03 08:22:37'),
-(3, 'richguy', '', '', '', '', '', '0000-00-00 00:00:00', NULL);
+(1, 'test', '', '', '', 'ANNA', 'KARENINA', '2020-08-03 08:16:17', '2020-08-03 08:16:17'),
+(2, 'foo', '', '', 'foo@bar', 'LEV', 'GOGOL', '2020-08-03 08:22:37', '2020-08-03 08:22:37'),
+(3, 'richguy', '', '', '', 'ANTON', 'TSEKOF', '0000-00-00 00:00:00', '2020-08-02 08:05:32');
 
 -- --------------------------------------------------------
 
@@ -1317,12 +1358,28 @@ ALTER TABLE `orders`
   ADD KEY `billing_address_id` (`billing_address_id`);
 
 --
+-- Indexes for table `orders_status_history`
+--
+ALTER TABLE `orders_status_history`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `order_id` (`order_id`),
+  ADD KEY `status_id` (`status_id`);
+
+--
 -- Indexes for table `order_items`
 --
 ALTER TABLE `order_items`
   ADD PRIMARY KEY (`id`),
   ADD KEY `order_id` (`order_id`),
   ADD KEY `product_id` (`product_id`),
+  ADD KEY `status_id` (`status_id`);
+
+--
+-- Indexes for table `order_items_status_history`
+--
+ALTER TABLE `order_items_status_history`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `item_id` (`item_id`),
   ADD KEY `status_id` (`status_id`);
 
 --
@@ -1738,10 +1795,22 @@ ALTER TABLE `orders`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT for table `orders_status_history`
+--
+ALTER TABLE `orders_status_history`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `order_items_status_history`
+--
+ALTER TABLE `order_items_status_history`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `order_status`
@@ -2042,12 +2111,26 @@ ALTER TABLE `orders`
   ADD CONSTRAINT `orders_ibfk_7` FOREIGN KEY (`billing_address_id`) REFERENCES `billing_address` (`id`);
 
 --
+-- Constraints for table `orders_status_history`
+--
+ALTER TABLE `orders_status_history`
+  ADD CONSTRAINT `orders_status_history_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`),
+  ADD CONSTRAINT `orders_status_history_ibfk_2` FOREIGN KEY (`status_id`) REFERENCES `order_status` (`id`);
+
+--
 -- Constraints for table `order_items`
 --
 ALTER TABLE `order_items`
   ADD CONSTRAINT `order_items_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`),
   ADD CONSTRAINT `order_items_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`),
   ADD CONSTRAINT `order_items_ibfk_3` FOREIGN KEY (`status_id`) REFERENCES `order_status` (`id`);
+
+--
+-- Constraints for table `order_items_status_history`
+--
+ALTER TABLE `order_items_status_history`
+  ADD CONSTRAINT `order_items_status_history_ibfk_1` FOREIGN KEY (`item_id`) REFERENCES `order_items` (`id`),
+  ADD CONSTRAINT `order_items_status_history_ibfk_2` FOREIGN KEY (`status_id`) REFERENCES `order_status` (`id`);
 
 --
 -- Constraints for table `products`

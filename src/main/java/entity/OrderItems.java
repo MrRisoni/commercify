@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.List;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -82,7 +83,13 @@ public class OrderItems implements Serializable {
 
     @JoinColumn(name = "status_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
+    @JsonView(JackSonViewer.IOrder.class)
     private OrderStatus statusId;
+
+    @OneToMany( cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JoinColumn(name="item_id")
+    @JsonView(JackSonViewer.IOrder.class)
+    private List<OrderItemStatusHistory> statusHistory;
 
     public OrderItems() {
     }
@@ -199,4 +206,23 @@ public class OrderItems implements Serializable {
         this.statusId = statusId;
     }
 
+    public boolean isSuccess() {
+        return success;
+    }
+
+    public boolean isVoid() {
+        return isVoid;
+    }
+
+    public boolean isRefund() {
+        return refund;
+    }
+
+    public List<OrderItemStatusHistory> getStatusHistory() {
+        return statusHistory;
+    }
+
+    public void setStatusHistory(List<OrderItemStatusHistory> statusHistory) {
+        this.statusHistory = statusHistory;
+    }
 }

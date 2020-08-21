@@ -2,12 +2,12 @@
 package entity;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import dto.TopCategory;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -92,6 +92,11 @@ public class Orders implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     @JsonView(JackSonViewer.IOrder.class)
     private Date updatedAt;
+
+    @OneToMany( cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JoinColumn(name="order_id")
+    @JsonView(JackSonViewer.IOrder.class)
+    private List<OrderStatusHistory> statusHistory;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "orderId",fetch = FetchType.LAZY)
     @JsonView(JackSonViewer.IOrder.class)
@@ -318,5 +323,13 @@ public class Orders implements Serializable {
 
     public boolean isRefund() {
         return refund;
+    }
+
+    public List<OrderStatusHistory> getStatusHistory() {
+        return statusHistory;
+    }
+
+    public void setStatusHistory(List<OrderStatusHistory> statusHistory) {
+        this.statusHistory = statusHistory;
     }
 }

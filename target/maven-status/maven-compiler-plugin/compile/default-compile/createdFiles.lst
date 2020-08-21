@@ -4,6 +4,7 @@ entity\ProductGallery_.class
 entity\ShopTaxRules_.class
 entity\ShopTaxRegionRules.class
 entity\Languages.class
+entity\OrderItemStatusHistory_.class
 entity\ShopDisableCodCountries_.class
 entity\ShopTaxRules.class
 entity\UserRoles.class
@@ -14,11 +15,13 @@ entity\OrderStatus.class
 entity\ShopSuppliers_.class
 entity\ShopWeightShipRules_.class
 entity\ProductTags.class
+entity\OrderItemStatusHistory.class
 pojo\BrowsePojo.class
 entity\ProductCategoryAttributes_.class
 entity\ShopGiftwrap_.class
 entity\Languages_.class
 entity\ShopDisableCodContinents_.class
+entity\OrderStatusHistory_.class
 entity\ProductGalleryTag.class
 entity\Orders_.class
 entity\ShopDisableCodContinents.class
@@ -112,6 +115,7 @@ repositories\CurrencyRepo.class
 entity\ProductReviews_.class
 entity\ProductTags_.class
 entity\ShopWeightCodRules_.class
+entity\OrderStatusHistory.class
 entity\ShopWeightShipRules.class
 entity\ShopTranslations_.class
 entity\Users.class

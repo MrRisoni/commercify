@@ -30,6 +30,8 @@
         <mapping class="entity.ShopShippingClassesRegions"/>
         <mapping class="entity.Courriers"/>
         <mapping class="entity.OrderItems"/>
+        <mapping class="entity.OrderStatusHistory"/>
+        <mapping class="entity.OrderItemStatusHistory"/>
         <mapping class="entity.PaymentMethods"/>
         <mapping class="entity.ShopShipZones"/>
         <mapping class="entity.ShopBelongsCategories"/>
