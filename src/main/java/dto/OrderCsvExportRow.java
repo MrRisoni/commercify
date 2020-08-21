@@ -2,10 +2,11 @@ package dto;
 
 import java.math.BigDecimal;
 
-public class OrderCsvExportRow {
+public class OrderCsvExportRow extends CsvRecord {
     private Long numOrders;
     private BigDecimal netPrice;
     private String period;
+
 
     public OrderCsvExportRow() {
     }

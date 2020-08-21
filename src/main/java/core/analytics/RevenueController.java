@@ -1,9 +1,6 @@
 package core.analytics;
 
-import dto.Analytics;
-import dto.OrderReport;
-import dto.TopCategory;
-import dto.TopProduct;
+import dto.*;
 import entity.HibernateUtil;
 import org.hibernate.transform.Transformers;
 import org.hibernate.type.StandardBasicTypes;
@@ -11,8 +8,10 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import services.RevenueSrvc;
 
 import javax.persistence.EntityManager;
+import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
@@ -164,5 +163,18 @@ public class RevenueController {
             return null;
         }
     }
+
+    @RequestMapping(value = "/api/customers", method = RequestMethod.GET)
+    public List<CustomerReport> getCustomers(HttpServletResponse response) {
+        try {
+            return RevenueSrvc.getCustomers(2L);
+        }
+        catch (Exception ex){
+            ex.printStackTrace();
+            return null;
+        }
+    }
+
+
 
 }

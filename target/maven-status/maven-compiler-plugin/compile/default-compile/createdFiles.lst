@@ -14,6 +14,7 @@ entity\ShopSuppliers.class
 entity\ShopDisableZipCodes.class
 entity\ShopWeightCodRules.class
 entity\OrderStatus.class
+dto\CsvRecord.class
 entity\ShopSuppliers_.class
 entity\ShopWeightShipRules_.class
 entity\ProductTags.class
@@ -116,14 +117,17 @@ entity\ProductCategoryAttributes.class
 repositories\CurrencyRepo.class
 entity\ProductReviews_.class
 entity\ProductTags_.class
+dto\CustomerReport.class
 entity\ShopWeightCodRules_.class
 entity\OrderStatusHistory.class
 entity\ShopWeightShipRules.class
 entity\ShopTranslations_.class
 entity\Users.class
+services\RevenueSrvc.class
 entity\Shops_.class
 entity\ProductReviews.class
 entity\ShopTranslations.class
+services\CSVExporter.class
 core\BrowseController.class
 dto\RangeValues.class
 entity\ShopCurrencies_.class
