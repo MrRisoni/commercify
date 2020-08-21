@@ -39,7 +39,7 @@ public class HibernateUtil {
             Map<String, Object> configOverrides = new HashMap<String, Object>();
             configOverrides.put("javax.persistence.jdbc.password", "");
             configOverrides.put("javax.persistence.jdbc.user", "root");
-                String dbUrl = "jdbc:mysql://localhost:3306/commercify_db?serverTimezone=UTC";
+                String dbUrl = "jdbc:mysql://localhost:3306/commercify_db?serverTimezone=UTC&zeroDateTimeBehavior=convertToNull";
                 configOverrides.put("javax.persistence.jdbc.url",dbUrl);
                 System.out.println("URL CON");
                 System.out.println(dbUrl);
@@ -58,7 +58,7 @@ public class HibernateUtil {
         Map<String,String> HerokuSettings = new HashMap<>();
         HerokuSettings.put("hibernate.connection.password","");
         HerokuSettings.put("hibernate.connection.user","root");
-            String dbUrl = "jdbc:mysql://localhost:3306/commercify_db?serverTimezone=UTC";
+            String dbUrl = "jdbc:mysql://localhost:3306/commercify_db?serverTimezone=UTC&zeroDateTimeBehavior=convertToNull";
             HerokuSettings.put("hibernate.connection.url",dbUrl);
             System.out.println(dbUrl);
 

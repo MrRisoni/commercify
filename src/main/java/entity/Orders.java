@@ -99,6 +99,7 @@ public class Orders implements Serializable {
 
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne(optional = false,fetch = FetchType.LAZY)
+    @JsonView(JackSonViewer.IOrder.class)
     private Users userId;
 
     @JoinColumn(name = "shop_id", referencedColumnName = "id")
@@ -107,6 +108,7 @@ public class Orders implements Serializable {
 
     @JoinColumn(name = "status_id", referencedColumnName = "id")
     @ManyToOne(optional = false,fetch = FetchType.LAZY)
+    @JsonView(JackSonViewer.IOrder.class)
     private OrderStatus statusId;
 
     @JoinColumn(name = "pay_method_id", referencedColumnName = "id")
