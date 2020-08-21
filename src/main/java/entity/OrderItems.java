@@ -1,9 +1,10 @@
 
 package entity;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Collection;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -17,48 +18,57 @@ public class OrderItems implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
+    @JsonView(JackSonViewer.IOrder.class)
     private Long id;
 
     @Basic(optional = false)
     @NotNull
     @Column(name = "quantity")
+    @JsonView(JackSonViewer.IOrder.class)
     private int quantity;
 
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 52)
     @Column(name = "tracking_no")
+    @JsonView(JackSonViewer.IOrder.class)
     private String trackingNo;
 
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Basic(optional = false)
     @NotNull
     @Column(name = "net_price")
+    @JsonView(JackSonViewer.IOrder.class)
     private BigDecimal netPrice;
 
     @Basic(optional = false)
     @NotNull
     @Column(name = "taxes")
+    @JsonView(JackSonViewer.IOrder.class)
     private BigDecimal taxes;
 
     @Basic(optional = false)
     @NotNull
     @Column(name = "gift_cost")
+    @JsonView(JackSonViewer.IOrder.class)
     private BigDecimal giftCost;
 
     @Basic(optional = false)
     @NotNull
     @Column(name = "success")
+    @JsonView(JackSonViewer.IOrder.class)
     private boolean success;
 
     @Basic(optional = false)
     @NotNull
     @Column(name = "void")
-    private boolean void1;
+    @JsonView(JackSonViewer.IOrder.class)
+    private boolean isVoid;
 
     @Basic(optional = false)
     @NotNull
     @Column(name = "refund")
+    @JsonView(JackSonViewer.IOrder.class)
     private boolean refund;
 
     @JoinColumn(name = "order_id", referencedColumnName = "id")
@@ -67,6 +77,7 @@ public class OrderItems implements Serializable {
 
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
+    @JsonView(JackSonViewer.IOrder.class)
     private Products productId;
 
     @JoinColumn(name = "status_id", referencedColumnName = "id")
@@ -88,7 +99,7 @@ public class OrderItems implements Serializable {
         this.taxes = taxes;
         this.giftCost = giftCost;
         this.success = success;
-        this.void1 = void1;
+        this.isVoid = void1;
         this.refund = refund;
     }
 
@@ -148,12 +159,12 @@ public class OrderItems implements Serializable {
         this.success = success;
     }
 
-    public boolean getVoid1() {
-        return void1;
+    public boolean getVoid() {
+        return isVoid;
     }
 
-    public void setVoid1(boolean void1) {
-        this.void1 = void1;
+    public void setVoid(boolean aVoid) {
+        this.isVoid = aVoid;
     }
 
     public boolean getRefund() {

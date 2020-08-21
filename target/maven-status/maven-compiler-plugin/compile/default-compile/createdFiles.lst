@@ -69,6 +69,7 @@ entity\ShopCountries.class
 entity\ShopShipZones_.class
 entity\ShopCourierClasses.class
 entity\Countries.class
+repositories\OrdersRepository.class
 entity\ShippingAddress_.class
 core\GreetingController.class
 entity\Currencies.class
@@ -76,6 +77,7 @@ entity\GlobeRegions_.class
 core\ProductController.class
 entity\ShopBanks_.class
 entity\ShopShipZones.class
+core\OrdersController.class
 entity\Continents_.class
 entity\Orders.class
 entity\ShopProductCateogoryTaxes_.class

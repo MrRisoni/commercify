@@ -36,11 +36,6 @@ public class Currencies implements Serializable {
     @JsonView(JackSonViewer.IShopProduct.class)
     private String code;
 
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "rate")
-    private BigDecimal rate;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "currencyId")
     private Collection<Products> productsCollection;
@@ -55,11 +50,10 @@ public class Currencies implements Serializable {
         this.id = id;
     }
 
-    public Currencies(Long id, String title, String code, BigDecimal rate) {
+    public Currencies(Long id, String title, String code) {
         this.id = id;
         this.title = title;
         this.code = code;
-        this.rate = rate;
     }
 
     public Long getId() {
@@ -84,14 +78,6 @@ public class Currencies implements Serializable {
 
     public void setCode(String code) {
         this.code = code;
-    }
-
-    public BigDecimal getRate() {
-        return rate;
-    }
-
-    public void setRate(BigDecimal rate) {
-        this.rate = rate;
     }
 
 

@@ -27,21 +27,21 @@ public class Products implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
-    @JsonView(JackSonViewer.IShopProduct.class)
+    @JsonView({JackSonViewer.IShopProduct.class, JackSonViewer.IOrder.class})
     private Long id;
 
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 120)
-    @JsonView(JackSonViewer.IShopProduct.class)
     @Column(name = "code")
+    @JsonView({JackSonViewer.IShopProduct.class, JackSonViewer.IOrder.class})
     private String code;
 
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 55)
-    @JsonView(JackSonViewer.IShopProduct.class)
     @Column(name = "title")
+    @JsonView({JackSonViewer.IShopProduct.class, JackSonViewer.IOrder.class})
     private String title;
 
     @Basic(optional = false)
@@ -69,7 +69,7 @@ public class Products implements Serializable {
     @NotNull
     @Size(min = 1, max = 255)
     @Column(name = "thumbnail_url")
-    @JsonView(JackSonViewer.IShopProduct.class)
+    @JsonView({JackSonViewer.IShopProduct.class, JackSonViewer.IOrder.class})
     private String thumbnailUrl;
 
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
@@ -94,7 +94,7 @@ public class Products implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "kilos")
-    @JsonView(JackSonViewer.IShopProduct.class)
+    @JsonView({JackSonViewer.IShopProduct.class, JackSonViewer.IOrder.class})
     private BigDecimal kilos;
 
     @Basic(optional = false)
@@ -124,7 +124,7 @@ public class Products implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "stock")
-    @JsonView(JackSonViewer.IShopProduct.class)
+    @JsonView({JackSonViewer.IShopProduct.class, JackSonViewer.IOrder.class})
     private long stock;
 
     @Basic(optional = false)

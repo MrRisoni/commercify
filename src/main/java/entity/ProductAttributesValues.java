@@ -30,8 +30,15 @@ public class ProductAttributesValues implements Serializable {
     @JsonView(JackSonViewer.IShopProduct.class)
     private String value;
 
-
+     /*
+    @JsonView({JackSonViewer.IOrder.class, JackSonViewer.IShopProduct.class})
+    @Column(name = "valueNumeric")
     private BigDecimal valueNumeric;
+
+
+    @Column(name = "valueBoolean")
+    @JsonView({JackSonViewer.IOrder.class, JackSonViewer.IShopProduct.class})
+    private int valueBoolean;*/
 
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
@@ -86,11 +93,20 @@ public class ProductAttributesValues implements Serializable {
         this.attributeId = attributeId;
     }
 
-    public BigDecimal getValueNumeric() {
+  /*  public BigDecimal getValueNumeric() {
         return valueNumeric;
     }
 
     public void setValueNumeric(BigDecimal valueNumeric) {
         this.valueNumeric = valueNumeric;
     }
+
+
+    public boolean isValueBoolean() {
+        return valueBoolean;
+    }
+
+    public void setValueBoolean(boolean valueBoolean) {
+        this.valueBoolean = valueBoolean;
+    }*/
 }

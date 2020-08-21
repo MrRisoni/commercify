@@ -1,6 +1,7 @@
 
 package entity;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import dto.TopCategory;
 
 import java.io.Serializable;
@@ -21,89 +22,107 @@ public class Orders implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
+    @JsonView(JackSonViewer.IOrder.class)
     private Long id;
 
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 3)
     @Column(name = "currency")
+    @JsonView(JackSonViewer.IOrder.class)
     private String currency;
+
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "currency_rate")
+    @JsonView(JackSonViewer.IOrder.class)
+    private BigDecimal currency_rate;
 
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Basic(optional = false)
     @NotNull
     @Column(name = "total")
+    @JsonView(JackSonViewer.IOrder.class)
     private BigDecimal total;
 
     @Basic(optional = false)
     @NotNull
     @Column(name = "net")
+    @JsonView(JackSonViewer.IOrder.class)
     private BigDecimal net;
 
     @Basic(optional = false)
     @NotNull
     @Column(name = "tax")
+    @JsonView(JackSonViewer.IOrder.class)
     private BigDecimal tax;
 
     @Basic(optional = false)
     @NotNull
     @Column(name = "shipping")
+    @JsonView(JackSonViewer.IOrder.class)
     private BigDecimal shipping;
 
     @Basic(optional = false)
     @NotNull
     @Column(name = "success")
+    @JsonView(JackSonViewer.IOrder.class)
     private boolean success;
 
     @Basic(optional = false)
     @NotNull
     @Column(name = "void")
+    @JsonView(JackSonViewer.IOrder.class)
     private boolean isVoid;
 
     @Basic(optional = false)
     @NotNull
     @Column(name = "refund")
+    @JsonView(JackSonViewer.IOrder.class)
     private boolean refund;
 
     @Basic(optional = false)
     @NotNull
     @Column(name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)
+    @JsonView(JackSonViewer.IOrder.class)
     private Date createdAt;
 
     @Column(name = "updated_at")
     @Temporal(TemporalType.TIMESTAMP)
+    @JsonView(JackSonViewer.IOrder.class)
     private Date updatedAt;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "orderId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "orderId",fetch = FetchType.LAZY)
+    @JsonView(JackSonViewer.IOrder.class)
     private Collection<OrderItems> orderItemsCollection;
 
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false,fetch = FetchType.LAZY)
     private Users userId;
 
     @JoinColumn(name = "shop_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false,fetch = FetchType.LAZY)
     private Shops shopId;
 
     @JoinColumn(name = "status_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false,fetch = FetchType.LAZY)
     private OrderStatus statusId;
 
     @JoinColumn(name = "pay_method_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false,fetch = FetchType.LAZY)
     private PaymentMethods payMethodId;
 
     @JoinColumn(name = "ship_class_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false,fetch = FetchType.LAZY)
     private ShopCourierClasses shipClassId;
 
     @JoinColumn(name = "shipping_address_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false,fetch = FetchType.LAZY)
     private ShippingAddress shippingAddressId;
 
     @JoinColumn(name = "billing_address_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false,fetch = FetchType.LAZY)
     private BillingAddress billingAddressId;
 
     public Orders() {
@@ -277,5 +296,25 @@ public class Orders implements Serializable {
 
     public void setBillingAddressId(BillingAddress billingAddressId) {
         this.billingAddressId = billingAddressId;
+    }
+
+    public BigDecimal getCurrency_rate() {
+        return currency_rate;
+    }
+
+    public void setCurrency_rate(BigDecimal currency_rate) {
+        this.currency_rate = currency_rate;
+    }
+
+    public boolean isSuccess() {
+        return success;
+    }
+
+    public boolean isVoid() {
+        return isVoid;
+    }
+
+    public boolean isRefund() {
+        return refund;
     }
 }
