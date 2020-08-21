@@ -21,14 +21,14 @@ public class ShopManufacturers implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
-    @JsonView(JackSonViewer.IShopProduct.class)
+    @JsonView({JackSonViewer.IShopProduct.class, JackSonViewer.IOrder.class})
     private Long id;
 
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 55)
     @Column(name = "title")
-    @JsonView(JackSonViewer.IShopProduct.class)
+    @JsonView({JackSonViewer.IShopProduct.class, JackSonViewer.IOrder.class})
     private String title;
 
     @JoinColumn(name = "shop_id", referencedColumnName = "id")

@@ -206,7 +206,7 @@ public class Products implements Serializable {
 
     @JoinColumn(name = "category_id", referencedColumnName = "id")
     @ManyToOne(optional = false,fetch = FetchType.LAZY)
-    @JsonView(JackSonViewer.IShopProduct.class)
+    @JsonView({JackSonViewer.IShopProduct.class, JackSonViewer.IOrder.class})
     private ProductCategories categoryId;
 
     @JoinColumn(name = "currency_id", referencedColumnName = "id")
@@ -216,7 +216,7 @@ public class Products implements Serializable {
 
     @JoinColumn(name = "manufacturer_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    @JsonView(JackSonViewer.IShopProduct.class)
+    @JsonView({JackSonViewer.IShopProduct.class, JackSonViewer.IOrder.class})
     private ShopManufacturers manufacturerId;
 
     public Products() {

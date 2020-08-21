@@ -1,6 +1,8 @@
 
 package entity;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Collection;
@@ -19,12 +21,14 @@ public class ShopCourierClasses implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
+    @JsonView(JackSonViewer.IOrder.class)
     private Long id;
 
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 52)
     @Column(name = "title")
+    @JsonView(JackSonViewer.IOrder.class)
     private String title;
 
     @Basic(optional = false)
@@ -36,6 +40,7 @@ public class ShopCourierClasses implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "cod_base_cost")
+    @JsonView(JackSonViewer.IOrder.class)
     private BigDecimal codBaseCost;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "shippingClassId")
@@ -43,6 +48,7 @@ public class ShopCourierClasses implements Serializable {
 
     @JoinColumn(name = "shop_courier_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
+    @JsonView(JackSonViewer.IOrder.class)
     private ShopCouriers shopCourierId;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "shipClassId")

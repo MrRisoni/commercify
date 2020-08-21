@@ -1,6 +1,8 @@
 
 package entity;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.*;
@@ -18,6 +20,7 @@ public class ShopCouriers implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
+    @JsonView(JackSonViewer.IOrder.class)
     private Long id;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "shopCourierId")
@@ -29,6 +32,7 @@ public class ShopCouriers implements Serializable {
 
     @JoinColumn(name = "courier_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
+    @JsonView(JackSonViewer.IOrder.class)
     private Courriers courierId;
 
     public ShopCouriers() {

@@ -65,6 +65,12 @@ public class Orders implements Serializable {
 
     @Basic(optional = false)
     @NotNull
+    @Column(name = "courrier_fees")
+    @JsonView(JackSonViewer.IOrder.class)
+    private BigDecimal courrierFees;
+
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "success")
     @JsonView(JackSonViewer.IOrder.class)
     private boolean success;
@@ -118,18 +124,22 @@ public class Orders implements Serializable {
 
     @JoinColumn(name = "pay_method_id", referencedColumnName = "id")
     @ManyToOne(optional = false,fetch = FetchType.LAZY)
+    @JsonView(JackSonViewer.IOrder.class)
     private PaymentMethods payMethodId;
 
     @JoinColumn(name = "ship_class_id", referencedColumnName = "id")
     @ManyToOne(optional = false,fetch = FetchType.LAZY)
+    @JsonView(JackSonViewer.IOrder.class)
     private ShopCourierClasses shipClassId;
 
     @JoinColumn(name = "shipping_address_id", referencedColumnName = "id")
     @ManyToOne(optional = false,fetch = FetchType.LAZY)
+    @JsonView(JackSonViewer.IOrder.class)
     private ShippingAddress shippingAddressId;
 
     @JoinColumn(name = "billing_address_id", referencedColumnName = "id")
     @ManyToOne(optional = false,fetch = FetchType.LAZY)
+    @JsonView(JackSonViewer.IOrder.class)
     private BillingAddress billingAddressId;
 
     public Orders() {
@@ -331,5 +341,13 @@ public class Orders implements Serializable {
 
     public void setStatusHistory(List<OrderStatusHistory> statusHistory) {
         this.statusHistory = statusHistory;
+    }
+
+    public BigDecimal getCourrierFees() {
+        return courrierFees;
+    }
+
+    public void setCourrierFees(BigDecimal courrierFees) {
+        this.courrierFees = courrierFees;
     }
 }
