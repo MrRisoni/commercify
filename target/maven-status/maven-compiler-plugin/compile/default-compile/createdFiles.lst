@@ -1,8 +1,10 @@
 entity\Continents.class
 entity\ShippingZonesZipCodes_.class
+core\exports\ExportController.class
 entity\ProductGallery_.class
 entity\ShopTaxRules_.class
 entity\ShopTaxRegionRules.class
+dto\OrderCsvExportRow.class
 entity\Languages.class
 entity\OrderItemStatusHistory_.class
 entity\ShopDisableCodCountries_.class
