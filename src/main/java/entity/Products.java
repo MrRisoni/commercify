@@ -179,7 +179,7 @@ public class Products implements Serializable {
     @Column(name = "avg_rating")
     private BigDecimal avgRating;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId", fetch = FetchType.LAZY)
     @JsonView(JackSonViewer.IShopProduct.class)
     private Collection<ProductTags> productTagsCollection;
 

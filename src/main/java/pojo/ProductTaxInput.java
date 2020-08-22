@@ -1,12 +1,15 @@
 package pojo;
 
+import entity.GlobeRegions;
+
 public class ProductTaxInput {
     private Long productCategoryId;
     private String billCountry;
     private String shipCountry;
     private String billZipCode;
     private String shipZipCode;
-
+    private GlobeRegions billRegion;
+    private GlobeRegions shipRegion;
 
     public ProductTaxInput() {
     }
@@ -50,5 +53,21 @@ public class ProductTaxInput {
 
     public void setShipZipCode(String shipZipCode) {
         this.shipZipCode = shipZipCode;
+    }
+
+    public GlobeRegions getBillRegion() {
+        return billRegion;
+    }
+
+    public void setBillRegion(GlobeRegions billRegion) {
+        this.billRegion = billRegion;
+    }
+
+    public GlobeRegions getShipRegion() {
+        return shipRegion;
+    }
+
+    public void setShipRegion(GlobeRegions shipRegion) {
+        this.shipRegion = shipRegion;
     }
 }

@@ -35,10 +35,12 @@ public class TaxServiceTest {
         BillingAddress billTo = new BillingAddress();
         billTo.setCountryCode("GR");
         billTo.setPostCode("28100");
+        billTo.setRegionId(new GlobeRegions(2L));
 
         ShippingAddress shipTo = new ShippingAddress();
         shipTo.setCountryCode("GR");
         shipTo.setPostCode("28100");
+        shipTo.setRegionId(new GlobeRegions(2L));
 
         Basket basket = new Basket();
         basket.setBillTo(billTo);

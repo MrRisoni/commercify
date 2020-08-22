@@ -2,6 +2,7 @@ package pojo;
 
 import entity.*;
 
+import java.util.Date;
 import java.util.List;
 
 public class Basket {
@@ -12,7 +13,7 @@ public class Basket {
     private String currencyCode;
     private ShopCourierClasses shipMethod;
     private List<BasketItem> items;
-
+    private Date updatedAt;
 
     public Basket() {
     }
@@ -81,5 +82,17 @@ public class Basket {
 
     public void setItems(List<BasketItem> items) {
         this.items = items;
+    }
+
+    public void setShipTo(ShippingAddress shipTo) {
+        this.shipTo = shipTo;
+    }
+
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }

@@ -37,6 +37,7 @@ entity\Courriers.class
 repositories\ShopRepo.class
 entity\ShopShippingClassesRegions_.class
 entity\ShopCategories_.class
+pojo\ProductTaxInput.class
 dto\BinaryValues.class
 entity\ShopCouriers_.class
 services\ShippingSrvc.class
