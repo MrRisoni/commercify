@@ -18,7 +18,7 @@
         <mapping class="entity.Shops"/>
         <mapping class="entity.UserRoles"/>
         <mapping class="entity.ShopWeightCodRules"/>
-        <mapping class="entity.ShippingZonesZipCodes"/>
+        <mapping class="entity.ShippingRegionsZipCodes"/>
         <mapping class="entity.Users"/>
         <mapping class="entity.ShopTaxRegionRules"/>
         <mapping class="entity.ShopCategories"/>
@@ -26,13 +26,12 @@
         <mapping class="entity.ShopManagers"/>
         <mapping class="entity.ProductReviews"/>
         <mapping class="entity.Countries"/>
-        <mapping class="entity.ShopShippingClassesRegions"/>
         <mapping class="entity.Courriers"/>
         <mapping class="entity.OrderItems"/>
         <mapping class="entity.OrderStatusHistory"/>
         <mapping class="entity.OrderItemStatusHistory"/>
         <mapping class="entity.PaymentMethods"/>
-        <mapping class="entity.ShopShipZones"/>
+        <mapping class="entity.ShippingZones"/>
         <mapping class="entity.ShopBelongsCategories"/>
         <mapping class="entity.ShopReviews"/>
         <mapping class="entity.Products"/>

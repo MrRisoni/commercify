@@ -37,8 +37,7 @@ public class GlobeRegions implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "regionId")
     private Collection<ShippingZonesRegions> shippingZonesRegionsCollection;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "regionId")
-    private Collection<ShopShippingClassesRegions> shopShippingClassesRegionsCollection;
+
 
     public GlobeRegions() {
     }
@@ -96,12 +95,5 @@ public class GlobeRegions implements Serializable {
     }
 
 
-    public Collection<ShopShippingClassesRegions> getShopShippingClassesRegionsCollection() {
-        return shopShippingClassesRegionsCollection;
-    }
-
-    public void setShopShippingClassesRegionsCollection(Collection<ShopShippingClassesRegions> shopShippingClassesRegionsCollection) {
-        this.shopShippingClassesRegionsCollection = shopShippingClassesRegionsCollection;
-    }
 
 }

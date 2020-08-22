@@ -70,7 +70,6 @@ public class ShopTaxRegionRules implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date activeUntil;
 
-
     @JoinColumn(name = "shop_id", referencedColumnName = "id")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Shops shopId;

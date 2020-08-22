@@ -2,22 +2,13 @@ package services;
 
 import core.Application;
 import entity.*;
-import org.hibernate.Hibernate;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import pojo.Basket;
 import pojo.BasketItem;
 
-import javax.persistence.EntityManagerFactory;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -32,7 +23,7 @@ public class TaxServiceTest {
 
     @Test
     public void testSampleService() {
-        TaxSrcv taxService = new TaxSrcv();
+        TaxSrvc taxService = new TaxSrvc();
         BillingAddress billTo = new BillingAddress();
         billTo.setCountryCode("GR");
         billTo.setPostCode("28100");

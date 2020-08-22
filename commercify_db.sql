@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 22, 2020 at 05:24 PM
+-- Generation Time: Aug 22, 2020 at 05:47 PM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 7.4.8
 
@@ -736,6 +736,18 @@ INSERT INTO `shipping_region_zips` (`id`, `region_id`, `code`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `shipping_zip_codes_forbid`
+--
+
+CREATE TABLE `shipping_zip_codes_forbid` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `region_id` bigint(20) UNSIGNED NOT NULL,
+  `zip_code` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='DO NOT SHIP HERE';
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `shipping_zones`
 --
 
@@ -754,18 +766,6 @@ INSERT INTO `shipping_zones` (`id`, `shop_id`, `title`) VALUES
 (2, 2, 'Ακριτικά'),
 (3, 2, 'Επτάνησα'),
 (4, 2, 'Κεφαλονιά');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `shipping_zones_codes_forbid`
---
-
-CREATE TABLE `shipping_zones_codes_forbid` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `region_id` bigint(20) UNSIGNED NOT NULL,
-  `zip_code` varchar(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='DO NOT SHIP HERE';
 
 -- --------------------------------------------------------
 
@@ -1261,7 +1261,8 @@ CREATE TABLE `shop_weight_ship_rules` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `shop_id` bigint(20) UNSIGNED NOT NULL,
   `shipping_class_id` bigint(20) UNSIGNED NOT NULL,
-  `title` varchar(52) NOT NULL,
+  `zone_id` bigint(20) UNSIGNED NOT NULL DEFAULT 1,
+  `title` varchar(255) NOT NULL,
   `taxable` tinyint(1) NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime DEFAULT NULL,
@@ -1275,6 +1276,13 @@ CREATE TABLE `shop_weight_ship_rules` (
   `for_each_kg` decimal(10,2) NOT NULL,
   `active` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `shop_weight_ship_rules`
+--
+
+INSERT INTO `shop_weight_ship_rules` (`id`, `shop_id`, `shipping_class_id`, `zone_id`, `title`, `taxable`, `created_at`, `updated_at`, `less_than_kg`, `less_equal`, `over_than_kg`, `over_equal`, `base_cost`, `charge`, `over_total_weight`, `for_each_kg`, `active`) VALUES
+(1, 2, 1, 1, 'Kefalonia', 0, '2020-08-12 08:55:50', '2020-08-12 08:55:50', '0.00', 0, '0.00', 1, '3.00', '0.00', '0.00', '0.00', 1);
 
 -- --------------------------------------------------------
 
@@ -1529,18 +1537,18 @@ ALTER TABLE `shipping_region_zips`
   ADD KEY `region_id` (`region_id`);
 
 --
+-- Indexes for table `shipping_zip_codes_forbid`
+--
+ALTER TABLE `shipping_zip_codes_forbid`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `region_id` (`region_id`);
+
+--
 -- Indexes for table `shipping_zones`
 --
 ALTER TABLE `shipping_zones`
   ADD PRIMARY KEY (`id`),
   ADD KEY `shop_id` (`shop_id`);
-
---
--- Indexes for table `shipping_zones_codes_forbid`
---
-ALTER TABLE `shipping_zones_codes_forbid`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `region_id` (`region_id`);
 
 --
 -- Indexes for table `shipping_zones_regions`
@@ -1747,7 +1755,8 @@ ALTER TABLE `shop_weight_cod_rules`
 ALTER TABLE `shop_weight_ship_rules`
   ADD PRIMARY KEY (`id`),
   ADD KEY `shop_id` (`shop_id`),
-  ADD KEY `shipping_class_id` (`shipping_class_id`);
+  ADD KEY `shipping_class_id` (`shipping_class_id`),
+  ADD KEY `zone_id` (`zone_id`);
 
 --
 -- Indexes for table `suppliers_supplies`
@@ -1926,16 +1935,16 @@ ALTER TABLE `shipping_region_zips`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT for table `shipping_zip_codes_forbid`
+--
+ALTER TABLE `shipping_zip_codes_forbid`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `shipping_zones`
 --
 ALTER TABLE `shipping_zones`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- AUTO_INCREMENT for table `shipping_zones_codes_forbid`
---
-ALTER TABLE `shipping_zones_codes_forbid`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `shipping_zones_regions`
@@ -2097,7 +2106,7 @@ ALTER TABLE `shop_weight_cod_rules`
 -- AUTO_INCREMENT for table `shop_weight_ship_rules`
 --
 ALTER TABLE `shop_weight_ship_rules`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `suppliers_supplies`
@@ -2237,16 +2246,16 @@ ALTER TABLE `shipping_region_zips`
   ADD CONSTRAINT `shipping_region_zips_ibfk_1` FOREIGN KEY (`region_id`) REFERENCES `shipping_zones_regions` (`id`);
 
 --
+-- Constraints for table `shipping_zip_codes_forbid`
+--
+ALTER TABLE `shipping_zip_codes_forbid`
+  ADD CONSTRAINT `shipping_zip_codes_forbid_ibfk_1` FOREIGN KEY (`region_id`) REFERENCES `shipping_zones_regions` (`id`);
+
+--
 -- Constraints for table `shipping_zones`
 --
 ALTER TABLE `shipping_zones`
   ADD CONSTRAINT `shipping_zones_ibfk_1` FOREIGN KEY (`shop_id`) REFERENCES `shops` (`id`);
-
---
--- Constraints for table `shipping_zones_codes_forbid`
---
-ALTER TABLE `shipping_zones_codes_forbid`
-  ADD CONSTRAINT `shipping_zones_codes_forbid_ibfk_1` FOREIGN KEY (`region_id`) REFERENCES `shipping_zones_regions` (`id`);
 
 --
 -- Constraints for table `shipping_zones_regions`
@@ -2419,7 +2428,8 @@ ALTER TABLE `shop_weight_cod_rules`
 --
 ALTER TABLE `shop_weight_ship_rules`
   ADD CONSTRAINT `shop_weight_ship_rules_ibfk_1` FOREIGN KEY (`shop_id`) REFERENCES `shops` (`id`),
-  ADD CONSTRAINT `shop_weight_ship_rules_ibfk_2` FOREIGN KEY (`shipping_class_id`) REFERENCES `shop_courier_classes` (`id`);
+  ADD CONSTRAINT `shop_weight_ship_rules_ibfk_2` FOREIGN KEY (`shipping_class_id`) REFERENCES `shop_courier_classes` (`id`),
+  ADD CONSTRAINT `shop_weight_ship_rules_ibfk_3` FOREIGN KEY (`zone_id`) REFERENCES `shipping_zones` (`id`);
 
 --
 -- Constraints for table `suppliers_supplies`

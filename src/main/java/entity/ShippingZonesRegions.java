@@ -2,10 +2,7 @@
 package entity;
 
 import java.io.Serializable;
-import java.util.Collection;
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 
 @Entity
@@ -25,7 +22,7 @@ public class ShippingZonesRegions implements Serializable {
 
     @JoinColumn(name = "zone_id", referencedColumnName = "id")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private ShopShipZones zoneId;
+    private ShippingZones zoneId;
 
     public ShippingZonesRegions() {
     }
@@ -50,11 +47,11 @@ public class ShippingZonesRegions implements Serializable {
         this.regionId = regionId;
     }
 
-    public ShopShipZones getZoneId() {
+    public ShippingZones getZoneId() {
         return zoneId;
     }
 
-    public void setZoneId(ShopShipZones zoneId) {
+    public void setZoneId(ShippingZones zoneId) {
         this.zoneId = zoneId;
     }
 }

@@ -51,7 +51,7 @@ public class Shops implements Serializable {
     private Collection<ShopWeightShipRules> shopWeightShipRulesCollection;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "shopId")
-    private Collection<ShopShipZones> shopShipZonesCollection;
+    private Collection<ShippingZones> shopShipZonesCollection;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "shopId")
     private Collection<ShopManagers> shopManagersCollection;
@@ -210,11 +210,11 @@ public class Shops implements Serializable {
     }
 
 
-    public Collection<ShopShipZones> getShopShipZonesCollection() {
+    public Collection<ShippingZones> getShopShipZonesCollection() {
         return shopShipZonesCollection;
     }
 
-    public void setShopShipZonesCollection(Collection<ShopShipZones> shopShipZonesCollection) {
+    public void setShopShipZonesCollection(Collection<ShippingZones> shopShipZonesCollection) {
         this.shopShipZonesCollection = shopShipZonesCollection;
     }
 

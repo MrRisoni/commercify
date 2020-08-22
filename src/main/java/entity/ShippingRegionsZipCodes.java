@@ -2,15 +2,14 @@
 package entity;
 
 import java.io.Serializable;
-import java.util.Collection;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 
 @Entity
-@Table(name = "shipping_zones_zip_codes")
-public class ShippingZonesZipCodes implements Serializable {
+@Table(name = "shipping_region_zips")
+public class ShippingRegionsZipCodes implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -21,30 +20,23 @@ public class ShippingZonesZipCodes implements Serializable {
 
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 2)
-    @Column(name = "country_code")
-    private String countryCode;
-
-    @Basic(optional = false)
-    @NotNull
     @Size(min = 1, max = 20)
     @Column(name = "zip_code")
     private String zipCode;
 
-    @JoinColumn(name = "zone_id", referencedColumnName = "id")
+    @JoinColumn(name = "region_id", referencedColumnName = "id")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private ShopShipZones zoneId;
+    private ShippingZonesRegions regionId;
 
-    public ShippingZonesZipCodes() {
+    public ShippingRegionsZipCodes() {
     }
 
-    public ShippingZonesZipCodes(Long id) {
+    public ShippingRegionsZipCodes(Long id) {
         this.id = id;
     }
 
-    public ShippingZonesZipCodes(Long id, String countryCode, String zipCode) {
+    public ShippingRegionsZipCodes(Long id, String zipCode) {
         this.id = id;
-        this.countryCode = countryCode;
         this.zipCode = zipCode;
     }
 
@@ -56,13 +48,6 @@ public class ShippingZonesZipCodes implements Serializable {
         this.id = id;
     }
 
-    public String getCountryCode() {
-        return countryCode;
-    }
-
-    public void setCountryCode(String countryCode) {
-        this.countryCode = countryCode;
-    }
 
     public String getZipCode() {
         return zipCode;
@@ -72,12 +57,11 @@ public class ShippingZonesZipCodes implements Serializable {
         this.zipCode = zipCode;
     }
 
-    public ShopShipZones getZoneId() {
-        return zoneId;
+    public ShippingZonesRegions getRegionId() {
+        return regionId;
     }
 
-    public void setZoneId(ShopShipZones zoneId) {
-        this.zoneId = zoneId;
+    public void setRegionId(ShippingZonesRegions regionId) {
+        this.regionId = regionId;
     }
-
 }

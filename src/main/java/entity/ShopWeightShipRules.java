@@ -11,7 +11,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-
 @Entity
 @Table(name = "shop_weight_ship_rules")
 public class ShopWeightShipRules implements Serializable {
@@ -98,6 +97,10 @@ public class ShopWeightShipRules implements Serializable {
     @JoinColumn(name = "shipping_class_id", referencedColumnName = "id")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private ShopCourierClasses shippingClassId;
+
+    @JoinColumn(name = "zone_id", referencedColumnName = "id")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private ShippingZones zoneId;
 
     public ShopWeightShipRules() {
     }
@@ -248,5 +251,29 @@ public class ShopWeightShipRules implements Serializable {
 
     public void setShippingClassId(ShopCourierClasses shippingClassId) {
         this.shippingClassId = shippingClassId;
+    }
+
+    public boolean isTaxable() {
+        return taxable;
+    }
+
+    public boolean isLessEqual() {
+        return lessEqual;
+    }
+
+    public boolean isOverEqual() {
+        return overEqual;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public ShippingZones getZoneId() {
+        return zoneId;
+    }
+
+    public void setZoneId(ShippingZones zoneId) {
+        this.zoneId = zoneId;
     }
 }

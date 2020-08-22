@@ -10,8 +10,8 @@ import javax.validation.constraints.Size;
 
 
 @Entity
-@Table(name = "shop_ship_zones")
-public class ShopShipZones implements Serializable {
+@Table(name = "shipping_zones")
+public class ShippingZones implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -26,12 +26,6 @@ public class ShopShipZones implements Serializable {
     @Column(name = "title")
     private String title;
 
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "ship_cost")
-    private BigDecimal shipCost;
-
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "zoneId")
     private Collection<ShippingZonesRegions> shippingZonesRegionsCollection;
 
@@ -40,19 +34,18 @@ public class ShopShipZones implements Serializable {
     private Shops shopId;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "zoneId")
-    private Collection<ShippingZonesZipCodes> shippingZonesZipCodesCollection;
+    private Collection<ShopWeightShipRules> shipWeightRulesCollection;
 
-    public ShopShipZones() {
+    public ShippingZones() {
     }
 
-    public ShopShipZones(Long id) {
+    public ShippingZones(Long id) {
         this.id = id;
     }
 
-    public ShopShipZones(Long id, String title, BigDecimal shipCost) {
+    public ShippingZones(Long id, String title) {
         this.id = id;
         this.title = title;
-        this.shipCost = shipCost;
     }
 
     public Long getId() {
@@ -69,14 +62,6 @@ public class ShopShipZones implements Serializable {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public BigDecimal getShipCost() {
-        return shipCost;
-    }
-
-    public void setShipCost(BigDecimal shipCost) {
-        this.shipCost = shipCost;
     }
 
 
@@ -96,12 +81,11 @@ public class ShopShipZones implements Serializable {
         this.shopId = shopId;
     }
 
-
-    public Collection<ShippingZonesZipCodes> getShippingZonesZipCodesCollection() {
-        return shippingZonesZipCodesCollection;
+    public Collection<ShopWeightShipRules> getShipWeightRulesCollection() {
+        return shipWeightRulesCollection;
     }
 
-    public void setShippingZonesZipCodesCollection(Collection<ShippingZonesZipCodes> shippingZonesZipCodesCollection) {
-        this.shippingZonesZipCodesCollection = shippingZonesZipCodesCollection;
+    public void setShipWeightRulesCollection(Collection<ShopWeightShipRules> shipWeightRulesCollection) {
+        this.shipWeightRulesCollection = shipWeightRulesCollection;
     }
 }

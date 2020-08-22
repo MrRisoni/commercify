@@ -14,12 +14,12 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 
-public class TaxSrcv {
+public class TaxSrvc {
 
     private Basket basket;
     private EntityManager em;
 
-    public TaxSrcv() {
+    public TaxSrvc() {
     }
 
     public EntityManager getEm() {

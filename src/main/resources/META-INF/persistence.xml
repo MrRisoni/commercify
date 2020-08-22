@@ -6,7 +6,7 @@
     <class>entity.Shops</class>
     <class>entity.UserRoles</class>
     <class>entity.ShopWeightCodRules</class>
-    <class>entity.ShippingZonesZipCodes</class>
+    <class>entity.ShippingRegionsZipCodes</class>
     <class>entity.Users</class>
     <class>entity.ShopTaxRegionRules</class>
     <class>entity.ShopCategories</class>
@@ -17,7 +17,7 @@
     <class>entity.Courriers</class>
     <class>entity.OrderItems</class>
     <class>entity.PaymentMethods</class>
-    <class>entity.ShopShipZones</class>
+    <class>entity.ShippingZones</class>
     <class>entity.ShopBelongsCategories</class>
     <class>entity.ShopReviews</class>
     <class>entity.Products</class>
