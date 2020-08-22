@@ -7,7 +7,7 @@ import java.util.List;
 public class Basket {
     private Shops shop;
     private BillingAddress billTo;
-    private ShippingAddress shipTop;
+    private ShippingAddress shipTo;
     private PaymentMethods pay;
     private String currencyCode;
     private ShopCourierClasses shipMethod;
@@ -20,7 +20,7 @@ public class Basket {
     public Basket(Shops shop, BillingAddress billTo, ShippingAddress shipTop, PaymentMethods pay, String currencyCode, ShopCourierClasses shipMethod, List<BasketItem> items) {
         this.shop = shop;
         this.billTo = billTo;
-        this.shipTop = shipTop;
+        this.shipTo = shipTop;
         this.pay = pay;
         this.currencyCode = currencyCode;
         this.shipMethod = shipMethod;
@@ -43,12 +43,12 @@ public class Basket {
         this.billTo = billTo;
     }
 
-    public ShippingAddress getShipTop() {
-        return shipTop;
+    public ShippingAddress getShipTo() {
+        return shipTo;
     }
 
-    public void setShipTop(ShippingAddress shipTop) {
-        this.shipTop = shipTop;
+    public void setShipTop(ShippingAddress shipTo) {
+        this.shipTo = shipTo;
     }
 
     public PaymentMethods getPay() {

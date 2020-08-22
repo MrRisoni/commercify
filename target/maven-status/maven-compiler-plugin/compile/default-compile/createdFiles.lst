@@ -134,6 +134,7 @@ entity\ShopTranslations.class
 services\CSVExporter.class
 core\BrowseController.class
 dto\RangeValues.class
+pojo\ProductTax.class
 entity\ShopCurrencies_.class
 entity\ShopManufacturers.class
 pojo\ProductOrderBy.class
