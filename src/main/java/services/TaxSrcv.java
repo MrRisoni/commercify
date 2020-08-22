@@ -65,7 +65,7 @@ public class TaxSrcv {
                     System.out.println("DB PRICE OF is " + productPriceDb);
                     netPriceTotal = (new BigDecimal(itm.getQuantity())).multiply(productPriceDb);
 
-                    List<Object> taxZip = this.em.createNativeQuery("SELECT rate FROM shop_tax_zipcode_rules " +
+                   /* List<Object> taxZip = this.em.createNativeQuery("SELECT rate FROM shop_tax_zipcode_rules " +
                             "WHERE active = 1 AND zip_codes LIKE '%" + shipCountry + "%' LIMIT 1")
                             .getResultList();
 
@@ -92,20 +92,21 @@ public class TaxSrcv {
 
                     totalTax = totalTax.add(taxOfProducts);
                     totalTax = totalTax.add(taxOfProductsBillBased);
-
+                    */
                 }
 
 
             }
 
             Method setNameMethod = this.getClass().getMethod("dffd", String.class);
+            setNameMethod.invoke(this, "Mishka"); // pass arg
 
 
             return totalTax.setScale(2, BigDecimal.ROUND_UP);
         }
         catch (Exception ex)
         {
-            return new BigDecimal(0);
+            return new BigDecimal(-100);
         }
     }
 
