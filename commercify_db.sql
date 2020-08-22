@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 22, 2020 at 09:00 AM
+-- Generation Time: Aug 22, 2020 at 05:24 PM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 7.4.8
 
@@ -717,6 +717,59 @@ INSERT INTO `shipping_address` (`id`, `user_id`, `country_code`, `region_id`, `c
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `shipping_region_zips`
+--
+
+CREATE TABLE `shipping_region_zips` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `region_id` bigint(20) UNSIGNED NOT NULL,
+  `code` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `shipping_region_zips`
+--
+
+INSERT INTO `shipping_region_zips` (`id`, `region_id`, `code`) VALUES
+(1, 4, '28100');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `shipping_zones`
+--
+
+CREATE TABLE `shipping_zones` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `shop_id` bigint(20) UNSIGNED NOT NULL,
+  `title` varchar(55) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='ship to these zones';
+
+--
+-- Dumping data for table `shipping_zones`
+--
+
+INSERT INTO `shipping_zones` (`id`, `shop_id`, `title`) VALUES
+(1, 2, 'Σχεδόν ολη η Ελλάδα'),
+(2, 2, 'Ακριτικά'),
+(3, 2, 'Επτάνησα'),
+(4, 2, 'Κεφαλονιά');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `shipping_zones_codes_forbid`
+--
+
+CREATE TABLE `shipping_zones_codes_forbid` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `region_id` bigint(20) UNSIGNED NOT NULL,
+  `zip_code` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='DO NOT SHIP HERE';
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `shipping_zones_regions`
 --
 
@@ -724,20 +777,17 @@ CREATE TABLE `shipping_zones_regions` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `zone_id` bigint(20) UNSIGNED NOT NULL,
   `region_id` bigint(20) UNSIGNED NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='ship to these regions';
 
 --
--- Table structure for table `shipping_zones_zip_codes`
+-- Dumping data for table `shipping_zones_regions`
 --
 
-CREATE TABLE `shipping_zones_zip_codes` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `zone_id` bigint(20) UNSIGNED NOT NULL,
-  `country_code` varchar(2) NOT NULL,
-  `zip_code` varchar(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+INSERT INTO `shipping_zones_regions` (`id`, `zone_id`, `region_id`) VALUES
+(1, 1, 2),
+(2, 1, 3),
+(3, 3, 4),
+(4, 4, 4);
 
 -- --------------------------------------------------------
 
@@ -837,7 +887,7 @@ CREATE TABLE `shop_countries` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `shop_id` bigint(20) UNSIGNED NOT NULL,
   `country_code` varchar(2) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='shops to  these countires';
 
 --
 -- Dumping data for table `shop_countries`
@@ -1068,32 +1118,6 @@ CREATE TABLE `shop_reviews` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `shop_shipping_classes_regions`
---
-
-CREATE TABLE `shop_shipping_classes_regions` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `ship_class_id` bigint(20) UNSIGNED NOT NULL,
-  `region_id` bigint(20) UNSIGNED NOT NULL,
-  `active` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `shop_ship_zones`
---
-
-CREATE TABLE `shop_ship_zones` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `shop_id` bigint(20) UNSIGNED NOT NULL,
-  `title` varchar(55) NOT NULL,
-  `ship_cost` decimal(10,2) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `shop_styling`
 --
 
@@ -1127,13 +1151,14 @@ CREATE TABLE `shop_tax_region_rules` (
   `product_category_id` bigint(20) UNSIGNED NOT NULL DEFAULT 1,
   `country_code` varchar(3) NOT NULL,
   `region_id` bigint(20) UNSIGNED NOT NULL,
-  `title` varchar(52) NOT NULL,
   `flat_cost` decimal(10,2) NOT NULL,
   `rate` decimal(10,2) NOT NULL,
   `tax_address` varchar(4) NOT NULL DEFAULT 'ship' COMMENT 'ship or bill',
   `created` datetime NOT NULL,
   `updated` datetime DEFAULT NULL,
-  `active` tinyint(1) NOT NULL
+  `active` tinyint(1) NOT NULL,
+  `active_from` date DEFAULT NULL,
+  `active_until` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='exceptions';
 
 -- --------------------------------------------------------
@@ -1147,21 +1172,22 @@ CREATE TABLE `shop_tax_rules` (
   `shop_id` bigint(20) UNSIGNED NOT NULL,
   `product_category_id` bigint(20) UNSIGNED NOT NULL DEFAULT 1,
   `country_code` varchar(3) NOT NULL,
-  `title` varchar(52) NOT NULL,
   `flat_cost` decimal(10,2) NOT NULL,
   `rate` decimal(10,2) NOT NULL,
   `tax_address` varchar(4) NOT NULL DEFAULT 'ship' COMMENT 'bill or ship',
   `created` datetime NOT NULL,
   `updated` datetime DEFAULT NULL,
-  `active` tinyint(1) NOT NULL
+  `active` tinyint(1) NOT NULL,
+  `active_from` date DEFAULT NULL,
+  `active_until` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `shop_tax_rules`
 --
 
-INSERT INTO `shop_tax_rules` (`id`, `shop_id`, `product_category_id`, `country_code`, `title`, `flat_cost`, `rate`, `tax_address`, `created`, `updated`, `active`) VALUES
-(1, 1, 1, 'GR', '24%', '0.00', '24.00', 'ship', '2020-08-22 07:46:58', '2020-08-22 07:46:58', 1);
+INSERT INTO `shop_tax_rules` (`id`, `shop_id`, `product_category_id`, `country_code`, `flat_cost`, `rate`, `tax_address`, `created`, `updated`, `active`, `active_from`, `active_until`) VALUES
+(1, 1, 1, 'GR', '1.50', '13.00', 'ship', '2020-08-22 07:46:58', '2020-08-22 07:46:58', 1, '2020-05-31', '2030-01-01');
 
 -- --------------------------------------------------------
 
@@ -1176,13 +1202,14 @@ CREATE TABLE `shop_tax_zipcode_rules` (
   `country_code` varchar(3) NOT NULL,
   `region_id` bigint(20) UNSIGNED NOT NULL,
   `zip_codes` text NOT NULL,
-  `title` varchar(52) NOT NULL,
   `flat_cost` decimal(10,2) NOT NULL,
   `rate` decimal(10,2) NOT NULL,
   `tax_address` varchar(4) NOT NULL DEFAULT 'ship' COMMENT 'ship or bill',
   `created` datetime NOT NULL,
   `updated` datetime DEFAULT NULL,
-  `active` tinyint(1) NOT NULL
+  `active` tinyint(1) NOT NULL,
+  `active_from` date DEFAULT NULL,
+  `active_until` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='exceptions';
 
 -- --------------------------------------------------------
@@ -1495,18 +1522,32 @@ ALTER TABLE `shipping_address`
   ADD KEY `region_id` (`region_id`);
 
 --
+-- Indexes for table `shipping_region_zips`
+--
+ALTER TABLE `shipping_region_zips`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `region_id` (`region_id`);
+
+--
+-- Indexes for table `shipping_zones`
+--
+ALTER TABLE `shipping_zones`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `shop_id` (`shop_id`);
+
+--
+-- Indexes for table `shipping_zones_codes_forbid`
+--
+ALTER TABLE `shipping_zones_codes_forbid`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `region_id` (`region_id`);
+
+--
 -- Indexes for table `shipping_zones_regions`
 --
 ALTER TABLE `shipping_zones_regions`
   ADD PRIMARY KEY (`id`),
   ADD KEY `region_id` (`region_id`),
-  ADD KEY `zone_id` (`zone_id`);
-
---
--- Indexes for table `shipping_zones_zip_codes`
---
-ALTER TABLE `shipping_zones_zip_codes`
-  ADD PRIMARY KEY (`id`),
   ADD KEY `zone_id` (`zone_id`);
 
 --
@@ -1642,21 +1683,6 @@ ALTER TABLE `shop_reviews`
   ADD PRIMARY KEY (`id`),
   ADD KEY `shop_id` (`shop_id`),
   ADD KEY `user_id` (`user_id`);
-
---
--- Indexes for table `shop_shipping_classes_regions`
---
-ALTER TABLE `shop_shipping_classes_regions`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `ship_class_id` (`ship_class_id`),
-  ADD KEY `region_id` (`region_id`);
-
---
--- Indexes for table `shop_ship_zones`
---
-ALTER TABLE `shop_ship_zones`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `shop_id` (`shop_id`);
 
 --
 -- Indexes for table `shop_styling`
@@ -1894,16 +1920,28 @@ ALTER TABLE `shipping_address`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `shipping_zones_regions`
+-- AUTO_INCREMENT for table `shipping_region_zips`
 --
-ALTER TABLE `shipping_zones_regions`
+ALTER TABLE `shipping_region_zips`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `shipping_zones`
+--
+ALTER TABLE `shipping_zones`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `shipping_zones_codes_forbid`
+--
+ALTER TABLE `shipping_zones_codes_forbid`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `shipping_zones_zip_codes`
+-- AUTO_INCREMENT for table `shipping_zones_regions`
 --
-ALTER TABLE `shipping_zones_zip_codes`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+ALTER TABLE `shipping_zones_regions`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `shops`
@@ -2011,18 +2049,6 @@ ALTER TABLE `shop_manufacturers`
 -- AUTO_INCREMENT for table `shop_reviews`
 --
 ALTER TABLE `shop_reviews`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `shop_shipping_classes_regions`
---
-ALTER TABLE `shop_shipping_classes_regions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `shop_ship_zones`
---
-ALTER TABLE `shop_ship_zones`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
@@ -2205,17 +2231,29 @@ ALTER TABLE `shipping_address`
   ADD CONSTRAINT `shipping_address_ibfk_2` FOREIGN KEY (`region_id`) REFERENCES `globe_regions` (`id`);
 
 --
+-- Constraints for table `shipping_region_zips`
+--
+ALTER TABLE `shipping_region_zips`
+  ADD CONSTRAINT `shipping_region_zips_ibfk_1` FOREIGN KEY (`region_id`) REFERENCES `shipping_zones_regions` (`id`);
+
+--
+-- Constraints for table `shipping_zones`
+--
+ALTER TABLE `shipping_zones`
+  ADD CONSTRAINT `shipping_zones_ibfk_1` FOREIGN KEY (`shop_id`) REFERENCES `shops` (`id`);
+
+--
+-- Constraints for table `shipping_zones_codes_forbid`
+--
+ALTER TABLE `shipping_zones_codes_forbid`
+  ADD CONSTRAINT `shipping_zones_codes_forbid_ibfk_1` FOREIGN KEY (`region_id`) REFERENCES `shipping_zones_regions` (`id`);
+
+--
 -- Constraints for table `shipping_zones_regions`
 --
 ALTER TABLE `shipping_zones_regions`
   ADD CONSTRAINT `shipping_zones_regions_ibfk_1` FOREIGN KEY (`region_id`) REFERENCES `globe_regions` (`id`),
-  ADD CONSTRAINT `shipping_zones_regions_ibfk_2` FOREIGN KEY (`zone_id`) REFERENCES `shop_ship_zones` (`id`);
-
---
--- Constraints for table `shipping_zones_zip_codes`
---
-ALTER TABLE `shipping_zones_zip_codes`
-  ADD CONSTRAINT `shipping_zones_zip_codes_ibfk_1` FOREIGN KEY (`zone_id`) REFERENCES `shop_ship_zones` (`id`);
+  ADD CONSTRAINT `shipping_zones_regions_ibfk_2` FOREIGN KEY (`zone_id`) REFERENCES `shipping_zones` (`id`);
 
 --
 -- Constraints for table `shops`
@@ -2326,19 +2364,6 @@ ALTER TABLE `shop_manufacturers`
 ALTER TABLE `shop_reviews`
   ADD CONSTRAINT `shop_reviews_ibfk_1` FOREIGN KEY (`shop_id`) REFERENCES `shops` (`id`),
   ADD CONSTRAINT `shop_reviews_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
-
---
--- Constraints for table `shop_shipping_classes_regions`
---
-ALTER TABLE `shop_shipping_classes_regions`
-  ADD CONSTRAINT `shop_shipping_classes_regions_ibfk_1` FOREIGN KEY (`ship_class_id`) REFERENCES `shop_courier_classes` (`id`),
-  ADD CONSTRAINT `shop_shipping_classes_regions_ibfk_2` FOREIGN KEY (`region_id`) REFERENCES `globe_regions` (`id`);
-
---
--- Constraints for table `shop_ship_zones`
---
-ALTER TABLE `shop_ship_zones`
-  ADD CONSTRAINT `shop_ship_zones_ibfk_1` FOREIGN KEY (`shop_id`) REFERENCES `shops` (`id`);
 
 --
 -- Constraints for table `shop_styling`

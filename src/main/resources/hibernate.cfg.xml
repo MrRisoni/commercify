@@ -26,7 +26,6 @@
         <mapping class="entity.ShopManagers"/>
         <mapping class="entity.ProductReviews"/>
         <mapping class="entity.Countries"/>
-        <mapping class="entity.ShopShippingClassesRegions"/>
         <mapping class="entity.Courriers"/>
         <mapping class="entity.OrderItems"/>
         <mapping class="entity.OrderStatusHistory"/>

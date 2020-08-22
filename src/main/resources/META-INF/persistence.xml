@@ -14,7 +14,6 @@
     <class>entity.ShopManagers</class>
     <class>entity.ProductReviews</class>
     <class>entity.Countries</class>
-    <class>entity.ShopShippingClassesRegions</class>
     <class>entity.Courriers</class>
     <class>entity.OrderItems</class>
     <class>entity.PaymentMethods</class>
