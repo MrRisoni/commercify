@@ -23,7 +23,6 @@ public class ProductCategories implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     @JsonView({JackSonViewer.IShopProductCategory.class, JackSonViewer.IShopProduct.class, JackSonViewer.IOrder.class})
-
     private Long id;
 
     @Basic(optional = false)

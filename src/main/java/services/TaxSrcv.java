@@ -74,14 +74,14 @@ public class TaxSrcv {
 
                     }
                     else {
-                        List<ShopTaxRules> taxGeneral = this.em.createQuery("FROM ShopTaxRules tx " +
+                        List<ShopTaxRules> taxGeneral = this.em.createQuery("SELECT tx FROM ShopTaxRules tx " +
                                 " JOIN tx.productCategoryId pCat " +
                                 "   WHERE pCat.id = :productCatId AND tx.countryCode =:code AND tx.active = 1 ")
                                 .setParameter("code",this.getBasket().getShipTop().getCountryCode())
-                                .setParameter("productCatId",prodCategoryId).getResultList();
+                                .setParameter("productCatId",1L).getResultList();
                         if (taxGeneral.size()>0) {
-                            productTaxRate =  taxGeneral.get(0).getRate();
-                            productTaxFlat =  taxGeneral.get(0).getFlatCost();
+                             productTaxRate =  taxGeneral.get(0).getRate();
+                        //    productTaxFlat =  taxGeneral.get(0).getFlatCost();
 
                         }
                     }
