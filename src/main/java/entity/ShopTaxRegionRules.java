@@ -62,6 +62,15 @@ public class ShopTaxRegionRules implements Serializable {
     @Column(name = "active")
     private boolean active;
 
+    @Column(name = "active_from")
+    @Temporal(TemporalType.DATE)
+    private Date activeFrom;
+
+    @Column(name = "active_until")
+    @Temporal(TemporalType.DATE)
+    private Date activeUntil;
+
+
     @JoinColumn(name = "shop_id", referencedColumnName = "id")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Shops shopId;
@@ -181,5 +190,21 @@ public class ShopTaxRegionRules implements Serializable {
 
     public void setProductCategoryId(ProductCategories productCategoryId) {
         this.productCategoryId = productCategoryId;
+    }
+
+    public Date getActiveFrom() {
+        return activeFrom;
+    }
+
+    public void setActiveFrom(Date activeFrom) {
+        this.activeFrom = activeFrom;
+    }
+
+    public Date getActiveUntil() {
+        return activeUntil;
+    }
+
+    public void setActiveUntil(Date activeUntil) {
+        this.activeUntil = activeUntil;
     }
 }

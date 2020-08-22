@@ -2,6 +2,8 @@ package pojo;
 
 import entity.GlobeRegions;
 
+import java.util.Date;
+
 public class ProductTaxInput {
     private Long productCategoryId;
     private String billCountry;
@@ -10,6 +12,7 @@ public class ProductTaxInput {
     private String shipZipCode;
     private GlobeRegions billRegion;
     private GlobeRegions shipRegion;
+    private Date updatedAt;
 
     public ProductTaxInput() {
     }
@@ -69,5 +72,13 @@ public class ProductTaxInput {
 
     public void setShipRegion(GlobeRegions shipRegion) {
         this.shipRegion = shipRegion;
+    }
+
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }

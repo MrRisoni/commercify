@@ -20,6 +20,7 @@ import pojo.BasketItem;
 import javax.persistence.EntityManagerFactory;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -56,8 +57,10 @@ public class TaxServiceTest {
 
         basket.setItems(items);
 
+        basket.setUpdatedAt(new Date());
         taxService.setBasket(basket);
         taxService.setEm(HibernateUtil.getEM());
+
 
         assertEquals(taxService.getTotalTax(),new BigDecimal(23));
     }
