@@ -53,9 +53,6 @@ public class ShopCourierClasses implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "shipClassId")
     private Collection<Orders> ordersCollection;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "shipClassId")
-    private Collection<ShopShippingClassesRegions> shopShippingClassesRegionsCollection;
-
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "shippingClassId")
     private Collection<ShopWeightCodRules> shopWeightCodRulesCollection;
 
@@ -130,16 +127,6 @@ public class ShopCourierClasses implements Serializable {
     public void setOrdersCollection(Collection<Orders> ordersCollection) {
         this.ordersCollection = ordersCollection;
     }
-
-
-    public Collection<ShopShippingClassesRegions> getShopShippingClassesRegionsCollection() {
-        return shopShippingClassesRegionsCollection;
-    }
-
-    public void setShopShippingClassesRegionsCollection(Collection<ShopShippingClassesRegions> shopShippingClassesRegionsCollection) {
-        this.shopShippingClassesRegionsCollection = shopShippingClassesRegionsCollection;
-    }
-
 
     public Collection<ShopWeightCodRules> getShopWeightCodRulesCollection() {
         return shopWeightCodRulesCollection;

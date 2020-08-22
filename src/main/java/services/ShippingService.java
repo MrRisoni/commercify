@@ -37,7 +37,7 @@ public class ShippingService {
     {
         // query table  shipping_region_zips to get region and then ZONE
         // if result is empty query  shipping_zones_regions to get the ZONE
-        // finally get shipping rule from shipping_zones table
+        // finally get shipping rule from shipping_zones table based on shipping class and zone
         return null;
     }
 }
