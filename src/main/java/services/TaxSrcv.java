@@ -164,7 +164,8 @@ public class TaxSrcv {
 
         return this.em.createQuery("SELECT tx FROM ShopTaxRules tx " +
                 " JOIN tx.productCategoryId pCat " +
-                "   WHERE pCat.id = :productCatId AND tx.taxAddress = :taxAddress AND tx.countryCode =:code AND tx.active = 1 ")
+                "   WHERE pCat.id = :productCatId AND " +
+                " tx.taxAddress = :taxAddress AND tx.countryCode =:code AND tx.active = 1 ")
                 .setParameter("code", countryCode)
                 .setParameter("taxAddress", taxAddress)
                 .setParameter("productCatId", inpt.getProductCategoryId()).getResultList();
@@ -194,7 +195,7 @@ public class TaxSrcv {
 
         return this.em.createQuery("SELECT txz FROM ShopTaxZipCodeRules txz " +
                 " JOIN txz.productCategoryId pCat " +
-                " JOIN txrg.regionId rg " +
+                " JOIN txz.regionId rg " +
                 "  WHERE txz.zipCodes LIKE CONCAT('%',:zip,'%')" +
                 "  AND pCat.id = :productCatId AND rg.id = :regionId " +
                 "  AND txz.taxAddress = :taxAddress AND txz.countryCode =:code AND txz.active = 1 ")
