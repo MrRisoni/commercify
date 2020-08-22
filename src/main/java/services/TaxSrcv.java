@@ -12,9 +12,7 @@ public class TaxSrcv {
     private EntityManager em;
 
 
-    public TaxSrcv(Basket basket) {
-        this.basket = basket;
-    }
+    public TaxSrcv(){}
 
     public EntityManager getEm() {
         return em;
@@ -39,6 +37,6 @@ public class TaxSrcv {
              shop_tax_rules contains rules for countries  (aka countryCodeRule)
              shop_tax_region_rules“exceptions containts exceptions to the countryCodeRule
          */
-        return null;
+        return new BigDecimal(56.00);
     }
 }

@@ -43,7 +43,7 @@
         <mapping class="entity.ShopWeightShipRules"/>
         <mapping class="entity.Languages"/>
         <mapping class="entity.ShopCourierClasses"/>
-        <mapping class="entity.ShopProductCateogoryTaxes"/>
+        <mapping class="entity.ShopTaxZipCodeRules"/>
         <mapping class="entity.ShippingAddress"/>
         <mapping class="entity.ShopLanguages"/>
         <mapping class="entity.ProductTags"/>

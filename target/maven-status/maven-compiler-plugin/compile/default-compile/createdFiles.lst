@@ -1,10 +1,12 @@
 entity\Continents.class
 entity\ShippingZonesZipCodes_.class
+core\TaxController.class
 core\exports\ExportController.class
 entity\ProductGallery_.class
 entity\ShopTaxRules_.class
 entity\ShopTaxRegionRules.class
 dto\OrderCsvExportRow.class
+services\TaxSrcv.class
 entity\Languages.class
 entity\OrderItemStatusHistory_.class
 entity\ShopDisableCodCountries_.class
@@ -37,6 +39,7 @@ entity\ShopShippingClassesRegions_.class
 entity\ShopCategories_.class
 dto\BinaryValues.class
 entity\ShopCouriers_.class
+services\ShippingSrvc.class
 entity\ShopStyling.class
 entity\PaymentMethods.class
 pojo\ProductFilterPojo.class
@@ -44,6 +47,7 @@ entity\ShopShippingClassesRegions.class
 entity\JackSonViewer$IFavoriteRestau.class
 entity\ShopBelongsCategories.class
 entity\ShopTaxCodeNames_.class
+core\ShippingController.class
 entity\Shops.class
 entity\ShopGiftwrap.class
 entity\ProductAttributesValues_.class
@@ -67,6 +71,7 @@ entity\ShopReviews_.class
 dto\ProductPreview.class
 entity\ProductCategories_.class
 entity\Currencies_.class
+pojo\BasketItem.class
 entity\ShippingAddress.class
 entity\ShopCountries_.class
 repositories\ProductRepo.class
@@ -74,6 +79,7 @@ entity\SuppliersSupplies.class
 entity\ShopCountries.class
 entity\ShopShipZones_.class
 entity\ShopCourierClasses.class
+entity\ShopTaxZipCodeRules_.class
 entity\Countries.class
 repositories\OrdersRepository.class
 entity\ShippingAddress_.class
@@ -83,10 +89,10 @@ entity\GlobeRegions_.class
 core\ProductController.class
 entity\ShopBanks_.class
 entity\ShopShipZones.class
+entity\ShopTaxZipCodeRules.class
 core\OrdersController.class
 entity\Continents_.class
 entity\Orders.class
-entity\ShopProductCateogoryTaxes_.class
 entity\OrderItems.class
 entity\ShopDisableZipCodes_.class
 entity\ShopStyling_.class
@@ -110,7 +116,6 @@ entity\ShopEulas.class
 entity\ShopManufacturers_.class
 entity\ShopBanks.class
 entity\UserRoles_.class
-entity\ShopProductCateogoryTaxes.class
 entity\ShippingZonesRegions.class
 entity\ShopCouriers.class
 entity\ProductCategoryAttributes.class
@@ -120,6 +125,7 @@ entity\ProductTags_.class
 dto\CustomerReport.class
 entity\ShopWeightCodRules_.class
 entity\OrderStatusHistory.class
+pojo\Basket.class
 entity\ShopWeightShipRules.class
 entity\ShopTranslations_.class
 entity\Users.class

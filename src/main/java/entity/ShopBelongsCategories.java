@@ -35,10 +35,7 @@ public class ShopBelongsCategories implements Serializable {
     @Column(name = "show_order")
     private int showOrder;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "shopCategoryId")
-    private Collection<ShopProductCateogoryTaxes> shopProductCateogoryTaxesCollection;
-
-    @JoinColumn(name = "shop_id", referencedColumnName = "id")
+       @JoinColumn(name = "shop_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Shops shopId;
 
@@ -92,14 +89,6 @@ public class ShopBelongsCategories implements Serializable {
         this.showOrder = showOrder;
     }
 
-
-    public Collection<ShopProductCateogoryTaxes> getShopProductCateogoryTaxesCollection() {
-        return shopProductCateogoryTaxesCollection;
-    }
-
-    public void setShopProductCateogoryTaxesCollection(Collection<ShopProductCateogoryTaxes> shopProductCateogoryTaxesCollection) {
-        this.shopProductCateogoryTaxesCollection = shopProductCateogoryTaxesCollection;
-    }
 
     public Shops getShopId() {
         return shopId;
