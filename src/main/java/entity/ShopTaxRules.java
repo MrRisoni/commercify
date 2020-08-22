@@ -72,10 +72,6 @@ public class ShopTaxRules implements Serializable {
     @ManyToOne(optional = false)
     private Shops shopId;
 
-    @JoinColumn(name = "tax_code_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private ShopTaxCodeNames taxCodeId;
-
     @JoinColumn(name = "product_category_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private ProductCategories productCategoryId;
@@ -167,14 +163,6 @@ public class ShopTaxRules implements Serializable {
 
     public void setShopId(Shops shopId) {
         this.shopId = shopId;
-    }
-
-    public ShopTaxCodeNames getTaxCodeId() {
-        return taxCodeId;
-    }
-
-    public void setTaxCodeId(ShopTaxCodeNames taxCodeId) {
-        this.taxCodeId = taxCodeId;
     }
 
     public String getTaxAddress() {

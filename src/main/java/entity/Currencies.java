@@ -89,7 +89,6 @@ public class Currencies implements Serializable {
         this.productsCollection = productsCollection;
     }
 
-
     public Collection<ShopCurrencies> getShopCurrenciesCollection() {
         return shopCurrenciesCollection;
     }

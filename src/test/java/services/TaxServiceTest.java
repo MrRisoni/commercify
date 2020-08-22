@@ -1,6 +1,8 @@
 package services;
 
 import core.Application;
+import entity.*;
+import org.hibernate.Hibernate;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +14,13 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
+import pojo.Basket;
+import pojo.BasketItem;
 
 import javax.persistence.EntityManagerFactory;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
@@ -26,6 +32,30 @@ public class TaxServiceTest {
     @Test
     public void testSampleService() {
         TaxSrcv taxService = new TaxSrcv();
+        BillingAddress billTo = new BillingAddress();
+        billTo.setCountryCode("GR");
+        billTo.setPostCode("28100");
+
+        ShippingAddress shipTo = new ShippingAddress();
+        shipTo.setCountryCode("GR");
+        shipTo.setPostCode("28100");
+
+        Basket basket = new Basket();
+        basket.setBillTo(billTo);
+        basket.setShipTop(shipTo);
+        basket.setShop(new Shops(2L));
+
+        BasketItem itm = new BasketItem(new Products(1L),2);
+        BasketItem itm2 = new BasketItem(new Products(2L),2);
+
+        List<BasketItem> items = new ArrayList<>();
+        items.add(itm);
+        items.add(itm2);
+
+        basket.setItems(items);
+
+        taxService.setBasket(basket);
+        taxService.setEm(HibernateUtil.getEM());
 
         assertEquals(taxService.getTotalTax(),new BigDecimal(23));
     }

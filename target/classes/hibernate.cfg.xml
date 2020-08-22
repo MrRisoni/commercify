@@ -18,7 +18,6 @@
         <mapping class="entity.Shops"/>
         <mapping class="entity.UserRoles"/>
         <mapping class="entity.ShopWeightCodRules"/>
-        <mapping class="entity.ShopTaxCodeNames"/>
         <mapping class="entity.ShippingZonesZipCodes"/>
         <mapping class="entity.Users"/>
         <mapping class="entity.ShopTaxRegionRules"/>

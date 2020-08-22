@@ -39,13 +39,6 @@ public class ShippingAddress implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 80)
-    @Column(name = "region")
-    @JsonView(JackSonViewer.IOrder.class)
-    private String region;
-
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 80)
     @Column(name = "full_name")
     @JsonView(JackSonViewer.IOrder.class)
     private String fullName;
@@ -78,6 +71,10 @@ public class ShippingAddress implements Serializable {
     @ManyToOne(optional = false)
     private Users userId;
 
+    @JoinColumn(name = "region_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private GlobeRegions regionId;
+
     public ShippingAddress() {
     }
 
@@ -85,16 +82,6 @@ public class ShippingAddress implements Serializable {
         this.id = id;
     }
 
-    public ShippingAddress(Long id, String countryCode, String city, String region, String fullName, String address, String streetNo, String postCode) {
-        this.id = id;
-        this.countryCode = countryCode;
-        this.city = city;
-        this.region = region;
-        this.fullName = fullName;
-        this.address = address;
-        this.streetNo = streetNo;
-        this.postCode = postCode;
-    }
 
     public Long getId() {
         return id;
@@ -120,13 +107,6 @@ public class ShippingAddress implements Serializable {
         this.city = city;
     }
 
-    public String getRegion() {
-        return region;
-    }
-
-    public void setRegion(String region) {
-        this.region = region;
-    }
 
     public String getFullName() {
         return fullName;
@@ -177,4 +157,12 @@ public class ShippingAddress implements Serializable {
         this.userId = userId;
     }
 
+
+    public GlobeRegions getRegionId() {
+        return regionId;
+    }
+
+    public void setRegionId(GlobeRegions regionId) {
+        this.regionId = regionId;
+    }
 }

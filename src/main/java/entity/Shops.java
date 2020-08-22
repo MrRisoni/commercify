@@ -79,9 +79,6 @@ public class Shops implements Serializable {
     private Collection<Orders> ordersCollection;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "shopId")
-    private Collection<ShopTaxCodeNames> shopTaxCodeNamesCollection;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "shopId")
     private Collection<ShopGiftwrap> shopGiftwrapCollection;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "shopId")
@@ -283,16 +280,6 @@ public class Shops implements Serializable {
     public void setOrdersCollection(Collection<Orders> ordersCollection) {
         this.ordersCollection = ordersCollection;
     }
-
-
-    public Collection<ShopTaxCodeNames> getShopTaxCodeNamesCollection() {
-        return shopTaxCodeNamesCollection;
-    }
-
-    public void setShopTaxCodeNamesCollection(Collection<ShopTaxCodeNames> shopTaxCodeNamesCollection) {
-        this.shopTaxCodeNamesCollection = shopTaxCodeNamesCollection;
-    }
-
 
     public Collection<ShopGiftwrap> getShopGiftwrapCollection() {
         return shopGiftwrapCollection;

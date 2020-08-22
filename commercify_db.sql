@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 22, 2020 at 07:27 AM
+-- Generation Time: Aug 22, 2020 at 09:00 AM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 7.4.8
 
@@ -31,8 +31,8 @@ CREATE TABLE `billing_address` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
   `country_code` varchar(2) NOT NULL,
+  `region_id` bigint(20) UNSIGNED NOT NULL DEFAULT 2,
   `city` varchar(80) NOT NULL,
-  `region` varchar(80) NOT NULL,
   `full_name` varchar(80) NOT NULL,
   `address` varchar(80) NOT NULL,
   `street_no` varchar(20) NOT NULL,
@@ -43,8 +43,8 @@ CREATE TABLE `billing_address` (
 -- Dumping data for table `billing_address`
 --
 
-INSERT INTO `billing_address` (`id`, `user_id`, `country_code`, `city`, `region`, `full_name`, `address`, `street_no`, `post_code`) VALUES
-(1, 3, 'GR', 'Athens', '', '', 'Syntagma', '', '');
+INSERT INTO `billing_address` (`id`, `user_id`, `country_code`, `region_id`, `city`, `full_name`, `address`, `street_no`, `post_code`) VALUES
+(1, 3, 'GR', 2, 'Athens', '', 'Syntagma', '', '');
 
 -- --------------------------------------------------------
 
@@ -466,12 +466,12 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `shop_id`, `category_id`, `currency_id`, `manufacturer_id`, `code`, `title`, `descr`, `SKU`, `img_url`, `thumbnail_url`, `price`, `normal_price`, `discount_percent`, `kilos`, `dim_l`, `dim_w`, `dim_h`, `active`, `stock`, `created`, `updated`, `taxable`, `disable_cod`, `gift_wrap_cost`, `visible`, `total_orders`, `avg_rating`, `total_clicks`) VALUES
-(1, 1, 1, 1, 5, 'SelmaLagerlefNielsHolgresson', '', '', '', '', '', '15.00', '0.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-03 11:52:31', '2020-08-03 11:52:31', 0, 0, '0.00', 0, 0, '0.0', 0),
-(2, 1, 1, 1, 5, 'StringbergDromspel', '', '', '', '', '', '15.00', '0.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-03 11:52:31', '2020-08-03 11:52:31', 0, 0, '0.00', 0, 0, '0.0', 0),
-(3, 1, 1, 1, 5, 'StringbergDamaskusI\r\n', '', '', '', '', '', '15.00', '0.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-03 11:52:31', '2020-08-03 11:52:31', 0, 0, '0.00', 0, 0, '0.0', 0),
-(4, 1, 1, 1, 5, 'StringbergDamaskusII\r\n', '', '', '', '', '', '15.00', '0.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-03 11:52:31', '2020-08-03 11:52:31', 0, 0, '0.00', 0, 0, '0.0', 0),
-(5, 1, 1, 1, 1, 'StringbergDamaskusIII\r\n', '', '', '', '', '', '15.00', '0.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-03 11:52:31', '2020-08-03 11:52:31', 0, 0, '0.00', 0, 0, '0.0', 0),
-(6, 1, 1, 1, 1, 'StringbergSpoksSonaten\r\n', '', '', '', '', '', '15.00', '0.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-03 11:52:31', '2020-08-03 11:52:31', 0, 0, '0.00', 0, 0, '0.0', 0),
+(1, 1, 1, 1, 5, 'SelmaLagerlefNielsHolgresson', '', '', '', '', '', '15.00', '0.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-03 11:52:31', '2020-08-03 11:52:31', 1, 0, '0.00', 0, 0, '0.0', 0),
+(2, 1, 1, 1, 5, 'StringbergDromspel', '', '', '', '', '', '15.00', '0.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-03 11:52:31', '2020-08-03 11:52:31', 1, 0, '0.00', 0, 0, '0.0', 0),
+(3, 1, 1, 1, 5, 'StringbergDamaskusI\r\n', '', '', '', '', '', '15.00', '0.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-03 11:52:31', '2020-08-03 11:52:31', 1, 0, '0.00', 0, 0, '0.0', 0),
+(4, 1, 1, 1, 5, 'StringbergDamaskusII\r\n', '', '', '', '', '', '15.00', '0.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-03 11:52:31', '2020-08-03 11:52:31', 1, 0, '0.00', 0, 0, '0.0', 0),
+(5, 1, 1, 1, 1, 'StringbergDamaskusIII\r\n', '', '', '', '', '', '15.00', '0.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-03 11:52:31', '2020-08-03 11:52:31', 1, 0, '0.00', 0, 0, '0.0', 0),
+(6, 1, 1, 1, 1, 'StringbergSpoksSonaten\r\n', '', '', '', '', '', '15.00', '0.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-03 11:52:31', '2020-08-03 11:52:31', 1, 0, '0.00', 0, 0, '0.0', 0),
 (7, 2, 5, 1, 4, 'MacBookPro13.3AirGray', 'Apple MacBook Air Retina', '', '', '', '', '1300.00', '1300.00', '0.00', '1.29', '30.41', '21.24', '1.61', 1, 50, '2020-08-17 07:48:09', '2020-08-17 07:48:09', 1, 1, '0.00', 1, 0, '0.0', 0),
 (8, 2, 5, 1, 4, 'MacBookPro12.3AirSilber', 'Apple MacBook Air Silver', '', '', '', '', '1100.00', '1100.00', '0.00', '1.29', '30.41', '21.24', '1.61', 1, 50, '2020-08-17 07:48:09', '2020-08-17 07:48:09', 1, 1, '0.00', 1, 0, '0.0', 0),
 (9, 2, 5, 1, 6, 'DELL G5 15-5590 I7-9750H/16/1TB+256GB SSD/RTX2060', 'Laptop DELL G5 15-5590 I7-9750H/16/1TB+256GB SSD/RTX206', '', '', '', '', '1700.00', '1700.00', '0.00', '2.61', '0.00', '0.00', '0.00', 1, 25, '2020-08-19 08:34:31', '2020-08-19 08:34:31', 1, 1, '0.00', 1, 0, '0.0', 0);
@@ -699,8 +699,8 @@ CREATE TABLE `shipping_address` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
   `country_code` varchar(2) NOT NULL,
+  `region_id` bigint(20) UNSIGNED NOT NULL DEFAULT 1,
   `city` varchar(80) NOT NULL,
-  `region` varchar(80) NOT NULL,
   `full_name` varchar(80) NOT NULL,
   `address` varchar(80) NOT NULL,
   `street_no` varchar(20) NOT NULL,
@@ -711,8 +711,8 @@ CREATE TABLE `shipping_address` (
 -- Dumping data for table `shipping_address`
 --
 
-INSERT INTO `shipping_address` (`id`, `user_id`, `country_code`, `city`, `region`, `full_name`, `address`, `street_no`, `post_code`) VALUES
-(1, 3, 'GR', 'Athens', '', '', 'Syntagma', '', '');
+INSERT INTO `shipping_address` (`id`, `user_id`, `country_code`, `region_id`, `city`, `full_name`, `address`, `street_no`, `post_code`) VALUES
+(1, 3, 'GR', 1, 'Athens', '', 'Syntagma', '', '');
 
 -- --------------------------------------------------------
 
@@ -1118,33 +1118,12 @@ CREATE TABLE `shop_suppliers` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `shop_tax_code_names`
---
-
-CREATE TABLE `shop_tax_code_names` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `shop_id` bigint(20) UNSIGNED NOT NULL,
-  `code` varchar(250) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `shop_tax_code_names`
---
-
-INSERT INTO `shop_tax_code_names` (`id`, `shop_id`, `code`) VALUES
-(1, 1, 'STANDARD_24%'),
-(2, 1, 'SUB_17%');
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `shop_tax_region_rules`
 --
 
 CREATE TABLE `shop_tax_region_rules` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `shop_id` bigint(20) UNSIGNED NOT NULL,
-  `tax_code_id` bigint(20) UNSIGNED NOT NULL,
   `product_category_id` bigint(20) UNSIGNED NOT NULL DEFAULT 1,
   `country_code` varchar(3) NOT NULL,
   `region_id` bigint(20) UNSIGNED NOT NULL,
@@ -1166,7 +1145,6 @@ CREATE TABLE `shop_tax_region_rules` (
 CREATE TABLE `shop_tax_rules` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `shop_id` bigint(20) UNSIGNED NOT NULL,
-  `tax_code_id` bigint(20) UNSIGNED NOT NULL,
   `product_category_id` bigint(20) UNSIGNED NOT NULL DEFAULT 1,
   `country_code` varchar(3) NOT NULL,
   `title` varchar(52) NOT NULL,
@@ -1182,8 +1160,8 @@ CREATE TABLE `shop_tax_rules` (
 -- Dumping data for table `shop_tax_rules`
 --
 
-INSERT INTO `shop_tax_rules` (`id`, `shop_id`, `tax_code_id`, `product_category_id`, `country_code`, `title`, `flat_cost`, `rate`, `tax_address`, `created`, `updated`, `active`) VALUES
-(1, 1, 1, 1, 'GR', '24%', '0.00', '24.00', 'ship', '2020-08-22 07:46:58', '2020-08-22 07:46:58', 1);
+INSERT INTO `shop_tax_rules` (`id`, `shop_id`, `product_category_id`, `country_code`, `title`, `flat_cost`, `rate`, `tax_address`, `created`, `updated`, `active`) VALUES
+(1, 1, 1, 'GR', '24%', '0.00', '24.00', 'ship', '2020-08-22 07:46:58', '2020-08-22 07:46:58', 1);
 
 -- --------------------------------------------------------
 
@@ -1194,7 +1172,6 @@ INSERT INTO `shop_tax_rules` (`id`, `shop_id`, `tax_code_id`, `product_category_
 CREATE TABLE `shop_tax_zipcode_rules` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `shop_id` bigint(20) UNSIGNED NOT NULL,
-  `tax_code_id` bigint(20) UNSIGNED NOT NULL,
   `product_category_id` bigint(20) UNSIGNED NOT NULL DEFAULT 1,
   `country_code` varchar(3) NOT NULL,
   `region_id` bigint(20) UNSIGNED NOT NULL,
@@ -1331,7 +1308,8 @@ CREATE TABLE `user_roles` (
 --
 ALTER TABLE `billing_address`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`);
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `region_id` (`region_id`);
 
 --
 -- Indexes for table `continents`
@@ -1513,7 +1491,8 @@ ALTER TABLE `product_tags`
 --
 ALTER TABLE `shipping_address`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`);
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `region_id` (`region_id`);
 
 --
 -- Indexes for table `shipping_zones_regions`
@@ -1694,20 +1673,12 @@ ALTER TABLE `shop_suppliers`
   ADD KEY `shop_id` (`shop_id`);
 
 --
--- Indexes for table `shop_tax_code_names`
---
-ALTER TABLE `shop_tax_code_names`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `shop_id` (`shop_id`,`code`);
-
---
 -- Indexes for table `shop_tax_region_rules`
 --
 ALTER TABLE `shop_tax_region_rules`
   ADD PRIMARY KEY (`id`),
   ADD KEY `shop_id` (`shop_id`),
   ADD KEY `region_id` (`region_id`),
-  ADD KEY `tax_code_id` (`tax_code_id`),
   ADD KEY `product_category_id` (`product_category_id`);
 
 --
@@ -1716,7 +1687,6 @@ ALTER TABLE `shop_tax_region_rules`
 ALTER TABLE `shop_tax_rules`
   ADD PRIMARY KEY (`id`),
   ADD KEY `shop_id` (`shop_id`),
-  ADD KEY `tax_code_id` (`tax_code_id`),
   ADD KEY `product_category_id` (`product_category_id`);
 
 --
@@ -1726,7 +1696,6 @@ ALTER TABLE `shop_tax_zipcode_rules`
   ADD PRIMARY KEY (`id`),
   ADD KEY `shop_id` (`shop_id`),
   ADD KEY `region_id` (`region_id`),
-  ADD KEY `tax_code_id` (`tax_code_id`),
   ADD KEY `product_category_id` (`product_category_id`);
 
 --
@@ -2069,12 +2038,6 @@ ALTER TABLE `shop_suppliers`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `shop_tax_code_names`
---
-ALTER TABLE `shop_tax_code_names`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
 -- AUTO_INCREMENT for table `shop_tax_region_rules`
 --
 ALTER TABLE `shop_tax_region_rules`
@@ -2136,7 +2099,8 @@ ALTER TABLE `user_roles`
 -- Constraints for table `billing_address`
 --
 ALTER TABLE `billing_address`
-  ADD CONSTRAINT `billing_address_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+  ADD CONSTRAINT `billing_address_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `billing_address_ibfk_2` FOREIGN KEY (`id`) REFERENCES `globe_regions` (`id`);
 
 --
 -- Constraints for table `orders`
@@ -2237,7 +2201,8 @@ ALTER TABLE `product_tags`
 -- Constraints for table `shipping_address`
 --
 ALTER TABLE `shipping_address`
-  ADD CONSTRAINT `shipping_address_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+  ADD CONSTRAINT `shipping_address_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `shipping_address_ibfk_2` FOREIGN KEY (`region_id`) REFERENCES `globe_regions` (`id`);
 
 --
 -- Constraints for table `shipping_zones_regions`
@@ -2388,18 +2353,11 @@ ALTER TABLE `shop_suppliers`
   ADD CONSTRAINT `shop_suppliers_ibfk_1` FOREIGN KEY (`shop_id`) REFERENCES `shops` (`id`);
 
 --
--- Constraints for table `shop_tax_code_names`
---
-ALTER TABLE `shop_tax_code_names`
-  ADD CONSTRAINT `shop_tax_code_names_ibfk_1` FOREIGN KEY (`shop_id`) REFERENCES `shops` (`id`);
-
---
 -- Constraints for table `shop_tax_region_rules`
 --
 ALTER TABLE `shop_tax_region_rules`
   ADD CONSTRAINT `shop_tax_region_rules_ibfk_1` FOREIGN KEY (`shop_id`) REFERENCES `shops` (`id`),
   ADD CONSTRAINT `shop_tax_region_rules_ibfk_2` FOREIGN KEY (`region_id`) REFERENCES `globe_regions` (`id`),
-  ADD CONSTRAINT `shop_tax_region_rules_ibfk_3` FOREIGN KEY (`tax_code_id`) REFERENCES `shop_tax_code_names` (`id`),
   ADD CONSTRAINT `shop_tax_region_rules_ibfk_4` FOREIGN KEY (`product_category_id`) REFERENCES `product_categories` (`id`);
 
 --
@@ -2407,7 +2365,6 @@ ALTER TABLE `shop_tax_region_rules`
 --
 ALTER TABLE `shop_tax_rules`
   ADD CONSTRAINT `shop_tax_rules_ibfk_1` FOREIGN KEY (`shop_id`) REFERENCES `shops` (`id`),
-  ADD CONSTRAINT `shop_tax_rules_ibfk_2` FOREIGN KEY (`tax_code_id`) REFERENCES `shop_tax_code_names` (`id`),
   ADD CONSTRAINT `shop_tax_rules_ibfk_3` FOREIGN KEY (`product_category_id`) REFERENCES `product_categories` (`id`);
 
 --
@@ -2416,7 +2373,6 @@ ALTER TABLE `shop_tax_rules`
 ALTER TABLE `shop_tax_zipcode_rules`
   ADD CONSTRAINT `shop_tax_zipcode_rules_ibfk_1` FOREIGN KEY (`shop_id`) REFERENCES `shops` (`id`),
   ADD CONSTRAINT `shop_tax_zipcode_rules_ibfk_2` FOREIGN KEY (`region_id`) REFERENCES `globe_regions` (`id`),
-  ADD CONSTRAINT `shop_tax_zipcode_rules_ibfk_3` FOREIGN KEY (`tax_code_id`) REFERENCES `shop_tax_code_names` (`id`),
   ADD CONSTRAINT `shop_tax_zipcode_rules_ibfk_4` FOREIGN KEY (`product_category_id`) REFERENCES `product_categories` (`id`);
 
 --

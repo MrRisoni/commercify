@@ -6,7 +6,6 @@
     <class>entity.Shops</class>
     <class>entity.UserRoles</class>
     <class>entity.ShopWeightCodRules</class>
-    <class>entity.ShopTaxCodeNames</class>
     <class>entity.ShippingZonesZipCodes</class>
     <class>entity.Users</class>
     <class>entity.ShopTaxRegionRules</class>

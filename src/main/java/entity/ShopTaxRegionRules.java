@@ -76,10 +76,6 @@ public class ShopTaxRegionRules implements Serializable {
     @ManyToOne(optional = false)
     private GlobeRegions regionId;
 
-    @JoinColumn(name = "tax_code_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private ShopTaxCodeNames taxCodeId;
-
     @JoinColumn(name = "product_category_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private ProductCategories productCategoryId;
@@ -181,13 +177,6 @@ public class ShopTaxRegionRules implements Serializable {
         this.regionId = regionId;
     }
 
-    public ShopTaxCodeNames getTaxCodeId() {
-        return taxCodeId;
-    }
-
-    public void setTaxCodeId(ShopTaxCodeNames taxCodeId) {
-        this.taxCodeId = taxCodeId;
-    }
 
     public String getTaxAddress() {
         return taxAddress;

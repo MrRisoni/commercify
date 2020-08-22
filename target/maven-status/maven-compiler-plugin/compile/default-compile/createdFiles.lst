@@ -46,7 +46,6 @@ pojo\ProductFilterPojo.class
 entity\ShopShippingClassesRegions.class
 entity\JackSonViewer$IFavoriteRestau.class
 entity\ShopBelongsCategories.class
-entity\ShopTaxCodeNames_.class
 core\ShippingController.class
 entity\Shops.class
 entity\ShopGiftwrap.class
@@ -105,7 +104,6 @@ entity\ShopLanguages.class
 entity\ShopDisableCodCountries.class
 entity\ShopTaxRegionRules_.class
 entity\ShopCategories.class
-entity\ShopTaxCodeNames.class
 entity\SuppliersSupplies_.class
 core\analytics\RevenueController.class
 entity\HibernateUtil.class
