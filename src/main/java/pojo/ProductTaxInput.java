@@ -4,15 +4,11 @@ public class ProductTaxInput {
     private Long productCategoryId;
     private String billCountry;
     private String shipCountry;
+    private String billZipCode;
+    private String shipZipCode;
 
 
     public ProductTaxInput() {
-    }
-
-    public ProductTaxInput(Long productCategoryId, String billCountry, String shipCountry) {
-        this.productCategoryId = productCategoryId;
-        this.billCountry = billCountry;
-        this.shipCountry = shipCountry;
     }
 
     public Long getProductCategoryId() {
@@ -37,5 +33,22 @@ public class ProductTaxInput {
 
     public void setShipCountry(String shipCountry) {
         this.shipCountry = shipCountry;
+    }
+
+
+    public String getBillZipCode() {
+        return billZipCode;
+    }
+
+    public void setBillZipCode(String billZipCode) {
+        this.billZipCode = billZipCode;
+    }
+
+    public String getShipZipCode() {
+        return shipZipCode;
+    }
+
+    public void setShipZipCode(String shipZipCode) {
+        this.shipZipCode = shipZipCode;
     }
 }

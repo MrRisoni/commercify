@@ -1,9 +1,12 @@
 package services;
 
+import entity.ShopTaxRegionRules;
 import entity.ShopTaxRules;
+import entity.ShopTaxZipCodeRules;
 import pojo.Basket;
 import pojo.BasketItem;
 import pojo.ProductTax;
+import pojo.ProductTaxInput;
 
 import javax.persistence.EntityManager;
 import java.lang.reflect.Method;
@@ -49,9 +52,11 @@ public class TaxSrcv {
             BigDecimal taxOfProducts = new BigDecimal(0);
             BigDecimal taxOfProductsBillBased = new BigDecimal(0);
 
-            String shipCountry = this.getBasket().getShipTo().getCountryCode();
-            String billCountry = this.getBasket().getShipTo().getCountryCode();
-
+            ProductTaxInput input= new ProductTaxInput();
+            input.setBillCountry(this.getBasket().getShipTo().getCountryCode());
+            input.setShipCountry(this.getBasket().getShipTo().getCountryCode());
+            input.setBillZipCode(this.getBasket().getBillTo().getPostCode());
+            input.setShipZipCode(this.getBasket().getShipTo().getPostCode());
 
             for (BasketItem itm : basket.getItems()) {
                 System.out.println("DB PRICE OF is " + itm.getProd().getId());
@@ -60,28 +65,14 @@ public class TaxSrcv {
                 List<Object[]> res = this.em.createNativeQuery("SELECT category_id,price FROM Products WHERE id = :pid AND taxable = 1 LIMIT 1")
                         .setParameter("pid", itm.getProd().getId()).getResultList();
                 if (res.size() > 0) {
-                    Long prodCategoryId = Long.parseLong(res.get(0)[0].toString());
+
                     BigDecimal productPriceDb = new BigDecimal(res.get(0)[1].toString());
                     System.out.println("DB PRICE OF is " + productPriceDb);
                     netPriceTotal = (new BigDecimal(itm.getQuantity())).multiply(productPriceDb);
 
-                   /* List<Object> taxZip = this.em.createNativeQuery("SELECT rate FROM shop_tax_zipcode_rules " +
-                            "WHERE active = 1 AND zip_codes LIKE '%" + shipCountry + "%' LIMIT 1")
-                            .getResultList();
+                    input.setProductCategoryId(Long.parseLong(res.get(0)[0].toString()));
 
-                    if (taxZip.size() > 0) {
-
-                    } else {
-                        List<Object> taxRegion = this.em.createNativeQuery("SELECT rate FROM  shop_tax_region_rules " +
-                                "WHERE active = 1  LIMIT 1")
-                                .getResultList();
-                        if (taxRegion.size() > 0) {
-
-                        } else {
-                            ProductTax generalTax = this.getGeneralTaxes(prodCategoryId, shipCountry);
-                            finalTax = generalTax;
-                        }
-                    }// end rules calculation
+                    finalTax = this.extractTaxes(input);
 
                     System.out.println("TAX RATE " + finalTax.getRateShipBased());
                     taxOfProducts = netPriceTotal.multiply(finalTax.getRateShipBased()).divide(new BigDecimal(100));
@@ -92,7 +83,7 @@ public class TaxSrcv {
 
                     totalTax = totalTax.add(taxOfProducts);
                     totalTax = totalTax.add(taxOfProductsBillBased);
-                    */
+
                 }
 
 
@@ -110,7 +101,7 @@ public class TaxSrcv {
         }
     }
 
-    private ProductTax getGeneralTaxes(Long prodCategoryId, String countryCode)
+    private ProductTax extractTaxes(ProductTaxInput inpt)
     {
         BigDecimal rateShipBased = new BigDecimal(0);
         BigDecimal flatShipBased = new BigDecimal(0);
@@ -118,12 +109,26 @@ public class TaxSrcv {
         BigDecimal rateBillBased = new BigDecimal(0);
         BigDecimal flatBillBased = new BigDecimal(0);
 
-        List<ShopTaxRules> taxGeneralShip = this.getGeneralRulesHQL(prodCategoryId,countryCode,"ship");
+        List<ShopTaxZipCodeRules> zipShip = this.getTaxZipCodeRulesHQL(inpt,"ship");
+        //List<ShopTaxZipCodeRules> zipBill = this.getTaxZipCodeRulesHQL(inpt,"bill");
+
+        if (zipShip.size() ==0) {
+            List<ShopTaxRegionRules> regionShip = this.getTaxRegionRulesHQL(inpt,"ship");
+            if (regionShip.size() ==0) {
+                List<ShopTaxRules> taxShip = this.getTaxGeneralRulesHQL(inpt,"ship");
+
+            }
+        }
+        List<ShopTaxRegionRules> regionShip = this.getTaxRegionRulesHQL(inpt,"ship");
+       // List<ShopTaxRegionRules> regionBill = this.getTaxRegionRulesHQL(inpt,"bill");
+
+        List<ShopTaxRules> taxShip = this.getTaxGeneralRulesHQL(inpt,"ship");
+        List<ShopTaxRules> taxBill = this.getTaxGeneralRulesHQL(inpt,"bill");
+
         if (taxGeneralShip.size()>0) {
             rateShipBased = taxGeneralShip.get(0).getRate();
             flatShipBased =  taxGeneralShip.get(0).getFlatCost();
         }
-        List<ShopTaxRules> taxGeneralBill = this.getGeneralRulesHQL(prodCategoryId,countryCode,"bill");
         if (taxGeneralBill.size()>0) {
             rateBillBased = taxGeneralBill.get(0).getRate();
             flatBillBased =  taxGeneralBill.get(0).getFlatCost();
@@ -133,14 +138,42 @@ public class TaxSrcv {
     }
 
 
-    private List<ShopTaxRules> getGeneralRulesHQL(Long pcatId,String countryCode,String taxAddress)
+    private List<ShopTaxRules> getTaxGeneralRulesHQL(ProductTaxInput inpt,String taxAddress)
     {
+        String countryCode = taxAddress.equals("ship") ? inpt.getShipCountry() : inpt.setBillCountry();
+
         return  this.em.createQuery("SELECT tx FROM ShopTaxRules tx " +
                 " JOIN tx.productCategoryId pCat " +
                 "   WHERE pCat.id = :productCatId AND tx.taxAddress = :taxAddress AND tx.countryCode =:code AND tx.active = 1 ")
                 .setParameter("code",countryCode)
                 .setParameter("taxAddress",taxAddress)
-                .setParameter("productCatId",pcatId).getResultList();
+                .setParameter("productCatId", inpt.getProductCategoryId()).getResultList();
+
+    }
+
+    private List<ShopTaxRegionRules> getTaxRegionRulesHQL(ProductTaxInput inpt,String taxAddress)
+    {
+        String countryCode = taxAddress.equals("ship") ? inpt.getShipCountry() : inpt.setBillCountry();
+
+        return  this.em.createQuery("SELECT tx FROM ShopTaxRules tx " +
+                " JOIN tx.productCategoryId pCat " +
+                "   WHERE pCat.id = :productCatId AND tx.taxAddress = :taxAddress AND tx.countryCode =:code AND tx.active = 1 ")
+                .setParameter("code",countryCode)
+                .setParameter("taxAddress",taxAddress)
+                .setParameter("productCatId",inpt.getProductCategoryId()).getResultList();
+
+    }
+
+    private List<ShopTaxZipCodeRules> getTaxZipCodeRulesHQL(ProductTaxInput inpt,String taxAddress)
+    {
+        String countryCode = taxAddress.equals("ship") ? inpt.getShipCountry() : inpt.setBillCountry();
+
+        return  this.em.createQuery("SELECT tx FROM ShopTaxRules tx " +
+                " JOIN tx.productCategoryId pCat " +
+                "   WHERE pCat.id = :productCatId AND tx.taxAddress = :taxAddress AND tx.countryCode =:code AND tx.active = 1 ")
+                .setParameter("code",countryCode)
+                .setParameter("taxAddress",taxAddress)
+                .setParameter("productCatId",inpt.getProductCategoryId()).getResultList();
 
     }
 }
