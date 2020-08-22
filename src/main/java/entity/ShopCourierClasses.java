@@ -11,7 +11,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 
-
 @Entity
 @Table(name = "shop_courier_classes")
 public class ShopCourierClasses implements Serializable {
@@ -47,7 +46,7 @@ public class ShopCourierClasses implements Serializable {
     private Collection<ShopWeightShipRules> shopWeightShipRulesCollection;
 
     @JoinColumn(name = "shop_courier_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JsonView(JackSonViewer.IOrder.class)
     private ShopCouriers shopCourierId;
 

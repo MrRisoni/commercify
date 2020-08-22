@@ -63,11 +63,11 @@ public class ShopTaxRules implements Serializable {
     private boolean active;
 
     @JoinColumn(name = "shop_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Shops shopId;
 
     @JoinColumn(name = "product_category_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private ProductCategories productCategoryId;
 
     public ShopTaxRules() {
@@ -77,7 +77,7 @@ public class ShopTaxRules implements Serializable {
         this.id = id;
     }
 
-    public ShopTaxRules(Long id,  String countryCode, BigDecimal flatCost, BigDecimal rate, Date created, boolean active) {
+    public ShopTaxRules(Long id, String countryCode, BigDecimal flatCost, BigDecimal rate, Date created, boolean active) {
         this.id = id;
         this.countryCode = countryCode;
         this.flatCost = flatCost;
@@ -94,7 +94,7 @@ public class ShopTaxRules implements Serializable {
         this.id = id;
     }
 
-     public String getCountryCode() {
+    public String getCountryCode() {
         return countryCode;
     }
 

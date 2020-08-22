@@ -62,15 +62,15 @@ public class ShopTaxZipCodeRules {
     private boolean active;
 
     @JoinColumn(name = "shop_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Shops shopId;
 
     @JoinColumn(name = "region_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private GlobeRegions regionId;
 
     @JoinColumn(name = "product_category_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private ProductCategories productCategoryId;
 
     public ShopTaxZipCodeRules() {
@@ -80,7 +80,7 @@ public class ShopTaxZipCodeRules {
         this.id = id;
     }
 
-    public ShopTaxZipCodeRules(Long id,  String countryCode, BigDecimal flatCost, BigDecimal rate, Date created, boolean active) {
+    public ShopTaxZipCodeRules(Long id, String countryCode, BigDecimal flatCost, BigDecimal rate, Date created, boolean active) {
         this.id = id;
         this.countryCode = countryCode;
         this.flatCost = flatCost;

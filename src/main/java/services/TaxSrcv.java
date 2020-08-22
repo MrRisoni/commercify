@@ -50,6 +50,7 @@ public class TaxSrcv {
             List<Object[]> res = this.em.createNativeQuery("SELECT category_id,price FROM Products WHERE id = :pid AND taxable = 1 LIMIT 1")
                     .setParameter("pid",itm.getProd().getId()).getResultList();
             if (res.size() >0) {
+                Long prodCategoryId =  1L; //Long.parseLong(res.get(0)[0].toString());
                 BigDecimal productPriceDb = new BigDecimal(res.get(0)[1].toString());
                 System.out.println("DB PRICE OF is " + productPriceDb);
                 netPriceTotal = (new BigDecimal(itm.getQuantity())).multiply(productPriceDb);
@@ -73,15 +74,22 @@ public class TaxSrcv {
 
                     }
                     else {
-                        List<ShopTaxRules> taxGeneral = this.em.createQuery("FROM ShopTaxRules WHERE active = 1 ").getResultList();
+                        List<ShopTaxRules> taxGeneral = this.em.createQuery("FROM ShopTaxRules tx " +
+                                " JOIN tx.productCategoryId pCat " +
+                                "   WHERE pCat.id = :productCatId AND tx.countryCode =:code AND tx.active = 1 ")
+                                .setParameter("code",this.getBasket().getShipTop().getCountryCode())
+                                .setParameter("productCatId",prodCategoryId).getResultList();
                         if (taxGeneral.size()>0) {
                             productTaxRate =  taxGeneral.get(0).getRate();
+                            productTaxFlat =  taxGeneral.get(0).getFlatCost();
+
                         }
                     }
-                }// end o rule calculation
+                }// end rules calculation
 
                 System.out.println("TAX RATE " + productTaxRate);
                 taxOfProducts = netPriceTotal.multiply(productTaxRate).divide(new BigDecimal(100));
+                taxOfProducts = taxOfProducts.add(productTaxFlat);
 
                 totalTax = totalTax.add(taxOfProducts);
 

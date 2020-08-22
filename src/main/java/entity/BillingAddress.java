@@ -63,14 +63,14 @@ public class BillingAddress implements Serializable {
     private String postCode;
 
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Users userId;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "billingAddressId")
     private Collection<Orders> ordersCollection;
 
     @JoinColumn(name = "region_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private GlobeRegions regionId;
 
     public BillingAddress() {
@@ -79,7 +79,6 @@ public class BillingAddress implements Serializable {
     public BillingAddress(Long id) {
         this.id = id;
     }
-
 
 
     public Long getId() {

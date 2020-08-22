@@ -45,11 +45,11 @@ public class ProductCategoryAttributes implements Serializable {
     private Collection<ProductAttributesValues> productAttributesValuesCollection;
 
     @JoinColumn(name = "product_category_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private ProductCategories productCategoryId;
 
     @JoinColumn(name = "shop_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Shops shopId;
 
     public ProductCategoryAttributes() {

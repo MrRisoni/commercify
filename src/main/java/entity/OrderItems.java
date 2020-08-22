@@ -73,31 +73,31 @@ public class OrderItems implements Serializable {
     @JsonView(JackSonViewer.IOrder.class)
     private boolean refund;
 
-    @Column(name="dispatched_o")
+    @Column(name = "dispatched_o")
     private Date dispatchedOn;
 
-    @Column(name="expected_on")
+    @Column(name = "expected_on")
     private Date expectedOn;
 
-    @Column(name="arrived_on")
+    @Column(name = "arrived_on")
     private Date arrivedOn;
 
-     @JoinColumn(name = "order_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @JoinColumn(name = "order_id", referencedColumnName = "id")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Orders orderId;
 
     @JoinColumn(name = "product_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JsonView(JackSonViewer.IOrder.class)
     private Products productId;
 
     @JoinColumn(name = "status_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JsonView(JackSonViewer.IOrder.class)
     private OrderStatus statusId;
 
-    @OneToMany( cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    @JoinColumn(name="item_id")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JoinColumn(name = "item_id")
     @JsonView(JackSonViewer.IOrder.class)
     private List<OrderItemStatusHistory> statusHistory;
 

@@ -92,11 +92,11 @@ public class ShopWeightCodRules implements Serializable {
     private Date updatedAt;
 
     @JoinColumn(name = "shop_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Shops shopId;
 
     @JoinColumn(name = "shipping_class_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private ShopCourierClasses shippingClassId;
 
     public ShopWeightCodRules() {

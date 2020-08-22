@@ -32,7 +32,7 @@ public class ShippingZonesZipCodes implements Serializable {
     private String zipCode;
 
     @JoinColumn(name = "zone_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private ShopShipZones zoneId;
 
     public ShippingZonesZipCodes() {

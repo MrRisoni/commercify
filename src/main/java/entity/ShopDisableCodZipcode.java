@@ -32,7 +32,7 @@ public class ShopDisableCodZipcode implements Serializable {
     private String zipCode;
 
     @JoinColumn(name = "shop_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Shops shopId;
 
     public ShopDisableCodZipcode() {

@@ -30,7 +30,7 @@ public class ProductTags implements Serializable {
     private String tag;
 
     @JoinColumn(name = "product_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Products productId;
 
     public ProductTags() {

@@ -99,46 +99,46 @@ public class Orders implements Serializable {
     @JsonView(JackSonViewer.IOrder.class)
     private Date updatedAt;
 
-    @OneToMany( cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    @JoinColumn(name="order_id")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_id")
     @JsonView(JackSonViewer.IOrder.class)
     private List<OrderStatusHistory> statusHistory;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "orderId",fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "orderId", fetch = FetchType.LAZY)
     @JsonView(JackSonViewer.IOrder.class)
     private Collection<OrderItems> orderItemsCollection;
 
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    @ManyToOne(optional = false,fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JsonView(JackSonViewer.IOrder.class)
     private Users userId;
 
     @JoinColumn(name = "shop_id", referencedColumnName = "id")
-    @ManyToOne(optional = false,fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Shops shopId;
 
     @JoinColumn(name = "status_id", referencedColumnName = "id")
-    @ManyToOne(optional = false,fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JsonView(JackSonViewer.IOrder.class)
     private OrderStatus statusId;
 
     @JoinColumn(name = "pay_method_id", referencedColumnName = "id")
-    @ManyToOne(optional = false,fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JsonView(JackSonViewer.IOrder.class)
     private PaymentMethods payMethodId;
 
     @JoinColumn(name = "ship_class_id", referencedColumnName = "id")
-    @ManyToOne(optional = false,fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JsonView(JackSonViewer.IOrder.class)
     private ShopCourierClasses shipClassId;
 
     @JoinColumn(name = "shipping_address_id", referencedColumnName = "id")
-    @ManyToOne(optional = false,fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JsonView(JackSonViewer.IOrder.class)
     private ShippingAddress shippingAddressId;
 
     @JoinColumn(name = "billing_address_id", referencedColumnName = "id")
-    @ManyToOne(optional = false,fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JsonView(JackSonViewer.IOrder.class)
     private BillingAddress billingAddressId;
 

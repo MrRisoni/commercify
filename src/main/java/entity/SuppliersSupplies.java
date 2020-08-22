@@ -20,11 +20,11 @@ public class SuppliersSupplies implements Serializable {
     private Long id;
 
     @JoinColumn(name = "product_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Products productId;
 
     @JoinColumn(name = "supplier_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private ShopSuppliers supplierId;
 
     public SuppliersSupplies() {

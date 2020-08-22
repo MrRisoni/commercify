@@ -30,11 +30,11 @@ public class ShopCurrencies implements Serializable {
     private boolean disableCodGreaterThan;
 
     @JoinColumn(name = "shop_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Shops shopId;
 
     @JoinColumn(name = "currency_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Currencies currencyId;
 
     public ShopCurrencies() {

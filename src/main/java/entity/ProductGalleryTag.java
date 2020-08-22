@@ -26,7 +26,7 @@ public class ProductGalleryTag implements Serializable {
     private String tag;
 
     @JoinColumn(name = "image_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private ProductGallery imageId;
 
     public ProductGalleryTag() {

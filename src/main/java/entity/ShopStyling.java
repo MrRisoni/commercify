@@ -27,7 +27,7 @@ public class ShopStyling implements Serializable {
     private String style;
 
     @JoinColumn(name = "shop_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Shops shopId;
 
     public ShopStyling() {

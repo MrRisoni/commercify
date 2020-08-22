@@ -10,8 +10,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 
-
-
 @Entity
 @Table(name = "shop_manufacturers")
 public class ShopManufacturers implements Serializable {
@@ -32,10 +30,10 @@ public class ShopManufacturers implements Serializable {
     private String title;
 
     @JoinColumn(name = "shop_id", referencedColumnName = "id")
-    @ManyToOne(optional = false,fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Shops shopId;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "manufacturerId",fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "manufacturerId", fetch = FetchType.LAZY)
     private Collection<Products> productsCollection;
 
     public ShopManufacturers() {

@@ -39,14 +39,14 @@ public class ProductCategories implements Serializable {
     @JsonView({JackSonViewer.IShopProductCategory.class, JackSonViewer.IShopProduct.class, JackSonViewer.IOrder.class})
     private String title;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "categoryId",fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "categoryId", fetch = FetchType.LAZY)
     private Collection<Products> productsCollection;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productCategoryId",fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productCategoryId", fetch = FetchType.LAZY)
     private Collection<ProductCategoryAttributes> productCategoryAttributesCollection;
 
     @JoinColumn(name = "shop_id", referencedColumnName = "id")
-    @ManyToOne(optional = false,fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Shops shopId;
 
     public ProductCategories() {

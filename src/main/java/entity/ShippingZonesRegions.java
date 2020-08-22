@@ -20,11 +20,11 @@ public class ShippingZonesRegions implements Serializable {
     private Long id;
 
     @JoinColumn(name = "region_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private GlobeRegions regionId;
 
     @JoinColumn(name = "zone_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private ShopShipZones zoneId;
 
     public ShippingZonesRegions() {

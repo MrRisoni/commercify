@@ -41,11 +41,11 @@ public class ProductAttributesValues implements Serializable {
     private int valueBoolean;*/
 
     @JoinColumn(name = "product_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Products productId;
 
     @JoinColumn(name = "attribute_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JsonView(JackSonViewer.IShopProduct.class)
     private ProductCategoryAttributes attributeId;
 

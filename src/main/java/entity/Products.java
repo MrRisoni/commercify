@@ -15,10 +15,10 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "products")
-@SqlResultSetMapping(name="JediResult", classes = {
+@SqlResultSetMapping(name = "JediResult", classes = {
         @ConstructorResult(targetClass = Products.class,
-                columns = {@ColumnResult(name="id"), @ColumnResult(name="title"),
-                        @ColumnResult(name="kilos"),@ColumnResult(name="price")})
+                columns = {@ColumnResult(name = "id"), @ColumnResult(name = "title"),
+                        @ColumnResult(name = "kilos"), @ColumnResult(name = "price")})
 })
 public class Products implements Serializable {
 
@@ -183,39 +183,39 @@ public class Products implements Serializable {
     @JsonView(JackSonViewer.IShopProduct.class)
     private Collection<ProductTags> productTagsCollection;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId",fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId", fetch = FetchType.LAZY)
     private Collection<SuppliersSupplies> suppliersSuppliesCollection;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId",fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId", fetch = FetchType.LAZY)
     private Collection<OrderItems> orderItemsCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId")
     @JsonView(JackSonViewer.IShopProduct.class)
     private Collection<ProductAttributesValues> productAttributesValuesCollection;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId",fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId", fetch = FetchType.LAZY)
     @JsonView(JackSonViewer.IShopProduct.class)
     private Collection<ProductGallery> productGalleryCollection;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId",fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId", fetch = FetchType.LAZY)
     @JsonView(JackSonViewer.IShopProduct.class)
     private Collection<ProductReviews> productReviewsCollection;
 
     @JoinColumn(name = "shop_id", referencedColumnName = "id")
-    @ManyToOne(optional = false,fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Shops shopId;
 
     @JoinColumn(name = "category_id", referencedColumnName = "id")
-    @ManyToOne(optional = false,fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JsonView({JackSonViewer.IShopProduct.class, JackSonViewer.IOrder.class})
     private ProductCategories categoryId;
 
     @JoinColumn(name = "currency_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JsonView(JackSonViewer.IShopProduct.class)
     private Currencies currencyId;
 
     @JoinColumn(name = "manufacturer_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JsonView({JackSonViewer.IShopProduct.class, JackSonViewer.IOrder.class})
     private ShopManufacturers manufacturerId;
 
@@ -250,7 +250,7 @@ public class Products implements Serializable {
         this.visible = visible;
     }
 
-    public Products(Long id, @NotNull @Size(min = 1, max = 55) String title, @NotNull BigDecimal kilos,@NotNull BigDecimal price) {
+    public Products(Long id, @NotNull @Size(min = 1, max = 55) String title, @NotNull BigDecimal kilos, @NotNull BigDecimal price) {
         this.id = id;
         this.title = title;
         this.price = price;

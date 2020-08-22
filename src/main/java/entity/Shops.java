@@ -11,8 +11,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 
-
-
 @Entity
 @Table(name = "shops")
 public class Shops implements Serializable {
@@ -68,11 +66,11 @@ public class Shops implements Serializable {
     private Collection<ShopCouriers> shopCouriersCollection;
 
     @JoinColumn(name = "owner_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Users ownerId;
 
     @JoinColumn(name = "default_lang_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Languages defaultLangId;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "shopId")

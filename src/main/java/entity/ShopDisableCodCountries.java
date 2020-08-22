@@ -25,7 +25,7 @@ public class ShopDisableCodCountries implements Serializable {
     private String countryCode;
 
     @JoinColumn(name = "shop_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Shops shopId;
 
     public ShopDisableCodCountries() {

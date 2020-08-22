@@ -33,11 +33,11 @@ public class ShopTranslations implements Serializable {
     private String transltr;
 
     @JoinColumn(name = "language_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Languages languageId;
 
     @JoinColumn(name = "shop_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Shops shopId;
 
     public ShopTranslations() {

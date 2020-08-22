@@ -8,7 +8,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 
-
 @Entity
 @Table(name = "shop_giftwrap")
 public class ShopGiftwrap implements Serializable {
@@ -32,7 +31,7 @@ public class ShopGiftwrap implements Serializable {
     private boolean active;
 
     @JoinColumn(name = "shop_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Shops shopId;
 
     public ShopGiftwrap() {

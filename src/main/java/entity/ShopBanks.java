@@ -44,7 +44,7 @@ public class ShopBanks implements Serializable {
     private String swiftCode;
 
     @JoinColumn(name = "shop_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Shops shopId;
 
     public ShopBanks() {

@@ -25,11 +25,11 @@ public class ShopShippingClassesRegions implements Serializable {
     private boolean active;
 
     @JoinColumn(name = "ship_class_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private ShopCourierClasses shipClassId;
 
     @JoinColumn(name = "region_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private GlobeRegions regionId;
 
     public ShopShippingClassesRegions() {

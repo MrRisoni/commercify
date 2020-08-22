@@ -10,7 +10,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 
-
 @Entity
 @Table(name = "shipping_address")
 public class ShippingAddress implements Serializable {
@@ -68,11 +67,11 @@ public class ShippingAddress implements Serializable {
     private Collection<Orders> ordersCollection;
 
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Users userId;
 
     @JoinColumn(name = "region_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private GlobeRegions regionId;
 
     public ShippingAddress() {

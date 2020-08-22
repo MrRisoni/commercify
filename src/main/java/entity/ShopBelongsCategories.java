@@ -35,12 +35,12 @@ public class ShopBelongsCategories implements Serializable {
     @Column(name = "show_order")
     private int showOrder;
 
-       @JoinColumn(name = "shop_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @JoinColumn(name = "shop_id", referencedColumnName = "id")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Shops shopId;
 
     @JoinColumn(name = "category_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private ShopCategories categoryId;
 
     public ShopBelongsCategories() {
