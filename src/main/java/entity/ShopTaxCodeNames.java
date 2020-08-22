@@ -27,7 +27,7 @@ public class ShopTaxCodeNames implements Serializable {
     private String code;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "taxCodeId")
-    private Collection<ShopProductCateogoryTaxes> shopProductCateogoryTaxesCollection;
+    private Collection<ShopTaxZipCodeRules> shopTaxZipCodeRulesCollection;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "taxCodeId")
     private Collection<ShopTaxRegionRules> shopTaxRegionRulesCollection;
@@ -68,14 +68,13 @@ public class ShopTaxCodeNames implements Serializable {
     }
 
 
-    public Collection<ShopProductCateogoryTaxes> getShopProductCateogoryTaxesCollection() {
-        return shopProductCateogoryTaxesCollection;
+    public Collection<ShopTaxZipCodeRules> getShopTaxZipCodeRulesCollection() {
+        return shopTaxZipCodeRulesCollection;
     }
 
-    public void setShopProductCateogoryTaxesCollection(Collection<ShopProductCateogoryTaxes> shopProductCateogoryTaxesCollection) {
-        this.shopProductCateogoryTaxesCollection = shopProductCateogoryTaxesCollection;
+    public void setShopTaxZipCodeRulesCollection(Collection<ShopTaxZipCodeRules> shopTaxZipCodeRulesCollection) {
+        this.shopTaxZipCodeRulesCollection = shopTaxZipCodeRulesCollection;
     }
-
 
     public Collection<ShopTaxRegionRules> getShopTaxRegionRulesCollection() {
         return shopTaxRegionRulesCollection;

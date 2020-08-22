@@ -29,7 +29,6 @@
     <class>entity.ShopWeightShipRules</class>
     <class>entity.Languages</class>
     <class>entity.ShopCourierClasses</class>
-    <class>entity.ShopProductCateogoryTaxes</class>
     <class>entity.ShippingAddress</class>
     <class>entity.ShopLanguages</class>
     <class>entity.ProductTags</class>

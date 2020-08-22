@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -72,7 +73,16 @@ public class OrderItems implements Serializable {
     @JsonView(JackSonViewer.IOrder.class)
     private boolean refund;
 
-    @JoinColumn(name = "order_id", referencedColumnName = "id")
+    @Column(name="dispatched_o")
+    private Date dispatchedOn;
+
+    @Column(name="expected_on")
+    private Date expectedOn;
+
+    @Column(name="arrived_on")
+    private Date arrivedOn;
+
+     @JoinColumn(name = "order_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Orders orderId;
 
@@ -224,5 +234,29 @@ public class OrderItems implements Serializable {
 
     public void setStatusHistory(List<OrderItemStatusHistory> statusHistory) {
         this.statusHistory = statusHistory;
+    }
+
+    public Date getDispatchedOn() {
+        return dispatchedOn;
+    }
+
+    public void setDispatchedOn(Date dispatchedOn) {
+        this.dispatchedOn = dispatchedOn;
+    }
+
+    public Date getExpectedOn() {
+        return expectedOn;
+    }
+
+    public void setExpectedOn(Date expectedOn) {
+        this.expectedOn = expectedOn;
+    }
+
+    public Date getArrivedOn() {
+        return arrivedOn;
+    }
+
+    public void setArrivedOn(Date arrivedOn) {
+        this.arrivedOn = arrivedOn;
     }
 }

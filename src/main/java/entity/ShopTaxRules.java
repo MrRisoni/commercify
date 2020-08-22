@@ -35,6 +35,12 @@ public class ShopTaxRules implements Serializable {
     @Column(name = "country_code")
     private String countryCode;
 
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 4)
+    @Column(name = "tax_address")
+    private String taxAddress;
+
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Basic(optional = false)
     @NotNull
@@ -69,6 +75,10 @@ public class ShopTaxRules implements Serializable {
     @JoinColumn(name = "tax_code_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private ShopTaxCodeNames taxCodeId;
+
+    @JoinColumn(name = "product_category_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private ProductCategories productCategoryId;
 
     public ShopTaxRules() {
     }
@@ -167,4 +177,23 @@ public class ShopTaxRules implements Serializable {
         this.taxCodeId = taxCodeId;
     }
 
+    public String getTaxAddress() {
+        return taxAddress;
+    }
+
+    public void setTaxAddress(String taxAddress) {
+        this.taxAddress = taxAddress;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public ProductCategories getProductCategoryId() {
+        return productCategoryId;
+    }
+
+    public void setProductCategoryId(ProductCategories productCategoryId) {
+        this.productCategoryId = productCategoryId;
+    }
 }

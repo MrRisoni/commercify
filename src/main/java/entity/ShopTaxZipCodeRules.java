@@ -1,20 +1,16 @@
-
 package entity;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.Collection;
-import java.util.Date;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
+import java.math.BigDecimal;
+import java.util.Date;
 
 @Entity
-@Table(name = "shop_tax_region_rules")
-public class ShopTaxRegionRules implements Serializable {
+@Table(name = "shop_tax_zipcode_rules")
+public class ShopTaxZipCodeRules {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -34,6 +30,9 @@ public class ShopTaxRegionRules implements Serializable {
     @Size(min = 1, max = 3)
     @Column(name = "country_code")
     private String countryCode;
+
+    @Column(name = "zip_codes")
+    private String zipCodes;
 
     @Basic(optional = false)
     @NotNull
@@ -84,14 +83,14 @@ public class ShopTaxRegionRules implements Serializable {
     @ManyToOne(optional = false)
     private ProductCategories productCategoryId;
 
-    public ShopTaxRegionRules() {
+    public ShopTaxZipCodeRules() {
     }
 
-    public ShopTaxRegionRules(Long id) {
+    public ShopTaxZipCodeRules(Long id) {
         this.id = id;
     }
 
-    public ShopTaxRegionRules(Long id, String title, String countryCode, BigDecimal flatCost, BigDecimal rate, Date created, boolean active) {
+    public ShopTaxZipCodeRules(Long id, String title, String countryCode, BigDecimal flatCost, BigDecimal rate, Date created, boolean active) {
         this.id = id;
         this.title = title;
         this.countryCode = countryCode;
@@ -207,5 +206,13 @@ public class ShopTaxRegionRules implements Serializable {
 
     public void setProductCategoryId(ProductCategories productCategoryId) {
         this.productCategoryId = productCategoryId;
+    }
+
+    public String getZipCodes() {
+        return zipCodes;
+    }
+
+    public void setZipCodes(String zipCodes) {
+        this.zipCodes = zipCodes;
     }
 }

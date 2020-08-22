@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 21, 2020 at 07:29 AM
+-- Generation Time: Aug 22, 2020 at 07:27 AM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 7.4.8
 
@@ -159,8 +159,10 @@ CREATE TABLE `globe_regions` (
 --
 
 INSERT INTO `globe_regions` (`id`, `country_code`, `title`) VALUES
-(1, 'GR', 'Νησία Ιονίου'),
-(2, 'GR', 'Στερέα Ελλάδα');
+(1, '*', '*'),
+(2, 'GR', 'Στερέα Ελλάδα'),
+(3, 'GR', 'Δωδεκάνησα'),
+(4, 'GR', 'Νησία Ιονίου');
 
 -- --------------------------------------------------------
 
@@ -204,6 +206,7 @@ CREATE TABLE `orders` (
   `net` decimal(10,2) NOT NULL,
   `commission` decimal(10,2) UNSIGNED NOT NULL,
   `tax` decimal(10,2) NOT NULL,
+  `courrier_fees` decimal(10,2) UNSIGNED NOT NULL DEFAULT 0.00,
   `shipping` decimal(10,2) NOT NULL,
   `success` tinyint(1) NOT NULL,
   `void` tinyint(1) NOT NULL,
@@ -216,9 +219,9 @@ CREATE TABLE `orders` (
 -- Dumping data for table `orders`
 --
 
-INSERT INTO `orders` (`id`, `user_id`, `shipping_address_id`, `billing_address_id`, `shop_id`, `status_id`, `pay_method_id`, `ship_class_id`, `currency`, `currency_rate`, `total`, `net`, `commission`, `tax`, `shipping`, `success`, `void`, `refund`, `created_at`, `updated_at`) VALUES
-(1, 3, 1, 1, 2, 3, 4, 1, 'EUR', '1.00', '3560.00', '3520.00', '0.00', '50.00', '30.00', 1, 0, 0, '2020-08-12 08:55:50', '2020-08-12 08:55:50'),
-(2, 3, 1, 1, 2, 3, 3, 1, 'CHF', '1.89', '2560.00', '2520.00', '0.00', '10.00', '25.00', 1, 0, 0, '2020-08-12 08:55:50', '2020-08-12 08:55:50');
+INSERT INTO `orders` (`id`, `user_id`, `shipping_address_id`, `billing_address_id`, `shop_id`, `status_id`, `pay_method_id`, `ship_class_id`, `currency`, `currency_rate`, `total`, `net`, `commission`, `tax`, `courrier_fees`, `shipping`, `success`, `void`, `refund`, `created_at`, `updated_at`) VALUES
+(1, 3, 1, 1, 2, 3, 4, 1, 'EUR', '1.00', '3560.00', '3520.00', '0.00', '50.00', '0.00', '30.00', 1, 0, 0, '2020-07-12 08:55:50', '2020-07-12 08:55:50'),
+(2, 3, 1, 1, 2, 3, 3, 1, 'CHF', '1.89', '2560.00', '2520.00', '0.00', '10.00', '0.00', '25.00', 1, 0, 0, '2020-08-12 18:35:10', '2020-08-12 18:15:10');
 
 -- --------------------------------------------------------
 
@@ -253,6 +256,9 @@ CREATE TABLE `order_items` (
   `status_id` bigint(20) UNSIGNED NOT NULL,
   `quantity` int(11) UNSIGNED NOT NULL,
   `tracking_no` varchar(52) NOT NULL,
+  `dispatched_on` datetime DEFAULT NULL,
+  `expected_on` date DEFAULT NULL,
+  `arrived_on` date DEFAULT NULL,
   `net_price` decimal(10,2) NOT NULL,
   `taxes` decimal(10,2) NOT NULL,
   `gift_cost` decimal(10,2) NOT NULL,
@@ -265,10 +271,10 @@ CREATE TABLE `order_items` (
 -- Dumping data for table `order_items`
 --
 
-INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `status_id`, `quantity`, `tracking_no`, `net_price`, `taxes`, `gift_cost`, `success`, `void`, `refund`) VALUES
-(1, 1, 9, 3, 2, '', '3560.00', '12.00', '0.00', 1, 0, 0),
-(2, 2, 8, 3, 2, '', '1456.00', '234.00', '1.00', 1, 0, 0),
-(3, 2, 7, 3, 1, '', '567.00', '23.00', '0.00', 1, 0, 0);
+INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `status_id`, `quantity`, `tracking_no`, `dispatched_on`, `expected_on`, `arrived_on`, `net_price`, `taxes`, `gift_cost`, `success`, `void`, `refund`) VALUES
+(1, 1, 9, 3, 2, '', NULL, NULL, NULL, '3560.00', '12.00', '0.00', 1, 0, 0),
+(2, 2, 8, 3, 2, '', NULL, NULL, NULL, '1456.00', '234.00', '1.00', 1, 0, 0),
+(3, 2, 7, 3, 1, '', NULL, NULL, NULL, '567.00', '23.00', '0.00', 1, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -1047,18 +1053,6 @@ INSERT INTO `shop_manufacturers` (`id`, `shop_id`, `title`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `shop_product_cateogory_taxes`
---
-
-CREATE TABLE `shop_product_cateogory_taxes` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `shop_category_id` bigint(20) UNSIGNED NOT NULL,
-  `tax_code_id` bigint(20) UNSIGNED NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `shop_reviews`
 --
 
@@ -1133,6 +1127,14 @@ CREATE TABLE `shop_tax_code_names` (
   `code` varchar(250) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `shop_tax_code_names`
+--
+
+INSERT INTO `shop_tax_code_names` (`id`, `shop_id`, `code`) VALUES
+(1, 1, 'STANDARD_24%'),
+(2, 1, 'SUB_17%');
+
 -- --------------------------------------------------------
 
 --
@@ -1143,15 +1145,17 @@ CREATE TABLE `shop_tax_region_rules` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `shop_id` bigint(20) UNSIGNED NOT NULL,
   `tax_code_id` bigint(20) UNSIGNED NOT NULL,
+  `product_category_id` bigint(20) UNSIGNED NOT NULL DEFAULT 1,
+  `country_code` varchar(3) NOT NULL,
   `region_id` bigint(20) UNSIGNED NOT NULL,
   `title` varchar(52) NOT NULL,
-  `country_code` varchar(3) NOT NULL,
   `flat_cost` decimal(10,2) NOT NULL,
   `rate` decimal(10,2) NOT NULL,
+  `tax_address` varchar(4) NOT NULL DEFAULT 'ship' COMMENT 'ship or bill',
   `created` datetime NOT NULL,
   `updated` datetime DEFAULT NULL,
   `active` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='exceptions';
 
 -- --------------------------------------------------------
 
@@ -1163,14 +1167,46 @@ CREATE TABLE `shop_tax_rules` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `shop_id` bigint(20) UNSIGNED NOT NULL,
   `tax_code_id` bigint(20) UNSIGNED NOT NULL,
-  `title` varchar(52) NOT NULL,
+  `product_category_id` bigint(20) UNSIGNED NOT NULL DEFAULT 1,
   `country_code` varchar(3) NOT NULL,
+  `title` varchar(52) NOT NULL,
   `flat_cost` decimal(10,2) NOT NULL,
   `rate` decimal(10,2) NOT NULL,
+  `tax_address` varchar(4) NOT NULL DEFAULT 'ship' COMMENT 'bill or ship',
   `created` datetime NOT NULL,
   `updated` datetime DEFAULT NULL,
   `active` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `shop_tax_rules`
+--
+
+INSERT INTO `shop_tax_rules` (`id`, `shop_id`, `tax_code_id`, `product_category_id`, `country_code`, `title`, `flat_cost`, `rate`, `tax_address`, `created`, `updated`, `active`) VALUES
+(1, 1, 1, 1, 'GR', '24%', '0.00', '24.00', 'ship', '2020-08-22 07:46:58', '2020-08-22 07:46:58', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `shop_tax_zipcode_rules`
+--
+
+CREATE TABLE `shop_tax_zipcode_rules` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `shop_id` bigint(20) UNSIGNED NOT NULL,
+  `tax_code_id` bigint(20) UNSIGNED NOT NULL,
+  `product_category_id` bigint(20) UNSIGNED NOT NULL DEFAULT 1,
+  `country_code` varchar(3) NOT NULL,
+  `region_id` bigint(20) UNSIGNED NOT NULL,
+  `zip_codes` text NOT NULL,
+  `title` varchar(52) NOT NULL,
+  `flat_cost` decimal(10,2) NOT NULL,
+  `rate` decimal(10,2) NOT NULL,
+  `tax_address` varchar(4) NOT NULL DEFAULT 'ship' COMMENT 'ship or bill',
+  `created` datetime NOT NULL,
+  `updated` datetime DEFAULT NULL,
+  `active` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='exceptions';
 
 -- --------------------------------------------------------
 
@@ -1273,7 +1309,7 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `username`, `password`, `password_salt`, `email`, `first_name`, `last_name`, `created`, `updated`) VALUES
 (1, 'test', '', '', '', 'ANNA', 'KARENINA', '2020-08-03 08:16:17', '2020-08-03 08:16:17'),
 (2, 'foo', '', '', 'foo@bar', 'LEV', 'GOGOL', '2020-08-03 08:22:37', '2020-08-03 08:22:37'),
-(3, 'richguy', '', '', '', 'ANTON', 'TSEKOF', '0000-00-00 00:00:00', '2020-08-02 08:05:32');
+(3, 'richguy', '', '', '', 'ANTON', 'TSEKOF', '2020-08-03 08:22:37', '2020-08-02 08:05:32');
 
 -- --------------------------------------------------------
 
@@ -1621,14 +1657,6 @@ ALTER TABLE `shop_manufacturers`
   ADD KEY `shop_id` (`shop_id`);
 
 --
--- Indexes for table `shop_product_cateogory_taxes`
---
-ALTER TABLE `shop_product_cateogory_taxes`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `shop_category_id` (`shop_category_id`,`tax_code_id`),
-  ADD KEY `tax_code_id` (`tax_code_id`);
-
---
 -- Indexes for table `shop_reviews`
 --
 ALTER TABLE `shop_reviews`
@@ -1679,7 +1707,8 @@ ALTER TABLE `shop_tax_region_rules`
   ADD PRIMARY KEY (`id`),
   ADD KEY `shop_id` (`shop_id`),
   ADD KEY `region_id` (`region_id`),
-  ADD KEY `tax_code_id` (`tax_code_id`);
+  ADD KEY `tax_code_id` (`tax_code_id`),
+  ADD KEY `product_category_id` (`product_category_id`);
 
 --
 -- Indexes for table `shop_tax_rules`
@@ -1687,7 +1716,18 @@ ALTER TABLE `shop_tax_region_rules`
 ALTER TABLE `shop_tax_rules`
   ADD PRIMARY KEY (`id`),
   ADD KEY `shop_id` (`shop_id`),
-  ADD KEY `tax_code_id` (`tax_code_id`);
+  ADD KEY `tax_code_id` (`tax_code_id`),
+  ADD KEY `product_category_id` (`product_category_id`);
+
+--
+-- Indexes for table `shop_tax_zipcode_rules`
+--
+ALTER TABLE `shop_tax_zipcode_rules`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `shop_id` (`shop_id`),
+  ADD KEY `region_id` (`region_id`),
+  ADD KEY `tax_code_id` (`tax_code_id`),
+  ADD KEY `product_category_id` (`product_category_id`);
 
 --
 -- Indexes for table `shop_translations`
@@ -1780,7 +1820,7 @@ ALTER TABLE `currency_rates`
 -- AUTO_INCREMENT for table `globe_regions`
 --
 ALTER TABLE `globe_regions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `languages`
@@ -1999,12 +2039,6 @@ ALTER TABLE `shop_manufacturers`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT for table `shop_product_cateogory_taxes`
---
-ALTER TABLE `shop_product_cateogory_taxes`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `shop_reviews`
 --
 ALTER TABLE `shop_reviews`
@@ -2038,7 +2072,7 @@ ALTER TABLE `shop_suppliers`
 -- AUTO_INCREMENT for table `shop_tax_code_names`
 --
 ALTER TABLE `shop_tax_code_names`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `shop_tax_region_rules`
@@ -2050,6 +2084,12 @@ ALTER TABLE `shop_tax_region_rules`
 -- AUTO_INCREMENT for table `shop_tax_rules`
 --
 ALTER TABLE `shop_tax_rules`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `shop_tax_zipcode_rules`
+--
+ALTER TABLE `shop_tax_zipcode_rules`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
@@ -2316,13 +2356,6 @@ ALTER TABLE `shop_manufacturers`
   ADD CONSTRAINT `shop_manufacturers_ibfk_1` FOREIGN KEY (`shop_id`) REFERENCES `shops` (`id`);
 
 --
--- Constraints for table `shop_product_cateogory_taxes`
---
-ALTER TABLE `shop_product_cateogory_taxes`
-  ADD CONSTRAINT `shop_product_cateogory_taxes_ibfk_1` FOREIGN KEY (`shop_category_id`) REFERENCES `shop_belongs_categories` (`id`),
-  ADD CONSTRAINT `shop_product_cateogory_taxes_ibfk_2` FOREIGN KEY (`tax_code_id`) REFERENCES `shop_tax_code_names` (`id`);
-
---
 -- Constraints for table `shop_reviews`
 --
 ALTER TABLE `shop_reviews`
@@ -2366,14 +2399,25 @@ ALTER TABLE `shop_tax_code_names`
 ALTER TABLE `shop_tax_region_rules`
   ADD CONSTRAINT `shop_tax_region_rules_ibfk_1` FOREIGN KEY (`shop_id`) REFERENCES `shops` (`id`),
   ADD CONSTRAINT `shop_tax_region_rules_ibfk_2` FOREIGN KEY (`region_id`) REFERENCES `globe_regions` (`id`),
-  ADD CONSTRAINT `shop_tax_region_rules_ibfk_3` FOREIGN KEY (`tax_code_id`) REFERENCES `shop_tax_code_names` (`id`);
+  ADD CONSTRAINT `shop_tax_region_rules_ibfk_3` FOREIGN KEY (`tax_code_id`) REFERENCES `shop_tax_code_names` (`id`),
+  ADD CONSTRAINT `shop_tax_region_rules_ibfk_4` FOREIGN KEY (`product_category_id`) REFERENCES `product_categories` (`id`);
 
 --
 -- Constraints for table `shop_tax_rules`
 --
 ALTER TABLE `shop_tax_rules`
   ADD CONSTRAINT `shop_tax_rules_ibfk_1` FOREIGN KEY (`shop_id`) REFERENCES `shops` (`id`),
-  ADD CONSTRAINT `shop_tax_rules_ibfk_2` FOREIGN KEY (`tax_code_id`) REFERENCES `shop_tax_code_names` (`id`);
+  ADD CONSTRAINT `shop_tax_rules_ibfk_2` FOREIGN KEY (`tax_code_id`) REFERENCES `shop_tax_code_names` (`id`),
+  ADD CONSTRAINT `shop_tax_rules_ibfk_3` FOREIGN KEY (`product_category_id`) REFERENCES `product_categories` (`id`);
+
+--
+-- Constraints for table `shop_tax_zipcode_rules`
+--
+ALTER TABLE `shop_tax_zipcode_rules`
+  ADD CONSTRAINT `shop_tax_zipcode_rules_ibfk_1` FOREIGN KEY (`shop_id`) REFERENCES `shops` (`id`),
+  ADD CONSTRAINT `shop_tax_zipcode_rules_ibfk_2` FOREIGN KEY (`region_id`) REFERENCES `globe_regions` (`id`),
+  ADD CONSTRAINT `shop_tax_zipcode_rules_ibfk_3` FOREIGN KEY (`tax_code_id`) REFERENCES `shop_tax_code_names` (`id`),
+  ADD CONSTRAINT `shop_tax_zipcode_rules_ibfk_4` FOREIGN KEY (`product_category_id`) REFERENCES `product_categories` (`id`);
 
 --
 -- Constraints for table `shop_translations`
