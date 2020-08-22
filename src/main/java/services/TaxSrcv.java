@@ -1,5 +1,6 @@
 package services;
 
+import entity.ShopTaxRules;
 import pojo.Basket;
 import pojo.BasketItem;
 
@@ -66,21 +67,21 @@ public class TaxSrcv {
                 }
                 else {
                     List<Object> taxRegion= this.em.createNativeQuery("SELECT rate FROM  shop_tax_region_rules " +
-                            "WHERE active = 1 AND zip_codes LIKE '%" + this.basket.getShipTop().getPostCode() +  "%' LIMIT 1")
+                            "WHERE active = 1  LIMIT 1")
                             .getResultList();
                     if (taxRegion.size()>0) {
 
                     }
                     else {
-                        List<Object> taxGeneral = this.em.createNativeQuery("SELECT rate FROM  shop_tax_rules " +
-                                "WHERE active = 1  LIMIT 1")
-                                .getResultList();
+                        List<ShopTaxRules> taxGeneral = this.em.createQuery("FROM ShopTaxRules WHERE active = 1 ").getResultList();
                         if (taxGeneral.size()>0) {
-                            productTaxRate = new BigDecimal(res.get(0)[0].toString());
+                            productTaxRate =  taxGeneral.get(0).getRate();
                         }
                     }
-                }
-                taxOfProducts = productPriceDb.multiply(productTaxRate);
+                }// end o rule calculation
+
+                System.out.println("TAX RATE " + productTaxRate);
+                taxOfProducts = netPriceTotal.multiply(productTaxRate).divide(new BigDecimal(100));
 
                 totalTax = totalTax.add(taxOfProducts);
 
@@ -95,6 +96,6 @@ public class TaxSrcv {
 
         }
 
-        return totalTax;
+        return totalTax.setScale(2, BigDecimal.ROUND_UP);
     }
 }

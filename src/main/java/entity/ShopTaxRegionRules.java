@@ -25,12 +25,6 @@ public class ShopTaxRegionRules implements Serializable {
 
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 52)
-    @Column(name = "title")
-    private String title;
-
-    @Basic(optional = false)
-    @NotNull
     @Size(min = 1, max = 3)
     @Column(name = "country_code")
     private String countryCode;
@@ -87,9 +81,8 @@ public class ShopTaxRegionRules implements Serializable {
         this.id = id;
     }
 
-    public ShopTaxRegionRules(Long id, String title, String countryCode, BigDecimal flatCost, BigDecimal rate, Date created, boolean active) {
+    public ShopTaxRegionRules(Long id,  String countryCode, BigDecimal flatCost, BigDecimal rate, Date created, boolean active) {
         this.id = id;
-        this.title = title;
         this.countryCode = countryCode;
         this.flatCost = flatCost;
         this.rate = rate;
@@ -105,15 +98,7 @@ public class ShopTaxRegionRules implements Serializable {
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getCountryCode() {
+     public String getCountryCode() {
         return countryCode;
     }
 
