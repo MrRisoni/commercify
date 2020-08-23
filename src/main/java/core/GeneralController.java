@@ -11,7 +11,7 @@ import repositories.CurrencyRepo;
 import java.util.Optional;
 
 @RestController
-@CrossOrigin
+
 public class GeneralController {
 
     @Autowired

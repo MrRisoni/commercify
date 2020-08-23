@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 
 @RestController
-@CrossOrigin
+
 public class RevenueController {
 
     @RequestMapping(value="/api/revenue/analytics",method = RequestMethod.GET)

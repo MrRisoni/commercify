@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @RestController
-@CrossOrigin
+
 public class ExportController {
 
    /* @RequestMapping(value = "/api/export/customers", method = RequestMethod.GET)

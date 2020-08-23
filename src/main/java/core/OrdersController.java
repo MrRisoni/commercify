@@ -11,7 +11,7 @@ import repositories.OrdersRepository;
 import java.util.Optional;
 
 @RestController
-@CrossOrigin
+
 public class OrdersController {
     @Autowired
     OrdersRepository orderRepo;

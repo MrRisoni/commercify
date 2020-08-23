@@ -12,7 +12,7 @@ import javax.persistence.EntityManager;
 import java.util.*;
 
 @RestController
-@CrossOrigin
+
 public class BrowseController {
 
 
