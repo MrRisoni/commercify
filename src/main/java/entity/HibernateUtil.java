@@ -1,5 +1,7 @@
 package entity;
 
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
@@ -28,6 +30,7 @@ public class HibernateUtil {
         if (customMapper == null) {
             customMapper = new ObjectMapper();
             customMapper.disable(MapperFeature.DEFAULT_VIEW_INCLUSION);
+
         }
         return customMapper;
 

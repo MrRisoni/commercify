@@ -25,9 +25,9 @@ public class ProductCategoryAttributes implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 55)
-    @Column(name = "title")
+    @Column(name = "code")
     @JsonView(JackSonViewer.IShopProduct.class)
-    private String title;
+    private String code;
 
     @Basic(optional = false)
     @NotNull
@@ -52,6 +52,10 @@ public class ProductCategoryAttributes implements Serializable {
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Shops shopId;
 
+    @OneToOne(mappedBy = "attrObj", cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY, optional = false)
+    private ProductAttributeUnit unitObj;
+
     public ProductCategoryAttributes() {
     }
 
@@ -61,7 +65,7 @@ public class ProductCategoryAttributes implements Serializable {
 
     public ProductCategoryAttributes(Long id, String title, short filterable, short rangeable) {
         this.id = id;
-        this.title = title;
+        this.code = title;
         this.filterable = filterable;
         this.rangeable = rangeable;
     }
@@ -74,12 +78,12 @@ public class ProductCategoryAttributes implements Serializable {
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
+    public String getCode() {
+        return code;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public short getFilterable() {
@@ -123,4 +127,11 @@ public class ProductCategoryAttributes implements Serializable {
         this.shopId = shopId;
     }
 
+    public ProductAttributeUnit getUnitObj() {
+        return unitObj;
+    }
+
+    public void setUnitObj(ProductAttributeUnit unitObj) {
+        this.unitObj = unitObj;
+    }
 }

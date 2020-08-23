@@ -21,7 +21,7 @@ import static org.junit.Assert.assertEquals;
 public class TaxServiceTest {
 
 
-   // @Test
+    @Test
     public void testSampleService() {
         TaxSrvc taxService = new TaxSrvc();
         BillingAddress billTo = new BillingAddress();

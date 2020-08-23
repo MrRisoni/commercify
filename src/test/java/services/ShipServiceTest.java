@@ -35,9 +35,11 @@ public class ShipServiceTest {
         shipTo.setRegionId(new GlobeRegions(2L));
 
         Basket basket = new Basket();
+
         basket.setBillTo(billTo);
         basket.setShipTop(shipTo);
         basket.setShop(new Shops(2L));
+        basket.setDeliveryClass(new ShopCourierClasses(1L));
 
         BasketItem itm = new BasketItem(new Products(1L),2);
         BasketItem itm2 = new BasketItem(new Products(2L),2);

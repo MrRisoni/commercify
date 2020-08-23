@@ -32,6 +32,8 @@
         <mapping class="entity.OrderItemStatusHistory"/>
         <mapping class="entity.PaymentMethods"/>
         <mapping class="entity.ShippingZones"/>
+        <mapping class="entity.ShopWeightOverShipRules"/>
+
         <mapping class="entity.ShopBelongsCategories"/>
         <mapping class="entity.ShopReviews"/>
         <mapping class="entity.Products"/>
@@ -68,7 +70,7 @@
         <mapping class="entity.ShopSuppliers"/>
         <mapping class="entity.ProductCategoryAttributes"/>
         <mapping class="entity.ShopTranslations"/>
-
+        <mapping class="entity.ProductAttributeUnit"/>
 
     </session-factory>
 </hibernate-configuration>

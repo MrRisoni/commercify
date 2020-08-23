@@ -14,6 +14,7 @@ public class Basket {
     private ShopCourierClasses deliveryClass;
     private List<BasketItem> items;
     private Date updatedAt;
+    private  String currency;
 
     public Basket() {
     }
@@ -94,5 +95,21 @@ public class Basket {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public ShopCourierClasses getDeliveryClass() {
+        return deliveryClass;
+    }
+
+    public void setDeliveryClass(ShopCourierClasses deliveryClass) {
+        this.deliveryClass = deliveryClass;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
 }

@@ -1,4 +1,3 @@
-
 package entity;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -12,8 +11,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
-@Table(name = "shop_weight_ship_rules")
-public class ShopWeightShipRules implements Serializable {
+@Table(name = "shop_over_weight_ship_rules")
+public class ShopWeightOverShipRules implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -38,32 +37,21 @@ public class ShopWeightShipRules implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
 
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "less_than_kg")
-    private BigDecimal lessThanKg;
 
     @Basic(optional = false)
     @NotNull
-    @Column(name = "less_equal")
-    private boolean lessEqual;
+    @Column(name = "charge")
+    private BigDecimal charge;
 
     @Basic(optional = false)
     @NotNull
-    @Column(name = "over_than_kg")
-    private BigDecimal overThanKg;
+    @Column(name = "over_total_weight")
+    private BigDecimal overTotalWeight;
 
     @Basic(optional = false)
     @NotNull
-    @Column(name = "over_equal")
-    private boolean overEqual;
-
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "base_cost")
-    private BigDecimal baseCost;
-
+    @Column(name = "for_each_kg")
+    private BigDecimal forEachKg;
 
     @Basic(optional = false)
     @NotNull
@@ -82,24 +70,15 @@ public class ShopWeightShipRules implements Serializable {
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private ShippingZones zoneId;
 
-    public ShopWeightShipRules() {
+    public ShopWeightOverShipRules() {
     }
 
-    public ShopWeightShipRules(Long id) {
+    public ShopWeightOverShipRules(Long id) {
         this.id = id;
     }
 
-    public ShopWeightShipRules(Long id,  boolean taxable, Date createdAt, BigDecimal lessThanKg, boolean lessEqual, BigDecimal overThanKg, boolean overEqual, BigDecimal baseCost,  boolean active) {
-        this.id = id;
-        this.taxable = taxable;
-        this.createdAt = createdAt;
-        this.lessThanKg = lessThanKg;
-        this.lessEqual = lessEqual;
-        this.overThanKg = overThanKg;
-        this.overEqual = overEqual;
-        this.baseCost = baseCost;
-        this.active = active;
-    }
+
+
 
     public Long getId() {
         return id;
@@ -108,6 +87,7 @@ public class ShopWeightShipRules implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
+
 
     public boolean getTaxable() {
         return taxable;
@@ -133,46 +113,30 @@ public class ShopWeightShipRules implements Serializable {
         this.updatedAt = updatedAt;
     }
 
-    public BigDecimal getLessThanKg() {
-        return lessThanKg;
+
+    public BigDecimal getCharge() {
+        return charge;
     }
 
-    public void setLessThanKg(BigDecimal lessThanKg) {
-        this.lessThanKg = lessThanKg;
+    public void setCharge(BigDecimal charge) {
+        this.charge = charge;
     }
 
-    public boolean getLessEqual() {
-        return lessEqual;
+    public BigDecimal getOverTotalWeight() {
+        return overTotalWeight;
     }
 
-    public void setLessEqual(boolean lessEqual) {
-        this.lessEqual = lessEqual;
+    public void setOverTotalWeight(BigDecimal overTotalWeight) {
+        this.overTotalWeight = overTotalWeight;
     }
 
-    public BigDecimal getOverThanKg() {
-        return overThanKg;
+    public BigDecimal getForEachKg() {
+        return forEachKg;
     }
 
-    public void setOverThanKg(BigDecimal overThanKg) {
-        this.overThanKg = overThanKg;
+    public void setForEachKg(BigDecimal forEachKg) {
+        this.forEachKg = forEachKg;
     }
-
-    public boolean getOverEqual() {
-        return overEqual;
-    }
-
-    public void setOverEqual(boolean overEqual) {
-        this.overEqual = overEqual;
-    }
-
-    public BigDecimal getBaseCost() {
-        return baseCost;
-    }
-
-    public void setBaseCost(BigDecimal baseCost) {
-        this.baseCost = baseCost;
-    }
-
 
     public boolean getActive() {
         return active;
@@ -202,15 +166,7 @@ public class ShopWeightShipRules implements Serializable {
         return taxable;
     }
 
-    public boolean isLessEqual() {
-        return lessEqual;
-    }
-
-    public boolean isOverEqual() {
-        return overEqual;
-    }
-
-    public boolean isActive() {
+      public boolean isActive() {
         return active;
     }
 
