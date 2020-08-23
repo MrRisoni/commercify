@@ -15,11 +15,13 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "products")
-@SqlResultSetMapping(name = "JediResult", classes = {
-        @ConstructorResult(targetClass = Products.class,
-                columns = {@ColumnResult(name = "id"), @ColumnResult(name = "title"),
-                        @ColumnResult(name = "kilos"), @ColumnResult(name = "price")})
-})
+@SqlResultSetMapping(
+        name="KiloResult",
+        columns={@ColumnResult(name="kilos")})
+@NamedNativeQuery(
+        name = "GetProductKilo",
+        query = "SELECT kilos FROM products WHERE id = ? ",
+        resultSetMapping = "KiloResult")
 public class Products implements Serializable {
 
     private static final long serialVersionUID = 1L;

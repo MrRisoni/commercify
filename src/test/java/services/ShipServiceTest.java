@@ -18,12 +18,12 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
-public class TaxServiceTest {
+public class ShipServiceTest {
 
+    @Test
+    public void testShipCost() {
+        ShippingService shipService = new ShippingService();
 
-   // @Test
-    public void testSampleService() {
-        TaxSrvc taxService = new TaxSrvc();
         BillingAddress billTo = new BillingAddress();
         billTo.setCountryCode("GR");
         billTo.setPostCode("28100");
@@ -49,10 +49,10 @@ public class TaxServiceTest {
         basket.setItems(items);
 
         basket.setUpdatedAt(new Date());
-        taxService.setBasket(basket);
-        taxService.setEm(HibernateUtil.getEM());
+        shipService.setBasket(basket);
+        shipService.setEm(HibernateUtil.getEM());
 
+        assertEquals(shipService.getTotalShippingCosts().getShipCost(),new BigDecimal(23));
 
-        assertEquals(taxService.getTotalTax(),new BigDecimal(10.80));
     }
 }

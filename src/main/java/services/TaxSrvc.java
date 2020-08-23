@@ -1,5 +1,6 @@
 package services;
 
+import dto.TaxParts;
 import entity.GlobeRegions;
 import entity.ShopTaxRegionRules;
 import entity.ShopTaxRules;
@@ -104,17 +105,17 @@ public class TaxSrvc {
         BigDecimal rateBillBased = new BigDecimal(0);
         BigDecimal flatBillBased = new BigDecimal(0);
         try {
-            List<ShopTaxZipCodeRules> zipShip = this.getTaxZipCodeRulesHQL(inpt, "ship");
-            List<ShopTaxZipCodeRules> zipBill = this.getTaxZipCodeRulesHQL(inpt, "bill");
+            List<TaxParts> zipShip = this.getTaxZipCodeRulesHQL(inpt, "ship");
+            List<TaxParts> zipBill = this.getTaxZipCodeRulesHQL(inpt, "bill");
 
 
             if (zipShip.size() == 0 && zipBill.size() == 0) {
-                List<ShopTaxRegionRules> regionShip = this.getTaxRegionRulesHQL(inpt, "ship");
-                List<ShopTaxRegionRules> regionBill = this.getTaxRegionRulesHQL(inpt, "bill");
+                List<TaxParts> regionShip = this.getTaxRegionRulesHQL(inpt, "ship");
+                List<TaxParts> regionBill = this.getTaxRegionRulesHQL(inpt, "bill");
 
                 if (regionShip.size() == 0 && regionBill.size() == 0) {
-                    List<ShopTaxRules> taxShip = this.getTaxGeneralRulesHQL(inpt, "ship");
-                    List<ShopTaxRules> taxBill = this.getTaxGeneralRulesHQL(inpt, "bill");
+                    List<TaxParts> taxShip = this.getTaxGeneralRulesHQL(inpt, "ship");
+                    List<TaxParts> taxBill = this.getTaxGeneralRulesHQL(inpt, "bill");
 
                     if (taxShip.size() > 0) {
                         rateShipBased = taxShip.get(0).getRate();
@@ -157,10 +158,10 @@ public class TaxSrvc {
 
     }
 
-    private List<ShopTaxRules> getTaxGeneralRulesHQL(ProductTaxInput inpt, String taxAddress) {
+    private List<TaxParts> getTaxGeneralRulesHQL(ProductTaxInput inpt, String taxAddress) {
         String countryCode = taxAddress.equals("ship") ? inpt.getShipCountry() : inpt.getBillCountry();
 
-        return this.em.createQuery("SELECT tx FROM ShopTaxRules tx " +
+        return this.em.createQuery("SELECT new dto.TaxParts(tx.flatCost,tx.rate) FROM ShopTaxRules tx " +
                 " JOIN tx.productCategoryId pCat " +
                 "   WHERE pCat.id = :productCatId AND " +
                 " tx.taxAddress = :taxAddress AND tx.countryCode =:code AND tx.active = 1 " +
@@ -172,11 +173,11 @@ public class TaxSrvc {
 
     }
 
-    private List<ShopTaxRegionRules> getTaxRegionRulesHQL(ProductTaxInput inpt, String taxAddress) {
+    private List<TaxParts> getTaxRegionRulesHQL(ProductTaxInput inpt, String taxAddress) {
         String countryCode = taxAddress.equals("ship") ? inpt.getShipCountry() : inpt.getBillCountry();
         Long regionId = taxAddress.equals("ship") ? inpt.getShipRegion().getId() : inpt.getBillRegion().getId();
 
-        return this.em.createQuery("SELECT txrg FROM ShopTaxRegionRules txrg " +
+        return this.em.createQuery("SELECT new dto.TaxParts(txrg.flatCost,txrg.rate) FROM ShopTaxRegionRules txrg " +
                 " JOIN txrg.productCategoryId pCat " +
                 " JOIN txrg.regionId rg " +
                 "   WHERE pCat.id = :productCatId AND rg.id = :regionId " +
@@ -190,12 +191,12 @@ public class TaxSrvc {
 
     }
 
-    private List<ShopTaxZipCodeRules> getTaxZipCodeRulesHQL(ProductTaxInput inpt, String taxAddress) {
+    private List<TaxParts> getTaxZipCodeRulesHQL(ProductTaxInput inpt, String taxAddress) {
         String countryCode = taxAddress.equals("ship") ? inpt.getShipCountry() : inpt.getBillCountry();
         Long regionId = taxAddress.equals("ship") ? inpt.getShipRegion().getId() : inpt.getBillRegion().getId();
         String zip = taxAddress.equals("ship") ? inpt.getShipZipCode() : inpt.getBillZipCode();
 
-        return this.em.createQuery("SELECT txz FROM ShopTaxZipCodeRules txz " +
+        return this.em.createQuery("SELECT new dto.TaxParts(txz.flatCost,txz.rate) FROM ShopTaxZipCodeRules txz " +
                 " JOIN txz.productCategoryId pCat " +
                 " JOIN txz.regionId rg " +
                 "  WHERE txz.zipCodes LIKE CONCAT('%',:zip,'%')" +

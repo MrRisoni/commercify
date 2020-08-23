@@ -11,7 +11,7 @@ public class Basket {
     private ShippingAddress shipTo;
     private PaymentMethods pay;
     private String currencyCode;
-    private ShopCourierClasses shipMethod;
+    private ShopCourierClasses deliveryClass;
     private List<BasketItem> items;
     private Date updatedAt;
 
@@ -24,7 +24,7 @@ public class Basket {
         this.shipTo = shipTop;
         this.pay = pay;
         this.currencyCode = currencyCode;
-        this.shipMethod = shipMethod;
+        this.deliveryClass = shipMethod;
         this.items = items;
     }
 
@@ -69,11 +69,11 @@ public class Basket {
     }
 
     public ShopCourierClasses getShipMethod() {
-        return shipMethod;
+        return deliveryClass;
     }
 
     public void setShipMethod(ShopCourierClasses shipMethod) {
-        this.shipMethod = shipMethod;
+        this.deliveryClass = shipMethod;
     }
 
     public List<BasketItem> getItems() {
