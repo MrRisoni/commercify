@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 22, 2020 at 05:47 PM
+-- Generation Time: Aug 25, 2020 at 05:17 PM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 7.4.8
 
@@ -20,6 +20,23 @@ SET time_zone = "+00:00";
 --
 -- Database: `commercify_db`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `bank_transactions`
+--
+
+CREATE TABLE `bank_transactions` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `order_id` bigint(20) UNSIGNED NOT NULL,
+  `card_type` text NOT NULL,
+  `card_bin` varchar(8) NOT NULL,
+  `card_last_four` varchar(4) NOT NULL,
+  `card_bank` text NOT NULL,
+  `card_holder` varchar(50) NOT NULL,
+  `transaction_id` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -160,9 +177,9 @@ CREATE TABLE `globe_regions` (
 
 INSERT INTO `globe_regions` (`id`, `country_code`, `title`) VALUES
 (1, '*', '*'),
-(2, 'GR', 'Στερέα Ελλάδα'),
 (3, 'GR', 'Δωδεκάνησα'),
-(4, 'GR', 'Νησία Ιονίου');
+(4, 'GR', 'Νησία Ιονίου'),
+(2, 'GR', 'Στερέα Ελλάδα');
 
 -- --------------------------------------------------------
 
@@ -442,7 +459,6 @@ CREATE TABLE `products` (
   `img_url` varchar(255) NOT NULL,
   `thumbnail_url` varchar(255) NOT NULL,
   `price` decimal(10,2) NOT NULL,
-  `normal_price` decimal(10,2) NOT NULL,
   `discount_percent` decimal(5,2) NOT NULL,
   `kilos` decimal(5,2) NOT NULL,
   `dim_l` decimal(6,2) NOT NULL,
@@ -453,7 +469,6 @@ CREATE TABLE `products` (
   `created` datetime NOT NULL,
   `updated` datetime DEFAULT NULL,
   `taxable` tinyint(1) NOT NULL,
-  `disable_cod` tinyint(1) NOT NULL,
   `gift_wrap_cost` decimal(10,2) NOT NULL,
   `visible` tinyint(1) NOT NULL,
   `total_orders` bigint(20) UNSIGNED NOT NULL DEFAULT 0,
@@ -465,16 +480,30 @@ CREATE TABLE `products` (
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`id`, `shop_id`, `category_id`, `currency_id`, `manufacturer_id`, `code`, `title`, `descr`, `SKU`, `img_url`, `thumbnail_url`, `price`, `normal_price`, `discount_percent`, `kilos`, `dim_l`, `dim_w`, `dim_h`, `active`, `stock`, `created`, `updated`, `taxable`, `disable_cod`, `gift_wrap_cost`, `visible`, `total_orders`, `avg_rating`, `total_clicks`) VALUES
-(1, 1, 1, 1, 5, 'SelmaLagerlefNielsHolgresson', '', '', '', '', '', '15.00', '0.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-03 11:52:31', '2020-08-03 11:52:31', 1, 0, '0.00', 0, 0, '0.0', 0),
-(2, 1, 1, 1, 5, 'StringbergDromspel', '', '', '', '', '', '15.00', '0.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-03 11:52:31', '2020-08-03 11:52:31', 1, 0, '0.00', 0, 0, '0.0', 0),
-(3, 1, 1, 1, 5, 'StringbergDamaskusI\r\n', '', '', '', '', '', '15.00', '0.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-03 11:52:31', '2020-08-03 11:52:31', 1, 0, '0.00', 0, 0, '0.0', 0),
-(4, 1, 1, 1, 5, 'StringbergDamaskusII\r\n', '', '', '', '', '', '15.00', '0.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-03 11:52:31', '2020-08-03 11:52:31', 1, 0, '0.00', 0, 0, '0.0', 0),
-(5, 1, 1, 1, 1, 'StringbergDamaskusIII\r\n', '', '', '', '', '', '15.00', '0.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-03 11:52:31', '2020-08-03 11:52:31', 1, 0, '0.00', 0, 0, '0.0', 0),
-(6, 1, 1, 1, 1, 'StringbergSpoksSonaten\r\n', '', '', '', '', '', '15.00', '0.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-03 11:52:31', '2020-08-03 11:52:31', 1, 0, '0.00', 0, 0, '0.0', 0),
-(7, 2, 5, 1, 4, 'MacBookPro13.3AirGray', 'Apple MacBook Air Retina', '', '', '', '', '1300.00', '1300.00', '0.00', '1.29', '30.41', '21.24', '1.61', 1, 50, '2020-08-17 07:48:09', '2020-08-17 07:48:09', 1, 1, '0.00', 1, 0, '0.0', 0),
-(8, 2, 5, 1, 4, 'MacBookPro12.3AirSilber', 'Apple MacBook Air Silver', '', '', '', '', '1100.00', '1100.00', '0.00', '1.29', '30.41', '21.24', '1.61', 1, 50, '2020-08-17 07:48:09', '2020-08-17 07:48:09', 1, 1, '0.00', 1, 0, '0.0', 0),
-(9, 2, 5, 1, 6, 'DELL G5 15-5590 I7-9750H/16/1TB+256GB SSD/RTX2060', 'Laptop DELL G5 15-5590 I7-9750H/16/1TB+256GB SSD/RTX206', '', '', '', '', '1700.00', '1700.00', '0.00', '2.61', '0.00', '0.00', '0.00', 1, 25, '2020-08-19 08:34:31', '2020-08-19 08:34:31', 1, 1, '0.00', 1, 0, '0.0', 0);
+INSERT INTO `products` (`id`, `shop_id`, `category_id`, `currency_id`, `manufacturer_id`, `code`, `title`, `descr`, `SKU`, `img_url`, `thumbnail_url`, `price`, `discount_percent`, `kilos`, `dim_l`, `dim_w`, `dim_h`, `active`, `stock`, `created`, `updated`, `taxable`, `gift_wrap_cost`, `visible`, `total_orders`, `avg_rating`, `total_clicks`) VALUES
+(1, 1, 1, 1, 5, 'SelmaLagerlefNielsHolgresson', '', '', '', '', '', '15.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-03 11:52:31', '2020-08-03 11:52:31', 1, '0.00', 0, 0, '0.0', 0),
+(2, 1, 1, 1, 5, 'StringbergDromspel', '', '', '', '', '', '15.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-03 11:52:31', '2020-08-03 11:52:31', 1, '0.00', 0, 0, '0.0', 0),
+(3, 1, 1, 1, 5, 'StringbergDamaskusI\r\n', '', '', '', '', '', '15.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-03 11:52:31', '2020-08-03 11:52:31', 1, '0.00', 0, 0, '0.0', 0),
+(4, 1, 1, 1, 5, 'StringbergDamaskusII\r\n', '', '', '', '', '', '15.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-03 11:52:31', '2020-08-03 11:52:31', 1, '0.00', 0, 0, '0.0', 0),
+(5, 1, 1, 1, 1, 'StringbergDamaskusIII\r\n', '', '', '', '', '', '15.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-03 11:52:31', '2020-08-03 11:52:31', 1, '0.00', 0, 0, '0.0', 0),
+(6, 1, 1, 1, 1, 'StringbergSpoksSonaten\r\n', '', '', '', '', '', '15.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-03 11:52:31', '2020-08-03 11:52:31', 1, '0.00', 0, 0, '0.0', 0),
+(7, 2, 5, 1, 4, 'MacBookPro13.3AirGray', 'Apple MacBook Air Retina', '', '', '', '', '1300.00', '0.00', '1.29', '30.41', '21.24', '1.61', 1, 50, '2020-08-17 07:48:09', '2020-08-17 07:48:09', 1, '0.00', 1, 0, '0.0', 0),
+(8, 2, 5, 1, 4, 'MacBookPro12.3AirSilber', 'Apple MacBook Air Silver', '', '', '', '', '1100.00', '0.00', '1.29', '30.41', '21.24', '1.61', 1, 50, '2020-08-17 07:48:09', '2020-08-17 07:48:09', 1, '0.00', 1, 0, '0.0', 0),
+(9, 2, 5, 1, 6, 'DELL G5 15-5590 I7-9750H/16/1TB+256GB SSD/RTX2060', 'Laptop DELL G5 15-5590 I7-9750H/16/1TB+256GB SSD/RTX206', '', '', '', '', '1700.00', '0.00', '2.61', '0.00', '0.00', '0.00', 1, 25, '2020-08-19 08:34:31', '2020-08-19 08:34:31', 1, '0.00', 1, 0, '0.0', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `products_discounts`
+--
+
+CREATE TABLE `products_discounts` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `product_id` bigint(20) UNSIGNED NOT NULL,
+  `discount_per_cent` bigint(20) UNSIGNED NOT NULL,
+  `active_from` datetime NOT NULL,
+  `active_until` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -487,15 +516,15 @@ CREATE TABLE `product_attributes_values` (
   `product_id` bigint(20) UNSIGNED NOT NULL,
   `attribute_id` bigint(20) UNSIGNED NOT NULL DEFAULT 1,
   `value` varchar(55) NOT NULL,
-  `valueNumeric` decimal(10,2) UNSIGNED NOT NULL DEFAULT 0.00,
-  `valueBoolean` tinyint(3) UNSIGNED NOT NULL DEFAULT 2 COMMENT 'can either be zero or one ,2 means nothing'
+  `value_numeric` decimal(10,2) UNSIGNED NOT NULL DEFAULT 0.00,
+  `value_boolean` tinyint(3) UNSIGNED NOT NULL DEFAULT 2 COMMENT 'can either be zero or one ,2 means nothing'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `product_attributes_values`
 --
 
-INSERT INTO `product_attributes_values` (`id`, `product_id`, `attribute_id`, `value`, `valueNumeric`, `valueBoolean`) VALUES
+INSERT INTO `product_attributes_values` (`id`, `product_id`, `attribute_id`, `value`, `value_numeric`, `value_boolean`) VALUES
 (1, 1, 1, '658', '0.00', 2),
 (3, 2, 1, '256', '0.00', 2),
 (6, 7, 1, 'Silver Gray', '0.00', 2),
@@ -582,7 +611,7 @@ CREATE TABLE `product_category_attributes` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `shop_id` bigint(20) UNSIGNED NOT NULL,
   `product_category_id` bigint(20) UNSIGNED NOT NULL,
-  `title` varchar(55) NOT NULL,
+  `code` varchar(55) NOT NULL,
   `filterable` tinyint(4) NOT NULL DEFAULT 1,
   `rangeable` tinyint(4) NOT NULL DEFAULT 0 COMMENT 'e.g ram size slider on filters',
   `searchable` tinyint(3) UNSIGNED NOT NULL DEFAULT 0,
@@ -593,7 +622,7 @@ CREATE TABLE `product_category_attributes` (
 -- Dumping data for table `product_category_attributes`
 --
 
-INSERT INTO `product_category_attributes` (`id`, `shop_id`, `product_category_id`, `title`, `filterable`, `rangeable`, `searchable`, `isBoolean`) VALUES
+INSERT INTO `product_category_attributes` (`id`, `shop_id`, `product_category_id`, `code`, `filterable`, `rangeable`, `searchable`, `isBoolean`) VALUES
 (1, 2, 5, 'Color', 0, 0, 0, 0),
 (3, 2, 5, 'OS', 0, 0, 0, 0),
 (4, 2, 5, 'Battery Life', 1, 1, 0, 0),
@@ -692,6 +721,127 @@ INSERT INTO `product_tags` (`id`, `product_id`, `tag`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `restrict_payment_parameters`
+--
+
+CREATE TABLE `restrict_payment_parameters` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `code` varchar(12) NOT NULL,
+  `parameter` varchar(55) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `restrict_payment_parameters`
+--
+
+INSERT INTO `restrict_payment_parameters` (`id`, `code`, `parameter`) VALUES
+(1, '', 'Shipping zone'),
+(2, 'shipClass', 'Shipping class'),
+(3, 'countryCo', 'Country Code'),
+(4, 'regionId', 'Region'),
+(5, 'zip', 'Zip Code'),
+(6, 'currency', 'Currency'),
+(7, 'lang', 'Language'),
+(8, 'total', 'CartAmount'),
+(9, 'email', 'Email'),
+(10, 'phone', 'Phone'),
+(11, 'coupon', 'Coupon'),
+(12, 'discount', 'Has Discount'),
+(13, 'productId', 'Product'),
+(14, 'productCatId', 'Product Category'),
+(15, 'totalWeight', 'Total Weight');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `restrict_payment_rules`
+--
+
+CREATE TABLE `restrict_payment_rules` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `title` varchar(120) NOT NULL,
+  `active` tinyint(3) UNSIGNED NOT NULL,
+  `priority` int(11) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='rules for disabling criteria ';
+
+--
+-- Dumping data for table `restrict_payment_rules`
+--
+
+INSERT INTO `restrict_payment_rules` (`id`, `user_id`, `title`, `active`, `priority`, `created_at`, `updated_at`) VALUES
+(1, 1, 'No COD over 10 Kg', 1, 1, '2020-08-25 18:12:03', '2020-08-25 18:12:03');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `restrict_payment_rules_criteria`
+--
+
+CREATE TABLE `restrict_payment_rules_criteria` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `rule_id` bigint(20) UNSIGNED NOT NULL,
+  `parameter_id` bigint(20) UNSIGNED NOT NULL,
+  `operator_id` bigint(20) UNSIGNED NOT NULL,
+  `value` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `restrict_payment_rules_criteria`
+--
+
+INSERT INTO `restrict_payment_rules_criteria` (`id`, `rule_id`, `parameter_id`, `operator_id`, `value`) VALUES
+(1, 1, 15, 5, '10');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `restrict_payment_rules_operators`
+--
+
+CREATE TABLE `restrict_payment_rules_operators` (
+  `id` bigint(10) UNSIGNED NOT NULL,
+  `code` varchar(12) NOT NULL,
+  `title` varchar(25) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `restrict_payment_rules_operators`
+--
+
+INSERT INTO `restrict_payment_rules_operators` (`id`, `code`, `title`) VALUES
+(1, 'eq', 'Equals'),
+(2, 'lt', 'Less than'),
+(3, 'lte', 'Less equal'),
+(4, 'gt', 'Greater than'),
+(5, 'gte', 'Greater equal'),
+(6, 'in_list', 'In list'),
+(7, 'containts', 'Contains');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `rules_disables_methods`
+--
+
+CREATE TABLE `rules_disables_methods` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `rule_id` bigint(20) UNSIGNED NOT NULL,
+  `payment_method_id` bigint(20) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `rules_disables_methods`
+--
+
+INSERT INTO `rules_disables_methods` (`id`, `rule_id`, `payment_method_id`) VALUES
+(1, 1, 1);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `shipping_address`
 --
 
@@ -722,7 +872,7 @@ INSERT INTO `shipping_address` (`id`, `user_id`, `country_code`, `region_id`, `c
 
 CREATE TABLE `shipping_region_zips` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `region_id` bigint(20) UNSIGNED NOT NULL,
+  `zone_region_id` bigint(20) UNSIGNED NOT NULL,
   `code` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -730,7 +880,7 @@ CREATE TABLE `shipping_region_zips` (
 -- Dumping data for table `shipping_region_zips`
 --
 
-INSERT INTO `shipping_region_zips` (`id`, `region_id`, `code`) VALUES
+INSERT INTO `shipping_region_zips` (`id`, `zone_region_id`, `code`) VALUES
 (1, 4, '28100');
 
 -- --------------------------------------------------------
@@ -786,7 +936,6 @@ CREATE TABLE `shipping_zones_regions` (
 INSERT INTO `shipping_zones_regions` (`id`, `zone_id`, `region_id`) VALUES
 (1, 1, 2),
 (2, 1, 3),
-(3, 3, 4),
 (4, 4, 4);
 
 -- --------------------------------------------------------
@@ -844,7 +993,6 @@ CREATE TABLE `shop_belongs_categories` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `shop_id` bigint(20) UNSIGNED NOT NULL,
   `category_id` bigint(20) UNSIGNED NOT NULL,
-  `disable_cod` tinyint(1) NOT NULL,
   `thumbnail_url` varchar(255) NOT NULL,
   `show_order` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -853,9 +1001,9 @@ CREATE TABLE `shop_belongs_categories` (
 -- Dumping data for table `shop_belongs_categories`
 --
 
-INSERT INTO `shop_belongs_categories` (`id`, `shop_id`, `category_id`, `disable_cod`, `thumbnail_url`, `show_order`) VALUES
-(1, 1, 1, 0, '', 0),
-(2, 2, 3, 1, '', 0);
+INSERT INTO `shop_belongs_categories` (`id`, `shop_id`, `category_id`, `thumbnail_url`, `show_order`) VALUES
+(1, 1, 1, '', 0),
+(2, 2, 3, '', 0);
 
 -- --------------------------------------------------------
 
@@ -925,17 +1073,16 @@ CREATE TABLE `shop_courier_classes` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `shop_courier_id` bigint(20) UNSIGNED NOT NULL,
   `title` varchar(52) NOT NULL,
-  `active` tinyint(1) NOT NULL,
-  `cod_base_cost` decimal(10,2) NOT NULL
+  `active` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `shop_courier_classes`
 --
 
-INSERT INTO `shop_courier_classes` (`id`, `shop_courier_id`, `title`, `active`, `cod_base_cost`) VALUES
-(1, 1, 'Standard', 1, '5.00'),
-(2, 1, 'Express', 1, '10.00');
+INSERT INTO `shop_courier_classes` (`id`, `shop_courier_id`, `title`, `active`) VALUES
+(1, 1, 'Standard', 1),
+(2, 1, 'Express', 1);
 
 -- --------------------------------------------------------
 
@@ -946,56 +1093,17 @@ INSERT INTO `shop_courier_classes` (`id`, `shop_courier_id`, `title`, `active`, 
 CREATE TABLE `shop_currencies` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `shop_id` bigint(20) UNSIGNED NOT NULL,
-  `currency_id` bigint(20) UNSIGNED NOT NULL,
-  `disable_cod` tinyint(1) NOT NULL,
-  `disable_cod_greater_than` tinyint(1) NOT NULL
+  `currency_id` bigint(20) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `shop_currencies`
 --
 
-INSERT INTO `shop_currencies` (`id`, `shop_id`, `currency_id`, `disable_cod`, `disable_cod_greater_than`) VALUES
-(1, 1, 1, 0, 0),
-(2, 2, 1, 0, 0),
-(3, 2, 2, 0, 0);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `shop_disable_cod_continents`
---
-
-CREATE TABLE `shop_disable_cod_continents` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `shop_id` bigint(20) UNSIGNED NOT NULL,
-  `continent_code` varchar(2) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `shop_disable_cod_countries`
---
-
-CREATE TABLE `shop_disable_cod_countries` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `shop_id` bigint(20) UNSIGNED NOT NULL,
-  `country_code` varchar(2) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `shop_disable_cod_zipcode`
---
-
-CREATE TABLE `shop_disable_cod_zipcode` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `shop_id` bigint(20) UNSIGNED NOT NULL,
-  `country_code` varchar(2) NOT NULL,
-  `zip_code` varchar(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+INSERT INTO `shop_currencies` (`id`, `shop_id`, `currency_id`) VALUES
+(1, 1, 1),
+(2, 2, 1),
+(3, 2, 2);
 
 -- --------------------------------------------------------
 
@@ -1099,6 +1207,34 @@ INSERT INTO `shop_manufacturers` (`id`, `shop_id`, `title`) VALUES
 (4, 2, 'Apple'),
 (5, 1, 'Reclam Verlag'),
 (6, 2, 'DELL');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `shop_over_weight_ship_rules`
+--
+
+CREATE TABLE `shop_over_weight_ship_rules` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `shop_id` bigint(20) UNSIGNED NOT NULL,
+  `shipping_class_id` bigint(20) UNSIGNED NOT NULL,
+  `zone_id` bigint(20) UNSIGNED NOT NULL DEFAULT 1,
+  `taxable` tinyint(1) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `charge` decimal(10,2) NOT NULL,
+  `over_total_weight` decimal(10,2) NOT NULL,
+  `for_each_kg` decimal(10,2) NOT NULL,
+  `active` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `shop_over_weight_ship_rules`
+--
+
+INSERT INTO `shop_over_weight_ship_rules` (`id`, `shop_id`, `shipping_class_id`, `zone_id`, `taxable`, `created_at`, `updated_at`, `charge`, `over_total_weight`, `for_each_kg`, `active`) VALUES
+(1, 2, 1, 1, 0, '2020-08-12 08:55:50', '2020-08-12 08:55:50', '0.00', '0.00', '0.00', 1),
+(2, 2, 2, 4, 0, '2020-08-23 08:42:46', '2020-08-23 08:42:46', '0.00', '0.00', '0.00', 1);
 
 -- --------------------------------------------------------
 
@@ -1262,18 +1398,14 @@ CREATE TABLE `shop_weight_ship_rules` (
   `shop_id` bigint(20) UNSIGNED NOT NULL,
   `shipping_class_id` bigint(20) UNSIGNED NOT NULL,
   `zone_id` bigint(20) UNSIGNED NOT NULL DEFAULT 1,
-  `title` varchar(255) NOT NULL,
   `taxable` tinyint(1) NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime DEFAULT NULL,
-  `less_than_kg` decimal(10,2) NOT NULL,
-  `less_equal` tinyint(1) NOT NULL,
   `over_than_kg` decimal(10,2) NOT NULL,
   `over_equal` tinyint(1) NOT NULL,
+  `less_than_kg` decimal(10,2) NOT NULL,
+  `less_equal` tinyint(1) NOT NULL,
   `base_cost` decimal(10,2) NOT NULL,
-  `charge` decimal(10,2) NOT NULL,
-  `over_total_weight` decimal(10,2) NOT NULL,
-  `for_each_kg` decimal(10,2) NOT NULL,
   `active` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -1281,8 +1413,9 @@ CREATE TABLE `shop_weight_ship_rules` (
 -- Dumping data for table `shop_weight_ship_rules`
 --
 
-INSERT INTO `shop_weight_ship_rules` (`id`, `shop_id`, `shipping_class_id`, `zone_id`, `title`, `taxable`, `created_at`, `updated_at`, `less_than_kg`, `less_equal`, `over_than_kg`, `over_equal`, `base_cost`, `charge`, `over_total_weight`, `for_each_kg`, `active`) VALUES
-(1, 2, 1, 1, 'Kefalonia', 0, '2020-08-12 08:55:50', '2020-08-12 08:55:50', '0.00', 0, '0.00', 1, '3.00', '0.00', '0.00', '0.00', 1);
+INSERT INTO `shop_weight_ship_rules` (`id`, `shop_id`, `shipping_class_id`, `zone_id`, `taxable`, `created_at`, `updated_at`, `over_than_kg`, `over_equal`, `less_than_kg`, `less_equal`, `base_cost`, `active`) VALUES
+(1, 2, 1, 1, 0, '2020-08-12 08:55:50', '2020-08-12 08:55:50', '0.00', 1, '0.00', 0, '3.00', 1),
+(2, 2, 2, 4, 0, '2020-08-23 08:42:46', '2020-08-23 08:42:46', '0.00', 1, '5.00', 1, '5.00', 1);
 
 -- --------------------------------------------------------
 
@@ -1339,6 +1472,13 @@ CREATE TABLE `user_roles` (
 --
 
 --
+-- Indexes for table `bank_transactions`
+--
+ALTER TABLE `bank_transactions`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `order_id` (`order_id`);
+
+--
 -- Indexes for table `billing_address`
 --
 ALTER TABLE `billing_address`
@@ -1384,7 +1524,8 @@ ALTER TABLE `currency_rates`
 -- Indexes for table `globe_regions`
 --
 ALTER TABLE `globe_regions`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `country_code` (`country_code`,`title`);
 
 --
 -- Indexes for table `languages`
@@ -1460,6 +1601,13 @@ ALTER TABLE `products`
   ADD KEY `manufacturer_id` (`manufacturer_id`);
 
 --
+-- Indexes for table `products_discounts`
+--
+ALTER TABLE `products_discounts`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `product_id` (`product_id`);
+
+--
 -- Indexes for table `product_attributes_values`
 --
 ALTER TABLE `product_attributes_values`
@@ -1522,6 +1670,44 @@ ALTER TABLE `product_tags`
   ADD KEY `product_id` (`product_id`);
 
 --
+-- Indexes for table `restrict_payment_parameters`
+--
+ALTER TABLE `restrict_payment_parameters`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `parameter` (`parameter`);
+
+--
+-- Indexes for table `restrict_payment_rules`
+--
+ALTER TABLE `restrict_payment_rules`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`);
+
+--
+-- Indexes for table `restrict_payment_rules_criteria`
+--
+ALTER TABLE `restrict_payment_rules_criteria`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `rule_id` (`rule_id`),
+  ADD KEY `parameter_id` (`parameter_id`),
+  ADD KEY `operator_id` (`operator_id`);
+
+--
+-- Indexes for table `restrict_payment_rules_operators`
+--
+ALTER TABLE `restrict_payment_rules_operators`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `code` (`code`);
+
+--
+-- Indexes for table `rules_disables_methods`
+--
+ALTER TABLE `rules_disables_methods`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `rule_id` (`rule_id`),
+  ADD KEY `payment_method_id` (`payment_method_id`);
+
+--
 -- Indexes for table `shipping_address`
 --
 ALTER TABLE `shipping_address`
@@ -1534,7 +1720,7 @@ ALTER TABLE `shipping_address`
 --
 ALTER TABLE `shipping_region_zips`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `region_id` (`region_id`);
+  ADD KEY `zone_region_id` (`zone_region_id`);
 
 --
 -- Indexes for table `shipping_zip_codes_forbid`
@@ -1619,27 +1805,6 @@ ALTER TABLE `shop_currencies`
   ADD KEY `currency_id` (`currency_id`);
 
 --
--- Indexes for table `shop_disable_cod_continents`
---
-ALTER TABLE `shop_disable_cod_continents`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `shop_id` (`shop_id`);
-
---
--- Indexes for table `shop_disable_cod_countries`
---
-ALTER TABLE `shop_disable_cod_countries`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `shop_id` (`shop_id`);
-
---
--- Indexes for table `shop_disable_cod_zipcode`
---
-ALTER TABLE `shop_disable_cod_zipcode`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `shop_id` (`shop_id`);
-
---
 -- Indexes for table `shop_disable_zip_codes`
 --
 ALTER TABLE `shop_disable_zip_codes`
@@ -1683,6 +1848,15 @@ ALTER TABLE `shop_managers`
 ALTER TABLE `shop_manufacturers`
   ADD PRIMARY KEY (`id`),
   ADD KEY `shop_id` (`shop_id`);
+
+--
+-- Indexes for table `shop_over_weight_ship_rules`
+--
+ALTER TABLE `shop_over_weight_ship_rules`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `shop_id` (`shop_id`),
+  ADD KEY `shipping_class_id` (`shipping_class_id`),
+  ADD KEY `zone_id` (`zone_id`);
 
 --
 -- Indexes for table `shop_reviews`
@@ -1785,6 +1959,12 @@ ALTER TABLE `user_roles`
 --
 
 --
+-- AUTO_INCREMENT for table `bank_transactions`
+--
+ALTER TABLE `bank_transactions`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `billing_address`
 --
 ALTER TABLE `billing_address`
@@ -1875,6 +2055,12 @@ ALTER TABLE `products`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
+-- AUTO_INCREMENT for table `products_discounts`
+--
+ALTER TABLE `products_discounts`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `product_attributes_values`
 --
 ALTER TABLE `product_attributes_values`
@@ -1920,6 +2106,36 @@ ALTER TABLE `product_reviews`
 -- AUTO_INCREMENT for table `product_tags`
 --
 ALTER TABLE `product_tags`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `restrict_payment_parameters`
+--
+ALTER TABLE `restrict_payment_parameters`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+
+--
+-- AUTO_INCREMENT for table `restrict_payment_rules`
+--
+ALTER TABLE `restrict_payment_rules`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `restrict_payment_rules_criteria`
+--
+ALTER TABLE `restrict_payment_rules_criteria`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `restrict_payment_rules_operators`
+--
+ALTER TABLE `restrict_payment_rules_operators`
+  MODIFY `id` bigint(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `rules_disables_methods`
+--
+ALTER TABLE `rules_disables_methods`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
@@ -2001,24 +2217,6 @@ ALTER TABLE `shop_currencies`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `shop_disable_cod_continents`
---
-ALTER TABLE `shop_disable_cod_continents`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `shop_disable_cod_countries`
---
-ALTER TABLE `shop_disable_cod_countries`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `shop_disable_cod_zipcode`
---
-ALTER TABLE `shop_disable_cod_zipcode`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `shop_disable_zip_codes`
 --
 ALTER TABLE `shop_disable_zip_codes`
@@ -2053,6 +2251,12 @@ ALTER TABLE `shop_managers`
 --
 ALTER TABLE `shop_manufacturers`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `shop_over_weight_ship_rules`
+--
+ALTER TABLE `shop_over_weight_ship_rules`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `shop_reviews`
@@ -2106,7 +2310,7 @@ ALTER TABLE `shop_weight_cod_rules`
 -- AUTO_INCREMENT for table `shop_weight_ship_rules`
 --
 ALTER TABLE `shop_weight_ship_rules`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `suppliers_supplies`
@@ -2129,6 +2333,12 @@ ALTER TABLE `user_roles`
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `bank_transactions`
+--
+ALTER TABLE `bank_transactions`
+  ADD CONSTRAINT `bank_transactions_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`);
 
 --
 -- Constraints for table `billing_address`
@@ -2179,6 +2389,12 @@ ALTER TABLE `products`
   ADD CONSTRAINT `products_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `product_categories` (`id`),
   ADD CONSTRAINT `products_ibfk_3` FOREIGN KEY (`currency_id`) REFERENCES `currencies` (`id`),
   ADD CONSTRAINT `products_ibfk_4` FOREIGN KEY (`manufacturer_id`) REFERENCES `shop_manufacturers` (`id`);
+
+--
+-- Constraints for table `products_discounts`
+--
+ALTER TABLE `products_discounts`
+  ADD CONSTRAINT `products_discounts_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`);
 
 --
 -- Constraints for table `product_attributes_values`
@@ -2233,6 +2449,27 @@ ALTER TABLE `product_tags`
   ADD CONSTRAINT `product_tags_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`);
 
 --
+-- Constraints for table `restrict_payment_rules`
+--
+ALTER TABLE `restrict_payment_rules`
+  ADD CONSTRAINT `restrict_payment_rules_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+
+--
+-- Constraints for table `restrict_payment_rules_criteria`
+--
+ALTER TABLE `restrict_payment_rules_criteria`
+  ADD CONSTRAINT `restrict_payment_rules_criteria_ibfk_1` FOREIGN KEY (`rule_id`) REFERENCES `restrict_payment_rules` (`id`),
+  ADD CONSTRAINT `restrict_payment_rules_criteria_ibfk_2` FOREIGN KEY (`parameter_id`) REFERENCES `restrict_payment_parameters` (`id`),
+  ADD CONSTRAINT `restrict_payment_rules_criteria_ibfk_3` FOREIGN KEY (`operator_id`) REFERENCES `restrict_payment_rules_operators` (`id`);
+
+--
+-- Constraints for table `rules_disables_methods`
+--
+ALTER TABLE `rules_disables_methods`
+  ADD CONSTRAINT `rules_disables_methods_ibfk_1` FOREIGN KEY (`payment_method_id`) REFERENCES `payment_methods` (`id`),
+  ADD CONSTRAINT `rules_disables_methods_ibfk_2` FOREIGN KEY (`rule_id`) REFERENCES `restrict_payment_rules` (`id`);
+
+--
 -- Constraints for table `shipping_address`
 --
 ALTER TABLE `shipping_address`
@@ -2243,7 +2480,7 @@ ALTER TABLE `shipping_address`
 -- Constraints for table `shipping_region_zips`
 --
 ALTER TABLE `shipping_region_zips`
-  ADD CONSTRAINT `shipping_region_zips_ibfk_1` FOREIGN KEY (`region_id`) REFERENCES `shipping_zones_regions` (`id`);
+  ADD CONSTRAINT `shipping_region_zips_ibfk_1` FOREIGN KEY (`zone_region_id`) REFERENCES `shipping_zones_regions` (`id`);
 
 --
 -- Constraints for table `shipping_zip_codes_forbid`
@@ -2311,24 +2548,6 @@ ALTER TABLE `shop_currencies`
   ADD CONSTRAINT `shop_currencies_ibfk_2` FOREIGN KEY (`currency_id`) REFERENCES `currencies` (`id`);
 
 --
--- Constraints for table `shop_disable_cod_continents`
---
-ALTER TABLE `shop_disable_cod_continents`
-  ADD CONSTRAINT `shop_disable_cod_continents_ibfk_1` FOREIGN KEY (`shop_id`) REFERENCES `shops` (`id`);
-
---
--- Constraints for table `shop_disable_cod_countries`
---
-ALTER TABLE `shop_disable_cod_countries`
-  ADD CONSTRAINT `shop_disable_cod_countries_ibfk_1` FOREIGN KEY (`shop_id`) REFERENCES `shops` (`id`);
-
---
--- Constraints for table `shop_disable_cod_zipcode`
---
-ALTER TABLE `shop_disable_cod_zipcode`
-  ADD CONSTRAINT `shop_disable_cod_zipcode_ibfk_1` FOREIGN KEY (`shop_id`) REFERENCES `shops` (`id`);
-
---
 -- Constraints for table `shop_disable_zip_codes`
 --
 ALTER TABLE `shop_disable_zip_codes`
@@ -2366,6 +2585,14 @@ ALTER TABLE `shop_managers`
 --
 ALTER TABLE `shop_manufacturers`
   ADD CONSTRAINT `shop_manufacturers_ibfk_1` FOREIGN KEY (`shop_id`) REFERENCES `shops` (`id`);
+
+--
+-- Constraints for table `shop_over_weight_ship_rules`
+--
+ALTER TABLE `shop_over_weight_ship_rules`
+  ADD CONSTRAINT `shop_over_weight_ship_rules_ibfk_1` FOREIGN KEY (`shop_id`) REFERENCES `shops` (`id`),
+  ADD CONSTRAINT `shop_over_weight_ship_rules_ibfk_2` FOREIGN KEY (`shipping_class_id`) REFERENCES `shop_courier_classes` (`id`),
+  ADD CONSTRAINT `shop_over_weight_ship_rules_ibfk_3` FOREIGN KEY (`zone_id`) REFERENCES `shipping_zones` (`id`);
 
 --
 -- Constraints for table `shop_reviews`

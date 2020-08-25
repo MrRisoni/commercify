@@ -37,9 +37,7 @@
         <mapping class="entity.ShopBelongsCategories"/>
         <mapping class="entity.ShopReviews"/>
         <mapping class="entity.Products"/>
-        <mapping class="entity.ShopDisableCodZipcode"/>
         <mapping class="entity.OrderStatus"/>
-        <mapping class="entity.ShopDisableCodContinents"/>
         <mapping class="entity.ShopWeightShipRules"/>
         <mapping class="entity.Languages"/>
         <mapping class="entity.ShopCourierClasses"/>
@@ -49,7 +47,6 @@
         <mapping class="entity.ProductTags"/>
         <mapping class="entity.Continents"/>
         <mapping class="entity.ShopCountries"/>
-        <mapping class="entity.ShopDisableCodCountries"/>
         <mapping class="entity.Orders"/>
         <mapping class="entity.ProductGalleryTag"/>
         <mapping class="entity.GlobeRegions"/>

@@ -21,9 +21,7 @@
     <class>entity.ShopBelongsCategories</class>
     <class>entity.ShopReviews</class>
     <class>entity.Products</class>
-    <class>entity.ShopDisableCodZipcode</class>
     <class>entity.OrderStatus</class>
-    <class>entity.ShopDisableCodContinents</class>
     <class>entity.ShopWeightShipRules</class>
     <class>entity.Languages</class>
     <class>entity.ShopCourierClasses</class>
@@ -32,7 +30,6 @@
     <class>entity.ProductTags</class>
     <class>entity.Continents</class>
     <class>entity.ShopCountries</class>
-    <class>entity.ShopDisableCodCountries</class>
     <class>entity.Orders</class>
     <class>entity.ProductGalleryTag</class>
     <class>entity.GlobeRegions</class>
