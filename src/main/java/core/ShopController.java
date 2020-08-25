@@ -3,22 +3,16 @@ package core;
 
 import entity.HibernateUtil;
 import entity.JackSonViewer;
-import entity.ProductCategories;
-import entity.Shops;
-import org.hibernate.Hibernate;
+import entity.product.ProductCategories;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import repositories.ShopRepo;
 
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 

@@ -10,9 +10,9 @@
     <class>entity.Users</class>
     <class>entity.ShopTaxRegionRules</class>
     <class>entity.ShopCategories</class>
-    <class>entity.ProductCategories</class>
+    <class>entity.product.ProductCategories</class>
     <class>entity.ShopManagers</class>
-    <class>entity.ProductReviews</class>
+    <class>entity.product.ProductReviews</class>
     <class>entity.Countries</class>
     <class>entity.Courriers</class>
     <class>entity.OrderItems</class>
@@ -20,21 +20,21 @@
     <class>entity.ShippingZones</class>
     <class>entity.ShopBelongsCategories</class>
     <class>entity.ShopReviews</class>
-    <class>entity.Products</class>
+    <class>entity.product.Products</class>
     <class>entity.OrderStatus</class>
     <class>entity.ShopWeightShipRules</class>
     <class>entity.Languages</class>
     <class>entity.ShopCourierClasses</class>
     <class>entity.ShippingAddress</class>
     <class>entity.ShopLanguages</class>
-    <class>entity.ProductTags</class>
+    <class>entity.product.ProductTags</class>
     <class>entity.Continents</class>
     <class>entity.ShopCountries</class>
     <class>entity.Orders</class>
-    <class>entity.ProductGalleryTag</class>
+    <class>entity.product.ProductGalleryTag</class>
     <class>entity.GlobeRegions</class>
     <class>entity.ShopDisableZipCodes</class>
-    <class>entity.ProductGallery</class>
+    <class>entity.product.ProductGallery</class>
     <class>entity.ShopGiftwrap</class>
     <class>entity.BillingAddress</class>
     <class>entity.ShopStyling</class>
@@ -46,9 +46,9 @@
     <class>entity.SuppliersSupplies</class>
     <class>entity.ShopEulas</class>
     <class>entity.ShopManufacturers</class>
-    <class>entity.ProductAttributesValues</class>
+    <class>entity.product.ProductAttributesValues</class>
     <class>entity.ShopSuppliers</class>
-    <class>entity.ProductCategoryAttributes</class>
+    <class>entity.product.ProductCategoryAttributes</class>
     <class>entity.ShopTranslations</class>
     <properties>
       <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"/>

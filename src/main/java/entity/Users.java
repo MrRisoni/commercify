@@ -2,6 +2,7 @@
 package entity;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import entity.product.ProductReviews;
 
 import java.io.Serializable;
 import java.util.Collection;

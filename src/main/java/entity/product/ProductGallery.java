@@ -1,7 +1,8 @@
 
-package entity;
+package entity.product;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import entity.JackSonViewer;
 
 import java.io.Serializable;
 import java.util.Collection;

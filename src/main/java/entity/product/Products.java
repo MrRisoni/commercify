@@ -1,7 +1,8 @@
 
-package entity;
+package entity.product;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import entity.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.io.Serializable;

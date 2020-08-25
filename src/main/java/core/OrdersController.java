@@ -3,7 +3,6 @@ package core;
 import entity.HibernateUtil;
 import entity.JackSonViewer;
 import entity.Orders;
-import entity.Products;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import repositories.OrdersRepository;

@@ -1,11 +1,13 @@
 
-package entity;
+package entity.product;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import entity.JackSonViewer;
+import entity.Shops;
+import entity.Users;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Collection;
 import java.util.Date;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;

@@ -2,9 +2,9 @@
 package entity;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import entity.product.Products;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Collection;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;

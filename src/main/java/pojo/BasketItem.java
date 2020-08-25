@@ -1,6 +1,6 @@
 package pojo;
 
-import entity.Products;
+import entity.product.Products;
 
 public class BasketItem {
     private Products prod;

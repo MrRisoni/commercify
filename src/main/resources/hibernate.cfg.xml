@@ -22,9 +22,9 @@
         <mapping class="entity.Users"/>
         <mapping class="entity.ShopTaxRegionRules"/>
         <mapping class="entity.ShopCategories"/>
-        <mapping class="entity.ProductCategories"/>
+        <mapping class="entity.product.ProductCategories"/>
         <mapping class="entity.ShopManagers"/>
-        <mapping class="entity.ProductReviews"/>
+        <mapping class="entity.product.ProductReviews"/>
         <mapping class="entity.Countries"/>
         <mapping class="entity.Courriers"/>
         <mapping class="entity.OrderItems"/>
@@ -36,7 +36,7 @@
 
         <mapping class="entity.ShopBelongsCategories"/>
         <mapping class="entity.ShopReviews"/>
-        <mapping class="entity.Products"/>
+        <mapping class="entity.product.Products"/>
         <mapping class="entity.OrderStatus"/>
         <mapping class="entity.ShopWeightShipRules"/>
         <mapping class="entity.Languages"/>
@@ -44,14 +44,14 @@
         <mapping class="entity.ShopTaxZipCodeRules"/>
         <mapping class="entity.ShippingAddress"/>
         <mapping class="entity.ShopLanguages"/>
-        <mapping class="entity.ProductTags"/>
+        <mapping class="entity.product.ProductTags"/>
         <mapping class="entity.Continents"/>
         <mapping class="entity.ShopCountries"/>
         <mapping class="entity.Orders"/>
-        <mapping class="entity.ProductGalleryTag"/>
+        <mapping class="entity.product.ProductGalleryTag"/>
         <mapping class="entity.GlobeRegions"/>
         <mapping class="entity.ShopDisableZipCodes"/>
-        <mapping class="entity.ProductGallery"/>
+        <mapping class="entity.product.ProductGallery"/>
         <mapping class="entity.ShopGiftwrap"/>
         <mapping class="entity.BillingAddress"/>
         <mapping class="entity.ShopStyling"/>
@@ -63,11 +63,11 @@
         <mapping class="entity.SuppliersSupplies"/>
         <mapping class="entity.ShopEulas"/>
         <mapping class="entity.ShopManufacturers"/>
-        <mapping class="entity.ProductAttributesValues"/>
+        <mapping class="entity.product.ProductAttributesValues"/>
         <mapping class="entity.ShopSuppliers"/>
-        <mapping class="entity.ProductCategoryAttributes"/>
+        <mapping class="entity.product.ProductCategoryAttributes"/>
         <mapping class="entity.ShopTranslations"/>
-        <mapping class="entity.ProductAttributeUnit"/>
+        <mapping class="entity.product.ProductAttributeUnit"/>
 
     </session-factory>
 </hibernate-configuration>

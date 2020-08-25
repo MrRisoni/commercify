@@ -1,5 +1,6 @@
 package entity;
 
+import entity.product.ProductCategories;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;

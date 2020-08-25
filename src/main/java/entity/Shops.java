@@ -1,6 +1,10 @@
 
 package entity;
 
+import entity.product.ProductCategories;
+import entity.product.ProductCategoryAttributes;
+import entity.product.ProductReviews;
+import entity.product.Products;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.io.Serializable;

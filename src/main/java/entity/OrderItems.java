@@ -2,6 +2,7 @@
 package entity;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import entity.product.Products;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
