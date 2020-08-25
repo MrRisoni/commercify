@@ -89,12 +89,6 @@ public class Products implements Serializable {
 
     @Basic(optional = false)
     @NotNull
-    @Column(name = "normal_price")
-    @JsonView(JackSonViewer.IShopProduct.class)
-    private BigDecimal normalPrice;
-
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "discount_percent")
     @JsonView(JackSonViewer.IShopProduct.class)
     private BigDecimal discountPercent;
@@ -153,12 +147,6 @@ public class Products implements Serializable {
     @Column(name = "taxable")
     @JsonView(JackSonViewer.IShopProduct.class)
     private boolean taxable;
-
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "disable_cod")
-    @JsonView(JackSonViewer.IShopProduct.class)
-    private boolean disableCod;
 
     @Basic(optional = false)
     @NotNull
@@ -235,7 +223,7 @@ public class Products implements Serializable {
         this.id = id;
     }
 
-    public Products(Long id, String code, String title, String descr, String sku, String imgUrl, String thumbnailUrl, BigDecimal price, BigDecimal normalPrice, BigDecimal discountPercent, BigDecimal kilos, BigDecimal dimL, BigDecimal dimW, BigDecimal dimH, boolean active, long stock, Date created, boolean taxable, boolean disableCod, BigDecimal giftWrapCost, boolean visible) {
+    public Products(Long id, String code, String title, String descr, String sku, String imgUrl, String thumbnailUrl, BigDecimal price, BigDecimal discountPercent, BigDecimal kilos, BigDecimal dimL, BigDecimal dimW, BigDecimal dimH, boolean active, long stock, Date created, boolean taxable,  BigDecimal giftWrapCost, boolean visible) {
         this.id = id;
         this.code = code;
         this.title = title;
@@ -244,7 +232,6 @@ public class Products implements Serializable {
         this.imgUrl = imgUrl;
         this.thumbnailUrl = thumbnailUrl;
         this.price = price;
-        this.normalPrice = normalPrice;
         this.discountPercent = discountPercent;
         this.kilos = kilos;
         this.dimL = dimL;
@@ -254,7 +241,6 @@ public class Products implements Serializable {
         this.stock = stock;
         this.created = created;
         this.taxable = taxable;
-        this.disableCod = disableCod;
         this.giftWrapCost = giftWrapCost;
         this.visible = visible;
     }
@@ -328,14 +314,6 @@ public class Products implements Serializable {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
-    }
-
-    public BigDecimal getNormalPrice() {
-        return normalPrice;
-    }
-
-    public void setNormalPrice(BigDecimal normalPrice) {
-        this.normalPrice = normalPrice;
     }
 
     public BigDecimal getDiscountPercent() {
@@ -418,13 +396,6 @@ public class Products implements Serializable {
         this.taxable = taxable;
     }
 
-    public boolean getDisableCod() {
-        return disableCod;
-    }
-
-    public void setDisableCod(boolean disableCod) {
-        this.disableCod = disableCod;
-    }
 
     public BigDecimal getGiftWrapCost() {
         return giftWrapCost;
@@ -534,10 +505,6 @@ public class Products implements Serializable {
 
     public boolean isTaxable() {
         return taxable;
-    }
-
-    public boolean isDisableCod() {
-        return disableCod;
     }
 
     public boolean isVisible() {

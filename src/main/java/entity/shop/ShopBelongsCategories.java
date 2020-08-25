@@ -18,12 +18,7 @@ public class ShopBelongsCategories implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "disable_cod")
-    private boolean disableCod;
-
-    @Basic(optional = false)
+      @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
     @Column(name = "thumbnail_url")
@@ -49,9 +44,8 @@ public class ShopBelongsCategories implements Serializable {
         this.id = id;
     }
 
-    public ShopBelongsCategories(Long id, boolean disableCod, String thumbnailUrl, int showOrder) {
+    public ShopBelongsCategories(Long id, String thumbnailUrl, int showOrder) {
         this.id = id;
-        this.disableCod = disableCod;
         this.thumbnailUrl = thumbnailUrl;
         this.showOrder = showOrder;
     }
@@ -62,14 +56,6 @@ public class ShopBelongsCategories implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public boolean getDisableCod() {
-        return disableCod;
-    }
-
-    public void setDisableCod(boolean disableCod) {
-        this.disableCod = disableCod;
     }
 
     public String getThumbnailUrl() {

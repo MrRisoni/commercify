@@ -21,11 +21,6 @@ public class ShopCurrencies implements Serializable {
 
     @Basic(optional = false)
     @NotNull
-    @Column(name = "disable_cod")
-    private boolean disableCod;
-
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "disable_cod_greater_than")
     private boolean disableCodGreaterThan;
 
@@ -44,11 +39,7 @@ public class ShopCurrencies implements Serializable {
         this.id = id;
     }
 
-    public ShopCurrencies(Long id, boolean disableCod, boolean disableCodGreaterThan) {
-        this.id = id;
-        this.disableCod = disableCod;
-        this.disableCodGreaterThan = disableCodGreaterThan;
-    }
+
 
     public Long getId() {
         return id;
@@ -56,22 +47,6 @@ public class ShopCurrencies implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public boolean getDisableCod() {
-        return disableCod;
-    }
-
-    public void setDisableCod(boolean disableCod) {
-        this.disableCod = disableCod;
-    }
-
-    public boolean getDisableCodGreaterThan() {
-        return disableCodGreaterThan;
-    }
-
-    public void setDisableCodGreaterThan(boolean disableCodGreaterThan) {
-        this.disableCodGreaterThan = disableCodGreaterThan;
     }
 
     public Shops getShopId() {
