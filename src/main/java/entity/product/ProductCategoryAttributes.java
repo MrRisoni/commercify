@@ -3,7 +3,7 @@ package entity.product;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import entity.JackSonViewer;
-import entity.Shops;
+import entity.shop.Shops;
 
 import java.io.Serializable;
 import java.util.Collection;

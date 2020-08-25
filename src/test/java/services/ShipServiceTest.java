@@ -2,7 +2,12 @@ package services;
 
 import core.Application;
 import entity.*;
+import entity.general.GlobeRegions;
+import entity.order.BillingAddress;
+import entity.order.ShippingAddress;
 import entity.product.Products;
+import entity.shipping.ShopCourierClasses;
+import entity.shop.Shops;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;

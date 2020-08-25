@@ -2,54 +2,54 @@
 <persistence version="1.0" xmlns="http://java.sun.com/xml/ns/persistence">
   <persistence-unit name="commercifydb">
     <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-    <class>entity.ShopCouriers</class>
-    <class>entity.Shops</class>
-    <class>entity.UserRoles</class>
-    <class>entity.ShopWeightCodRules</class>
-    <class>entity.ShippingRegionsZipCodes</class>
-    <class>entity.Users</class>
-    <class>entity.ShopTaxRegionRules</class>
-    <class>entity.ShopCategories</class>
+    <class>entity.shipping.ShopCouriers</class>
+    <class>entity.shop.Shops</class>
+    <class>entity.shop.UserRoles</class>
+    <class>entity.shipping.ShopWeightCodRules</class>
+    <class>entity.shipping.ShippingRegionsZipCodes</class>
+    <class>entity.shop.Users</class>
+    <class>entity.taxes.ShopTaxRegionRules</class>
+    <class>entity.shop.ShopCategories</class>
     <class>entity.product.ProductCategories</class>
-    <class>entity.ShopManagers</class>
+    <class>entity.shop.ShopManagers</class>
     <class>entity.product.ProductReviews</class>
-    <class>entity.Countries</class>
-    <class>entity.Courriers</class>
-    <class>entity.OrderItems</class>
-    <class>entity.PaymentMethods</class>
-    <class>entity.ShippingZones</class>
-    <class>entity.ShopBelongsCategories</class>
-    <class>entity.ShopReviews</class>
+    <class>entity.general.Countries</class>
+    <class>entity.general.Courriers</class>
+    <class>entity.order.OrderItems</class>
+    <class>entity.order.PaymentMethods</class>
+    <class>entity.shipping.ShippingZones</class>
+    <class>entity.shop.ShopBelongsCategories</class>
+    <class>entity.shop.ShopReviews</class>
     <class>entity.product.Products</class>
-    <class>entity.OrderStatus</class>
-    <class>entity.ShopWeightShipRules</class>
-    <class>entity.Languages</class>
-    <class>entity.ShopCourierClasses</class>
-    <class>entity.ShippingAddress</class>
-    <class>entity.ShopLanguages</class>
+    <class>entity.order.OrderStatus</class>
+    <class>entity.shipping.ShopWeightShipRules</class>
+    <class>entity.general.Languages</class>
+    <class>entity.shipping.ShopCourierClasses</class>
+    <class>entity.order.ShippingAddress</class>
+    <class>entity.shop.ShopLanguages</class>
     <class>entity.product.ProductTags</class>
-    <class>entity.Continents</class>
-    <class>entity.ShopCountries</class>
-    <class>entity.Orders</class>
+    <class>entity.general.Continents</class>
+    <class>entity.shop.ShopCountries</class>
+    <class>entity.order.Orders</class>
     <class>entity.product.ProductGalleryTag</class>
-    <class>entity.GlobeRegions</class>
-    <class>entity.ShopDisableZipCodes</class>
+    <class>entity.general.GlobeRegions</class>
+    <class>entity.shipping.ShopDisableZipCodes</class>
     <class>entity.product.ProductGallery</class>
-    <class>entity.ShopGiftwrap</class>
-    <class>entity.BillingAddress</class>
-    <class>entity.ShopStyling</class>
-    <class>entity.Currencies</class>
-    <class>entity.ShippingZonesRegions</class>
-    <class>entity.ShopBanks</class>
-    <class>entity.ShopTaxRules</class>
-    <class>entity.ShopCurrencies</class>
-    <class>entity.SuppliersSupplies</class>
-    <class>entity.ShopEulas</class>
-    <class>entity.ShopManufacturers</class>
+    <class>entity.shop.ShopGiftwrap</class>
+    <class>entity.order.BillingAddress</class>
+    <class>entity.shop.ShopStyling</class>
+    <class>entity.general.Currencies</class>
+    <class>entity.shipping.ShippingZonesRegions</class>
+    <class>entity.shop.ShopBanks</class>
+    <class>entity.taxes.ShopTaxRules</class>
+    <class>entity.shop.ShopCurrencies</class>
+    <class>entity.shop.SuppliersSupplies</class>
+    <class>entity.shop.ShopEulas</class>
+    <class>entity.shop.ShopManufacturers</class>
     <class>entity.product.ProductAttributesValues</class>
-    <class>entity.ShopSuppliers</class>
+    <class>entity.shop.ShopSuppliers</class>
     <class>entity.product.ProductCategoryAttributes</class>
-    <class>entity.ShopTranslations</class>
+    <class>entity.shop.ShopTranslations</class>
     <properties>
       <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"/>
       <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>

@@ -1,6 +1,10 @@
 package pojo;
 
-import entity.*;
+import entity.order.BillingAddress;
+import entity.order.PaymentMethods;
+import entity.order.ShippingAddress;
+import entity.shipping.ShopCourierClasses;
+import entity.shop.Shops;
 
 import java.util.Date;
 import java.util.List;

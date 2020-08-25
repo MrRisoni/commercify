@@ -1,10 +1,7 @@
 
-package entity.product;
+package entity.shop;
 
-import com.fasterxml.jackson.annotation.JsonView;
-import entity.JackSonViewer;
-import entity.shop.Shops;
-import entity.shop.Users;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -15,59 +12,51 @@ import javax.validation.constraints.Size;
 
 
 @Entity
-@Table(name = "product_reviews")
-public class ProductReviews implements Serializable {
+@Table(name = "shop_reviews")
+public class ShopReviews implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
-    @JsonView(JackSonViewer.IShopProduct.class)
     private Long id;
 
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Basic(optional = false)
     @NotNull
     @Column(name = "stars")
-    @JsonView(JackSonViewer.IShopProduct.class)
     private BigDecimal stars;
 
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
     @Column(name = "comment")
-    @JsonView(JackSonViewer.IShopProduct.class)
     private String comment;
 
     @Basic(optional = false)
     @NotNull
     @Column(name = "created")
     @Temporal(TemporalType.TIMESTAMP)
-    @JsonView(JackSonViewer.IShopProduct.class)
+    @CreationTimestamp
     private Date created;
-
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JsonView(JackSonViewer.IShopProduct.class)
-    private Users userId;
 
     @JoinColumn(name = "shop_id", referencedColumnName = "id")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Shops shopId;
 
-    @JoinColumn(name = "product_id", referencedColumnName = "id")
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private Products productId;
+    private Users userId;
 
-    public ProductReviews() {
+    public ShopReviews() {
     }
 
-    public ProductReviews(Long id) {
+    public ShopReviews(Long id) {
         this.id = id;
     }
 
-    public ProductReviews(Long id, BigDecimal stars, String comment, Date created) {
+    public ShopReviews(Long id, BigDecimal stars, String comment, Date created) {
         this.id = id;
         this.stars = stars;
         this.comment = comment;
@@ -106,14 +95,6 @@ public class ProductReviews implements Serializable {
         this.created = created;
     }
 
-    public Users getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Users userId) {
-        this.userId = userId;
-    }
-
     public Shops getShopId() {
         return shopId;
     }
@@ -122,12 +103,11 @@ public class ProductReviews implements Serializable {
         this.shopId = shopId;
     }
 
-    public Products getProductId() {
-        return productId;
+    public Users getUserId() {
+        return userId;
     }
 
-    public void setProductId(Products productId) {
-        this.productId = productId;
+    public void setUserId(Users userId) {
+        this.userId = userId;
     }
-
 }

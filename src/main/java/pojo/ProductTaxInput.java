@@ -1,6 +1,6 @@
 package pojo;
 
-import entity.GlobeRegions;
+import entity.general.GlobeRegions;
 
 import java.util.Date;
 

@@ -1,10 +1,6 @@
 package services;
 
 import dto.TaxParts;
-import entity.GlobeRegions;
-import entity.ShopTaxRegionRules;
-import entity.ShopTaxRules;
-import entity.ShopTaxZipCodeRules;
 import pojo.Basket;
 import pojo.BasketItem;
 import pojo.ProductTax;
@@ -12,7 +8,6 @@ import pojo.ProductTaxInput;
 
 import javax.persistence.EntityManager;
 import java.math.BigDecimal;
-import java.util.HashMap;
 import java.util.List;
 
 public class TaxSrvc {

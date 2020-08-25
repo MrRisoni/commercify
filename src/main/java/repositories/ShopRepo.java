@@ -1,6 +1,6 @@
 package repositories;
 
-import entity.Shops;
+import entity.shop.Shops;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

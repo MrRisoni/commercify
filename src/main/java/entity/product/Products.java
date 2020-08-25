@@ -3,6 +3,11 @@ package entity.product;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import entity.*;
+import entity.general.Currencies;
+import entity.order.OrderItems;
+import entity.shop.ShopManufacturers;
+import entity.shop.Shops;
+import entity.shop.SuppliersSupplies;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.io.Serializable;

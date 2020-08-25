@@ -1,15 +1,12 @@
 package services;
 
-import dto.TopCategory;
-import entity.*;
-import org.hibernate.transform.Transformers;
-import org.hibernate.type.StandardBasicTypes;
+import entity.shipping.ShopWeightOverShipRules;
+import entity.shipping.ShopWeightShipRules;
 import pojo.Basket;
 import pojo.BasketItem;
 import pojo.ShippingCosts;
 
 import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
 import java.math.BigDecimal;
 import java.util.List;
 
