@@ -1,43 +1,33 @@
+package entity.rules;
 
-package entity.general;
-
-import java.io.Serializable;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-
 @Entity
-@Table(name = "continents")
-public class Continents implements Serializable {
-
+@Table(name = "restrict_payment_parameters")
+public class RestrictPaymentParameters {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column
+    @Column(name = "id")
     private Long id;
 
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 80)
-    @Column
+    @Column(name = "title")
     private String title;
 
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 2)
-    @Column
+    @Column(name = "title")
     private String code;
 
-    public Continents() {
+    public RestrictPaymentParameters() {
     }
 
-    public Continents(Long id) {
-        this.id = id;
-    }
-
-    public Continents(Long id, String title, String code) {
+    public RestrictPaymentParameters(Long id, @NotNull String title, @NotNull String code) {
         this.id = id;
         this.title = title;
         this.code = code;
@@ -66,5 +56,4 @@ public class Continents implements Serializable {
     public void setCode(String code) {
         this.code = code;
     }
-
 }

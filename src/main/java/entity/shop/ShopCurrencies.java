@@ -19,11 +19,6 @@ public class ShopCurrencies implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "disable_cod_greater_than")
-    private boolean disableCodGreaterThan;
-
     @JoinColumn(name = "shop_id", referencedColumnName = "id")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Shops shopId;

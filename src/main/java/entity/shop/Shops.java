@@ -7,6 +7,7 @@ import entity.product.ProductCategories;
 import entity.product.ProductCategoryAttributes;
 import entity.product.ProductReviews;
 import entity.product.Products;
+import entity.rules.RestrictPaymentRules;
 import entity.shipping.*;
 import entity.taxes.ShopTaxRegionRules;
 import entity.taxes.ShopTaxRules;
@@ -127,6 +128,9 @@ public class Shops implements Serializable {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "shopId")
     private Collection<ShopWeightCodRules> shopWeightCodRulesCollection;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "shopId")
+    private Collection<RestrictPaymentRules> restrictPaymentRulesCollection;
 
     public Shops() {
     }
@@ -404,4 +408,11 @@ public class Shops implements Serializable {
         this.shopWeightCodRulesCollection = shopWeightCodRulesCollection;
     }
 
+    public Collection<RestrictPaymentRules> getRestrictPaymentRulesCollection() {
+        return restrictPaymentRulesCollection;
+    }
+
+    public void setRestrictPaymentRulesCollection(Collection<RestrictPaymentRules> restrictPaymentRulesCollection) {
+        this.restrictPaymentRulesCollection = restrictPaymentRulesCollection;
+    }
 }
