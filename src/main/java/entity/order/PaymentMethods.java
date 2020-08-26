@@ -31,6 +31,9 @@ public class PaymentMethods implements Serializable {
     @JsonView(JackSonViewer.IOrder.class)
     private String title;
 
+    @Column
+    private String code;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "payMethodId")
     private Collection<Orders> ordersCollection;
 
@@ -41,9 +44,10 @@ public class PaymentMethods implements Serializable {
         this.id = id;
     }
 
-    public PaymentMethods(Long id, String title) {
+    public PaymentMethods(Long id, @NotNull @Size(min = 1, max = 55) String title, String code) {
         this.id = id;
         this.title = title;
+        this.code = code;
     }
 
     public Long getId() {
@@ -70,4 +74,11 @@ public class PaymentMethods implements Serializable {
         this.ordersCollection = ordersCollection;
     }
 
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
 }

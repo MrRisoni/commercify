@@ -1,5 +1,6 @@
 package services;
 
+import common.Utils;
 import entity.shipping.ShopWeightOverShipRules;
 import entity.shipping.ShopWeightShipRules;
 import pojo.Basket;
@@ -14,7 +15,6 @@ public class ShippingService {
 
     private Basket basket;
     private EntityManager em;
-
 
     public ShippingService() {
     }
@@ -64,14 +64,7 @@ public class ShippingService {
             }
             System.out.println("zoneId" + zoneId);
 
-            BigDecimal totalWeight = new BigDecimal(0);
-            for (BasketItem itm : this.getBasket().getItems()) {
-
-                BigDecimal weight = em.createNamedQuery("GetProductKilo", BigDecimal.class)
-                        .setParameter(1, itm.getProd().getId())
-                        .getSingleResult();
-                totalWeight = totalWeight.add(weight.multiply(new BigDecimal(itm.getQuantity())));
-            }
+            BigDecimal totalWeight =  Utils.getTotalOrderWeight(this.getEm(),basket);
 
             System.out.println("TOTAL WEIGHT" + totalWeight);
             BigDecimal cost = new BigDecimal(0);

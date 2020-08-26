@@ -18,11 +18,11 @@ public class RestrictPaymentCriteria {
     private Long id;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "parameter_id", referencedColumnName = "id")
+    @JoinColumn(name = "operator_id", referencedColumnName = "id")
     private RestrictPaymentOperator operatorObj;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "operator_id", referencedColumnName = "id")
+    @JoinColumn(name = "parameter_id", referencedColumnName = "id")
     private RestrictPaymentParameters parameterObj;
 
     @Basic(optional = false)
@@ -30,7 +30,7 @@ public class RestrictPaymentCriteria {
     @Column
     private String 	value;
 
-    @JoinColumn(name = "rule_od", referencedColumnName = "id")
+    @JoinColumn(name = "rule_id", referencedColumnName = "id")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private RestrictPaymentRules ruleObj;
 
