@@ -17,12 +17,12 @@ public class ShopWeightOverShipRules implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id")
+    @Column
     private Long id;
 
     @Basic(optional = false)
     @NotNull
-    @Column(name = "taxable")
+    @Column
     private boolean taxable;
 
     @Basic(optional = false)
@@ -36,10 +36,9 @@ public class ShopWeightOverShipRules implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
 
-
     @Basic(optional = false)
     @NotNull
-    @Column(name = "charge")
+    @Column
     private BigDecimal charge;
 
     @Basic(optional = false)
@@ -54,7 +53,7 @@ public class ShopWeightOverShipRules implements Serializable {
 
     @Basic(optional = false)
     @NotNull
-    @Column(name = "active")
+    @Column
     private boolean active;
 
     @JoinColumn(name = "shop_id", referencedColumnName = "id")
@@ -75,8 +74,6 @@ public class ShopWeightOverShipRules implements Serializable {
     public ShopWeightOverShipRules(Long id) {
         this.id = id;
     }
-
-
 
 
     public Long getId() {

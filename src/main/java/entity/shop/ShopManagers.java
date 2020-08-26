@@ -13,7 +13,7 @@ public class ShopManagers implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id")
+    @Column
     private Long id;
 
     @JoinColumn(name = "shop_id", referencedColumnName = "id")

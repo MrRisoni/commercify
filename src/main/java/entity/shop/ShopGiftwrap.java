@@ -15,7 +15,7 @@ public class ShopGiftwrap implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id")
+    @Column
     private Long id;
 
     @Basic(optional = false)
@@ -26,7 +26,7 @@ public class ShopGiftwrap implements Serializable {
 
     @Basic(optional = false)
     @NotNull
-    @Column(name = "active")
+    @Column
     private boolean active;
 
     @JoinColumn(name = "shop_id", referencedColumnName = "id")

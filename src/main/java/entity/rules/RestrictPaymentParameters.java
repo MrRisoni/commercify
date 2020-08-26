@@ -11,17 +11,17 @@ public class RestrictPaymentParameters {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id")
+    @Column
     private Long id;
 
     @Basic(optional = false)
     @NotNull
-    @Column(name = "title")
+    @Column
     private String title;
 
     @Basic(optional = false)
     @NotNull
-    @Column(name = "title")
+    @Column
     private String code;
 
     public RestrictPaymentParameters() {

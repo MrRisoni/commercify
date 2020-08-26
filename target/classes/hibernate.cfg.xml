@@ -69,5 +69,13 @@
         <mapping class="entity.shop.ShopTranslations"/>
         <mapping class="entity.product.ProductAttributeUnit"/>
 
+        <mapping class="entity.rules.RestrictPaymentRules"/>
+        <mapping class="entity.rules.RestrictPaymentParameters"/>
+        <mapping class="entity.rules.RestrictPaymentCriteria"/>
+        <mapping class="entity.rules.RestrictPaymentOperator"/>
+
+
+
+
     </session-factory>
 </hibernate-configuration>

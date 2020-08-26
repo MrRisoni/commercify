@@ -12,20 +12,18 @@ public class RestrictPaymentOperator {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id")
+    @Column
     private Long id;
 
     @Basic(optional = false)
     @NotNull
-    @Column(name = "title")
+    @Column
     private String code;
-
 
     @Basic(optional = false)
     @NotNull
-    @Column(name = "title")
+    @Column
     private String title;
-
 
     public RestrictPaymentOperator() {
     }

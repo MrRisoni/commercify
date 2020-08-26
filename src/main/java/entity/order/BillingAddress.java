@@ -20,7 +20,7 @@ public class BillingAddress implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id")
+    @Column
     private Long id;
 
     @Basic(optional = false)
@@ -33,7 +33,7 @@ public class BillingAddress implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 80)
-    @Column(name = "city")
+    @Column
     @JsonView(JackSonViewer.IOrder.class)
     private String city;
 
@@ -47,7 +47,7 @@ public class BillingAddress implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 80)
-    @Column(name = "address")
+    @Column
     @JsonView(JackSonViewer.IOrder.class)
     private String address;
 
@@ -108,7 +108,6 @@ public class BillingAddress implements Serializable {
         this.city = city;
     }
 
-
     public String getFullName() {
         return fullName;
     }
@@ -149,7 +148,6 @@ public class BillingAddress implements Serializable {
         this.userId = userId;
     }
 
-
     public Collection<Orders> getOrdersCollection() {
         return ordersCollection;
     }
@@ -157,7 +155,6 @@ public class BillingAddress implements Serializable {
     public void setOrdersCollection(Collection<Orders> ordersCollection) {
         this.ordersCollection = ordersCollection;
     }
-
 
     public GlobeRegions getRegionId() {
         return regionId;

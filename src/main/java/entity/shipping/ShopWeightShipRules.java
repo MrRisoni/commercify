@@ -18,12 +18,12 @@ public class ShopWeightShipRules implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id")
+    @Column
     private Long id;
 
     @Basic(optional = false)
     @NotNull
-    @Column(name = "taxable")
+    @Column
     private boolean taxable;
 
     @Basic(optional = false)
@@ -37,7 +37,6 @@ public class ShopWeightShipRules implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
 
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Basic(optional = false)
     @NotNull
     @Column(name = "less_than_kg")
@@ -63,10 +62,9 @@ public class ShopWeightShipRules implements Serializable {
     @Column(name = "base_cost")
     private BigDecimal baseCost;
 
-
     @Basic(optional = false)
     @NotNull
-    @Column(name = "active")
+    @Column
     private boolean active;
 
     @JoinColumn(name = "shop_id", referencedColumnName = "id")

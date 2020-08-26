@@ -17,14 +17,14 @@ public class ShopEulas implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id")
+    @Column
     private Long id;
 
     @Basic(optional = false)
     @NotNull
     @Lob
     @Size(min = 1, max = 2147483647)
-    @Column(name = "terms")
+    @Column
     private String terms;
 
     @JoinColumn(name = "shop_id", referencedColumnName = "id")

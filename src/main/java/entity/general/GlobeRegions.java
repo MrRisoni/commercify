@@ -19,7 +19,7 @@ public class GlobeRegions implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id")
+    @Column
     private Long id;
 
     @Basic(optional = false)
@@ -31,7 +31,7 @@ public class GlobeRegions implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 120)
-    @Column(name = "title")
+    @Column
     private String title;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "regionId")
@@ -39,8 +39,6 @@ public class GlobeRegions implements Serializable {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "regionId")
     private Collection<ShippingZonesRegions> shippingZonesRegionsCollection;
-
-
 
     public GlobeRegions() {
     }
@@ -88,7 +86,6 @@ public class GlobeRegions implements Serializable {
         this.shopTaxRegionRulesCollection = shopTaxRegionRulesCollection;
     }
 
-
     public Collection<ShippingZonesRegions> getShippingZonesRegionsCollection() {
         return shippingZonesRegionsCollection;
     }
@@ -96,7 +93,5 @@ public class GlobeRegions implements Serializable {
     public void setShippingZonesRegionsCollection(Collection<ShippingZonesRegions> shippingZonesRegionsCollection) {
         this.shippingZonesRegionsCollection = shippingZonesRegionsCollection;
     }
-
-
 
 }

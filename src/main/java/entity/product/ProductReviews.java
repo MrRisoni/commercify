@@ -22,27 +22,26 @@ public class ProductReviews implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id")
+    @Column
     @JsonView(JackSonViewer.IShopProduct.class)
     private Long id;
 
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Basic(optional = false)
     @NotNull
-    @Column(name = "stars")
+    @Column
     @JsonView(JackSonViewer.IShopProduct.class)
     private BigDecimal stars;
 
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
-    @Column(name = "comment")
+    @Column
     @JsonView(JackSonViewer.IShopProduct.class)
     private String comment;
 
     @Basic(optional = false)
     @NotNull
-    @Column(name = "created")
+    @Column
     @Temporal(TemporalType.TIMESTAMP)
     @JsonView(JackSonViewer.IShopProduct.class)
     private Date created;

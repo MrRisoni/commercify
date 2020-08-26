@@ -14,10 +14,9 @@ public class OrderItemStatusHistory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id")
+    @Column
     @JsonView(JackSonViewer.IOrder.class)
     private Long id;
-
 
     @Basic(optional = false)
     @NotNull
@@ -25,7 +24,6 @@ public class OrderItemStatusHistory {
     @Temporal(TemporalType.TIMESTAMP)
     @JsonView(JackSonViewer.IOrder.class)
     private Date createdAt;
-
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "status_id")

@@ -29,18 +29,18 @@ public class Shops implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id")
+    @Column
     private Long id;
 
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 55)
-    @Column(name = "title")
+     @Column
     private String title;
 
     @Basic(optional = false)
     @NotNull
-    @Column(name = "created")
+    @Column
     @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp
     private Date created;

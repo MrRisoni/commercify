@@ -19,24 +19,23 @@ public class ShopReviews implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id")
+    @Column
     private Long id;
 
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Basic(optional = false)
     @NotNull
-    @Column(name = "stars")
+    @Column
     private BigDecimal stars;
 
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
-    @Column(name = "comment")
+    @Column
     private String comment;
 
     @Basic(optional = false)
     @NotNull
-    @Column(name = "created")
+    @Column
     @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp
     private Date created;

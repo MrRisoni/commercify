@@ -15,7 +15,7 @@ public class SuppliersSupplies implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id")
+    @Column
     private Long id;
 
     @JoinColumn(name = "product_id", referencedColumnName = "id")

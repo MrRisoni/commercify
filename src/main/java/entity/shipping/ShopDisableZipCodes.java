@@ -17,7 +17,7 @@ public class ShopDisableZipCodes implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id")
+    @Column
     private Long id;
 
     @Basic(optional = false)
@@ -29,7 +29,7 @@ public class ShopDisableZipCodes implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 12)
-    @Column(name = "zip")
+    @Column
     private String zip;
 
     @JoinColumn(name = "shop_id", referencedColumnName = "id")

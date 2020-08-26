@@ -25,14 +25,14 @@ public class Orders implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id")
+    @Column
     @JsonView(JackSonViewer.IOrder.class)
     private Long id;
 
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 3)
-    @Column(name = "currency")
+    @Column
     @JsonView(JackSonViewer.IOrder.class)
     private String currency;
 
@@ -42,28 +42,27 @@ public class Orders implements Serializable {
     @JsonView(JackSonViewer.IOrder.class)
     private BigDecimal currency_rate;
 
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Basic(optional = false)
     @NotNull
-    @Column(name = "total")
+    @Column
     @JsonView(JackSonViewer.IOrder.class)
     private BigDecimal total;
 
     @Basic(optional = false)
     @NotNull
-    @Column(name = "net")
+    @Column
     @JsonView(JackSonViewer.IOrder.class)
     private BigDecimal net;
 
     @Basic(optional = false)
     @NotNull
-    @Column(name = "tax")
+    @Column
     @JsonView(JackSonViewer.IOrder.class)
     private BigDecimal tax;
 
     @Basic(optional = false)
     @NotNull
-    @Column(name = "shipping")
+    @Column
     @JsonView(JackSonViewer.IOrder.class)
     private BigDecimal shipping;
 
@@ -75,7 +74,7 @@ public class Orders implements Serializable {
 
     @Basic(optional = false)
     @NotNull
-    @Column(name = "success")
+    @Column
     @JsonView(JackSonViewer.IOrder.class)
     private boolean success;
 
@@ -87,7 +86,7 @@ public class Orders implements Serializable {
 
     @Basic(optional = false)
     @NotNull
-    @Column(name = "refund")
+    @Column
     @JsonView(JackSonViewer.IOrder.class)
     private boolean refund;
 

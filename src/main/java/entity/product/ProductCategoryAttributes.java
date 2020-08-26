@@ -20,26 +20,26 @@ public class ProductCategoryAttributes implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id")
+    @Column
     @JsonView(JackSonViewer.IShopProduct.class)
     private Long id;
 
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 55)
-    @Column(name = "code")
+    @Column
     @JsonView(JackSonViewer.IShopProduct.class)
     private String code;
 
     @Basic(optional = false)
     @NotNull
-    @Column(name = "filterable")
+    @Column
     @JsonView(JackSonViewer.IShopProduct.class)
     private short filterable;
 
     @Basic(optional = false)
     @NotNull
-    @Column(name = "rangeable")
+    @Column
     @JsonView(JackSonViewer.IShopProduct.class)
     private short rangeable;
 

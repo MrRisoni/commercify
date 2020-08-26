@@ -15,13 +15,13 @@ public class ShopBanks implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id")
+    @Column
     private Long id;
 
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 52)
-    @Column(name = "bank")
+    @Column
     private String bank;
 
     @Basic(optional = false)
@@ -33,7 +33,7 @@ public class ShopBanks implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 52)
-    @Column(name = "iban")
+    @Column
     private String iban;
 
     @Basic(optional = false)

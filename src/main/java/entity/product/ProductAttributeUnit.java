@@ -15,12 +15,11 @@ public class ProductAttributeUnit implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id")
+    @Column
     @JsonView(JackSonViewer.IShopProduct.class)
     private Long id;
 
-
-    @Column(name = "units")
+    @Column
     @JsonView(JackSonViewer.IShopProduct.class)
     private String units;
 

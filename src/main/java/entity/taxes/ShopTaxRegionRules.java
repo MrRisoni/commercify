@@ -22,7 +22,7 @@ public class ShopTaxRegionRules implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id")
+    @Column
     private Long id;
 
     @Basic(optional = false)
@@ -37,7 +37,6 @@ public class ShopTaxRegionRules implements Serializable {
     @Column(name = "tax_address")
     private String taxAddress;
 
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Basic(optional = false)
     @NotNull
     @Column(name = "flat_cost")
@@ -45,23 +44,23 @@ public class ShopTaxRegionRules implements Serializable {
 
     @Basic(optional = false)
     @NotNull
-    @Column(name = "rate")
+    @Column
     private BigDecimal rate;
 
     @Basic(optional = false)
     @NotNull
-    @Column(name = "created")
+    @Column
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     private Date created;
 
-    @Column(name = "updated")
+    @Column
     @Temporal(TemporalType.TIMESTAMP)
     private Date updated;
 
     @Basic(optional = false)
     @NotNull
-    @Column(name = "active")
+    @Column
     private boolean active;
 
     @Column(name = "active_from")

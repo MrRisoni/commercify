@@ -30,7 +30,7 @@ public class Users implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id")
+    @Column
     @JsonView({JackSonViewer.IShopProduct.class, JackSonViewer.IOrder.class})
     private Long id;
 
@@ -38,13 +38,13 @@ public class Users implements Serializable {
     @NotNull
     @Size(min = 1, max = 20)
     @JsonView(JackSonViewer.IShopProduct.class)
-    @Column(name = "username")
+    @Column
     private String username;
     @Basic(optional = false)
 
     @NotNull
     @Size(min = 1, max = 40)
-    @Column(name = "password")
+    @Column
     private String password;
 
     @Basic(optional = false)
@@ -57,7 +57,7 @@ public class Users implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
-    @Column(name = "email")
+    @Column
     @JsonView(JackSonViewer.IOrder.class)
     private String email;
 
@@ -77,11 +77,11 @@ public class Users implements Serializable {
 
     @Basic(optional = false)
     @NotNull
-    @Column(name = "created")
+    @Column
     @Temporal(TemporalType.TIMESTAMP)
     private Date created;
 
-    @Column(name = "updated")
+    @Column
     @Temporal(TemporalType.TIMESTAMP)
     private Date updated;
 

@@ -17,20 +17,20 @@ public class ShopTranslations implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id")
+    @Column
     private Long id;
 
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 80)
-    @Column(name = "code")
+    @Column
     private String code;
 
     @Basic(optional = false)
     @NotNull
     @Lob
     @Size(min = 1, max = 65535)
-    @Column(name = "transltr")
+    @Column
     private String transltr;
 
     @JoinColumn(name = "language_id", referencedColumnName = "id")

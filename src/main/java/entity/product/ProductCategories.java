@@ -22,7 +22,7 @@ public class ProductCategories implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id")
+    @Column
     @JsonView({JackSonViewer.IShopProductCategory.class, JackSonViewer.IShopProduct.class, JackSonViewer.IOrder.class})
     private Long id;
 
@@ -35,7 +35,7 @@ public class ProductCategories implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 55)
-    @Column(name = "title")
+    @Column
     @JsonView({JackSonViewer.IShopProductCategory.class, JackSonViewer.IShopProduct.class, JackSonViewer.IOrder.class})
     private String title;
 

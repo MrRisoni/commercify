@@ -21,23 +21,22 @@ public class ShopCourierClasses implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id")
+    @Column
     @JsonView(JackSonViewer.IOrder.class)
     private Long id;
 
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 52)
-    @Column(name = "title")
+    @Column
     @JsonView(JackSonViewer.IOrder.class)
     private String title;
 
     @Basic(optional = false)
     @NotNull
-    @Column(name = "active")
+    @Column
     private boolean active;
 
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Basic(optional = false)
     @NotNull
     @Column(name = "cod_base_cost")

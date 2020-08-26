@@ -21,7 +21,7 @@ public class ShippingAddress implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id")
+    @Column
     private Long id;
 
     @Basic(optional = false)
@@ -34,7 +34,7 @@ public class ShippingAddress implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 80)
-    @Column(name = "city")
+    @Column
     @JsonView(JackSonViewer.IOrder.class)
     private String city;
 
@@ -48,7 +48,7 @@ public class ShippingAddress implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 80)
-    @Column(name = "address")
+    @Column
     @JsonView(JackSonViewer.IOrder.class)
     private String address;
 

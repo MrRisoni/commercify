@@ -16,7 +16,7 @@ public class ShopCurrencies implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id")
+    @Column
     private Long id;
 
     @JoinColumn(name = "shop_id", referencedColumnName = "id")
@@ -33,8 +33,6 @@ public class ShopCurrencies implements Serializable {
     public ShopCurrencies(Long id) {
         this.id = id;
     }
-
-
 
     public Long getId() {
         return id;

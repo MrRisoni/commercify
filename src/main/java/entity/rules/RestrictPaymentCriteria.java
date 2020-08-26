@@ -14,7 +14,7 @@ public class RestrictPaymentCriteria {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id")
+    @Column
     private Long id;
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -29,7 +29,6 @@ public class RestrictPaymentCriteria {
     @NotNull
     @Column
     private String 	value;
-
 
     @JoinColumn(name = "rule_od", referencedColumnName = "id")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)

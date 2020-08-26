@@ -20,14 +20,14 @@ public class PaymentMethods implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id")
+    @Column
     @JsonView(JackSonViewer.IOrder.class)
     private Long id;
 
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 55)
-    @Column(name = "title")
+    @Column
     @JsonView(JackSonViewer.IOrder.class)
     private String title;
 
@@ -61,7 +61,6 @@ public class PaymentMethods implements Serializable {
     public void setTitle(String title) {
         this.title = title;
     }
-
 
     public Collection<Orders> getOrdersCollection() {
         return ordersCollection;

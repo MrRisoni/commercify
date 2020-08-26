@@ -19,7 +19,7 @@ public class ProductAttributesValues implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id")
+    @Column
     @JsonView(JackSonViewer.IShopProduct.class)
     private Long id;
 

@@ -34,21 +34,21 @@ public class Products implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id")
+    @Column
     @JsonView({JackSonViewer.IShopProduct.class, JackSonViewer.IOrder.class})
     private Long id;
 
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 120)
-    @Column(name = "code")
+    @Column
     @JsonView({JackSonViewer.IShopProduct.class, JackSonViewer.IOrder.class})
     private String code;
 
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 55)
-    @Column(name = "title")
+    @Column
     @JsonView({JackSonViewer.IShopProduct.class, JackSonViewer.IOrder.class})
     private String title;
 
@@ -56,14 +56,14 @@ public class Products implements Serializable {
     @NotNull
     @Size(min = 1, max = 55)
     @JsonView(JackSonViewer.IShopProduct.class)
-    @Column(name = "descr")
+    @Column
     private String descr;
 
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 50)
     @JsonView(JackSonViewer.IShopProduct.class)
-    @Column(name = "SKU")
+    @Column
     private String sku;
 
     @Basic(optional = false)
@@ -80,10 +80,9 @@ public class Products implements Serializable {
     @JsonView({JackSonViewer.IShopProduct.class, JackSonViewer.IOrder.class})
     private String thumbnailUrl;
 
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Basic(optional = false)
     @NotNull
-    @Column(name = "price")
+    @Column
     @JsonView(JackSonViewer.IShopProduct.class)
     private BigDecimal price;
 
@@ -95,7 +94,7 @@ public class Products implements Serializable {
 
     @Basic(optional = false)
     @NotNull
-    @Column(name = "kilos")
+    @Column
     @JsonView({JackSonViewer.IShopProduct.class, JackSonViewer.IOrder.class})
     private BigDecimal kilos;
 
@@ -119,32 +118,32 @@ public class Products implements Serializable {
 
     @Basic(optional = false)
     @NotNull
-    @Column(name = "active")
+    @Column
     @JsonView(JackSonViewer.IShopProduct.class)
     private boolean active;
 
     @Basic(optional = false)
     @NotNull
-    @Column(name = "stock")
+    @Column
     @JsonView({JackSonViewer.IShopProduct.class, JackSonViewer.IOrder.class})
     private long stock;
 
     @Basic(optional = false)
     @NotNull
-    @Column(name = "created")
+    @Column
     @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp
     @JsonView(JackSonViewer.IShopProduct.class)
     private Date created;
 
-    @Column(name = "updated")
+    @Column
     @Temporal(TemporalType.TIMESTAMP)
     @JsonView(JackSonViewer.IShopProduct.class)
     private Date updated;
 
     @Basic(optional = false)
     @NotNull
-    @Column(name = "taxable")
+    @Column
     @JsonView(JackSonViewer.IShopProduct.class)
     private boolean taxable;
 
@@ -156,7 +155,7 @@ public class Products implements Serializable {
 
     @Basic(optional = false)
     @NotNull
-    @Column(name = "visible")
+    @Column
     @JsonView(JackSonViewer.IShopProduct.class)
     private boolean visible;
 

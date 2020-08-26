@@ -15,13 +15,13 @@ public class ProductGalleryTag implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id")
+    @Column
     private Long id;
 
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 55)
-    @Column(name = "tag")
+    @Column
     private String tag;
 
     @JoinColumn(name = "image_id", referencedColumnName = "id")

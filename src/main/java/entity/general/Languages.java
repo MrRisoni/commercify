@@ -21,19 +21,19 @@ public class Languages implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id")
+    @Column
     private Long id;
 
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 55)
-    @Column(name = "title")
+    @Column
     private String title;
 
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 5)
-    @Column(name = "code")
+    @Column
     private String code;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "languageId")
@@ -85,7 +85,6 @@ public class Languages implements Serializable {
         this.code = code;
     }
 
-
     public Collection<ShopLanguages> getShopLanguagesCollection() {
         return shopLanguagesCollection;
     }
@@ -93,7 +92,6 @@ public class Languages implements Serializable {
     public void setShopLanguagesCollection(Collection<ShopLanguages> shopLanguagesCollection) {
         this.shopLanguagesCollection = shopLanguagesCollection;
     }
-
 
     public Collection<Shops> getShopsCollection() {
         return shopsCollection;
@@ -103,7 +101,6 @@ public class Languages implements Serializable {
         this.shopsCollection = shopsCollection;
     }
 
-
     public Collection<ShopTranslations> getShopTranslationsCollection() {
         return shopTranslationsCollection;
     }
@@ -112,7 +109,6 @@ public class Languages implements Serializable {
         this.shopTranslationsCollection = shopTranslationsCollection;
     }
 
-
     public Collection<ShopEulas> getShopEulasCollection() {
         return shopEulasCollection;
     }
@@ -120,6 +116,5 @@ public class Languages implements Serializable {
     public void setShopEulasCollection(Collection<ShopEulas> shopEulasCollection) {
         this.shopEulasCollection = shopEulasCollection;
     }
-
 
 }

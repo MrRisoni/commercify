@@ -21,23 +21,22 @@ public class Currencies implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id")
+    @Column
     @JsonView(JackSonViewer.IShopProduct.class)
     private Long id;
 
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 55)
-    @Column(name = "title")
+    @Column
     private String title;
 
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 3)
-    @Column(name = "code")
+    @Column
     @JsonView(JackSonViewer.IShopProduct.class)
     private String code;
-
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "currencyId")
     private Collection<Products> productsCollection;

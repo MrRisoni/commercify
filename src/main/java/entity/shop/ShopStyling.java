@@ -15,14 +15,14 @@ public class ShopStyling implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id")
+    @Column
     private Long id;
 
     @Basic(optional = false)
     @NotNull
     @Lob
     @Size(min = 1, max = 65535)
-    @Column(name = "style")
+    @Column
     private String style;
 
     @JoinColumn(name = "shop_id", referencedColumnName = "id")

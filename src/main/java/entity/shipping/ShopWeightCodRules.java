@@ -20,21 +20,20 @@ public class ShopWeightCodRules implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id")
+    @Column
     private Long id;
 
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 52)
-    @Column(name = "title")
+     @Column
     private String title;
 
     @Basic(optional = false)
     @NotNull
-    @Column(name = "taxable")
+    @Column
     private boolean taxable;
 
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Basic(optional = false)
     @NotNull
     @Column(name = "less_than_kg")
@@ -62,7 +61,7 @@ public class ShopWeightCodRules implements Serializable {
 
     @Basic(optional = false)
     @NotNull
-    @Column(name = "charge")
+    @Column
     private BigDecimal charge;
 
     @Basic(optional = false)
@@ -77,7 +76,7 @@ public class ShopWeightCodRules implements Serializable {
 
     @Basic(optional = false)
     @NotNull
-    @Column(name = "active")
+    @Column
     private boolean active;
 
     @Basic(optional = false)
