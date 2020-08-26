@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RestController;
 import repositories.CurrencyRepo;
 
 @RestController
-
 public class GeneralController {
 
     @Autowired

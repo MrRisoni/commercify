@@ -3,6 +3,7 @@ package entity.rules;
 
 import entity.order.PaymentMethods;
 import entity.shop.Shops;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -24,9 +25,9 @@ public class RestrictPaymentRules {
     @Column
     private String title;
 
-    @Basic(optional = false)
+    @Column(columnDefinition = "TINYINT")
+    @Type(type = "org.hibernate.type.NumericBooleanType")
     @NotNull
-    @Column
     private boolean active;
 
     @JoinColumn(name = "shop_id", referencedColumnName = "id")
@@ -44,6 +45,11 @@ public class RestrictPaymentRules {
     private List<PaymentMethods> disabledMethods = new ArrayList<>();
 
     public RestrictPaymentRules() {
+    }
+
+    public RestrictPaymentRules(Long id, @NotNull String title) {
+        this.id = id;
+        this.title = title;
     }
 
     public static long getSerialVersionUID() {

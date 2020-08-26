@@ -50,6 +50,11 @@ public class PaymentMethods implements Serializable {
         this.code = code;
     }
 
+    public PaymentMethods(Long id, String code) {
+        this.id = id;
+        this.code = code;
+    }
+
     public Long getId() {
         return id;
     }
