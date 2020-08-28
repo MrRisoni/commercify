@@ -50,9 +50,12 @@ public class BrowseController {
             Root<Products> subRootSSD= ssdSubQuery.from(Products.class);
             CollectionJoin<ProductAttributesValues, Products> joinWithAttributeValues = subRootSSD.joinCollection("productAttributesValuesCollection", JoinType.INNER);
            Join<ProductCategoryAttributes, ProductAttributesValues> joinWithAttributes = joinWithAttributeValues.join("attributeId", JoinType.INNER);
-            Predicate[] SSD = new Predicate[1];
-            SSD[0] =  builder.and(builder.equal(joinWithAttributeValues.get("valueBoolean"), 1),
+            Predicate[] SSDPredicates = new Predicate[1];
+            SSDPredicates[0] =  builder.and(builder.equal(joinWithAttributeValues.get("valueBoolean"), 1),
                     builder.equal(joinWithAttributes.get("code"), "SSD"));
+
+            ssdSubQuery.select(subRootSSD)
+                    .where(SSDPredicates);
 
           /*  for (ProductFilterPojo filterPojo : filterVals.getFilters()) {
                 System.out.println("-----------------");
@@ -79,9 +82,12 @@ public class BrowseController {
 
             }*/
 
-            Predicate[] ProductPredicates = new Predicate[2];
+
+            Predicate[] ProductPredicates = new Predicate[3];
             ProductPredicates[0] = builder.ge(rootProduct.get("price"),filterVals.getMinPrice());
             ProductPredicates[1] = builder.le(rootProduct.get("price"),filterVals.getMaxPrice());
+
+            ProductPredicates[2] = builder.in(rootProduct.get("id")).value(ssdSubQuery);
 
             criteriaQry.orderBy(builder.asc(rootProduct.get("price")));
 
@@ -93,7 +99,7 @@ public class BrowseController {
             int totalProducts = criteriaResult.size();
             rsp.put("resCount", totalProducts);
             if (totalProducts >0) {
-                rsp.put("firstProduct",criteriaResult.get(0).getTitle());
+                rsp.put("firstProduct",criteriaResult.get(0).getCode());
             }
             rsp.put("ranges", ranges);
 
