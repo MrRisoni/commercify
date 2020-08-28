@@ -228,7 +228,16 @@ public class Products implements Serializable {
         this.id = id;
     }
 
-    public Products(Long id, String code, String title, String descr, String sku, String imgUrl, String thumbnailUrl, BigDecimal price, BigDecimal discountPercent, BigDecimal kilos, BigDecimal dimL, BigDecimal dimW, BigDecimal dimH, boolean active, long stock, Date created, boolean taxable,  BigDecimal giftWrapCost, boolean visible) {
+    public Products(Long id, @NotNull @Size(min = 1, max = 120) String code, @NotNull @Size(min = 1, max = 55) String title, @NotNull @Size(min = 1, max = 255) String thumbnailUrl, @NotNull BigDecimal price, @NotNull BigDecimal avgRating) {
+        this.id = id;
+        this.code = code;
+        this.title = title;
+        this.thumbnailUrl = thumbnailUrl;
+        this.price = price;
+        this.avgRating = avgRating;
+    }
+
+    public Products(Long id, String code, String title, String descr, String sku, String imgUrl, String thumbnailUrl, BigDecimal price, BigDecimal discountPercent, BigDecimal kilos, BigDecimal dimL, BigDecimal dimW, BigDecimal dimH, boolean active, long stock, Date created, boolean taxable, BigDecimal giftWrapCost, boolean visible) {
         this.id = id;
         this.code = code;
         this.title = title;

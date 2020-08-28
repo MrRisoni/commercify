@@ -70,7 +70,7 @@ public class BrowseController {
             Root<Products> rootProduct = criteriaQry.from(Products.class);
 
             // do not select all columns!!!
-            int predicatesLen = 2; // category and shop
+            int predicatesLen = 4; // category and shop, active, visible
             if (filterVals.getMinPrice() >-1) {
                 predicatesLen++;
             }
@@ -83,9 +83,11 @@ public class BrowseController {
             Predicate[] ProductPredicates = new Predicate[predicatesLen];
             ProductPredicates[0] = builder.equal(rootProduct.get("shopKey"),shopId);
             ProductPredicates[1] = builder.equal(rootProduct.get("categoryKey"),categoryId);
+            ProductPredicates[2] = builder.equal(rootProduct.get("active"),1);
+            ProductPredicates[3] = builder.equal(rootProduct.get("visible"),1);
 
-            ProductPredicates[2] = builder.ge(rootProduct.get("price"),filterVals.getMinPrice());
-            ProductPredicates[3] = builder.le(rootProduct.get("price"),filterVals.getMaxPrice());
+            ProductPredicates[4] = builder.ge(rootProduct.get("price"),filterVals.getMinPrice());
+            ProductPredicates[5] = builder.le(rootProduct.get("price"),filterVals.getMaxPrice());
 
 
 
@@ -126,7 +128,12 @@ public class BrowseController {
 
 
             List<Products>criteriaResult = em.createQuery(
-                    criteriaQry.select(rootProduct)
+                    criteriaQry.multiselect(rootProduct.get("id"),
+                            rootProduct.get("code"),
+                            rootProduct.get("title"),
+                            rootProduct.get("thumbnailUrl"),
+                            rootProduct.get("price"),
+                            rootProduct.get("avgRating"))
                             .where(ProductPredicates)
             ).getResultList();
 
@@ -148,7 +155,20 @@ public class BrowseController {
     }
 
 
+    private void GroupByBooleanValues()
+    {
 
+    }
+
+    private void GroupByStringValues()
+    {
+
+    }
+
+    private void GroupByRangeValues()
+    {
+        // the user will set ranges!!!
+    }
  /*
 
 
