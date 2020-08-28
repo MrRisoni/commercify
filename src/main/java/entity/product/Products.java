@@ -38,6 +38,9 @@ public class Products implements Serializable {
     @JsonView({JackSonViewer.IShopProduct.class, JackSonViewer.IOrder.class})
     private Long id;
 
+    @Column(name="shop_id")
+    private Long shopKey;
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 120)
@@ -196,7 +199,7 @@ public class Products implements Serializable {
     @JsonView(JackSonViewer.IShopProduct.class)
     private Collection<ProductReviews> productReviewsCollection;
 
-    @JoinColumn(name = "shop_id", referencedColumnName = "id")
+    @JoinColumn(name = "shop_id", referencedColumnName = "id",insertable=false, updatable=false)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Shops shopId;
 
@@ -528,6 +531,15 @@ public class Products implements Serializable {
 
     public BigDecimal getAvgRating() {
         return avgRating;
+    }
+
+
+    public Long getShopKey() {
+        return shopKey;
+    }
+
+    public void setShopKey(Long shopKey) {
+        this.shopKey = shopKey;
     }
 
     public void setAvgRating(BigDecimal avgRating) {
