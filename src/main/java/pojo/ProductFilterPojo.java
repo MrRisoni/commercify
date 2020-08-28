@@ -2,6 +2,7 @@ package pojo;
 
 public class ProductFilterPojo {
     private String attributeId;
+    private String attributeCode;
     private Double from;
     private Double to;
     private String type;
@@ -58,5 +59,13 @@ public class ProductFilterPojo {
 
     public void setValue(Double value) {
         this.value = value;
+    }
+
+    public String getAttributeCode() {
+        return attributeCode;
+    }
+
+    public void setAttributeCode(String attributeCode) {
+        this.attributeCode = attributeCode;
     }
 }
