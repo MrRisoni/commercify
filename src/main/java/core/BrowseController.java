@@ -57,6 +57,18 @@ public class BrowseController {
             ssdSubQuery.select(subRootSSD)
                     .where(SSDPredicates);
 
+
+            Subquery<Products> screenSizeSubQuery = criteriaQry.subquery(Products.class);
+            Root<Products> subRootScreen = screenSizeSubQuery.from(Products.class);
+            CollectionJoin<ProductAttributesValues, Products> joinWithAttributeValuesScreen = subRootScreen.joinCollection("productAttributesValuesCollection", JoinType.INNER);
+            Join<ProductCategoryAttributes, ProductAttributesValues> joinWithAttributesScreen = joinWithAttributeValuesScreen.join("attributeId", JoinType.INNER);
+            Predicate[] ScreenPredicates = new Predicate[1];
+            ScreenPredicates[0] =  builder.and(builder.between(joinWithAttributeValuesScreen.get("valueNumeric"), 1,13),
+                    builder.equal(joinWithAttributesScreen.get("code"), "Screen_inches"));
+
+            screenSizeSubQuery.select(subRootScreen)
+                    .where(ScreenPredicates);
+
           /*  for (ProductFilterPojo filterPojo : filterVals.getFilters()) {
                 System.out.println("-----------------");
                 System.out.println(filterPojo.getAttributeId());
@@ -83,11 +95,12 @@ public class BrowseController {
             }*/
 
 
-            Predicate[] ProductPredicates = new Predicate[3];
+            Predicate[] ProductPredicates = new Predicate[4];
             ProductPredicates[0] = builder.ge(rootProduct.get("price"),filterVals.getMinPrice());
             ProductPredicates[1] = builder.le(rootProduct.get("price"),filterVals.getMaxPrice());
 
             ProductPredicates[2] = builder.in(rootProduct.get("id")).value(ssdSubQuery);
+            ProductPredicates[3] = builder.in(rootProduct.get("id")).value(screenSizeSubQuery);
 
             criteriaQry.orderBy(builder.asc(rootProduct.get("price")));
 
