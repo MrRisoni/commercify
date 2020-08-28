@@ -37,11 +37,6 @@ public class ShopCourierClasses implements Serializable {
     @Column
     private boolean active;
 
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "cod_base_cost")
-    @JsonView(JackSonViewer.IOrder.class)
-    private BigDecimal codBaseCost;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "shippingClassId")
     private Collection<ShopWeightShipRules> shopWeightShipRulesCollection;
@@ -64,11 +59,10 @@ public class ShopCourierClasses implements Serializable {
         this.id = id;
     }
 
-    public ShopCourierClasses(Long id, String title, boolean active, BigDecimal codBaseCost) {
+    public ShopCourierClasses(Long id, String title, boolean active) {
         this.id = id;
         this.title = title;
         this.active = active;
-        this.codBaseCost = codBaseCost;
     }
 
     public Long getId() {
@@ -94,15 +88,6 @@ public class ShopCourierClasses implements Serializable {
     public void setActive(boolean active) {
         this.active = active;
     }
-
-    public BigDecimal getCodBaseCost() {
-        return codBaseCost;
-    }
-
-    public void setCodBaseCost(BigDecimal codBaseCost) {
-        this.codBaseCost = codBaseCost;
-    }
-
 
     public Collection<ShopWeightShipRules> getShopWeightShipRulesCollection() {
         return shopWeightShipRulesCollection;

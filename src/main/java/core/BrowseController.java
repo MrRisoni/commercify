@@ -20,10 +20,24 @@ public class BrowseController {
 
 
 
-    @PostMapping(value = "/api/category/subjoins",
+    private Subquery getSSDQry(CriteriaQuery criteriaQry,CriteriaBuilder builder)
+    {
+        Subquery<Products> ssdSubQuery = criteriaQry.subquery(Products.class);
+        Root<Products> subRootSSD= ssdSubQuery.from(Products.class);
+        CollectionJoin<ProductAttributesValues, Products> joinWithAttributeValues = subRootSSD.joinCollection("productAttributesValuesCollection", JoinType.INNER);
+        Predicate[] SSDPredicates = new Predicate[1];
+        SSDPredicates[0] =  builder.and(builder.equal(joinWithAttributeValues.get("valueBoolean"), 1),
+                builder.equal(joinWithAttributeValues.get("attributeKey"), 9));
+
+        ssdSubQuery.select(subRootSSD)
+                .where(SSDPredicates);
+        return ssdSubQuery;
+    }
+
+    @PostMapping(value = "/api/category/criteria",
             consumes = {MediaType.APPLICATION_JSON_VALUE}
     )
-    public HashMap<String, Object> getProductsWithCriteriaBuilderSubJoins(@RequestBody Object filterCriteria) {
+    public HashMap<String, Object> getProductsWithCriteriaBuilder(@RequestBody Object filterCriteria) {
         try {
             Long shopId = 2L;
             Long categoryId = 5L;
@@ -39,26 +53,11 @@ public class BrowseController {
             Root<Products> rootProduct = criteriaQry.from(Products.class);
 
 
-            Subquery<Products> ssdSubQuery = criteriaQry.subquery(Products.class);
-            Root<Products> subRootSSD= ssdSubQuery.correlate(rootProduct); //ssdSubQuery.from(Products.class);
-            CollectionJoin<ProductAttributesValues, Products> joinWithAttributeValues = subRootSSD.joinCollection("productAttributesValuesCollection", JoinType.INNER);
-            Join<ProductCategoryAttributes, ProductAttributesValues> joinWithAttributes = joinWithAttributeValues.join("attributeId", JoinType.INNER);
-            Predicate[] SSDPredicates = new Predicate[1];
-            SSDPredicates[0] =  builder.and(builder.equal(joinWithAttributeValues.get("valueBoolean"), 1),
-                    builder.equal(joinWithAttributes.get("code"), "SSD"));
-
-            ssdSubQuery.select(subRootSSD)
-                    .where(SSDPredicates);
-
-
-
-
             Predicate[] ProductPredicates = new Predicate[3];
             ProductPredicates[0] = builder.ge(rootProduct.get("price"),filterVals.getMinPrice());
             ProductPredicates[1] = builder.le(rootProduct.get("price"),filterVals.getMaxPrice());
 
-          //  ProductPredicates[2] = builder.in(rootProduct.get("id")).value(ssdSubQuery);
-            ProductPredicates[2] = builder.in(rootProduct.get("id")).value(getScreenQry(criteriaQry,builder));
+            ProductPredicates[2] = builder.in(rootProduct.get("id")).value(getSSDQry(criteriaQry,builder));
 
             criteriaQry.orderBy(builder.asc(rootProduct.get("price")));
 
@@ -69,6 +68,8 @@ public class BrowseController {
 
             int totalProducts = criteriaResult.size();
             rsp.put("resCount", totalProducts);
+            rsp.put("totalPages",50);
+            rsp.put("countByAttributeCategories",null);
             if (totalProducts >0) {
                 rsp.put("firstProduct",criteriaResult.get(0).getCode());
             }
@@ -89,7 +90,7 @@ public class BrowseController {
     )
     public HashMap<String, Object> searchProducts(@RequestBody Object filterCriteria) {
 
-    }*/
+    }
 
     private Subquery getScreenQry(CriteriaQuery criteriaQry,CriteriaBuilder builder)
     {
@@ -126,7 +127,7 @@ public class BrowseController {
     }
 
 
-    @PostMapping(value = "/api/category/criteria",
+    @PostMapping(value = "/api/category/criteria_deprecated",
             consumes = {MediaType.APPLICATION_JSON_VALUE}
     )
     public HashMap<String, Object> getProductsWithCriteriaBuilder(@RequestBody Object filterCriteria) {
@@ -169,7 +170,7 @@ public class BrowseController {
                                     .asc(rootProduct.get(Products_.price))
                             )
 
-            }*/
+            }
 
 
 
@@ -277,9 +278,9 @@ public class BrowseController {
 
             // GET the count
             String binaryAttributeSQL = " ";
-/*
+
 SELECT pav.attribute_id,pca.title, pav.valueNumeric,COUNT(pav.id) FROM product_attributes_values pav JOIN product_category_attributes pca ON pca.id = pav.attribute_id WHERE pca.isBoolean =1 GROUP BY pav.attribute_id,pav.valueNumeric
- */
+
 
             // dynamic join....
             String productSQL = "SELECT p.id,p.title,p.kilos,p.price FROM products p ";
@@ -343,7 +344,7 @@ SELECT pav.attribute_id,pca.title, pav.valueNumeric,COUNT(pav.id) FROM product_a
 
 
 
-/*
+
 
             BigDecimal minWeight = (ResultCount >0) ? criteriaResult.get(0).getKilos() : new BigDecimal(0);
             BigDecimal maxWeight = (ResultCount >0) ? criteriaResult.get(0).getKilos() : new BigDecimal(0);
@@ -372,7 +373,7 @@ SELECT pav.attribute_id,pca.title, pav.valueNumeric,COUNT(pav.id) FROM product_a
             rsp.put("minPrice",minPrice);
             rsp.put("maxPrice",maxPrice);
 
-            */
+
             rsp.put("resCount", totalFetchedProducts);
             rsp.put("ranges", ranges);
 
@@ -387,4 +388,6 @@ SELECT pav.attribute_id,pca.title, pav.valueNumeric,COUNT(pav.id) FROM product_a
 
         }
     }
+
+  */
 }

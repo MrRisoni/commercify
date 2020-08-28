@@ -75,7 +75,7 @@ public class OrderItems implements Serializable {
     @JsonView(JackSonViewer.IOrder.class)
     private boolean refund;
 
-    @Column(name = "dispatched_o")
+    @Column(name = "dispatched_on")
     private Date dispatchedOn;
 
     @Column(name = "expected_on")

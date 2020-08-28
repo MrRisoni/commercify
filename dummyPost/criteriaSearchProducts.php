@@ -14,7 +14,7 @@ $postObj['perPage'] = 5;
 
 $ch = curl_init();
 
-curl_setopt($ch, CURLOPT_URL,"http://localhost:8080/api/category/subjoins");
+curl_setopt($ch, CURLOPT_URL,"http://localhost:8080/api/category/criteria");
 curl_setopt($ch, CURLOPT_POST, 1);
 curl_setopt($ch, CURLOPT_POSTFIELDS,json_encode($postObj));
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);

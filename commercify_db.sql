@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 28, 2020 at 10:24 AM
+-- Generation Time: Aug 28, 2020 at 03:37 PM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 7.4.8
 
@@ -498,12 +498,12 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `shop_id`, `category_id`, `currency_id`, `manufacturer_id`, `code`, `title`, `descr`, `SKU`, `img_url`, `thumbnail_url`, `price`, `discount_percent`, `kilos`, `dim_l`, `dim_w`, `dim_h`, `active`, `stock`, `created`, `updated`, `taxable`, `gift_wrap_cost`, `visible`, `total_orders`, `avg_rating`, `total_clicks`) VALUES
-(1, 1, 1, 1, 5, 'SelmaLagerlefNielsHolgresson', '', '', '', '', '', '15.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-28 10:51:34', '2020-08-28 10:51:34', 1, '0.00', 0, 0, '0.0', 0),
-(2, 1, 1, 1, 5, 'StringbergDromspel', '', '', '', '', '', '15.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-28 10:51:34', '2020-08-28 10:51:34', 1, '0.00', 0, 0, '0.0', 0),
-(3, 1, 1, 1, 5, 'StringbergDamaskusI\r\n', '', '', '', '', '', '15.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-28 10:51:34', '2020-08-28 10:51:34', 1, '0.00', 0, 0, '0.0', 0),
-(4, 1, 1, 1, 5, 'StringbergDamaskusII\r\n', '', '', '', '', '', '15.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-28 10:51:34', '2020-08-28 10:51:34', 1, '0.00', 0, 0, '0.0', 0),
-(5, 1, 1, 1, 1, 'StringbergDamaskusIII\r\n', '', '', '', '', '', '15.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-28 10:51:34', '2020-08-28 10:51:34', 1, '0.00', 0, 0, '0.0', 0),
-(6, 1, 1, 1, 1, 'StringbergSpoksSonaten\r\n', '', '', '', '', '', '15.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-28 10:51:34', '2020-08-28 10:51:34', 1, '0.00', 0, 0, '0.0', 0),
+(1, 1, 1, 1, 5, 'SelmaLagerlefNielsHolgresson', 'SelmaLagerlefNielsHolgresson', '', '', '', '', '15.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-28 10:51:34', '2020-08-28 10:51:34', 1, '0.00', 0, 0, '0.0', 0),
+(2, 1, 1, 1, 5, 'StringbergDromspel', 'StringbergDromspel', '', '', '', '', '15.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-28 10:51:34', '2020-08-28 10:51:34', 1, '0.00', 0, 0, '0.0', 0),
+(3, 1, 1, 1, 5, 'StringbergDamaskusI\r\n', 'StringbergDamaskusI', '', '', '', '', '15.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-28 10:51:34', '2020-08-28 10:51:34', 1, '0.00', 0, 0, '0.0', 0),
+(4, 1, 1, 1, 5, 'StringbergDamaskusII\r\n', 'StringbergDamaskusII', '', '', '', '', '15.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-28 10:51:34', '2020-08-28 10:51:34', 1, '0.00', 0, 0, '0.0', 0),
+(5, 1, 1, 1, 1, 'StringbergDamaskusIII\r\n', 'StringbergDamaskusIII', '', '', '', '', '15.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-28 10:51:34', '2020-08-28 10:51:34', 1, '0.00', 0, 0, '0.0', 0),
+(6, 1, 1, 1, 1, 'StringbergSpoksSonaten\r\n', 'StringbergSpoksSonaten', '', '', '', '', '15.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-28 10:51:34', '2020-08-28 10:51:34', 1, '0.00', 0, 0, '0.0', 0),
 (7, 2, 5, 1, 4, 'MacBookPro13.3AirGray', 'Apple MacBook Air Retina', '', '', '', '', '1300.00', '0.00', '1.29', '30.41', '21.24', '1.61', 1, 50, '2020-08-28 10:51:34', '2020-08-28 10:51:34', 1, '0.00', 1, 0, '0.0', 0),
 (8, 2, 5, 1, 4, 'MacBookPro12.3AirSilber', 'Apple MacBook Air Silver', '', '', '', '', '1100.00', '0.00', '1.29', '30.41', '21.24', '1.61', 1, 50, '2020-08-28 10:51:34', '2020-08-28 10:51:34', 1, '0.00', 1, 0, '0.0', 0),
 (9, 2, 5, 1, 6, 'DELL G5 15-5590 I7-9750H/16/1TB+256GB SSD/RTX2060', 'Laptop DELL G5 15-5590 I7-9750H/16/1TB+256GB SSD/RTX206', '', '', '', '', '1700.00', '0.00', '2.61', '0.00', '0.00', '0.00', 1, 25, '2020-08-28 10:51:34', '2020-08-28 10:51:34', 1, '0.00', 1, 0, '0.0', 0),
@@ -656,16 +656,7 @@ INSERT INTO `products` (`id`, `shop_id`, `category_id`, `currency_id`, `manufact
 (156, 1, 1, 1, 1, NULL, 'Inferno', NULL, NULL, NULL, NULL, '38.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
 (157, 1, 1, 1, 1, NULL, 'Origin', NULL, NULL, NULL, NULL, '17.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
 (158, 1, 1, 1, 1, NULL, 'Isprinsessan', NULL, NULL, NULL, NULL, '18.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
-(159, 1, 1, 1, 1, NULL, 'Predikanten', NULL, NULL, NULL, NULL, '25.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
-(160, 1, 1, 1, 1, NULL, 'Stenhuggaren', NULL, NULL, NULL, NULL, '27.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
-(161, 1, 1, 1, 1, NULL, 'Olycksfågeln', NULL, NULL, NULL, NULL, '44.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
-(162, 1, 1, 1, 1, NULL, 'Tyskungen', NULL, NULL, NULL, NULL, '35.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
-(163, 1, 1, 1, 1, NULL, 'Snöstorm och mandeldoft', NULL, NULL, NULL, NULL, '29.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
-(164, 1, 1, 1, 1, NULL, 'Sjöjungfrun', NULL, NULL, NULL, NULL, '25.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
-(165, 1, 1, 1, 1, NULL, 'Smaker från Fjällbacka', NULL, NULL, NULL, NULL, '26.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
-(166, 1, 1, 1, 1, NULL, 'Sjöjungfrun', NULL, NULL, NULL, NULL, '37.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
-(167, 1, 1, 1, 1, NULL, 'Fyrvaktaren', NULL, NULL, NULL, NULL, '34.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
-(168, 1, 1, 1, 1, NULL, 'Änglamakerskan', NULL, NULL, NULL, NULL, '16.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0);
+(159, 1, 1, 1, 1, NULL, 'Predikanten', NULL, NULL, NULL, NULL, '25.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0);
 
 -- --------------------------------------------------------
 
@@ -882,16 +873,7 @@ INSERT INTO `product_attributes_values` (`id`, `product_id`, `attribute_id`, `va
 (184, 156, 13, NULL, '562.00', 2),
 (185, 157, 13, NULL, '1050.00', 2),
 (186, 158, 13, NULL, '476.00', 2),
-(187, 159, 13, NULL, '1037.00', 2),
-(188, 160, 13, NULL, '671.00', 2),
-(189, 161, 13, NULL, '1072.00', 2),
-(190, 162, 13, NULL, '257.00', 2),
-(191, 163, 13, NULL, '860.00', 2),
-(192, 164, 13, NULL, '439.00', 2),
-(193, 165, 13, NULL, '445.00', 2),
-(194, 166, 13, NULL, '760.00', 2),
-(195, 167, 13, NULL, '355.00', 2),
-(196, 168, 13, NULL, '323.00', 2);
+(187, 159, 13, NULL, '1037.00', 2);
 
 -- --------------------------------------------------------
 
@@ -1295,7 +1277,8 @@ CREATE TABLE `shops` (
 
 INSERT INTO `shops` (`id`, `title`, `basic_currency`, `owner_id`, `default_lang_id`, `created`) VALUES
 (1, 'vivliofagos', 'EUR', 1, 1, '2020-08-03 08:22:05'),
-(2, 'elektroktenhini', 'EUR', 1, 1, '2020-08-17 07:25:53');
+(2, 'elektroktenhini', 'EUR', 1, 1, '2020-08-17 07:25:53'),
+(3, 'brassfun', 'EUR', 3, 1, '2020-08-22 07:46:58');
 
 -- --------------------------------------------------------
 
@@ -2389,7 +2372,7 @@ ALTER TABLE `payment_methods`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=169;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4399;
 
 --
 -- AUTO_INCREMENT for table `products_discounts`
@@ -2401,7 +2384,7 @@ ALTER TABLE `products_discounts`
 -- AUTO_INCREMENT for table `product_attributes_values`
 --
 ALTER TABLE `product_attributes_values`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=293;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4523;
 
 --
 -- AUTO_INCREMENT for table `product_attribute_units`
@@ -2509,7 +2492,7 @@ ALTER TABLE `shipping_zones_regions`
 -- AUTO_INCREMENT for table `shops`
 --
 ALTER TABLE `shops`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `shop_banks`
@@ -2717,6 +2700,15 @@ ALTER TABLE `order_items`
 ALTER TABLE `order_items_status_history`
   ADD CONSTRAINT `order_items_status_history_ibfk_1` FOREIGN KEY (`item_id`) REFERENCES `order_items` (`id`),
   ADD CONSTRAINT `order_items_status_history_ibfk_2` FOREIGN KEY (`status_id`) REFERENCES `order_status` (`id`);
+
+--
+-- Constraints for table `products`
+--
+ALTER TABLE `products`
+  ADD CONSTRAINT `products_ibfk_1` FOREIGN KEY (`shop_id`) REFERENCES `shops` (`id`),
+  ADD CONSTRAINT `products_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `product_categories` (`id`),
+  ADD CONSTRAINT `products_ibfk_3` FOREIGN KEY (`currency_id`) REFERENCES `currencies` (`id`),
+  ADD CONSTRAINT `products_ibfk_4` FOREIGN KEY (`manufacturer_id`) REFERENCES `shop_manufacturers` (`id`);
 
 --
 -- Constraints for table `products_discounts`

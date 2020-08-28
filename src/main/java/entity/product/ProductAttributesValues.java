@@ -23,6 +23,9 @@ public class ProductAttributesValues implements Serializable {
     @JsonView(JackSonViewer.IShopProduct.class)
     private Long id;
 
+    @Column(name="attribute_id")
+    private Long attributeKey;
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 55)
@@ -42,7 +45,7 @@ public class ProductAttributesValues implements Serializable {
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Products productId;
 
-    @JoinColumn(name = "attribute_id", referencedColumnName = "id")
+    @JoinColumn(name = "attribute_id", referencedColumnName = "id",insertable=false, updatable=false)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JsonView(JackSonViewer.IShopProduct.class)
     private ProductCategoryAttributes attributeId;
@@ -105,5 +108,13 @@ public class ProductAttributesValues implements Serializable {
 
     public void setValueBoolean(int valueBoolean) {
         this.valueBoolean = valueBoolean;
+    }
+
+    public Long getAttributeKey() {
+        return attributeKey;
+    }
+
+    public void setAttributeKey(Long attributeKey) {
+        this.attributeKey = attributeKey;
     }
 }
