@@ -14,6 +14,7 @@ import pojo.ProductFilterPojo;
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 public class BrowseController {
@@ -106,7 +107,10 @@ public class BrowseController {
 
 
             int start = predicatesLen - filterVals.getFilters().size();
+            this.groupByFilterAttribute(filterVals.getFilters());
+
             int z = 0;
+            // GROUP CATEGORY ATTRIBUTES IF THERE ARE MORE THAN ONE OF THE SAME KING YOU MUST USE OR...
             for (int prc = start; prc < predicatesLen; prc++) {
                 System.out.println("PRC " + prc + " zz " + z);
                 ProductPredicates[prc] = builder.in(rootProduct.get("id")).value(buildSubQry(criteriaQry, builder, shopId, categoryId, filterVals.getFilters().get(z)));
@@ -174,9 +178,28 @@ public class BrowseController {
         }
     }
 
+    private HashMap<String,List<ProductFilterPojo>> groupByFilterAttribute(List<ProductFilterPojo> filterVals) {
+        HashMap<String,List<ProductFilterPojo>> synolo = new HashMap<>();
+        Set<String> uniqueCodes = new HashSet<>();
+
+        uniqueCodes= filterVals.stream().map(fitlr -> {
+            return  fitlr.getAttributeCode();
+        }).collect(Collectors.toSet());
+
+        for (String uni : uniqueCodes) {
+            synolo.put(uni,filterVals.stream().filter(valItm -> {
+                return valItm.getAttributeCode().equals(uni);
+                    }
+            ).collect(Collectors.toList()));
+        }
+
+        return synolo;
+    }
+
 
     private void GroupByBooleanValues() {
         //use native
+        // selects in same category count as OR!!!!! e.g (SSD) OR (NOT SSD)
     }
 
     private void GroupByStringValues() {

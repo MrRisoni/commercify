@@ -3,6 +3,7 @@
 $orderBy = array('orderBy' => 'best_seller', 'sortOrder'=> 'asc');
 $filters[] = array('attributeId' => 9,'attributeCode'=> 'SSD','from' =>-1,'to' => -1,'type' => 'bool','valueStr' => '','value' => 1);
 $filters[] = array('attributeId' => 7,'attributeCode'=> 'Screen_inches','from' =>-1,'to' => 17,'type' => 'range','valueStr' => '','value' => -1);
+$filters[] = array('attributeId' => 9,'attributeCode'=> 'SSD','from' =>-1,'to' => -1,'type' => 'bool','valueStr' => '','value' => 0);
 
 
 $postObj['orderBy'] = $orderBy;
