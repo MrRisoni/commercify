@@ -19,6 +19,71 @@ import java.util.*;
 public class BrowseController {
 
 
+
+    @PostMapping(value = "/api/category/subjoins",
+            consumes = {MediaType.APPLICATION_JSON_VALUE}
+    )
+    public HashMap<String, Object> getProductsWithCriteriaBuilderSubJoins(@RequestBody Object filterCriteria) {
+        try {
+            Long shopId = 2L;
+            Long categoryId = 5L;
+
+            EntityManager em = HibernateUtil.getEM();
+            Gson g = new Gson();
+            BrowsePojo filterVals = new Gson().fromJson(g.toJson(filterCriteria), BrowsePojo.class);
+            HashMap<String, RangeValues> ranges = new HashMap<>();
+            HashMap<String, Object> rsp = new HashMap<>();
+
+            CriteriaBuilder builder = em.getCriteriaBuilder();
+            CriteriaQuery<Products> criteriaQry = builder.createQuery(Products.class);
+            Root<Products> rootProduct = criteriaQry.from(Products.class);
+
+
+            Subquery<Products> ssdSubQuery = criteriaQry.subquery(Products.class);
+            Root<Products> subRootSSD= ssdSubQuery.correlate(rootProduct); //ssdSubQuery.from(Products.class);
+            CollectionJoin<ProductAttributesValues, Products> joinWithAttributeValues = subRootSSD.joinCollection("productAttributesValuesCollection", JoinType.INNER);
+            Join<ProductCategoryAttributes, ProductAttributesValues> joinWithAttributes = joinWithAttributeValues.join("attributeId", JoinType.INNER);
+            Predicate[] SSDPredicates = new Predicate[1];
+            SSDPredicates[0] =  builder.and(builder.equal(joinWithAttributeValues.get("valueBoolean"), 1),
+                    builder.equal(joinWithAttributes.get("code"), "SSD"));
+
+            ssdSubQuery.select(subRootSSD)
+                    .where(SSDPredicates);
+
+
+
+
+            Predicate[] ProductPredicates = new Predicate[3];
+            ProductPredicates[0] = builder.ge(rootProduct.get("price"),filterVals.getMinPrice());
+            ProductPredicates[1] = builder.le(rootProduct.get("price"),filterVals.getMaxPrice());
+
+          //  ProductPredicates[2] = builder.in(rootProduct.get("id")).value(ssdSubQuery);
+            ProductPredicates[2] = builder.in(rootProduct.get("id")).value(getScreenQry(criteriaQry,builder));
+
+            criteriaQry.orderBy(builder.asc(rootProduct.get("price")));
+
+            List<Products>criteriaResult = em.createQuery(
+                    criteriaQry.select(rootProduct)
+                            .where(ProductPredicates)
+            ).getResultList();
+
+            int totalProducts = criteriaResult.size();
+            rsp.put("resCount", totalProducts);
+            if (totalProducts >0) {
+                rsp.put("firstProduct",criteriaResult.get(0).getCode());
+            }
+            rsp.put("ranges", ranges);
+
+            return rsp;
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
+
+
+
  /*   @PostMapping(value = "/api/search",
             consumes = {MediaType.APPLICATION_JSON_VALUE}
     )
@@ -105,6 +170,7 @@ public class BrowseController {
                             )
 
             }*/
+
 
 
             Predicate[] ProductPredicates = new Predicate[4];

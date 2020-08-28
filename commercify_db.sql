@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 25, 2020 at 05:17 PM
+-- Generation Time: Aug 28, 2020 at 10:24 AM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 7.4.8
 
@@ -344,19 +344,20 @@ INSERT INTO `order_status` (`id`, `title`) VALUES
 
 CREATE TABLE `payment_methods` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `title` varchar(55) NOT NULL
+  `title` varchar(55) NOT NULL,
+  `code` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `payment_methods`
 --
 
-INSERT INTO `payment_methods` (`id`, `title`) VALUES
-(1, 'Cash on delivery'),
-(2, 'Credit Card'),
-(3, 'Bank transfer'),
-(4, 'Paypal'),
-(5, 'Western Union');
+INSERT INTO `payment_methods` (`id`, `title`, `code`) VALUES
+(1, 'Cash on delivery', 'cod'),
+(2, 'Credit Card', 'cc'),
+(3, 'Bank transfer', 'bank'),
+(4, 'Paypal', 'paypal'),
+(5, 'Western Union', 'wu');
 
 -- --------------------------------------------------------
 
@@ -443,37 +444,53 @@ INSERT INTO `phinxlog` (`version`, `migration_name`, `start_time`, `end_time`, `
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `pricing_plans`
+--
+
+CREATE TABLE `pricing_plans` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `commission_per_order` decimal(5,2) UNSIGNED NOT NULL,
+  `total_shops` tinyint(3) UNSIGNED NOT NULL,
+  `total_products_per_shop` mediumint(8) UNSIGNED NOT NULL,
+  `total_products` mediumint(8) UNSIGNED NOT NULL,
+  `total_photos_per_product` tinyint(3) UNSIGNED NOT NULL,
+  `total_photo_space_gb` smallint(5) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `products`
 --
 
 CREATE TABLE `products` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `shop_id` bigint(20) UNSIGNED NOT NULL,
-  `category_id` bigint(20) UNSIGNED NOT NULL,
-  `currency_id` bigint(20) UNSIGNED NOT NULL,
-  `manufacturer_id` bigint(20) UNSIGNED NOT NULL DEFAULT 1,
-  `code` varchar(120) NOT NULL,
+  `shop_id` bigint(20) UNSIGNED DEFAULT 1,
+  `category_id` bigint(20) UNSIGNED DEFAULT 1,
+  `currency_id` bigint(20) UNSIGNED DEFAULT 1,
+  `manufacturer_id` bigint(20) UNSIGNED DEFAULT 1,
+  `code` varchar(120) DEFAULT NULL,
   `title` varchar(55) NOT NULL,
-  `descr` varchar(55) NOT NULL,
-  `SKU` varchar(50) NOT NULL,
-  `img_url` varchar(255) NOT NULL,
-  `thumbnail_url` varchar(255) NOT NULL,
-  `price` decimal(10,2) NOT NULL,
-  `discount_percent` decimal(5,2) NOT NULL,
-  `kilos` decimal(5,2) NOT NULL,
-  `dim_l` decimal(6,2) NOT NULL,
-  `dim_w` decimal(6,2) NOT NULL,
-  `dim_h` decimal(6,2) NOT NULL,
-  `active` tinyint(1) NOT NULL,
-  `stock` bigint(20) UNSIGNED NOT NULL,
-  `created` datetime NOT NULL,
+  `descr` varchar(55) DEFAULT NULL,
+  `SKU` varchar(50) DEFAULT NULL,
+  `img_url` varchar(255) DEFAULT NULL,
+  `thumbnail_url` varchar(255) DEFAULT NULL,
+  `price` decimal(10,2) DEFAULT NULL,
+  `discount_percent` decimal(5,2) DEFAULT NULL,
+  `kilos` decimal(5,2) DEFAULT NULL,
+  `dim_l` decimal(6,2) DEFAULT NULL,
+  `dim_w` decimal(6,2) DEFAULT NULL,
+  `dim_h` decimal(6,2) DEFAULT NULL,
+  `active` tinyint(1) DEFAULT NULL,
+  `stock` bigint(20) UNSIGNED DEFAULT NULL,
+  `created` datetime DEFAULT NULL,
   `updated` datetime DEFAULT NULL,
-  `taxable` tinyint(1) NOT NULL,
-  `gift_wrap_cost` decimal(10,2) NOT NULL,
-  `visible` tinyint(1) NOT NULL,
-  `total_orders` bigint(20) UNSIGNED NOT NULL DEFAULT 0,
-  `avg_rating` decimal(2,1) NOT NULL DEFAULT 0.0,
-  `total_clicks` bigint(20) UNSIGNED NOT NULL DEFAULT 0
+  `taxable` tinyint(1) DEFAULT NULL,
+  `gift_wrap_cost` decimal(10,2) DEFAULT NULL,
+  `visible` tinyint(1) DEFAULT NULL,
+  `total_orders` bigint(20) UNSIGNED DEFAULT 0,
+  `avg_rating` decimal(2,1) DEFAULT 0.0,
+  `total_clicks` bigint(20) UNSIGNED DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -481,15 +498,174 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `shop_id`, `category_id`, `currency_id`, `manufacturer_id`, `code`, `title`, `descr`, `SKU`, `img_url`, `thumbnail_url`, `price`, `discount_percent`, `kilos`, `dim_l`, `dim_w`, `dim_h`, `active`, `stock`, `created`, `updated`, `taxable`, `gift_wrap_cost`, `visible`, `total_orders`, `avg_rating`, `total_clicks`) VALUES
-(1, 1, 1, 1, 5, 'SelmaLagerlefNielsHolgresson', '', '', '', '', '', '15.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-03 11:52:31', '2020-08-03 11:52:31', 1, '0.00', 0, 0, '0.0', 0),
-(2, 1, 1, 1, 5, 'StringbergDromspel', '', '', '', '', '', '15.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-03 11:52:31', '2020-08-03 11:52:31', 1, '0.00', 0, 0, '0.0', 0),
-(3, 1, 1, 1, 5, 'StringbergDamaskusI\r\n', '', '', '', '', '', '15.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-03 11:52:31', '2020-08-03 11:52:31', 1, '0.00', 0, 0, '0.0', 0),
-(4, 1, 1, 1, 5, 'StringbergDamaskusII\r\n', '', '', '', '', '', '15.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-03 11:52:31', '2020-08-03 11:52:31', 1, '0.00', 0, 0, '0.0', 0),
-(5, 1, 1, 1, 1, 'StringbergDamaskusIII\r\n', '', '', '', '', '', '15.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-03 11:52:31', '2020-08-03 11:52:31', 1, '0.00', 0, 0, '0.0', 0),
-(6, 1, 1, 1, 1, 'StringbergSpoksSonaten\r\n', '', '', '', '', '', '15.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-03 11:52:31', '2020-08-03 11:52:31', 1, '0.00', 0, 0, '0.0', 0),
-(7, 2, 5, 1, 4, 'MacBookPro13.3AirGray', 'Apple MacBook Air Retina', '', '', '', '', '1300.00', '0.00', '1.29', '30.41', '21.24', '1.61', 1, 50, '2020-08-17 07:48:09', '2020-08-17 07:48:09', 1, '0.00', 1, 0, '0.0', 0),
-(8, 2, 5, 1, 4, 'MacBookPro12.3AirSilber', 'Apple MacBook Air Silver', '', '', '', '', '1100.00', '0.00', '1.29', '30.41', '21.24', '1.61', 1, 50, '2020-08-17 07:48:09', '2020-08-17 07:48:09', 1, '0.00', 1, 0, '0.0', 0),
-(9, 2, 5, 1, 6, 'DELL G5 15-5590 I7-9750H/16/1TB+256GB SSD/RTX2060', 'Laptop DELL G5 15-5590 I7-9750H/16/1TB+256GB SSD/RTX206', '', '', '', '', '1700.00', '0.00', '2.61', '0.00', '0.00', '0.00', 1, 25, '2020-08-19 08:34:31', '2020-08-19 08:34:31', 1, '0.00', 1, 0, '0.0', 0);
+(1, 1, 1, 1, 5, 'SelmaLagerlefNielsHolgresson', '', '', '', '', '', '15.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-28 10:51:34', '2020-08-28 10:51:34', 1, '0.00', 0, 0, '0.0', 0),
+(2, 1, 1, 1, 5, 'StringbergDromspel', '', '', '', '', '', '15.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-28 10:51:34', '2020-08-28 10:51:34', 1, '0.00', 0, 0, '0.0', 0),
+(3, 1, 1, 1, 5, 'StringbergDamaskusI\r\n', '', '', '', '', '', '15.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-28 10:51:34', '2020-08-28 10:51:34', 1, '0.00', 0, 0, '0.0', 0),
+(4, 1, 1, 1, 5, 'StringbergDamaskusII\r\n', '', '', '', '', '', '15.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-28 10:51:34', '2020-08-28 10:51:34', 1, '0.00', 0, 0, '0.0', 0),
+(5, 1, 1, 1, 1, 'StringbergDamaskusIII\r\n', '', '', '', '', '', '15.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-28 10:51:34', '2020-08-28 10:51:34', 1, '0.00', 0, 0, '0.0', 0),
+(6, 1, 1, 1, 1, 'StringbergSpoksSonaten\r\n', '', '', '', '', '', '15.00', '0.00', '0.34', '25.00', '10.00', '8.00', 1, 15, '2020-08-28 10:51:34', '2020-08-28 10:51:34', 1, '0.00', 0, 0, '0.0', 0),
+(7, 2, 5, 1, 4, 'MacBookPro13.3AirGray', 'Apple MacBook Air Retina', '', '', '', '', '1300.00', '0.00', '1.29', '30.41', '21.24', '1.61', 1, 50, '2020-08-28 10:51:34', '2020-08-28 10:51:34', 1, '0.00', 1, 0, '0.0', 0),
+(8, 2, 5, 1, 4, 'MacBookPro12.3AirSilber', 'Apple MacBook Air Silver', '', '', '', '', '1100.00', '0.00', '1.29', '30.41', '21.24', '1.61', 1, 50, '2020-08-28 10:51:34', '2020-08-28 10:51:34', 1, '0.00', 1, 0, '0.0', 0),
+(9, 2, 5, 1, 6, 'DELL G5 15-5590 I7-9750H/16/1TB+256GB SSD/RTX2060', 'Laptop DELL G5 15-5590 I7-9750H/16/1TB+256GB SSD/RTX206', '', '', '', '', '1700.00', '0.00', '2.61', '0.00', '0.00', '0.00', 1, 25, '2020-08-28 10:51:34', '2020-08-28 10:51:34', 1, '0.00', 1, 0, '0.0', 0),
+(10, 1, 1, 1, 1, NULL, 'MobyDick', NULL, NULL, NULL, NULL, '19.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(11, 1, 1, 1, 1, NULL, 'Gunslinger', NULL, NULL, NULL, NULL, '31.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(12, 1, 1, 1, 1, NULL, 'Drawing of three', NULL, NULL, NULL, NULL, '25.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(13, 1, 1, 1, 1, NULL, 'Wastelands', NULL, NULL, NULL, NULL, '18.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(14, 1, 1, 1, 1, NULL, 'Wizard and Glass', NULL, NULL, NULL, NULL, '28.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(15, 1, 1, 1, 1, NULL, 'Caves of Caila', NULL, NULL, NULL, NULL, '44.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(16, 1, 1, 1, 1, NULL, 'Song of Susanna', NULL, NULL, NULL, NULL, '29.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(17, 1, 1, 1, 1, NULL, 'Dark Tower', NULL, NULL, NULL, NULL, '30.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(18, 1, 1, 1, 1, NULL, 'It', NULL, NULL, NULL, NULL, '17.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(19, 1, 1, 1, 1, NULL, 'Salem\'s lot', NULL, NULL, NULL, NULL, '40.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(20, 1, 1, 1, 1, NULL, 'Doctor Sleep', NULL, NULL, NULL, NULL, '43.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(21, 1, 1, 1, 1, NULL, 'The Shining', NULL, NULL, NULL, NULL, '24.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(22, 1, 1, 1, 1, NULL, '1968', NULL, NULL, NULL, NULL, '36.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(23, 1, 1, 1, 1, NULL, 'The Dome', NULL, NULL, NULL, NULL, '32.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(24, 1, 1, 1, 1, NULL, 'Bad Dreams', NULL, NULL, NULL, NULL, '37.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(25, 1, 1, 1, 1, NULL, 'Bazaar of Bad Dreams', NULL, NULL, NULL, NULL, '16.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(26, 1, 1, 1, 1, NULL, 'The Stand', NULL, NULL, NULL, NULL, '15.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(27, 1, 1, 1, 1, NULL, 'Night Shift', NULL, NULL, NULL, NULL, '40.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(28, 1, 1, 1, 1, NULL, 'After Sunset', NULL, NULL, NULL, NULL, '21.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(29, 1, 1, 1, 1, NULL, 'Pet Semetary', NULL, NULL, NULL, NULL, '32.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(30, 1, 1, 1, 1, NULL, 'Green Mile', NULL, NULL, NULL, NULL, '22.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(31, 1, 1, 1, 1, NULL, 'Flight 29', NULL, NULL, NULL, NULL, '28.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(32, 1, 1, 1, 1, NULL, 'End of Watche', NULL, NULL, NULL, NULL, '29.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(33, 1, 1, 1, 1, NULL, 'Different Seasons', NULL, NULL, NULL, NULL, '17.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(34, 1, 1, 1, 1, NULL, 'Skeleton Crew', NULL, NULL, NULL, NULL, '42.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(35, 1, 1, 1, 1, NULL, 'Four Past Midnight', NULL, NULL, NULL, NULL, '27.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(36, 1, 1, 1, 1, NULL, 'Full Dark no stars', NULL, NULL, NULL, NULL, '25.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(37, 1, 1, 1, 1, NULL, 'Oliver Twist', NULL, NULL, NULL, NULL, '30.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(38, 1, 1, 1, 1, NULL, 'Scrooge', NULL, NULL, NULL, NULL, '30.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(39, 1, 1, 1, 1, NULL, 'Great Expectations', NULL, NULL, NULL, NULL, '17.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(40, 1, 1, 1, 1, NULL, 'Anna Karenina', NULL, NULL, NULL, NULL, '38.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(41, 1, 1, 1, 1, NULL, 'War and Peace', NULL, NULL, NULL, NULL, '34.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(42, 1, 1, 1, 1, NULL, 'Ressurection', NULL, NULL, NULL, NULL, '41.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(43, 1, 1, 1, 1, NULL, 'Master and Man', NULL, NULL, NULL, NULL, '29.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(44, 1, 1, 1, 1, NULL, 'Don Quixote', NULL, NULL, NULL, NULL, '39.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(45, 1, 1, 1, 1, NULL, 'Les Miserables', NULL, NULL, NULL, NULL, '32.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(46, 1, 1, 1, 1, NULL, '20000 Miles under the Sea', NULL, NULL, NULL, NULL, '28.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(47, 1, 1, 1, 1, NULL, 'Le tour du monde in 80 jours', NULL, NULL, NULL, NULL, '29.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(48, 1, 1, 1, 1, NULL, 'De la terre a la lune', NULL, NULL, NULL, NULL, '16.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(49, 1, 1, 1, 1, NULL, 'Autour de la lune', NULL, NULL, NULL, NULL, '40.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(50, 1, 1, 1, 1, NULL, 'L ile mysteriese', NULL, NULL, NULL, NULL, '16.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(51, 1, 1, 1, 1, NULL, 'Voyage au centre de la teree', NULL, NULL, NULL, NULL, '35.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(52, 1, 1, 1, 1, NULL, 'Robur le conquerant', NULL, NULL, NULL, NULL, '26.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(53, 1, 1, 1, 1, NULL, 'Le Compte de monte cristo', NULL, NULL, NULL, NULL, '37.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(54, 1, 1, 1, 1, NULL, 'The three musketeers', NULL, NULL, NULL, NULL, '32.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(55, 1, 1, 1, 1, NULL, 'Master and Margarita', NULL, NULL, NULL, NULL, '36.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(56, 1, 1, 1, 1, NULL, 'Prestuplinie i Nakazanie', NULL, NULL, NULL, NULL, '38.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(57, 1, 1, 1, 1, NULL, 'Idiot', NULL, NULL, NULL, NULL, '36.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(58, 1, 1, 1, 1, NULL, 'Der Idiot', NULL, NULL, NULL, NULL, '25.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(59, 1, 1, 1, 1, NULL, 'Ilithios', NULL, NULL, NULL, NULL, '30.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(60, 1, 1, 1, 1, NULL, 'Eglima k Timoria', NULL, NULL, NULL, NULL, '30.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(61, 1, 1, 1, 1, NULL, 'Daimonismenoi', NULL, NULL, NULL, NULL, '17.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(62, 1, 1, 1, 1, NULL, 'Afoi karamazon', NULL, NULL, NULL, NULL, '38.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(63, 1, 1, 1, 1, NULL, 'Demons', NULL, NULL, NULL, NULL, '38.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(64, 1, 1, 1, 1, NULL, 'The brothers Karamazov', NULL, NULL, NULL, NULL, '28.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(65, 1, 1, 1, 1, NULL, 'White Nights', NULL, NULL, NULL, NULL, '43.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(66, 1, 1, 1, 1, NULL, 'Galbmer', NULL, NULL, NULL, NULL, '26.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(67, 1, 1, 1, 1, NULL, 'Deadhouse memories', NULL, NULL, NULL, NULL, '15.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(68, 1, 1, 1, 1, NULL, 'Herr und Knecht', NULL, NULL, NULL, NULL, '15.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(69, 1, 1, 1, 1, NULL, 'Oresteia', NULL, NULL, NULL, NULL, '15.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(70, 1, 1, 1, 1, NULL, 'Oedipus', NULL, NULL, NULL, NULL, '17.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(71, 1, 1, 1, 1, NULL, 'Persians', NULL, NULL, NULL, NULL, '24.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(72, 1, 1, 1, 1, NULL, 'Thebes', NULL, NULL, NULL, NULL, '24.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(73, 1, 1, 1, 1, NULL, 'Fellowship of the ring', NULL, NULL, NULL, NULL, '35.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(74, 1, 1, 1, 1, NULL, 'Two Towers', NULL, NULL, NULL, NULL, '26.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(75, 1, 1, 1, 1, NULL, 'To tarme', NULL, NULL, NULL, NULL, '41.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(76, 1, 1, 1, 1, NULL, 'Return of the King', NULL, NULL, NULL, NULL, '25.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(77, 1, 1, 1, 1, NULL, 'Hobbit', NULL, NULL, NULL, NULL, '15.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(78, 1, 1, 1, 1, NULL, 'Hobbitus Ille', NULL, NULL, NULL, NULL, '16.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(79, 1, 1, 1, 1, NULL, 'King Lear', NULL, NULL, NULL, NULL, '22.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(80, 1, 1, 1, 1, NULL, 'Vasilias Lir', NULL, NULL, NULL, NULL, '18.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(81, 1, 1, 1, 1, NULL, 'Hamlet', NULL, NULL, NULL, NULL, '40.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(82, 1, 1, 1, 1, NULL, 'Othello', NULL, NULL, NULL, NULL, '42.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(83, 1, 1, 1, 1, NULL, 'Makbeth', NULL, NULL, NULL, NULL, '16.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(84, 1, 1, 1, 1, NULL, 'Ghost Sonata', NULL, NULL, NULL, NULL, '30.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(85, 1, 1, 1, 1, NULL, 'Pelikan', NULL, NULL, NULL, NULL, '28.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(86, 1, 1, 1, 1, NULL, 'The Pretenders', NULL, NULL, NULL, NULL, '36.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(87, 1, 1, 1, 1, NULL, 'Kongsemnerne', NULL, NULL, NULL, NULL, '18.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(88, 1, 1, 1, 1, NULL, 'BrandGR', NULL, NULL, NULL, NULL, '31.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(89, 1, 1, 1, 1, NULL, 'BrandDE', NULL, NULL, NULL, NULL, '25.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(90, 1, 1, 1, 1, NULL, 'BrandEN', NULL, NULL, NULL, NULL, '18.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(91, 1, 1, 1, 1, NULL, 'BrandNO', NULL, NULL, NULL, NULL, '32.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(92, 1, 1, 1, 1, NULL, 'PeerGyntDE', NULL, NULL, NULL, NULL, '30.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(93, 1, 1, 1, 1, NULL, 'PeerGyntGR', NULL, NULL, NULL, NULL, '42.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(94, 1, 1, 1, 1, NULL, 'PeerGyntNO', NULL, NULL, NULL, NULL, '43.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(95, 1, 1, 1, 1, NULL, 'Emperor and Galilean GR', NULL, NULL, NULL, NULL, '15.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(96, 1, 1, 1, 1, NULL, 'Emperor and Galilean DE', NULL, NULL, NULL, NULL, '20.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(97, 1, 1, 1, 1, NULL, 'Et Dukkehjem ', NULL, NULL, NULL, NULL, '40.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(98, 1, 1, 1, 1, NULL, 'Et Dukkehjem GR', NULL, NULL, NULL, NULL, '37.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(99, 1, 1, 1, 1, NULL, 'Gengangere NO', NULL, NULL, NULL, NULL, '21.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(100, 1, 1, 1, 1, NULL, 'Gengangere GR', NULL, NULL, NULL, NULL, '41.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(101, 1, 1, 1, 1, NULL, 'Gengangere DE', NULL, NULL, NULL, NULL, '34.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(102, 1, 1, 1, 1, NULL, 'En Folkefiende', NULL, NULL, NULL, NULL, '35.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(103, 1, 1, 1, 1, NULL, 'Vildanden DE', NULL, NULL, NULL, NULL, '26.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(104, 1, 1, 1, 1, NULL, 'Vildanden GR', NULL, NULL, NULL, NULL, '42.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(105, 1, 1, 1, 1, NULL, 'Rosmersholm DE', NULL, NULL, NULL, NULL, '26.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(106, 1, 1, 1, 1, NULL, 'Rosmersholm EN', NULL, NULL, NULL, NULL, '20.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(107, 1, 1, 1, 1, NULL, 'Fruen fra Havet', NULL, NULL, NULL, NULL, '39.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(108, 1, 1, 1, 1, NULL, 'Hedda Gabler GR', NULL, NULL, NULL, NULL, '31.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(109, 1, 1, 1, 1, NULL, 'Bygmester Solness', NULL, NULL, NULL, NULL, '21.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(110, 1, 1, 1, 1, NULL, 'Lille Eyolf', NULL, NULL, NULL, NULL, '30.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(111, 1, 1, 1, 1, NULL, 'John Gabriel Borkman', NULL, NULL, NULL, NULL, '40.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(112, 1, 1, 1, 1, NULL, 'Når vi døde vaagner', NULL, NULL, NULL, NULL, '38.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(113, 1, 1, 1, 1, NULL, 'All My Sons', NULL, NULL, NULL, NULL, '23.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(114, 1, 1, 1, 1, NULL, 'Death of a Salesman ', NULL, NULL, NULL, NULL, '18.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(115, 1, 1, 1, 1, NULL, 'The Crucible ', NULL, NULL, NULL, NULL, '37.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(116, 1, 1, 1, 1, NULL, 'View from bridge', NULL, NULL, NULL, NULL, '26.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(117, 1, 1, 1, 1, NULL, 'Iliad', NULL, NULL, NULL, NULL, '34.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(118, 1, 1, 1, 1, NULL, 'Odyssey', NULL, NULL, NULL, NULL, '16.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(119, 1, 1, 1, 1, NULL, 'Niels HOlgreson DE', NULL, NULL, NULL, NULL, '26.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(120, 1, 1, 1, 1, NULL, 'Niels HOlgreson SWE', NULL, NULL, NULL, NULL, '37.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(121, 1, 1, 1, 1, NULL, 'Niels HOlgreson GR', NULL, NULL, NULL, NULL, '30.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(122, 1, 1, 1, 1, NULL, 'The Price ', NULL, NULL, NULL, NULL, '27.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(123, 1, 1, 1, 1, NULL, 'The Eye of the World', NULL, NULL, NULL, NULL, '29.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(124, 1, 1, 1, 1, NULL, 'The Great Hunt', NULL, NULL, NULL, NULL, '21.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(125, 1, 1, 1, 1, NULL, 'The Dragon Reborn', NULL, NULL, NULL, NULL, '32.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(126, 1, 1, 1, 1, NULL, 'The Shadow Rising', NULL, NULL, NULL, NULL, '22.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(127, 1, 1, 1, 1, NULL, 'What men live by', NULL, NULL, NULL, NULL, '31.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(128, 1, 1, 1, 1, NULL, 'Russian I', NULL, NULL, NULL, NULL, '42.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(129, 1, 1, 1, 1, NULL, 'Russian II', NULL, NULL, NULL, NULL, '15.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(130, 1, 1, 1, 1, NULL, 'Valkomna', NULL, NULL, NULL, NULL, '25.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(131, 1, 1, 1, 1, NULL, 'Fjord pa mordet', NULL, NULL, NULL, NULL, '34.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(132, 1, 1, 1, 1, NULL, 'Iskalt mord', NULL, NULL, NULL, NULL, '20.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(133, 1, 1, 1, 1, NULL, 'Mord pa Gjoteburg', NULL, NULL, NULL, NULL, '16.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(134, 1, 1, 1, 1, NULL, 'Notre Dame de paris', NULL, NULL, NULL, NULL, '33.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(135, 1, 1, 1, 1, NULL, 'Rama I', NULL, NULL, NULL, NULL, '43.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(136, 1, 1, 1, 1, NULL, 'Rama II', NULL, NULL, NULL, NULL, '42.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(137, 1, 1, 1, 1, NULL, 'Rama III', NULL, NULL, NULL, NULL, '36.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(138, 1, 1, 1, 1, NULL, 'The Martian', NULL, NULL, NULL, NULL, '38.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(139, 1, 1, 1, 1, NULL, 'Moondust', NULL, NULL, NULL, NULL, '41.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(140, 1, 1, 1, 1, NULL, '2001: A Space Odyssey', NULL, NULL, NULL, NULL, '43.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(141, 1, 1, 1, 1, NULL, '2010: Odyssey Two', NULL, NULL, NULL, NULL, '19.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(142, 1, 1, 1, 1, NULL, '2061: Odyssey Three', NULL, NULL, NULL, NULL, '41.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(143, 1, 1, 1, 1, NULL, '3001: The Final Odyssey ', NULL, NULL, NULL, NULL, '44.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(144, 1, 1, 1, 1, NULL, 'Time\'s Eye ', NULL, NULL, NULL, NULL, '24.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(145, 1, 1, 1, 1, NULL, 'Sunstorm', NULL, NULL, NULL, NULL, '34.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(146, 1, 1, 1, 1, NULL, 'Firstborn', NULL, NULL, NULL, NULL, '21.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(147, 1, 1, 1, 1, NULL, 'Childhood\'s End ', NULL, NULL, NULL, NULL, '18.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(148, 1, 1, 1, 1, NULL, 'The Fountains of Paradise ', NULL, NULL, NULL, NULL, '42.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(149, 1, 1, 1, 1, NULL, 'The Hammer of God ', NULL, NULL, NULL, NULL, '24.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(150, 1, 1, 1, 1, NULL, 'Last theorem', NULL, NULL, NULL, NULL, '40.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(151, 1, 1, 1, 1, NULL, 'Digital Fortress', NULL, NULL, NULL, NULL, '24.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(152, 1, 1, 1, 1, NULL, 'Deception point', NULL, NULL, NULL, NULL, '43.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(153, 1, 1, 1, 1, NULL, 'Angels And demons', NULL, NULL, NULL, NULL, '39.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(154, 1, 1, 1, 1, NULL, 'DaVincie', NULL, NULL, NULL, NULL, '23.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(155, 1, 1, 1, 1, NULL, 'Lost Symbol', NULL, NULL, NULL, NULL, '42.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(156, 1, 1, 1, 1, NULL, 'Inferno', NULL, NULL, NULL, NULL, '38.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(157, 1, 1, 1, 1, NULL, 'Origin', NULL, NULL, NULL, NULL, '17.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(158, 1, 1, 1, 1, NULL, 'Isprinsessan', NULL, NULL, NULL, NULL, '18.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(159, 1, 1, 1, 1, NULL, 'Predikanten', NULL, NULL, NULL, NULL, '25.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(160, 1, 1, 1, 1, NULL, 'Stenhuggaren', NULL, NULL, NULL, NULL, '27.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(161, 1, 1, 1, 1, NULL, 'Olycksfågeln', NULL, NULL, NULL, NULL, '44.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(162, 1, 1, 1, 1, NULL, 'Tyskungen', NULL, NULL, NULL, NULL, '35.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(163, 1, 1, 1, 1, NULL, 'Snöstorm och mandeldoft', NULL, NULL, NULL, NULL, '29.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(164, 1, 1, 1, 1, NULL, 'Sjöjungfrun', NULL, NULL, NULL, NULL, '25.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(165, 1, 1, 1, 1, NULL, 'Smaker från Fjällbacka', NULL, NULL, NULL, NULL, '26.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(166, 1, 1, 1, 1, NULL, 'Sjöjungfrun', NULL, NULL, NULL, NULL, '37.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(167, 1, 1, 1, 1, NULL, 'Fyrvaktaren', NULL, NULL, NULL, NULL, '34.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0),
+(168, 1, 1, 1, 1, NULL, 'Änglamakerskan', NULL, NULL, NULL, NULL, '16.00', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-08-28 10:51:34', '2020-08-28 10:51:34', NULL, NULL, NULL, 0, '0.0', 0);
 
 -- --------------------------------------------------------
 
@@ -515,7 +691,7 @@ CREATE TABLE `product_attributes_values` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `product_id` bigint(20) UNSIGNED NOT NULL,
   `attribute_id` bigint(20) UNSIGNED NOT NULL DEFAULT 1,
-  `value` varchar(55) NOT NULL,
+  `value` varchar(55) DEFAULT NULL,
   `value_numeric` decimal(10,2) UNSIGNED NOT NULL DEFAULT 0.00,
   `value_boolean` tinyint(3) UNSIGNED NOT NULL DEFAULT 2 COMMENT 'can either be zero or one ,2 means nothing'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -556,7 +732,166 @@ INSERT INTO `product_attributes_values` (`id`, `product_id`, `attribute_id`, `va
 (34, 9, 19, '', '1000.00', 2),
 (35, 9, 12, '', '0.00', 1),
 (36, 9, 7, '', '15.60', 2),
-(37, 9, 21, '', '8.00', 2);
+(37, 9, 21, '', '8.00', 2),
+(38, 10, 13, NULL, '1124.00', 2),
+(39, 11, 13, NULL, '642.00', 2),
+(40, 12, 13, NULL, '668.00', 2),
+(41, 13, 13, NULL, '287.00', 2),
+(42, 14, 13, NULL, '262.00', 2),
+(43, 15, 13, NULL, '297.00', 2),
+(44, 16, 13, NULL, '550.00', 2),
+(45, 17, 13, NULL, '730.00', 2),
+(46, 18, 13, NULL, '871.00', 2),
+(47, 19, 13, NULL, '1035.00', 2),
+(48, 20, 13, NULL, '454.00', 2),
+(49, 21, 13, NULL, '976.00', 2),
+(50, 22, 13, NULL, '428.00', 2),
+(51, 23, 13, NULL, '1022.00', 2),
+(52, 24, 13, NULL, '737.00', 2),
+(53, 25, 13, NULL, '469.00', 2),
+(54, 26, 13, NULL, '964.00', 2),
+(55, 27, 13, NULL, '322.00', 2),
+(56, 28, 13, NULL, '529.00', 2),
+(57, 29, 13, NULL, '552.00', 2),
+(58, 30, 13, NULL, '1023.00', 2),
+(59, 31, 13, NULL, '368.00', 2),
+(60, 32, 13, NULL, '580.00', 2),
+(61, 33, 13, NULL, '669.00', 2),
+(62, 34, 13, NULL, '475.00', 2),
+(63, 35, 13, NULL, '217.00', 2),
+(64, 36, 13, NULL, '491.00', 2),
+(65, 37, 13, NULL, '673.00', 2),
+(66, 38, 13, NULL, '765.00', 2),
+(67, 39, 13, NULL, '675.00', 2),
+(68, 40, 13, NULL, '929.00', 2),
+(69, 41, 13, NULL, '511.00', 2),
+(70, 42, 13, NULL, '599.00', 2),
+(71, 43, 13, NULL, '333.00', 2),
+(72, 44, 13, NULL, '700.00', 2),
+(73, 45, 13, NULL, '390.00', 2),
+(74, 46, 13, NULL, '681.00', 2),
+(75, 47, 13, NULL, '1105.00', 2),
+(76, 48, 13, NULL, '393.00', 2),
+(77, 49, 13, NULL, '459.00', 2),
+(78, 50, 13, NULL, '967.00', 2),
+(79, 51, 13, NULL, '368.00', 2),
+(80, 52, 13, NULL, '749.00', 2),
+(81, 53, 13, NULL, '532.00', 2),
+(82, 54, 13, NULL, '263.00', 2),
+(83, 55, 13, NULL, '551.00', 2),
+(84, 56, 13, NULL, '837.00', 2),
+(85, 57, 13, NULL, '422.00', 2),
+(86, 58, 13, NULL, '430.00', 2),
+(87, 59, 13, NULL, '732.00', 2),
+(88, 60, 13, NULL, '262.00', 2),
+(89, 61, 13, NULL, '923.00', 2),
+(90, 62, 13, NULL, '738.00', 2),
+(91, 63, 13, NULL, '775.00', 2),
+(92, 64, 13, NULL, '530.00', 2),
+(93, 65, 13, NULL, '174.00', 2),
+(94, 66, 13, NULL, '1092.00', 2),
+(95, 67, 13, NULL, '866.00', 2),
+(96, 68, 13, NULL, '907.00', 2),
+(97, 69, 13, NULL, '806.00', 2),
+(98, 70, 13, NULL, '178.00', 2),
+(99, 71, 13, NULL, '285.00', 2),
+(100, 72, 13, NULL, '742.00', 2),
+(101, 73, 13, NULL, '744.00', 2),
+(102, 74, 13, NULL, '363.00', 2),
+(103, 75, 13, NULL, '415.00', 2),
+(104, 76, 13, NULL, '836.00', 2),
+(105, 77, 13, NULL, '824.00', 2),
+(106, 78, 13, NULL, '485.00', 2),
+(107, 79, 13, NULL, '782.00', 2),
+(108, 80, 13, NULL, '345.00', 2),
+(109, 81, 13, NULL, '212.00', 2),
+(110, 82, 13, NULL, '855.00', 2),
+(111, 83, 13, NULL, '550.00', 2),
+(112, 84, 13, NULL, '1014.00', 2),
+(113, 85, 13, NULL, '330.00', 2),
+(114, 86, 13, NULL, '421.00', 2),
+(115, 87, 13, NULL, '963.00', 2),
+(116, 88, 13, NULL, '462.00', 2),
+(117, 89, 13, NULL, '253.00', 2),
+(118, 90, 13, NULL, '708.00', 2),
+(119, 91, 13, NULL, '673.00', 2),
+(120, 92, 13, NULL, '1092.00', 2),
+(121, 93, 13, NULL, '351.00', 2),
+(122, 94, 13, NULL, '288.00', 2),
+(123, 95, 13, NULL, '240.00', 2),
+(124, 96, 13, NULL, '187.00', 2),
+(125, 97, 13, NULL, '1047.00', 2),
+(126, 98, 13, NULL, '601.00', 2),
+(127, 99, 13, NULL, '694.00', 2),
+(128, 100, 13, NULL, '540.00', 2),
+(129, 101, 13, NULL, '469.00', 2),
+(130, 102, 13, NULL, '575.00', 2),
+(131, 103, 13, NULL, '340.00', 2),
+(132, 104, 13, NULL, '804.00', 2),
+(133, 105, 13, NULL, '890.00', 2),
+(134, 106, 13, NULL, '911.00', 2),
+(135, 107, 13, NULL, '754.00', 2),
+(136, 108, 13, NULL, '888.00', 2),
+(137, 109, 13, NULL, '1047.00', 2),
+(138, 110, 13, NULL, '463.00', 2),
+(139, 111, 13, NULL, '986.00', 2),
+(140, 112, 13, NULL, '450.00', 2),
+(141, 113, 13, NULL, '1102.00', 2),
+(142, 114, 13, NULL, '1072.00', 2),
+(143, 115, 13, NULL, '923.00', 2),
+(144, 116, 13, NULL, '271.00', 2),
+(145, 117, 13, NULL, '396.00', 2),
+(146, 118, 13, NULL, '1017.00', 2),
+(147, 119, 13, NULL, '806.00', 2),
+(148, 120, 13, NULL, '832.00', 2),
+(149, 121, 13, NULL, '612.00', 2),
+(150, 122, 13, NULL, '412.00', 2),
+(151, 123, 13, NULL, '1057.00', 2),
+(152, 124, 13, NULL, '959.00', 2),
+(153, 125, 13, NULL, '494.00', 2),
+(154, 126, 13, NULL, '422.00', 2),
+(155, 127, 13, NULL, '481.00', 2),
+(156, 128, 13, NULL, '988.00', 2),
+(157, 129, 13, NULL, '406.00', 2),
+(158, 130, 13, NULL, '878.00', 2),
+(159, 131, 13, NULL, '1063.00', 2),
+(160, 132, 13, NULL, '572.00', 2),
+(161, 133, 13, NULL, '500.00', 2),
+(162, 134, 13, NULL, '637.00', 2),
+(163, 135, 13, NULL, '555.00', 2),
+(164, 136, 13, NULL, '715.00', 2),
+(165, 137, 13, NULL, '778.00', 2),
+(166, 138, 13, NULL, '615.00', 2),
+(167, 139, 13, NULL, '593.00', 2),
+(168, 140, 13, NULL, '971.00', 2),
+(169, 141, 13, NULL, '965.00', 2),
+(170, 142, 13, NULL, '782.00', 2),
+(171, 143, 13, NULL, '865.00', 2),
+(172, 144, 13, NULL, '851.00', 2),
+(173, 145, 13, NULL, '529.00', 2),
+(174, 146, 13, NULL, '924.00', 2),
+(175, 147, 13, NULL, '923.00', 2),
+(176, 148, 13, NULL, '716.00', 2),
+(177, 149, 13, NULL, '658.00', 2),
+(178, 150, 13, NULL, '995.00', 2),
+(179, 151, 13, NULL, '889.00', 2),
+(180, 152, 13, NULL, '330.00', 2),
+(181, 153, 13, NULL, '795.00', 2),
+(182, 154, 13, NULL, '876.00', 2),
+(183, 155, 13, NULL, '864.00', 2),
+(184, 156, 13, NULL, '562.00', 2),
+(185, 157, 13, NULL, '1050.00', 2),
+(186, 158, 13, NULL, '476.00', 2),
+(187, 159, 13, NULL, '1037.00', 2),
+(188, 160, 13, NULL, '671.00', 2),
+(189, 161, 13, NULL, '1072.00', 2),
+(190, 162, 13, NULL, '257.00', 2),
+(191, 163, 13, NULL, '860.00', 2),
+(192, 164, 13, NULL, '439.00', 2),
+(193, 165, 13, NULL, '445.00', 2),
+(194, 166, 13, NULL, '760.00', 2),
+(195, 167, 13, NULL, '355.00', 2),
+(196, 168, 13, NULL, '323.00', 2);
 
 -- --------------------------------------------------------
 
@@ -625,24 +960,24 @@ CREATE TABLE `product_category_attributes` (
 INSERT INTO `product_category_attributes` (`id`, `shop_id`, `product_category_id`, `code`, `filterable`, `rangeable`, `searchable`, `isBoolean`) VALUES
 (1, 2, 5, 'Color', 0, 0, 0, 0),
 (3, 2, 5, 'OS', 0, 0, 0, 0),
-(4, 2, 5, 'Battery Life', 1, 1, 0, 0),
+(4, 2, 5, 'BatteryLife', 1, 1, 0, 0),
 (5, 2, 5, 'Battery', 0, 0, 0, 0),
 (6, 2, 5, 'HDMI', 1, 0, 0, 1),
-(7, 2, 5, 'Screen inches', 1, 1, 0, 0),
-(8, 2, 5, 'Disk size', 1, 1, 0, 0),
+(7, 2, 5, 'Screen_inches', 1, 1, 0, 0),
+(8, 2, 5, 'Disk_size', 1, 1, 0, 0),
 (9, 2, 5, 'SSD', 1, 0, 0, 1),
-(10, 2, 5, 'Ram Size', 1, 1, 0, 0),
-(11, 2, 5, 'CPU Brand', 1, 0, 0, 0),
-(12, 2, 5, 'Ethernet port', 0, 0, 0, 1),
+(10, 2, 5, 'Ram_Size', 1, 1, 0, 0),
+(11, 2, 5, 'CPU_Brand', 1, 0, 0, 0),
+(12, 2, 5, 'Ethernet_port', 0, 0, 0, 1),
 (13, 1, 1, 'Pages', 0, 0, 0, 0),
 (14, 1, 1, 'Author', 0, 0, 1, 0),
 (15, 1, 1, 'Cover', 0, 0, 0, 0),
 (16, 1, 1, 'ISBN', 0, 0, 1, 0),
 (17, 1, 1, 'Genre', 1, 0, 1, 0),
 (18, 1, 1, 'Language', 1, 0, 0, 0),
-(19, 2, 5, '2nd Disk size', 1, 1, 0, 0),
-(20, 2, 5, 'Has 2nd disk', 0, 0, 0, 1),
-(21, 2, 5, 'CPU Cores', 0, 1, 0, 0);
+(19, 2, 5, '2nd_Disk_size', 1, 1, 0, 0),
+(20, 2, 5, 'Has_2nd_disk', 0, 0, 0, 1),
+(21, 2, 5, 'CPU_Cores', 0, 1, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -727,14 +1062,14 @@ INSERT INTO `product_tags` (`id`, `product_id`, `tag`) VALUES
 CREATE TABLE `restrict_payment_parameters` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `code` varchar(12) NOT NULL,
-  `parameter` varchar(55) NOT NULL
+  `title` varchar(55) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `restrict_payment_parameters`
 --
 
-INSERT INTO `restrict_payment_parameters` (`id`, `code`, `parameter`) VALUES
+INSERT INTO `restrict_payment_parameters` (`id`, `code`, `title`) VALUES
 (1, '', 'Shipping zone'),
 (2, 'shipClass', 'Shipping class'),
 (3, 'countryCo', 'Country Code'),
@@ -759,7 +1094,7 @@ INSERT INTO `restrict_payment_parameters` (`id`, `code`, `parameter`) VALUES
 
 CREATE TABLE `restrict_payment_rules` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `shop_id` bigint(20) UNSIGNED NOT NULL,
   `title` varchar(120) NOT NULL,
   `active` tinyint(3) UNSIGNED NOT NULL,
   `priority` int(11) NOT NULL,
@@ -771,8 +1106,8 @@ CREATE TABLE `restrict_payment_rules` (
 -- Dumping data for table `restrict_payment_rules`
 --
 
-INSERT INTO `restrict_payment_rules` (`id`, `user_id`, `title`, `active`, `priority`, `created_at`, `updated_at`) VALUES
-(1, 1, 'No COD over 10 Kg', 1, 1, '2020-08-25 18:12:03', '2020-08-25 18:12:03');
+INSERT INTO `restrict_payment_rules` (`id`, `shop_id`, `title`, `active`, `priority`, `created_at`, `updated_at`) VALUES
+(1, 2, 'No COD over 10 Kg', 1, 1, '2020-08-25 18:12:03', '2020-08-25 18:12:03');
 
 -- --------------------------------------------------------
 
@@ -818,7 +1153,7 @@ INSERT INTO `restrict_payment_rules_operators` (`id`, `code`, `title`) VALUES
 (4, 'gt', 'Greater than'),
 (5, 'gte', 'Greater equal'),
 (6, 'in_list', 'In list'),
-(7, 'containts', 'Contains');
+(7, 'contains', 'Contains');
 
 -- --------------------------------------------------------
 
@@ -837,7 +1172,8 @@ CREATE TABLE `rules_disables_methods` (
 --
 
 INSERT INTO `rules_disables_methods` (`id`, `rule_id`, `payment_method_id`) VALUES
-(1, 1, 1);
+(1, 1, 1),
+(2, 1, 2);
 
 -- --------------------------------------------------------
 
@@ -1582,7 +1918,8 @@ ALTER TABLE `order_status`
 -- Indexes for table `payment_methods`
 --
 ALTER TABLE `payment_methods`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `code` (`code`);
 
 --
 -- Indexes for table `phinxlog`
@@ -1595,7 +1932,6 @@ ALTER TABLE `phinxlog`
 --
 ALTER TABLE `products`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `shop_id` (`shop_id`,`code`),
   ADD KEY `category_id` (`category_id`),
   ADD KEY `currency_id` (`currency_id`),
   ADD KEY `manufacturer_id` (`manufacturer_id`);
@@ -1637,7 +1973,8 @@ ALTER TABLE `product_categories`
 ALTER TABLE `product_category_attributes`
   ADD PRIMARY KEY (`id`),
   ADD KEY `shop_id` (`shop_id`),
-  ADD KEY `product_category_id` (`product_category_id`);
+  ADD KEY `product_category_id` (`product_category_id`),
+  ADD KEY `code` (`code`);
 
 --
 -- Indexes for table `product_gallery`
@@ -1674,14 +2011,14 @@ ALTER TABLE `product_tags`
 --
 ALTER TABLE `restrict_payment_parameters`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `parameter` (`parameter`);
+  ADD UNIQUE KEY `parameter` (`title`);
 
 --
 -- Indexes for table `restrict_payment_rules`
 --
 ALTER TABLE `restrict_payment_rules`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`);
+  ADD KEY `shop_id` (`shop_id`);
 
 --
 -- Indexes for table `restrict_payment_rules_criteria`
@@ -2052,7 +2389,7 @@ ALTER TABLE `payment_methods`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=169;
 
 --
 -- AUTO_INCREMENT for table `products_discounts`
@@ -2064,7 +2401,7 @@ ALTER TABLE `products_discounts`
 -- AUTO_INCREMENT for table `product_attributes_values`
 --
 ALTER TABLE `product_attributes_values`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=293;
 
 --
 -- AUTO_INCREMENT for table `product_attribute_units`
@@ -2136,7 +2473,7 @@ ALTER TABLE `restrict_payment_rules_operators`
 -- AUTO_INCREMENT for table `rules_disables_methods`
 --
 ALTER TABLE `rules_disables_methods`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `shipping_address`
@@ -2382,15 +2719,6 @@ ALTER TABLE `order_items_status_history`
   ADD CONSTRAINT `order_items_status_history_ibfk_2` FOREIGN KEY (`status_id`) REFERENCES `order_status` (`id`);
 
 --
--- Constraints for table `products`
---
-ALTER TABLE `products`
-  ADD CONSTRAINT `products_ibfk_1` FOREIGN KEY (`shop_id`) REFERENCES `shops` (`id`),
-  ADD CONSTRAINT `products_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `product_categories` (`id`),
-  ADD CONSTRAINT `products_ibfk_3` FOREIGN KEY (`currency_id`) REFERENCES `currencies` (`id`),
-  ADD CONSTRAINT `products_ibfk_4` FOREIGN KEY (`manufacturer_id`) REFERENCES `shop_manufacturers` (`id`);
-
---
 -- Constraints for table `products_discounts`
 --
 ALTER TABLE `products_discounts`
@@ -2452,7 +2780,7 @@ ALTER TABLE `product_tags`
 -- Constraints for table `restrict_payment_rules`
 --
 ALTER TABLE `restrict_payment_rules`
-  ADD CONSTRAINT `restrict_payment_rules_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+  ADD CONSTRAINT `restrict_payment_rules_ibfk_1` FOREIGN KEY (`shop_id`) REFERENCES `shops` (`id`);
 
 --
 -- Constraints for table `restrict_payment_rules_criteria`
