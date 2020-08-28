@@ -20,19 +20,28 @@ public class BrowseController {
 
 
 
-    private Subquery getSSDQry(CriteriaQuery criteriaQry,CriteriaBuilder builder,Long shopId)
+    private Subquery buildSubQry(CriteriaQuery criteriaQry,CriteriaBuilder builder,Long shopId,ProductFilterPojo filtro)
     {
       Subquery<Products> ssdSubQuery = criteriaQry.subquery(Products.class);
         Root<Products> subRootSSD= ssdSubQuery.from(Products.class);
         CollectionJoin<ProductAttributesValues, Products> joinWithAttributeValues = subRootSSD.joinCollection("productAttributesValuesCollection", JoinType.INNER);
-        Predicate[] SSDPredicates = new Predicate[2];
-        SSDPredicates[0] =  builder.and(builder.equal(joinWithAttributeValues.get("valueBoolean"), 1),
-                builder.equal(joinWithAttributeValues.get("attributeKey"), 9));
+        Predicate[] subQryPredicates = new Predicate[2];
+        subQryPredicates[0] = builder.equal(subRootSSD.get("shopKey"),shopId);
 
-        SSDPredicates[1] = builder.equal(subRootSSD.get("shopKey"),shopId);
+        if (filtro.getType().equals("bool")) {
+            subQryPredicates[1] = builder.and(builder.equal(joinWithAttributeValues.get("valueBoolean"), 1),
+                    builder.equal(joinWithAttributeValues.get("attributeKey"), filtro.getAttributeId()));
+        }
+        else if (filtro.getType().equals("range")) {
+            subQryPredicates[1] = builder.and(builder.between(joinWithAttributeValues.get("valueNumeric"), filtro.getFrom(),filtro.getTo()),
+                    builder.equal(joinWithAttributeValues.get("attributeKey"), filtro.getAttributeId()));
+        }
+        else {
+            System.out.println("UNKNOWN FILTER TYPE " + filtro.getType());
+        }
 
         ssdSubQuery.select(subRootSSD)
-                .where(SSDPredicates);
+                .where(subQryPredicates);
         return ssdSubQuery;
 
     }
@@ -56,12 +65,17 @@ public class BrowseController {
             CriteriaQuery<Products> criteriaQry = builder.createQuery(Products.class);
             Root<Products> rootProduct = criteriaQry.from(Products.class);
 
+            // do not select all columns!!!
+            int predicatesLen = 5;
+            Predicate[] ProductPredicates = new Predicate[predicatesLen];
+            ProductPredicates[0] = builder.equal(rootProduct.get("shopKey"),shopId);
+            ProductPredicates[1] = builder.ge(rootProduct.get("price"),filterVals.getMinPrice());
+            ProductPredicates[2] = builder.le(rootProduct.get("price"),filterVals.getMaxPrice());
 
-            Predicate[] ProductPredicates = new Predicate[3];
-            ProductPredicates[0] = builder.ge(rootProduct.get("price"),filterVals.getMinPrice());
-            ProductPredicates[1] = builder.le(rootProduct.get("price"),filterVals.getMaxPrice());
-
-            ProductPredicates[2] = builder.in(rootProduct.get("id")).value(getSSDQry(criteriaQry,builder,shopId));
+            ProductFilterPojo ssdFilter = filterVals.getFilters().get(0);
+            ProductFilterPojo screenSize =   filterVals.getFilters().get(1);
+            ProductPredicates[3] = builder.in(rootProduct.get("id")).value(buildSubQry(criteriaQry,builder,shopId,ssdFilter));
+            ProductPredicates[4] = builder.in(rootProduct.get("id")).value(buildSubQry(criteriaQry,builder,shopId,screenSize));
 
             criteriaQry.orderBy(builder.asc(rootProduct.get("price")));
 
@@ -89,12 +103,7 @@ public class BrowseController {
 
 
 
- /*   @PostMapping(value = "/api/search",
-            consumes = {MediaType.APPLICATION_JSON_VALUE}
-    )
-    public HashMap<String, Object> searchProducts(@RequestBody Object filterCriteria) {
-
-    }
+ /*
 
     private Subquery getScreenQry(CriteriaQuery criteriaQry,CriteriaBuilder builder)
     {
