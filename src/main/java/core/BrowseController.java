@@ -44,8 +44,15 @@ public class BrowseController {
             CriteriaBuilder builder = em.getCriteriaBuilder();
             CriteriaQuery<Products> criteriaQry = builder.createQuery(Products.class);
             Root<Products> rootProduct = criteriaQry.from(Products.class);
-          //  CollectionJoin<ProductAttributesValues, Products> joinWithAttributeValues = rootProduct.joinCollection("productAttributesValuesCollection", JoinType.INNER);
-         //   Join<ProductCategoryAttributes, ProductAttributesValues> joinWithAttributes = joinWithAttributeValues.join("attributeId", JoinType.INNER);
+
+
+            Subquery<Products> ssdSubQuery = criteriaQry.subquery(Products.class);
+            Root<Products> subRootSSD= ssdSubQuery.from(Products.class);
+            CollectionJoin<ProductAttributesValues, Products> joinWithAttributeValues = subRootSSD.joinCollection("productAttributesValuesCollection", JoinType.INNER);
+           Join<ProductCategoryAttributes, ProductAttributesValues> joinWithAttributes = joinWithAttributeValues.join("attributeId", JoinType.INNER);
+            Predicate[] SSD = new Predicate[1];
+            SSD[0] =  builder.and(builder.equal(joinWithAttributeValues.get("valueBoolean"), 1),
+                    builder.equal(joinWithAttributes.get("code"), "SSD"));
 
           /*  for (ProductFilterPojo filterPojo : filterVals.getFilters()) {
                 System.out.println("-----------------");
