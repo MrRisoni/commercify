@@ -44,6 +44,9 @@ public class Products implements Serializable {
     @Column(name="category_id")
     private Long categoryKey;
 
+    @Column(name="manufacturer_id")
+    private Long manufactuerKey;
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 120)
@@ -216,7 +219,7 @@ public class Products implements Serializable {
     @JsonView(JackSonViewer.IShopProduct.class)
     private Currencies currencyId;
 
-    @JoinColumn(name = "manufacturer_id", referencedColumnName = "id")
+    @JoinColumn(name = "manufacturer_id", referencedColumnName = "id",insertable=false, updatable=false)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JsonView({JackSonViewer.IShopProduct.class, JackSonViewer.IOrder.class})
     private ShopManufacturers manufacturerId;
@@ -564,5 +567,13 @@ public class Products implements Serializable {
 
     public void setCategoryKey(Long categoryKey) {
         this.categoryKey = categoryKey;
+    }
+
+    public Long getManufactuerKey() {
+        return manufactuerKey;
+    }
+
+    public void setManufactuerKey(Long manufactuerKey) {
+        this.manufactuerKey = manufactuerKey;
     }
 }

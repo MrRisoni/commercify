@@ -23,29 +23,55 @@ public class BrowseController {
     public int filtrCounter = 0;
 
 
-    private Subquery buildSubQry(CriteriaQuery criteriaQry, CriteriaBuilder builder, Long shopId, Long categoryId, ProductFilterPojo filtro) {
+    private Subquery buildSubQry(CriteriaQuery criteriaQry, CriteriaBuilder builder, Long shopId, Long categoryId, List<ProductFilterPojo> filtra) {
         Subquery<Products> subQuery = criteriaQry.subquery(Products.class);
         Root<Products> subRoot = subQuery.from(Products.class);
         CollectionJoin<ProductAttributesValues, Products> joinWithAttributeValues = subRoot.joinCollection("productAttributesValuesCollection", JoinType.INNER);
-        Predicate[] subQryPredicates = new Predicate[3];
-        subQryPredicates[0] = builder.equal(subRoot.get("shopKey"), shopId);
-        subQryPredicates[1] = builder.equal(subRoot.get("categoryKey"), categoryId);
+        Predicate[] subQryPredicates;
 
-        String smallSQL = "SELECT product_id FROM product_attributes_values WHERE attribute_id=" + filtro.getAttributeId();
+        String smallSQL = "";
+        ProductFilterPojo filtro;
+        if (filtra.size() == 1) {
+            filtro = filtra.get(0);
 
-        if (filtro.getType().equals("bool")) {
-            subQryPredicates[2] = builder.and(builder.equal(joinWithAttributeValues.get("valueBoolean"), 1),
-                    builder.equal(joinWithAttributeValues.get("attributeKey"), filtro.getAttributeId()));
+            subQryPredicates = new Predicate[3];
+            subQryPredicates[0] = builder.equal(subRoot.get("shopKey"), shopId);
+            subQryPredicates[1] = builder.equal(subRoot.get("categoryKey"), categoryId);
 
-            smallSQL += " AND value_boolean = 1";
-        } else if (filtro.getType().equals("range")) {
-            subQryPredicates[2] = builder.and(builder.between(joinWithAttributeValues.get("valueNumeric"), filtro.getFrom(), filtro.getTo()),
-                    builder.equal(joinWithAttributeValues.get("attributeKey"), filtro.getAttributeId()));
+            smallSQL = "SELECT product_id FROM product_attributes_values WHERE attribute_id=" + filtro.getAttributeId();
 
-            smallSQL += " AND value_numeric >= " + String.valueOf(filtro.getFrom()) + " AND value_numeric <=" + String.valueOf(filtro.getTo());
+            if (filtro.getType().equals("bool")) {
+                subQryPredicates[2] = builder.and(builder.equal(joinWithAttributeValues.get("valueBoolean"), 1),
+                        builder.equal(joinWithAttributeValues.get("attributeKey"), filtro.getAttributeId()));
 
-        } else {
-            System.out.println("UNKNOWN FILTER TYPE " + filtro.getType());
+                smallSQL += " AND value_boolean = 1";
+            } else if (filtro.getType().equals("range")) {
+                subQryPredicates[2] = builder.and(builder.between(joinWithAttributeValues.get("valueNumeric"), filtro.getFrom(), filtro.getTo()),
+                        builder.equal(joinWithAttributeValues.get("attributeKey"), filtro.getAttributeId()));
+
+                smallSQL += " AND value_numeric >= " + String.valueOf(filtro.getFrom()) + " AND value_numeric <=" + String.valueOf(filtro.getTo());
+
+            } else {
+                System.out.println("UNKNOWN FILTER TYPE " + filtro.getType());
+            }
+            System.out.println("TYPE " + filtro.getType());
+        }
+        else {
+            // OR
+            // AND it may have many values ....
+
+            subQryPredicates = new Predicate[3];
+            subQryPredicates[0] = builder.equal(subRoot.get("shopKey"), shopId);
+            subQryPredicates[1] = builder.equal(subRoot.get("categoryKey"), categoryId);
+
+            Predicate ssdJa = builder.and(builder.equal(joinWithAttributeValues.get("valueBoolean"), 1),
+                    builder.equal(joinWithAttributeValues.get("attributeKey"),9));
+
+            Predicate ssdNej = builder.and(builder.equal(joinWithAttributeValues.get("valueBoolean"), 1),
+                    builder.equal(joinWithAttributeValues.get("attributeKey"),9));
+
+
+            subQryPredicates[2] = builder.or(ssdJa,ssdNej);
         }
 
         String filterId = "filtr" + String.valueOf(this.filtrCounter);
@@ -55,7 +81,7 @@ public class BrowseController {
         this.filtrCounter++;
 
 
-        System.out.println("TYPE " + filtro.getType());
+
         subQuery.select(subRoot)
                 .where(subQryPredicates);
         return subQuery;
@@ -93,7 +119,11 @@ public class BrowseController {
             if (filterVals.getMaxPrice() > -1) {
                 predicatesLen++;
             }
-            predicatesLen += filterVals.getFilters().size();
+
+            HashMap<String, List<ProductFilterPojo>> synolo = this.groupByFilterAttribute(filterVals.getFilters());
+
+
+            predicatesLen = 7;
             System.out.println("TOTAL PREDICATES SIZE " + predicatesLen);
 
             Predicate[] ProductPredicates = new Predicate[predicatesLen];
@@ -106,23 +136,23 @@ public class BrowseController {
             ProductPredicates[5] = builder.le(rootProduct.get("price"), filterVals.getMaxPrice());
 
 
-            int start = predicatesLen - filterVals.getFilters().size();
-            this.groupByFilterAttribute(filterVals.getFilters());
+            int start = predicatesLen - synolo.size();
 
             int z = 0;
-            // GROUP CATEGORY ATTRIBUTES IF THERE ARE MORE THAN ONE OF THE SAME KING YOU MUST USE OR...
-            for (int prc = start; prc < predicatesLen; prc++) {
-                System.out.println("PRC " + prc + " zz " + z);
-                ProductPredicates[prc] = builder.in(rootProduct.get("id")).value(buildSubQry(criteriaQry, builder, shopId, categoryId, filterVals.getFilters().get(z)));
-                System.out.println("PRC " + prc + " zz " + z);
+            ProductPredicates[6] = builder.in(rootProduct.get("id")).value(buildSubQry(criteriaQry, builder, shopId, categoryId, synolo.get("SSD")));
 
-                z++;
-            }
+            // GROUP CATEGORY ATTRIBUTES IF THERE ARE MORE THAN ONE OF THE SAME KING YOU MUST USE OR...
+            //  for (int prc = start; prc < predicatesLen; prc++) {
+            //     System.out.println("PRC " + prc + " zz " + z);
+            //    System.out.println("PRC " + prc + " zz " + z);
+
+            //     z++;
+            //  }
 
 
             String finalSQL = " SELECT p.id FROM products p ";
             finalSQL += String.join(" ", this.joinSqlAttributeFiltering);
-            finalSQL +="  WHERE p.shop_id = " + String.valueOf(shopId);
+            finalSQL += "  WHERE p.shop_id = " + String.valueOf(shopId);
             finalSQL += " AND p.category_id = " + String.valueOf(categoryId);
             finalSQL += " AND p.visible = 1 AND p.active =1 ";
             finalSQL += " AND p.price >=0 AND p.price <=1500 ";
@@ -178,17 +208,18 @@ public class BrowseController {
         }
     }
 
-    private HashMap<String,List<ProductFilterPojo>> groupByFilterAttribute(List<ProductFilterPojo> filterVals) {
-        HashMap<String,List<ProductFilterPojo>> synolo = new HashMap<>();
+    private HashMap<String, List<ProductFilterPojo>> groupByFilterAttribute(List<ProductFilterPojo> filterVals) {
+        HashMap<String, List<ProductFilterPojo>> synolo = new HashMap<>();
         Set<String> uniqueCodes = new HashSet<>();
 
-        uniqueCodes= filterVals.stream().map(fitlr -> {
-            return  fitlr.getAttributeCode();
+        uniqueCodes = filterVals.stream().map(fitlr -> {
+            return fitlr.getAttributeCode();
         }).collect(Collectors.toSet());
 
         for (String uni : uniqueCodes) {
-            synolo.put(uni,filterVals.stream().filter(valItm -> {
-                return valItm.getAttributeCode().equals(uni);
+            System.out.println("UNIK CODE " + uni);
+            synolo.put(uni, filterVals.stream().filter(valItm -> {
+                        return valItm.getAttributeCode().equals(uni);
                     }
             ).collect(Collectors.toList()));
         }
