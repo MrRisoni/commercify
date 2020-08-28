@@ -57,25 +57,7 @@ public class BrowseController {
             Long shopId = 2L;
             Long categoryId = 5L;
 
-            /*
-             switch (filterVals.getOrderBy().getOrderBy()) {
-                case "price":
-                    orderByCol = " price " + filterVals.getOrderBy().getSortOrder();
-                    break;
-                case "best_seller": // best seller
-                    orderByCol = " total_orders DESC";
-                    break;
-                case "popularity":
-                    orderByCol = " total_views DESC";
-                    break;
-                case "avg_rating":
-                    orderByCol = " avg_rating DESC";
-                    break;
-                case "new_products":
-                    orderByCol = " created DESC";
-                    break;
-            }s
-             */
+
 
             EntityManager em = HibernateUtil.getEM();
             Gson g = new Gson();
@@ -100,7 +82,7 @@ public class BrowseController {
 
             Predicate[] ProductPredicates = new Predicate[predicatesLen];
             ProductPredicates[0] = builder.equal(rootProduct.get("shopKey"),shopId);
-            ProductPredicates[1] = builder.equal(rootProduct.get("categoryKey"),shopId);
+            ProductPredicates[1] = builder.equal(rootProduct.get("categoryKey"),categoryId);
 
             ProductPredicates[2] = builder.ge(rootProduct.get("price"),filterVals.getMinPrice());
             ProductPredicates[3] = builder.le(rootProduct.get("price"),filterVals.getMaxPrice());
@@ -118,9 +100,30 @@ public class BrowseController {
                 z++;
             }
 
-             ProductPredicates[5] = builder.in(rootProduct.get("id")).value(buildSubQry(criteriaQry,builder,shopId,categoryId,screenSize));
 
-            criteriaQry.orderBy(builder.asc(rootProduct.get("price")));
+
+             switch (filterVals.getOrderBy().getOrderBy()) {
+                case "price":
+                    criteriaQry.orderBy(builder.asc(rootProduct.get("price")));
+                    break;
+                case "best_seller": // best seller
+                    criteriaQry.orderBy(builder.desc(rootProduct.get("totalOrders")));
+                    break;
+                case "popularity":
+                    criteriaQry.orderBy(builder.desc(rootProduct.get("total_clicks")));
+                    break;
+                case "avg_rating":
+                    criteriaQry.orderBy(builder.desc(rootProduct.get("avgRating")));
+                    break;
+                case "new_products":
+                    criteriaQry.orderBy(builder.desc(rootProduct.get("created")));
+                    break;
+                 default:
+                     criteriaQry.orderBy(builder.asc(rootProduct.get("price")));
+                     break;
+             }
+
+
 
             List<Products>criteriaResult = em.createQuery(
                     criteriaQry.select(rootProduct)
