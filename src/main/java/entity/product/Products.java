@@ -41,6 +41,9 @@ public class Products implements Serializable {
     @Column(name="shop_id")
     private Long shopKey;
 
+    @Column(name="category_id")
+    private Long categoryKey;
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 120)
@@ -203,7 +206,7 @@ public class Products implements Serializable {
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Shops shopId;
 
-    @JoinColumn(name = "category_id", referencedColumnName = "id")
+    @JoinColumn(name = "category_id", referencedColumnName = "id",insertable=false, updatable=false)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JsonView({JackSonViewer.IShopProduct.class, JackSonViewer.IOrder.class})
     private ProductCategories categoryId;
@@ -544,5 +547,13 @@ public class Products implements Serializable {
 
     public void setAvgRating(BigDecimal avgRating) {
         this.avgRating = avgRating;
+    }
+
+    public Long getCategoryKey() {
+        return categoryKey;
+    }
+
+    public void setCategoryKey(Long categoryKey) {
+        this.categoryKey = categoryKey;
     }
 }
