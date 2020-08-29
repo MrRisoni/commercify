@@ -24,6 +24,9 @@ public class ProductCategoryAttributes implements Serializable {
     @JsonView(JackSonViewer.IShopProduct.class)
     private Long id;
 
+    @Column(name = "shop_id")
+    private Long shopKey;
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 55)
@@ -43,6 +46,21 @@ public class ProductCategoryAttributes implements Serializable {
     @JsonView(JackSonViewer.IShopProduct.class)
     private short rangeable;
 
+    @Basic(optional = false)
+    @NotNull
+    @Column
+    private short isBoolean;
+
+    @Basic(optional = false)
+    @NotNull
+    @Column
+    private short isString;
+
+    @Basic(optional = false)
+    @NotNull
+    @Column
+    private short isGrouppable;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "attributeId")
     private Collection<ProductAttributesValues> productAttributesValuesCollection;
 
@@ -50,7 +68,7 @@ public class ProductCategoryAttributes implements Serializable {
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private ProductCategories productCategoryId;
 
-    @JoinColumn(name = "shop_id", referencedColumnName = "id")
+    @JoinColumn(name = "shop_id", referencedColumnName = "id",insertable = false,updatable = false)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Shops shopId;
 
@@ -135,5 +153,29 @@ public class ProductCategoryAttributes implements Serializable {
 
     public void setUnitObj(ProductAttributeUnit unitObj) {
         this.unitObj = unitObj;
+    }
+
+    public short getIsBoolean() {
+        return isBoolean;
+    }
+
+    public void setIsBoolean(short isBoolean) {
+        this.isBoolean = isBoolean;
+    }
+
+    public short getIsString() {
+        return isString;
+    }
+
+    public void setIsString(short isString) {
+        this.isString = isString;
+    }
+
+    public short getIsGrouppable() {
+        return isGrouppable;
+    }
+
+    public void setIsGrouppable(short isGrouppable) {
+        this.isGrouppable = isGrouppable;
     }
 }

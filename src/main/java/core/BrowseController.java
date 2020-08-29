@@ -198,8 +198,11 @@ public class BrowseController {
                 rsp.put("firstProduct", criteriaResult.get(0).getCode());
             }
             rsp.put("ranges", ranges);
-            rsp.put("finalSQL", finalSQL);
+            //rsp.put("finalSQL", finalSQL);
             System.out.println(finalSQL);
+
+            this.GroupByBooleanValues(ProductPredicates);
+
             return rsp;
 
         } catch (Exception ex) {
@@ -228,9 +231,34 @@ public class BrowseController {
     }
 
 
-    private void GroupByBooleanValues() {
+    private void GroupByBooleanValues(Predicate[] katigoroumena) {
         //use native
         // selects in same category count as OR!!!!! e.g (SSD) OR (NOT SSD)
+        EntityManager em = HibernateUtil.getEM();
+
+        CriteriaBuilder build = em.getCriteriaBuilder();
+        CriteriaQuery<Object[]> criteriaQry  = build.createQuery(Object[].class);
+        Root<ProductCategoryAttributes> rootCatAttrs = criteriaQry.from(ProductCategoryAttributes.class);
+        CollectionJoin<ProductAttributesValues,ProductCategoryAttributes> joinWithValues = rootCatAttrs.joinCollection("productAttributesValuesCollection");
+
+        Predicate[] ProductPredicates = new Predicate[3];
+        ProductPredicates[0] = build.equal(rootCatAttrs.get("shopKey"), 2L);
+        ProductPredicates[1] = build.equal(rootCatAttrs.get("isGrouppable"), 1);
+        ProductPredicates[2] = build.equal(rootCatAttrs.get("isGrouppable"), 1);
+
+      //  ProductPredicates[2] = builder.equal(rootProduct.get("active"), 1);
+      //  ProductPredicates[3] = builder.equal(rootProduct.get("visible"), 1);
+
+
+        em.createQuery(
+                criteriaQry.multiselect(rootCatAttrs.get("id"),
+                        rootCatAttrs.get("code"),
+                        joinWithValues.get("valueBoolean"),
+                        build.count(joinWithValues.get("id")))
+                       .where(ProductPredicates)
+                        .groupBy(rootCatAttrs.get("code"),joinWithValues.get("valueBoolean"))
+        ).getResultList();
+
     }
 
     private void GroupByStringValues() {

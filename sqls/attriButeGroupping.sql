@@ -26,14 +26,17 @@ AND pca.isString =1
 GROUP BY pav.value
 
 ---------------------------------
-SELECT pav.value_boolean,
+SELECT pca.id,
 pca.code,
+pav.value_boolean,
 COUNT(pav.id)
 FROM product_category_attributes pca
 JOIN product_attributes_values pav ON pav.attribute_id = pca.id
 WHERE pca.shop_id =2
 AND pca.isGrouppable = 1
 AND pca.isBoolean =1
-GROUP BY pav.value_boolean
+GROUP BY pca.code,pav.value_boolean
+--------------------------------------------
+
 
 
