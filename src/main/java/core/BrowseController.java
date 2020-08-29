@@ -1,6 +1,7 @@
 package core;
 
 import com.google.gson.Gson;
+import dto.AttributeGroupBool;
 import dto.RangeValues;
 import entity.*;
 import entity.product.ProductAttributesValues;
@@ -237,25 +238,28 @@ public class BrowseController {
         EntityManager em = HibernateUtil.getEM();
 
         CriteriaBuilder build = em.getCriteriaBuilder();
-        CriteriaQuery<Object[]> criteriaQry  = build.createQuery(Object[].class);
+        CriteriaQuery<AttributeGroupBool> criteriaQry  = build.createQuery(AttributeGroupBool.class);
         Root<ProductCategoryAttributes> rootCatAttrs = criteriaQry.from(ProductCategoryAttributes.class);
         CollectionJoin<ProductAttributesValues,ProductCategoryAttributes> joinWithValues = rootCatAttrs.joinCollection("productAttributesValuesCollection");
+        Join<Products,ProductAttributesValues> joinProducts = joinWithValues.join("productId");
 
-        Predicate[] ProductPredicates = new Predicate[3];
+        Predicate[] ProductPredicates = new Predicate[8];
         ProductPredicates[0] = build.equal(rootCatAttrs.get("shopKey"), 2L);
-        ProductPredicates[1] = build.equal(rootCatAttrs.get("isGrouppable"), 1);
+        ProductPredicates[1] = build.equal(rootCatAttrs.get("categoryKey"), 5L);
         ProductPredicates[2] = build.equal(rootCatAttrs.get("isGrouppable"), 1);
+        ProductPredicates[3] = build.equal(rootCatAttrs.get("isBoolean"), 1);
 
-      //  ProductPredicates[2] = builder.equal(rootProduct.get("active"), 1);
-      //  ProductPredicates[3] = builder.equal(rootProduct.get("visible"), 1);
-
+        ProductPredicates[4] = build.equal(joinProducts.get("active"), 1);
+        ProductPredicates[5] = build.equal(joinProducts.get("visible"), 1);
+        ProductPredicates[6] = build.ge(joinProducts.get("price"), 1);
+        ProductPredicates[7] = build.le(joinProducts.get("price"), 1500);
 
         em.createQuery(
                 criteriaQry.multiselect(rootCatAttrs.get("id"),
                         rootCatAttrs.get("code"),
-                        joinWithValues.get("valueBoolean"),
-                        build.count(joinWithValues.get("id")))
-                       .where(ProductPredicates)
+                        build.count(joinWithValues.get("id")),
+                        joinWithValues.get("valueBoolean"))
+                .where(ProductPredicates)
                         .groupBy(rootCatAttrs.get("code"),joinWithValues.get("valueBoolean"))
         ).getResultList();
 

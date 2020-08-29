@@ -27,6 +27,9 @@ public class ProductCategoryAttributes implements Serializable {
     @Column(name = "shop_id")
     private Long shopKey;
 
+    @Column(name = "product_category_id")
+    private Long categoryKey;
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 55)
@@ -64,7 +67,7 @@ public class ProductCategoryAttributes implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "attributeId")
     private Collection<ProductAttributesValues> productAttributesValuesCollection;
 
-    @JoinColumn(name = "product_category_id", referencedColumnName = "id")
+    @JoinColumn(name = "product_category_id", referencedColumnName = "id",insertable = false,updatable = false)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private ProductCategories productCategoryId;
 
@@ -177,5 +180,21 @@ public class ProductCategoryAttributes implements Serializable {
 
     public void setIsGrouppable(short isGrouppable) {
         this.isGrouppable = isGrouppable;
+    }
+
+    public Long getShopKey() {
+        return shopKey;
+    }
+
+    public void setShopKey(Long shopKey) {
+        this.shopKey = shopKey;
+    }
+
+    public Long getCategoryKey() {
+        return categoryKey;
+    }
+
+    public void setCategoryKey(Long categoryKey) {
+        this.categoryKey = categoryKey;
     }
 }
