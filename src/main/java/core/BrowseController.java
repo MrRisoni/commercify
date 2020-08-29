@@ -235,6 +235,8 @@ public class BrowseController {
     private void GroupByBooleanValues(Predicate[] katigoroumena) {
         //use native
         // selects in same category count as OR!!!!! e.g (SSD) OR (NOT SSD)
+        // HOWEVER for each filter apply the rules to all the other filters
+
         EntityManager em = HibernateUtil.getEM();
 
         CriteriaBuilder build = em.getCriteriaBuilder();
@@ -243,7 +245,7 @@ public class BrowseController {
         CollectionJoin<ProductAttributesValues,ProductCategoryAttributes> joinWithValues = rootCatAttrs.joinCollection("productAttributesValuesCollection");
         Join<Products,ProductAttributesValues> joinProducts = joinWithValues.join("productId");
 
-        Predicate[] ProductPredicates = new Predicate[8];
+        Predicate[] ProductPredicates = new Predicate[9];
         ProductPredicates[0] = build.equal(rootCatAttrs.get("shopKey"), 2L);
         ProductPredicates[1] = build.equal(rootCatAttrs.get("categoryKey"), 5L);
         ProductPredicates[2] = build.equal(rootCatAttrs.get("isGrouppable"), 1);
@@ -253,6 +255,9 @@ public class BrowseController {
         ProductPredicates[5] = build.equal(joinProducts.get("visible"), 1);
         ProductPredicates[6] = build.ge(joinProducts.get("price"), 1);
         ProductPredicates[7] = build.le(joinProducts.get("price"), 1500);
+        ProductPredicates[8] = build.or(build.equal(joinProducts.get("manufacturerKey"),4),
+                build.equal(joinProducts.get("manufacturerKey"),6));
+
 
         em.createQuery(
                 criteriaQry.multiselect(rootCatAttrs.get("id"),

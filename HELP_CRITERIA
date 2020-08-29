@@ -1,0 +1,27 @@
+we have trumpets
+
+4 of black and Yamaha and Bb
+2 of red and Bach and Bb
+1 of black and Jupiter and C
+
+FULL E2E Unit tests!!!
+
+if black is selected then for each category it will be shown
+    Color : Black 5, red 2
+    Brand: Yamaha 4, Bach 0, Jupiter 1
+    Key: Bb  4,C 1
+
+if Bb is selected then for each category it will be shown
+    Color: Black 4, red 2
+    Brand: Yamaha 4, Bach 2
+    Key: Bb  6 ,C 1
+
+If Bb and Black is selected:
+    Color: Black 4, red 2
+    Brand: Yamaha 4, Jupiter 0  FILTERS APPLY ONLY HERE TO THE OTHER CATS!!!
+    Key: Bb  6 ,C 1
+
+If Bb and Bach is selected:
+    Color: Black 5, red 2   FILTERS APPLY ONLY HERE TO THE OTHER CATS!!!
+    Brand: Yamaha 4, Jupiter 1
+    Key: Bb  ,C

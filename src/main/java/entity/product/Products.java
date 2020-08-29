@@ -45,7 +45,7 @@ public class Products implements Serializable {
     private Long categoryKey;
 
     @Column(name="manufacturer_id")
-    private Long manufactuerKey;
+    private Long manufacturerKey;
 
     @Basic(optional = false)
     @NotNull
@@ -569,11 +569,12 @@ public class Products implements Serializable {
         this.categoryKey = categoryKey;
     }
 
-    public Long getManufactuerKey() {
-        return manufactuerKey;
+
+    public Long getManufacturerKey() {
+        return manufacturerKey;
     }
 
-    public void setManufactuerKey(Long manufactuerKey) {
-        this.manufactuerKey = manufactuerKey;
+    public void setManufacturerKey(Long manufacturerKey) {
+        this.manufacturerKey = manufacturerKey;
     }
 }
