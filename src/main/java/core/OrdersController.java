@@ -52,6 +52,9 @@ public class OrdersController {
         Optional<ShippingAddress> shipppedOptional = shipAddressRepo.findById(kalathi.getShipTo().getId());
         ShippingAddress savedShipAddress  = shipppedOptional.orElse(null);
 
+        kalathi.setBillTo(savedBilledAddress);
+        kalathi.setShipTo(savedShipAddress);
+
         Orders paragelia = new Orders();
         paragelia.setShopId(new Shops(kalathi.getShop().getId()));
         paragelia.setBillingAddressId(savedBilledAddress);

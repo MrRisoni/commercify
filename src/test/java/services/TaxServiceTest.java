@@ -41,7 +41,7 @@ public class TaxServiceTest {
 
         Basket basket = new Basket();
         basket.setBillTo(billTo);
-        basket.setShipTop(shipTo);
+        basket.setShipTo(shipTo);
         basket.setShop(new Shops(2L));
 
         BasketItem itm = new BasketItem(new Products(1L),2);

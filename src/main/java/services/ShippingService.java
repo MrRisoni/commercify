@@ -41,6 +41,7 @@ public class ShippingService {
         // if result is empty query  shipping_zones_regions to get the ZONE
         // finally get shipping rule from shipping_zones table based on shipping class and zone
         Long zoneId = 0L;
+
         ShippingCosts c = new ShippingCosts();
         try {
 
@@ -63,6 +64,10 @@ public class ShippingService {
                 zoneId = Long.parseLong(zoneIdByZipObj.get(0).toString());
             }
             System.out.println("zoneId" + zoneId);
+            System.out.println("regionId" + this.getBasket().getShipTo().getRegionId().getId());
+            System.out.println("zip" + this.getBasket().getShipTo().getPostCode());
+            System.out.println("klass" + this.getBasket().getShipMethod().getId());
+            System.out.println("shopID" + this.getBasket().getShop().getId());
 
             BigDecimal totalWeight =  Utils.getTotalOrderWeight(this.getEm(),basket);
 
@@ -82,12 +87,25 @@ public class ShippingService {
                     .setParameter("klassId", this.getBasket().getShipMethod().getId())
                     .setParameter("shopId", this.getBasket().getShop().getId())
                     .getResultList();
+            System.out.println("NORMAL WEIGHT RESULT " + weightRules.size());
             for (ShopWeightShipRules wRul : weightRules) {
                 Double upperValue = wRul.getOverThanKg().doubleValue();
                 Double lowerValue = wRul.getLessThanKg().doubleValue();
 
+                System.out.println(varos);
+                System.out.println(lowerValue);
+                System.out.println(upperValue);
+
+
                 boolean lowerLimitOK = (varos > lowerValue) || (varos >= lowerValue && wRul.isLessEqual());
                 boolean upperLimitOK = (varos < upperValue) || (varos <= upperValue && wRul.isOverEqual());
+
+                if (wRul.isLessThanInfinity()) {
+                    upperLimitOK = true;
+                }
+
+                System.out.println("lowerLimitOK " + lowerLimitOK);
+                System.out.println("upperLimitOK " + upperLimitOK);
 
                 if (lowerLimitOK && upperLimitOK) {
                     cost = cost.add(wRul.getBaseCost());

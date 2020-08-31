@@ -26,10 +26,10 @@ public class Basket {
     public Basket() {
     }
 
-    public Basket(Shops shop, BillingAddress billTo, ShippingAddress shipTop, PaymentMethods pay, String currencyCode, ShopCourierClasses shipMethod, List<BasketItem> items,Users usr) {
+    public Basket(Shops shop, BillingAddress billTo, ShippingAddress shipTo, PaymentMethods pay, String currencyCode, ShopCourierClasses shipMethod, List<BasketItem> items,Users usr) {
         this.shop = shop;
         this.billTo = billTo;
-        this.shipTo = shipTop;
+        this.shipTo = shipTo;
         this.pay = pay;
         this.currencyCode = currencyCode;
         this.deliveryClass = shipMethod;
@@ -57,9 +57,6 @@ public class Basket {
         return shipTo;
     }
 
-    public void setShipTop(ShippingAddress shipTo) {
-        this.shipTo = shipTo;
-    }
 
     public PaymentMethods getPay() {
         return pay;

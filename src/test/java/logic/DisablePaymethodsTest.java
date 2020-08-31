@@ -47,7 +47,7 @@ public class DisablePaymethodsTest {
         Basket basket = new Basket();
 
         basket.setBillTo(billTo);
-        basket.setShipTop(shipTo);
+        basket.setShipTo(shipTo);
         basket.setShop(new Shops(2L));
         basket.setDeliveryClass(new ShopCourierClasses(1L));
 

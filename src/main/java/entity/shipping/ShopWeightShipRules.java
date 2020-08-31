@@ -67,6 +67,11 @@ public class ShopWeightShipRules implements Serializable {
     @Column
     private boolean active;
 
+    @Basic(optional = false)
+    @NotNull
+    @Column(name="less_than_infinity")
+    private boolean lessThanInfinity;
+
     @JoinColumn(name = "shop_id", referencedColumnName = "id")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Shops shopId;
@@ -86,7 +91,7 @@ public class ShopWeightShipRules implements Serializable {
         this.id = id;
     }
 
-    public ShopWeightShipRules(Long id,  boolean taxable, Date createdAt, BigDecimal lessThanKg, boolean lessEqual, BigDecimal overThanKg, boolean overEqual, BigDecimal baseCost,  boolean active) {
+    public ShopWeightShipRules(Long id,  boolean taxable, Date createdAt, BigDecimal lessThanKg, boolean lessEqual, BigDecimal overThanKg, boolean overEqual, BigDecimal baseCost,  boolean active, boolean lessThanInfinite) {
         this.id = id;
         this.taxable = taxable;
         this.createdAt = createdAt;
@@ -96,6 +101,7 @@ public class ShopWeightShipRules implements Serializable {
         this.overEqual = overEqual;
         this.baseCost = baseCost;
         this.active = active;
+        this.lessThanInfinity = lessThanInfinite;
     }
 
     public Long getId() {
@@ -217,5 +223,13 @@ public class ShopWeightShipRules implements Serializable {
 
     public void setZoneId(ShippingZones zoneId) {
         this.zoneId = zoneId;
+    }
+
+    public boolean isLessThanInfinity() {
+        return lessThanInfinity;
+    }
+
+    public void setLessThanInfinity(boolean lessThanInfinity) {
+        this.lessThanInfinity = lessThanInfinity;
     }
 }
