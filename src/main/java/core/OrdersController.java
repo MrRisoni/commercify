@@ -3,6 +3,7 @@ package core;
 import com.google.gson.Gson;
 import entity.HibernateUtil;
 import entity.JackSonViewer;
+import entity.OrderItemStatusHistory_;
 import entity.order.*;
 import entity.product.Products;
 import entity.shipping.ShopCourierClasses;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pojo.Basket;
 import pojo.BasketItem;
+import pojo.TaxInfo;
 import repositories.*;
 import services.ShippingService;
 import services.TaxSrvc;
@@ -25,6 +27,9 @@ import java.util.Optional;
 public class OrdersController {
 
     @Autowired
+    OrderItemRepository orderItmRepo;
+
+    @Autowired
     OrdersRepository orderRepo;
 
     @Autowired
@@ -33,6 +38,11 @@ public class OrdersController {
     @Autowired
     OrderStatusHistoryRepository ordStatusHistoryRepo;
 
+    @Autowired
+    OrderItemStatusHistoryRepository ordItmStatusHistoryRepo;
+
+    @Autowired
+    ProductRepo prdRepo;
 
     @Autowired
     BillAddressRepo billAddressRepo;
@@ -66,9 +76,9 @@ public class OrdersController {
         paragelia.setShipClassId(new ShopCourierClasses(kalathi.getDeliveryClass().getId()));
         paragelia.setUserId(new Users(kalathi.getUsr().getId()));
         paragelia.setPayMethodId(new PaymentMethods(kalathi.getPay().getId()));
-        OrderStatus std = ordStatusRepo.findOneByTitle("Pending");
-        System.out.println("STATUS OF PENDING " + std.getId());
-        paragelia.setStatusId(std);
+        OrderStatus stdPending = ordStatusRepo.findOneByTitle("Pending");
+        System.out.println("STATUS OF PENDING " + stdPending.getId());
+        paragelia.setStatusId(stdPending);
 
         BigDecimal ttl = new BigDecimal(0);
         BigDecimal net = new BigDecimal(0);
@@ -82,7 +92,8 @@ public class OrdersController {
         taxService.setBasket(kalathi);
         taxService.setEm(entityManager);
 
-        BigDecimal tax = taxService.getTotalTax();
+        TaxInfo tax_info = taxService.getTotalTaxData();
+        BigDecimal tax =tax_info.getTotalTax();
         BigDecimal shippingCost = shipService.getTotalShippingCosts().getShipCost();
 
 
@@ -117,21 +128,47 @@ public class OrdersController {
         paragelia.setRefund(false);
         paragelia.setVoid(false);
 
-
-        // timeout for card process
-
-
         Orders savedOrder = orderRepo.save(paragelia);
 
         OrderStatusHistory orderStatusHistoryObj = new OrderStatusHistory();
-        orderStatusHistoryObj.setStatusObj(std);
+        orderStatusHistoryObj.setStatusObj(stdPending);
         orderStatusHistoryObj.setOrderObj(savedOrder);
         ordStatusHistoryRepo.save(orderStatusHistoryObj);
-        //update timestamp!!
-        // set success true,
 
 
         //save order Items
+        for (BasketItem proion : kalathi.getItems()) {
+            OrderItems itemOrdered = new OrderItems();
+            itemOrdered.setOrderId(savedOrder);
+            itemOrdered.setQuantity(proion.getQuantity());
+
+            Optional<Products> productOptional = prdRepo.findById(proion.getProd().getId());
+            Products geFundenProduct  = productOptional.orElse(null);
+            itemOrdered.setProductId(geFundenProduct);
+            itemOrdered.setStatusId(stdPending);
+            itemOrdered.setNetPrice(geFundenProduct.getPrice());
+            itemOrdered.setTaxes(tax_info.getTaxPerProduct().get(proion.getProd().getId()));
+
+            OrderItems savedItemOrdered = orderItmRepo.save(itemOrdered);
+
+            OrderItemStatusHistory orderedItmStatusHistoryObj = new OrderItemStatusHistory();
+            orderedItmStatusHistoryObj.setStatusObj(stdPending);
+            orderedItmStatusHistoryObj.setItemObj(savedItemOrdered);
+            orderedItmStatusHistoryObj.setCreatedAt(new Date());
+            ordItmStatusHistoryRepo.save(orderedItmStatusHistoryObj);
+        }
+
+
+        // timeout for card process
+        //update timestamp!!
+        // set success true,
+       // Optional<Orders> ordersOptional = orderRepo.findById(savedOrder.getId());
+      //  Orders foundOrder  = ordersOptional.orElse(null);
+
+        savedOrder.setSuccess(true);
+        savedOrder.setUpdatedAt(new Date());
+        orderRepo.save(savedOrder);
+
 
         return "ORDERID " + savedOrder.getId();
 

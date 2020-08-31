@@ -50,25 +50,21 @@ public class OrderItems implements Serializable {
     private BigDecimal taxes;
 
     @Basic(optional = false)
-    @NotNull
     @Column(name = "gift_cost")
     @JsonView(JackSonViewer.IOrder.class)
     private BigDecimal giftCost;
 
     @Basic(optional = false)
-    @NotNull
     @Column
     @JsonView(JackSonViewer.IOrder.class)
     private boolean success;
 
     @Basic(optional = false)
-    @NotNull
     @Column(name = "void")
     @JsonView(JackSonViewer.IOrder.class)
     private boolean isVoid;
 
     @Basic(optional = false)
-    @NotNull
     @Column
     @JsonView(JackSonViewer.IOrder.class)
     private boolean refund;

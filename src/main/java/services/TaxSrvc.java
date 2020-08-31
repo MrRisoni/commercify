@@ -1,10 +1,7 @@
 package services;
 
 import dto.TaxParts;
-import pojo.Basket;
-import pojo.BasketItem;
-import pojo.ProductTax;
-import pojo.ProductTaxInput;
+import pojo.*;
 
 import javax.persistence.EntityManager;
 import java.math.BigDecimal;
@@ -34,13 +31,15 @@ public class TaxSrvc {
         this.basket = basket;
     }
 
-    public BigDecimal getTotalTax() {
+    public TaxInfo getTotalTaxData() {
         try {
+
+            TaxInfo txnf = new TaxInfo();
 
             BigDecimal totalTax = new BigDecimal(0);
             BigDecimal netPriceTotal = new BigDecimal(0);
-            BigDecimal taxOfProducts = new BigDecimal(0);
-            BigDecimal taxOfProductsBillBased = new BigDecimal(0);
+            BigDecimal taxOfProductShipBased = new BigDecimal(0);
+            BigDecimal taxOfProductBillBased = new BigDecimal(0);
 
             ProductTaxInput input = new ProductTaxInput();
             input.setBillCountry(this.getBasket().getShipTo().getCountryCode());
@@ -59,6 +58,8 @@ public class TaxSrvc {
                         .setParameter("pid", itm.getProd().getId()).getResultList();
                 if (res.size() > 0) {
 
+                    BigDecimal taxForThisProduct = new BigDecimal(0);
+
                     BigDecimal productPriceDb = new BigDecimal(res.get(0)[1].toString());
                     System.out.println("DB PRICE OF is " + productPriceDb);
                     netPriceTotal = (new BigDecimal(itm.getQuantity())).multiply(productPriceDb);
@@ -70,29 +71,37 @@ public class TaxSrvc {
                     System.out.println("SHIP TAX RATE " + finalTax.getRateShipBased());
                     System.out.println("BILL  TAX RATE " + finalTax.getRateBillBased());
 
-                    System.out.println("SHIP TAX FLAT " + finalTax.getFlatBillBased());
-                    System.out.println("BILL TAX FLAT " + finalTax.getRateBillBased());
+                    System.out.println("SHIP TAX FLAT " + finalTax.getFlatShipBased());
+                    System.out.println("BILL TAX FLAT " + finalTax.getFlatBillBased());
 
 
-                    taxOfProducts = netPriceTotal.multiply(finalTax.getRateShipBased()).divide(new BigDecimal(100));
-                    taxOfProducts = taxOfProducts.add(finalTax.getFlatShipBased());
+                    taxOfProductShipBased = netPriceTotal.multiply(finalTax.getRateShipBased()).divide(new BigDecimal(100));
+                    taxOfProductShipBased = taxOfProductShipBased.add(finalTax.getFlatShipBased());
 
-                    taxOfProductsBillBased = netPriceTotal.multiply(finalTax.getRateBillBased()).divide(new BigDecimal(100));
-                    taxOfProductsBillBased = taxOfProductsBillBased.add(finalTax.getFlatBillBased());
+                    taxOfProductBillBased = netPriceTotal.multiply(finalTax.getRateBillBased()).divide(new BigDecimal(100));
+                    taxOfProductBillBased = taxOfProductBillBased.add(finalTax.getFlatBillBased());
 
-                    totalTax = totalTax.add(taxOfProducts);
-                    totalTax = totalTax.add(taxOfProductsBillBased);
+                    taxForThisProduct = taxForThisProduct.add(taxOfProductShipBased);
+                    taxForThisProduct = taxForThisProduct.add(taxOfProductBillBased);
 
+
+                    totalTax = totalTax.add(taxForThisProduct);
+
+                    txnf.addToHashMap(itm.getProd().getId(),taxForThisProduct);
                 }
 
             }
 
+            txnf.setTotalTax(totalTax);
             if (totalTax.equals(null)) {
-                return new BigDecimal(5);
+                return new TaxInfo();
             }
-            return totalTax.setScale(2, BigDecimal.ROUND_UP);
+            else {
+                txnf.setTotalTax(totalTax.setScale(2, BigDecimal.ROUND_UP));
+                return txnf;
+            }
         } catch (Exception ex) {
-            return new BigDecimal(0);
+            return new TaxInfo();
         }
     }
 

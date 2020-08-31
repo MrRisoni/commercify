@@ -7,7 +7,6 @@ import entity.order.BillingAddress;
 import entity.order.ShippingAddress;
 import entity.product.Products;
 import entity.shop.Shops;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -58,6 +57,6 @@ public class TaxServiceTest {
         taxService.setEm(HibernateUtil.getEM());
 
 
-        assertEquals(taxService.getTotalTax(),new BigDecimal(10.80));
+        assertEquals(taxService.getTotalTaxData().getTotalTax(),new BigDecimal(10.80));
     }
 }
