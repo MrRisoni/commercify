@@ -194,6 +194,14 @@ public class TaxSrvc {
         Long regionId = taxAddress.equals("ship") ? inpt.getShipRegion().getId() : inpt.getBillRegion().getId();
         String zip = taxAddress.equals("ship") ? inpt.getShipZipCode() : inpt.getBillZipCode();
 
+        System.out.println("getTaxZipCodeRulesHQL");
+        System.out.println("code " + countryCode);
+        System.out.println("taxAddress " + taxAddress);
+        System.out.println("today " + inpt.getUpdatedAt());
+        System.out.println("regionId " + regionId);
+        System.out.println("zip " + zip);
+        System.out.println("productCatId " + inpt.getProductCategoryId());
+
         return this.em.createQuery("SELECT new dto.TaxParts(txz.flatCost,txz.rate) FROM ShopTaxZipCodeRules txz " +
                 " JOIN txz.productCategoryId pCat " +
                 " JOIN txz.regionId rg " +

@@ -18,6 +18,7 @@ import services.TaxSrvc;
 
 import javax.persistence.EntityManager;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.Optional;
 
 @RestController
@@ -46,6 +47,7 @@ public class OrdersController {
         Gson g = new Gson();
         Basket kalathi = new Gson().fromJson(g.toJson(postData), Basket.class);
 
+        kalathi.setUpdatedAt(new Date());
         Optional<BillingAddress> billedOptional = billAddressRepo.findById(kalathi.getBillTo().getId());
         BillingAddress savedBilledAddress  = billedOptional.orElse(null);
 
