@@ -1,15 +1,16 @@
 <?php
 
 $postObj['shop'] = array('id' => 3);
-$postObj['billTop'] = array('id' => 3);
-$postObj['shipTo'] = array('id' => 3);
+$postObj['billTo'] = array('id' => 1);
+$postObj['shipTo'] = array('id' => 1);
 $postObj['pay'] = array('id' => 1);
 $postObj['currencyCode'] = 'EUR';
 $postObj['currency'] = 'EUR';
-$postObj['deliveryClass'] = new array('id' => 1);
+$postObj['deliveryClass'] = array('id' => 1);
+$postObj['usr'] = array('id' => 1);
 
-$itm1  = array('quantity' => 1, 'prod' => 'id' => 4408);
-$postObj['items'] = array('items' => [$itm1]);
+$itm1  = array('quantity' => 1, 'prod' => array('id' => 4408));
+$postObj['items'] = [$itm1];
 
 
 echo json_encode($postObj);

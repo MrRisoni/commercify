@@ -5,6 +5,7 @@ import entity.order.PaymentMethods;
 import entity.order.ShippingAddress;
 import entity.shipping.ShopCourierClasses;
 import entity.shop.Shops;
+import entity.shop.Users;
 
 import java.util.Date;
 import java.util.List;
@@ -19,11 +20,13 @@ public class Basket {
     private List<BasketItem> items;
     private Date updatedAt;
     private  String currency;
+    private Users usr;
+
 
     public Basket() {
     }
 
-    public Basket(Shops shop, BillingAddress billTo, ShippingAddress shipTop, PaymentMethods pay, String currencyCode, ShopCourierClasses shipMethod, List<BasketItem> items) {
+    public Basket(Shops shop, BillingAddress billTo, ShippingAddress shipTop, PaymentMethods pay, String currencyCode, ShopCourierClasses shipMethod, List<BasketItem> items,Users usr) {
         this.shop = shop;
         this.billTo = billTo;
         this.shipTo = shipTop;
@@ -31,6 +34,7 @@ public class Basket {
         this.currencyCode = currencyCode;
         this.deliveryClass = shipMethod;
         this.items = items;
+        this.usr = usr;
     }
 
     public Shops getShop() {
@@ -115,5 +119,13 @@ public class Basket {
 
     public void setCurrency(String currency) {
         this.currency = currency;
+    }
+
+    public Users getUsr() {
+        return usr;
+    }
+
+    public void setUsr(Users usr) {
+        this.usr = usr;
     }
 }

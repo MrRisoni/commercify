@@ -6,6 +6,8 @@ import entity.*;
 import entity.shipping.ShopCourierClasses;
 import entity.shop.Shops;
 import entity.shop.Users;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -91,13 +93,14 @@ public class Orders implements Serializable {
     private boolean refund;
 
     @Basic(optional = false)
-    @NotNull
     @Column(name = "created_at")
+    @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     @JsonView(JackSonViewer.IOrder.class)
     private Date createdAt;
 
     @Column(name = "updated_at")
+    @UpdateTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     @JsonView(JackSonViewer.IOrder.class)
     private Date updatedAt;
