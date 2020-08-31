@@ -87,9 +87,12 @@ public class TaxSrvc {
 
             }
 
+            if (totalTax.equals(null)) {
+                return new BigDecimal(5);
+            }
             return totalTax.setScale(2, BigDecimal.ROUND_UP);
         } catch (Exception ex) {
-            return new BigDecimal(-100);
+            return new BigDecimal(0);
         }
     }
 

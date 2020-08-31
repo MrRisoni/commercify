@@ -60,6 +60,12 @@ public class Orders implements Serializable {
     @NotNull
     @Column
     @JsonView(JackSonViewer.IOrder.class)
+    private BigDecimal commission;
+
+    @Basic(optional = false)
+    @NotNull
+    @Column
+    @JsonView(JackSonViewer.IOrder.class)
     private BigDecimal tax;
 
     @Basic(optional = false)
@@ -357,5 +363,13 @@ public class Orders implements Serializable {
 
     public void setCourrierFees(BigDecimal courrierFees) {
         this.courrierFees = courrierFees;
+    }
+
+    public BigDecimal getCommission() {
+        return commission;
+    }
+
+    public void setCommission(BigDecimal commission) {
+        this.commission = commission;
     }
 }

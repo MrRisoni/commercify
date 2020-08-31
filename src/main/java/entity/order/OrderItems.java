@@ -32,12 +32,10 @@ public class OrderItems implements Serializable {
     private int quantity;
 
     @Basic(optional = false)
-    @NotNull
     @Size(min = 1, max = 52)
     @Column(name = "tracking_no")
     @JsonView(JackSonViewer.IOrder.class)
     private String trackingNo;
-
 
     @Basic(optional = false)
     @NotNull

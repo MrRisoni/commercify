@@ -2,6 +2,7 @@ package entity.order;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import entity.JackSonViewer;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -19,7 +20,7 @@ public class OrderStatusHistory {
     private Long id;
 
     @Basic(optional = false)
-    @NotNull
+    @CreationTimestamp
     @Column(name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)
     @JsonView(JackSonViewer.IOrder.class)
@@ -29,6 +30,11 @@ public class OrderStatusHistory {
     @JoinColumn(name = "status_id")
     @JsonView(JackSonViewer.IOrder.class)
     private OrderStatus statusObj;
+
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_id")
+    private Orders orderObj;
 
     public OrderStatusHistory() {
     }
@@ -55,5 +61,13 @@ public class OrderStatusHistory {
 
     public void setStatusObj(OrderStatus statusObj) {
         this.statusObj = statusObj;
+    }
+
+    public Orders getOrderObj() {
+        return orderObj;
+    }
+
+    public void setOrderObj(Orders orderObj) {
+        this.orderObj = orderObj;
     }
 }
