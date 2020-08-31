@@ -1,9 +1,8 @@
 <?php
 
 $orderBy = array('orderBy' => 'best_seller', 'sortOrder'=> 'asc');
-$filters[] = array('attributeId' => 9,'attributeCode'=> 'SSD','from' =>-1,'to' => -1,'type' => 'bool','valueStr' => '','value' => 1);
-$filters[] = array('attributeId' => 7,'attributeCode'=> 'Screen_inches','from' =>-1,'to' => 17,'type' => 'range','valueStr' => '','value' => -1);
-$filters[] = array('attributeId' => 9,'attributeCode'=> 'SSD','from' =>-1,'to' => -1,'type' => 'bool','valueStr' => '','value' => 0);
+$filters[] = array('attributeId' => 22,'attributeCode'=> 'Key','from' =>-1,'to' => -1,'type' => 'str','valueStr' => 'Bb','value' => -1);
+$filters[] = array('attributeId' => 23,'attributeCode'=> 'Color','from' =>-1,'to' => -1,'type' => 'str','valueStr' => 'Green','value' => -1);
 
 
 $postObj['orderBy'] = $orderBy;
@@ -16,7 +15,7 @@ $postObj['perPage'] = 5;
 echo json_encode($postObj);
 $ch = curl_init();
 
-curl_setopt($ch, CURLOPT_URL,"http://localhost:8080/api/category/criteria");
+curl_setopt($ch, CURLOPT_URL,"http://localhost:8080/api/browse/shop/3/category/6");
 curl_setopt($ch, CURLOPT_POST, 1);
 curl_setopt($ch, CURLOPT_POSTFIELDS,json_encode($postObj));
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);

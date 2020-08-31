@@ -31,7 +31,7 @@ import static org.junit.Assert.assertFalse;
 public class DisablePaymethodsTest {
 
 
-    @Test
+   // @Test
     public void testOverWeight() {
 
         BillingAddress billTo = new BillingAddress();

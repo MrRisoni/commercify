@@ -102,11 +102,13 @@ public class Orders implements Serializable {
     @JsonView(JackSonViewer.IOrder.class)
     private Date updatedAt;
 
+    @Transient
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")
     @JsonView(JackSonViewer.IOrder.class)
     private List<OrderStatusHistory> statusHistory;
 
+    @Transient
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "orderId", fetch = FetchType.LAZY)
     @JsonView(JackSonViewer.IOrder.class)
     private Collection<OrderItems> orderItemsCollection;

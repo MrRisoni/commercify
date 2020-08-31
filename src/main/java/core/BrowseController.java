@@ -2,6 +2,7 @@ package core;
 
 import com.google.gson.Gson;
 import dto.AttributeGroupBool;
+import dto.AttributeGroupString;
 import dto.RangeValues;
 import entity.*;
 import entity.product.ProductAttributesValues;
@@ -89,14 +90,12 @@ public class BrowseController {
 
     }
 
-    @PostMapping(value = "/api/category/criteria",
+    @PostMapping(value = "/api/browse/shop/{shopId}/category/{categoryId}",
             consumes = {MediaType.APPLICATION_JSON_VALUE}
     )
-
-    public HashMap<String, Object> getProductsWithCriteriaBuilder(@RequestBody Object filterCriteria) {
+    public HashMap<String, Object> getProductsWithCriteriaBuilder(@RequestBody Object filterCriteria,
+                                                                  @PathVariable Long shopId,@PathVariable Long categoryId) {
         try {
-            Long shopId = 2L;
-            Long categoryId = 5L;
 
             this.joinSqlAttributeFiltering.clear();
             this.filtrCounter = 0;
@@ -181,7 +180,7 @@ public class BrowseController {
             }
 
 
-            List<Products> criteriaResult = em.createQuery(
+           /* List<Products> criteriaResult = em.createQuery(
                     criteriaQry.multiselect(rootProduct.get("id"),
                             rootProduct.get("code"),
                             rootProduct.get("title"),
@@ -189,20 +188,37 @@ public class BrowseController {
                             rootProduct.get("price"),
                             rootProduct.get("avgRating"))
                             .where(ProductPredicates)
-            ).getResultList();
+            ).getResultList();*/
 
-            int totalProducts = criteriaResult.size();
+            int totalProducts = 12 ;//criteriaResult.size();
             rsp.put("resCount", totalProducts);
             rsp.put("totalPages", 50);
             rsp.put("countByAttributeCategories", null);
             if (totalProducts > 0) {
-                rsp.put("firstProduct", criteriaResult.get(0).getCode());
+          //      rsp.put("firstProduct", criteriaResult.get(0).getCode());
             }
+
             rsp.put("ranges", ranges);
             //rsp.put("finalSQL", finalSQL);
             System.out.println(finalSQL);
 
-            this.GroupByBooleanValues(ProductPredicates);
+            HashMap<String,Object> stringGrouppings = new HashMap<>();
+            List<ProductCategoryAttributes> stringCats = em.createQuery("SELECT pca FROM " +
+                    " ProductCategoryAttributes pca " +
+                    " WHERE pca.shopKey = :shopId AND pca.categoryKey=:catId " +
+                    "AND pca.isString = 1 AND pca.isisGrouppable ")
+                    .setParameter("shopId",shopId)
+                    .setParameter("catId",categoryId)
+                    .getResultList();
+
+            for (ProductCategoryAttributes strCat : stringCats)
+            {
+                this.groupByStringValues(strCat.getCode(), synolo);
+            }
+
+         //   rsp.put("groupByBools")
+
+
 
             return rsp;
 
@@ -232,7 +248,7 @@ public class BrowseController {
     }
 
 
-    private void GroupByBooleanValues(Predicate[] katigoroumena) {
+    private List<AttributeGroupBool> GroupByBooleanValues(Predicate[] katigoroumena) {
         //use native
         // selects in same category count as OR!!!!! e.g (SSD) OR (NOT SSD)
         // HOWEVER for each filter apply the rules to all the other filters
@@ -259,7 +275,7 @@ public class BrowseController {
                 build.equal(joinProducts.get("manufacturerKey"),6));
 
 
-        em.createQuery(
+        return em.createQuery(
                 criteriaQry.multiselect(rootCatAttrs.get("id"),
                         rootCatAttrs.get("code"),
                         build.count(joinWithValues.get("id")),
@@ -270,8 +286,42 @@ public class BrowseController {
 
     }
 
-    private void GroupByStringValues() {
+    private List<AttributeGroupString> groupByStringValues( String categoryCode, HashMap<String, List<ProductFilterPojo>> synolo) {
         // use qry Builder!!!
+        System.out.println("CAT CODE " + categoryCode);
+
+        EntityManager em = HibernateUtil.getEM();
+
+        CriteriaBuilder build = em.getCriteriaBuilder();
+        CriteriaQuery<AttributeGroupString> criteriaQry  = build.createQuery(AttributeGroupString.class);
+        Root<ProductCategoryAttributes> rootCatAttrs = criteriaQry.from(ProductCategoryAttributes.class);
+        CollectionJoin<ProductAttributesValues,ProductCategoryAttributes> joinWithValues = rootCatAttrs.joinCollection("productAttributesValuesCollection");
+        Join<Products,ProductAttributesValues> joinProducts = joinWithValues.join("productId");
+
+        Predicate[] ProductPredicates = new Predicate[8];
+        ProductPredicates[0] = build.equal(rootCatAttrs.get("shopKey"), 2L);
+        ProductPredicates[1] = build.equal(rootCatAttrs.get("categoryKey"), 5L);
+        ProductPredicates[2] = build.equal(rootCatAttrs.get("isGrouppable"), 1);
+        ProductPredicates[3] = build.equal(rootCatAttrs.get("isString"), 1);
+
+        ProductPredicates[4] = build.equal(joinProducts.get("active"), 1);
+        ProductPredicates[5] = build.equal(joinProducts.get("visible"), 1);
+        ProductPredicates[6] = build.ge(joinProducts.get("price"), 1);
+        ProductPredicates[7] = build.le(joinProducts.get("price"), 1500);
+
+       // ProductPredicates[8] = build.or(build.equal(joinProducts.get("manufacturerKey"),4),
+       //         build.equal(joinProducts.get("manufacturerKey"),6));
+
+
+        return em.createQuery(
+                criteriaQry.multiselect(rootCatAttrs.get("id"),
+                        rootCatAttrs.get("code"),
+                        build.count(joinWithValues.get("id")),
+                        joinWithValues.get("value"))
+                        .where(ProductPredicates)
+                        .groupBy(rootCatAttrs.get("code"),joinWithValues.get("value"))
+        ).getResultList();
+
     }
 
     private void GroupByRangeValues() {
