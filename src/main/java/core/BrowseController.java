@@ -32,6 +32,9 @@ public class BrowseController {
         CollectionJoin<ProductAttributesValues, Products> joinWithAttributeValues = subRoot.joinCollection("productAttributesValuesCollection", JoinType.INNER);
         Predicate[] subQryPredicates;
 
+        System.out.println("###############################################");
+
+
         String smallSQL = "";
         ProductFilterPojo filtro;
         System.out.println("CONSTRUCTING PREDICATES FOR " + CritName + " |  SIZE IS " + filtra.size());
@@ -75,6 +78,7 @@ public class BrowseController {
             smallSQL = "SELECT product_id FROM product_attributes_values WHERE attribute_id=" + filtra.get(0).getAttributeId();
             List<String> miniSQLS = new ArrayList<>();
 
+            System.out.println("MINI PREDICATES LEN " + filtra.size());
             for (int q=0;q< miniPredicates.length;q++)
             {
                 System.out.println("Q IS " + q);
@@ -100,6 +104,8 @@ public class BrowseController {
 
         subQuery.select(subRoot)
                 .where(subQryPredicates);
+
+        System.out.println("END OF SUBFUNCTION!");
         return subQuery;
 
     }
@@ -153,12 +159,13 @@ public class BrowseController {
             int z = 6;
             Iterator iterator = synolo.entrySet().iterator();
             while (iterator.hasNext()) {
+                System.out.println("Z is " + z);
                 Map.Entry xyz = (Map.Entry) iterator.next();
                 List<ProductFilterPojo> filtrouli = (List<ProductFilterPojo>) xyz.getValue();
                 System.out.println("GET PREDICATES FOR " + xyz.getKey());
-                System.out.println("Z is " + z);
                 ProductPredicates[z] =  builder.in(rootProduct.get("id")).value(buildSubQry(criteriaQry, builder, shopId, categoryId, filtrouli,xyz.getKey().toString()));
                 z++;
+                System.out.println("NEXT predicate!");
             }
 
 
@@ -171,8 +178,8 @@ public class BrowseController {
 
             // finalSQL will be used to get total products and pages ,ie only for pagination
 
-/*
-            switch (filterVals.getOrderBy().getOrderBy()) {
+
+            switch (searchCriteriaPojo.getOrderBy().getOrderBy()) {
                 case "price":
                     criteriaQry.orderBy(builder.asc(rootProduct.get("price")));
                     break;
@@ -193,6 +200,7 @@ public class BrowseController {
                     break;
             }
 
+            System.out.println("EXECURING QRY");
             // FINAL QUERY to show products
             List<Products> criteriaResult = em.createQuery(
                     criteriaQry.multiselect(rootProduct.get("id"),
@@ -202,7 +210,7 @@ public class BrowseController {
                             rootProduct.get("price"),
                             rootProduct.get("avgRating"))
                             .where(ProductPredicates)
-            ).getResultList();*/
+            ).getResultList();
 
             BigInteger totalProducts = (BigInteger) em.createNativeQuery(finalSQL).getSingleResult();
 
@@ -217,10 +225,9 @@ public class BrowseController {
             rsp.put("resCount", totalProducts);
             rsp.put("totalPages", totalPages);
             rsp.put("countByAttributeCategories", null);
-           // if (totalProducts > 0) {
-          //      rsp.put("firstProduct", criteriaResult.get(0).getCode());
-         //   }
-
+            if (totalProducts.compareTo(BigInteger.valueOf(0L)) >=0) {
+                rsp.put("firstProduct", criteriaResult.get(0).getCode());
+            }
             rsp.put("ranges", ranges);
             rsp.put("finalSQL", finalSQL);
             System.out.println("---------------------------");
