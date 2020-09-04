@@ -1,5 +1,6 @@
 package pojo;
 
+import java.math.BigInteger;
 import java.util.List;
 
 public class BrowsePojo {
@@ -8,10 +9,10 @@ public class BrowsePojo {
     private List<ProductFilterPojo> filters;
     private int minPrice;
     private int maxPrice;
-    private int perPage;
+    private BigInteger perPage;
     private int currentPage;
 
-    public BrowsePojo(ProductOrderBy orderBy, List<ProductFilterPojo> filters, int minPrice, int maxPrice, int perPage, int currentPage) {
+    public BrowsePojo(ProductOrderBy orderBy, List<ProductFilterPojo> filters, int minPrice, int maxPrice, BigInteger perPage, int currentPage) {
         this.orderBy = orderBy;
         this.filters = filters;
         this.minPrice = minPrice;
@@ -52,11 +53,11 @@ public class BrowsePojo {
         this.maxPrice = maxPrice;
     }
 
-    public int getPerPage() {
+    public BigInteger getPerPage() {
         return perPage;
     }
 
-    public void setPerPage(int perPage) {
+    public void setPerPage(BigInteger perPage) {
         this.perPage = perPage;
     }
 

@@ -3,6 +3,7 @@
 $orderBy = array('orderBy' => 'best_seller', 'sortOrder'=> 'asc');
 $filters[] = array('attributeId' => 22,'attributeCode'=> 'Key','from' =>-1,'to' => -1,'type' => 'str','valueStr' => 'Bb','value' => -1);
 $filters[] = array('attributeId' => 23,'attributeCode'=> 'Color','from' =>-1,'to' => -1,'type' => 'str','valueStr' => 'Green','value' => -1);
+$filters[] = array('attributeId' => 22,'attributeCode'=> 'Key','from' =>-1,'to' => -1,'type' => 'str','valueStr' => 'C','value' => -1);
 
 
 $postObj['orderBy'] = $orderBy;

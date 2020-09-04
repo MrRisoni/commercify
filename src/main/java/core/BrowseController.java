@@ -15,6 +15,7 @@ import pojo.ProductFilterPojo;
 
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.*;
+import java.math.BigInteger;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -25,7 +26,7 @@ public class BrowseController {
     public int filtrCounter = 0;
 
 
-    private Subquery buildSubQry(CriteriaQuery criteriaQry, CriteriaBuilder builder, Long shopId, Long categoryId, List<ProductFilterPojo> filtra) {
+    private Subquery buildSubQry(CriteriaQuery criteriaQry, CriteriaBuilder builder, Long shopId, Long categoryId, List<ProductFilterPojo> filtra,String CritName) {
         Subquery<Products> subQuery = criteriaQry.subquery(Products.class);
         Root<Products> subRoot = subQuery.from(Products.class);
         CollectionJoin<ProductAttributesValues, Products> joinWithAttributeValues = subRoot.joinCollection("productAttributesValuesCollection", JoinType.INNER);
@@ -33,12 +34,15 @@ public class BrowseController {
 
         String smallSQL = "";
         ProductFilterPojo filtro;
+        System.out.println("CONSTRUCTING PREDICATES FOR " + CritName + " |  SIZE IS " + filtra.size());
+
         if (filtra.size() == 1) {
             filtro = filtra.get(0);
 
             subQryPredicates = new Predicate[3];
             subQryPredicates[0] = builder.equal(subRoot.get("shopKey"), shopId);
             subQryPredicates[1] = builder.equal(subRoot.get("categoryKey"), categoryId);
+
 
             smallSQL = "SELECT product_id FROM product_attributes_values WHERE attribute_id=" + filtro.getAttributeId();
 
@@ -61,24 +65,34 @@ public class BrowseController {
         else {
             // OR
             // AND it may have many values ....
-
             subQryPredicates = new Predicate[3];
+
             subQryPredicates[0] = builder.equal(subRoot.get("shopKey"), shopId);
             subQryPredicates[1] = builder.equal(subRoot.get("categoryKey"), categoryId);
 
-            Predicate ssdJa = builder.and(builder.equal(joinWithAttributeValues.get("valueBoolean"), 1),
-                    builder.equal(joinWithAttributeValues.get("attributeKey"),9));
+            Predicate[] miniPredicates = new Predicate[filtra.size()];
 
-            Predicate ssdNej = builder.and(builder.equal(joinWithAttributeValues.get("valueBoolean"), 1),
-                    builder.equal(joinWithAttributeValues.get("attributeKey"),9));
+            smallSQL = "SELECT product_id FROM product_attributes_values WHERE attribute_id=" + filtra.get(0).getAttributeId();
+            List<String> miniSQLS = new ArrayList<>();
+
+            for (int q=0;q< miniPredicates.length;q++)
+            {
+                System.out.println("Q IS " + q);
+                miniPredicates[q] = builder.and(builder.equal(joinWithAttributeValues.get("value"), filtra.get(q).getValueStr()),
+                        builder.equal(joinWithAttributeValues.get("attributeKey"),filtra.get(q).getAttributeId()));
+
+                miniSQLS.add(" value = '" + filtra.get(q).getValueStr()  +"' ");
+            }
 
 
-            subQryPredicates[2] = builder.or(ssdJa,ssdNej);
+            subQryPredicates[2] = builder.or(miniPredicates);
+            smallSQL += " AND ( " + String.join(" OR ",miniSQLS) + " ) ";
         }
 
         String filterId = "filtr" + String.valueOf(this.filtrCounter);
         this.joinSqlAttributeFiltering.add("JOIN ( " + smallSQL + " ) AS " + filterId + " ON " + filterId + ".product_id = p.id ");
 
+        System.out.println("SMALL SQL");
         System.out.println(smallSQL);
         this.filtrCounter++;
 
@@ -103,7 +117,7 @@ public class BrowseController {
 
             EntityManager em = HibernateUtil.getEM();
             Gson g = new Gson();
-            BrowsePojo filterVals = new Gson().fromJson(g.toJson(filterCriteria), BrowsePojo.class);
+            BrowsePojo searchCriteriaPojo = new Gson().fromJson(g.toJson(filterCriteria), BrowsePojo.class);
             HashMap<String, RangeValues> ranges = new HashMap<>();
             HashMap<String, Object> rsp = new HashMap<>();
 
@@ -113,17 +127,17 @@ public class BrowseController {
 
             // do not select all columns!!!
             int predicatesLen = 4; // category and shop, active, visible
-            if (filterVals.getMinPrice() > -1) {
+            if (searchCriteriaPojo.getMinPrice() > -1) {
                 predicatesLen++;
             }
-            if (filterVals.getMaxPrice() > -1) {
+            if (searchCriteriaPojo.getMaxPrice() > -1) {
                 predicatesLen++;
             }
 
-            HashMap<String, List<ProductFilterPojo>> synolo = this.groupByFilterAttribute(filterVals.getFilters());
+            HashMap<String, List<ProductFilterPojo>> synolo = this.groupByFilterAttribute(searchCriteriaPojo.getFilters());
 
 
-            predicatesLen = 7;
+            predicatesLen = 6 + synolo.size();
             System.out.println("TOTAL PREDICATES SIZE " + predicatesLen);
 
             Predicate[] ProductPredicates = new Predicate[predicatesLen];
@@ -132,32 +146,32 @@ public class BrowseController {
             ProductPredicates[2] = builder.equal(rootProduct.get("active"), 1);
             ProductPredicates[3] = builder.equal(rootProduct.get("visible"), 1);
 
-            ProductPredicates[4] = builder.ge(rootProduct.get("price"), filterVals.getMinPrice());
-            ProductPredicates[5] = builder.le(rootProduct.get("price"), filterVals.getMaxPrice());
+            ProductPredicates[4] = builder.ge(rootProduct.get("price"), searchCriteriaPojo.getMinPrice());
+            ProductPredicates[5] = builder.le(rootProduct.get("price"), searchCriteriaPojo.getMaxPrice());
 
 
-            int start = predicatesLen - synolo.size();
-
-            int z = 0;
-            ProductPredicates[6] = builder.in(rootProduct.get("id")).value(buildSubQry(criteriaQry, builder, shopId, categoryId, synolo.get("SSD")));
-
-            // GROUP CATEGORY ATTRIBUTES IF THERE ARE MORE THAN ONE OF THE SAME KING YOU MUST USE OR...
-            //  for (int prc = start; prc < predicatesLen; prc++) {
-            //     System.out.println("PRC " + prc + " zz " + z);
-            //    System.out.println("PRC " + prc + " zz " + z);
-
-            //     z++;
-            //  }
+            int z = 6;
+            Iterator iterator = synolo.entrySet().iterator();
+            while (iterator.hasNext()) {
+                Map.Entry xyz = (Map.Entry) iterator.next();
+                List<ProductFilterPojo> filtrouli = (List<ProductFilterPojo>) xyz.getValue();
+                System.out.println("GET PREDICATES FOR " + xyz.getKey());
+                System.out.println("Z is " + z);
+                ProductPredicates[z] =  builder.in(rootProduct.get("id")).value(buildSubQry(criteriaQry, builder, shopId, categoryId, filtrouli,xyz.getKey().toString()));
+                z++;
+            }
 
 
-            String finalSQL = " SELECT p.id FROM products p ";
+            String finalSQL = " SELECT COUNT(p.id) AS totalProducts FROM products p ";
             finalSQL += String.join(" ", this.joinSqlAttributeFiltering);
             finalSQL += "  WHERE p.shop_id = " + String.valueOf(shopId);
             finalSQL += " AND p.category_id = " + String.valueOf(categoryId);
             finalSQL += " AND p.visible = 1 AND p.active =1 ";
             finalSQL += " AND p.price >=0 AND p.price <=1500 ";
 
+            // finalSQL will be used to get total products and pages ,ie only for pagination
 
+/*
             switch (filterVals.getOrderBy().getOrderBy()) {
                 case "price":
                     criteriaQry.orderBy(builder.asc(rootProduct.get("price")));
@@ -179,8 +193,8 @@ public class BrowseController {
                     break;
             }
 
-
-           /* List<Products> criteriaResult = em.createQuery(
+            // FINAL QUERY to show products
+            List<Products> criteriaResult = em.createQuery(
                     criteriaQry.multiselect(rootProduct.get("id"),
                             rootProduct.get("code"),
                             rootProduct.get("title"),
@@ -190,18 +204,30 @@ public class BrowseController {
                             .where(ProductPredicates)
             ).getResultList();*/
 
-            int totalProducts = 12 ;//criteriaResult.size();
-            rsp.put("resCount", totalProducts);
-            rsp.put("totalPages", 50);
-            rsp.put("countByAttributeCategories", null);
-            if (totalProducts > 0) {
-          //      rsp.put("firstProduct", criteriaResult.get(0).getCode());
+            BigInteger totalProducts = (BigInteger) em.createNativeQuery(finalSQL).getSingleResult();
+
+            System.out.println("PER PAGE " + searchCriteriaPojo.getCurrentPage());
+            BigInteger totalPages = totalProducts.divide(searchCriteriaPojo.getPerPage());
+
+            BigInteger remainder = totalPages.remainder(searchCriteriaPojo.getPerPage());
+            if (remainder.compareTo(BigInteger.valueOf(0L)) >=0) {
+               totalPages = totalPages.add(BigInteger.valueOf(1L));
             }
 
-            rsp.put("ranges", ranges);
-            //rsp.put("finalSQL", finalSQL);
-            System.out.println(finalSQL);
+            rsp.put("resCount", totalProducts);
+            rsp.put("totalPages", totalPages);
+            rsp.put("countByAttributeCategories", null);
+           // if (totalProducts > 0) {
+          //      rsp.put("firstProduct", criteriaResult.get(0).getCode());
+         //   }
 
+            rsp.put("ranges", ranges);
+            rsp.put("finalSQL", finalSQL);
+            System.out.println("---------------------------");
+            System.out.println(finalSQL);
+/*
+            // ******* apply weird filter counters BEGIN *******
+            // string valued attributes
             HashMap<String,Object> stringGrouppings = new HashMap<>();
             List<ProductCategoryAttributes> stringCats = em.createQuery("SELECT pca FROM " +
                     " ProductCategoryAttributes pca " +
@@ -213,11 +239,12 @@ public class BrowseController {
 
             for (ProductCategoryAttributes strCat : stringCats)
             {
-                this.groupByStringValues(strCat.getCode(), synolo);
+           //     this.groupByStringValues(strCat.getCode(), synolo);
             }
+            // ******* apply weird filter counters END *******
 
          //   rsp.put("groupByBools")
-
+*/
 
 
             return rsp;

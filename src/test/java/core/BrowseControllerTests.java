@@ -21,7 +21,7 @@ public class BrowseControllerTests {
     private MockMvc mockMvc;
 
     @Test
-    public void onPostEmptyData() throws Exception {
+    public void testOnPostEmptyData() throws Exception {
 
 
         System.out.println("PERFORM GET !!!");
