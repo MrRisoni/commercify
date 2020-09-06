@@ -60,6 +60,12 @@ public class BrowseController {
 
                 smallSQL += " AND value_numeric >= " + String.valueOf(filtro.getFrom()) + " AND value_numeric <=" + String.valueOf(filtro.getTo());
 
+            } else if (filtro.getType().equals("str")) {
+                subQryPredicates[2] =builder.and(builder.equal(joinWithAttributeValues.get("value"), filtro.getValueStr()),
+                        builder.equal(joinWithAttributeValues.get("attributeKey"), filtro.getAttributeId()));
+
+                smallSQL += " AND value = '" + filtro.getValueStr()  +"' ";
+
             } else {
                 System.out.println("UNKNOWN FILTER TYPE " + filtro.getType());
             }
@@ -82,6 +88,8 @@ public class BrowseController {
             for (int q=0;q< miniPredicates.length;q++)
             {
                 System.out.println("Q IS " + q);
+
+                // for str
                 miniPredicates[q] = builder.and(builder.equal(joinWithAttributeValues.get("value"), filtra.get(q).getValueStr()),
                         builder.equal(joinWithAttributeValues.get("attributeKey"),filtra.get(q).getAttributeId()));
 
@@ -211,6 +219,7 @@ public class BrowseController {
                             rootProduct.get("avgRating"))
                             .where(ProductPredicates)
             ).getResultList();
+            System.out.println("QRY EXECUTED!");
 
             BigInteger totalProducts = (BigInteger) em.createNativeQuery(finalSQL).getSingleResult();
 
