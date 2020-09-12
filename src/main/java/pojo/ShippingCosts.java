@@ -5,10 +5,12 @@ import java.math.BigDecimal;
 public class ShippingCosts {
     private BigDecimal shipCost;
     private BigDecimal shipFees;
+    private String errorMessage;
 
     public ShippingCosts() {
         this.shipCost = new BigDecimal(0);
         this.shipFees = new BigDecimal(0);
+        this.errorMessage = "";
     }
 
     public BigDecimal getShipCost() {
