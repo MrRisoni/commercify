@@ -28,7 +28,7 @@ public class ShippingController {
 
     @Autowired
     ShipAddressRepo shipAddressRepo;
-    
+
     @RequestMapping(value = "/api/order/shipping_cost", method = RequestMethod.POST)
     public BigDecimal getShipCost(@RequestBody Object postData) {
         EntityManager entityManager = HibernateUtil.getEM();
