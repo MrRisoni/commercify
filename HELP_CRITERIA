@@ -25,3 +25,7 @@ If Bb and Bach is selected:
     Color: Black 5, red 2   FILTERS APPLY ONLY HERE TO THE OTHER CATS!!!
     Brand: Yamaha 4, Jupiter 1
     Key: Bb  ,C
+
+
+for each filter as fltr:
+    

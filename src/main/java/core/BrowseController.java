@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import dto.AttributeGroupBool;
 import dto.AttributeGroupString;
 import dto.RangeValues;
+import dto.SimpleProduct;
 import entity.*;
 import entity.product.ProductAttributesValues;
 import entity.product.ProductCategoryAttributes;
@@ -136,7 +137,7 @@ public class BrowseController {
             HashMap<String, Object> rsp = new HashMap<>();
 
             CriteriaBuilder builder = em.getCriteriaBuilder();
-            CriteriaQuery<Products> criteriaQry = builder.createQuery(Products.class);
+            CriteriaQuery<SimpleProduct> criteriaQry = builder.createQuery(SimpleProduct.class);
             Root<Products> rootProduct = criteriaQry.from(Products.class);
 
             // do not select all columns!!!
@@ -210,7 +211,7 @@ public class BrowseController {
 
             System.out.println("EXECURING QRY");
             // FINAL QUERY to show products
-            List<Products> criteriaResult = em.createQuery(
+            List<SimpleProduct> criteriaResult = em.createQuery(
                     criteriaQry.multiselect(rootProduct.get("id"),
                             rootProduct.get("code"),
                             rootProduct.get("title"),
@@ -231,18 +232,18 @@ public class BrowseController {
                totalPages = totalPages.add(BigInteger.valueOf(1L));
             }
 
+            rsp.put("products",criteriaResult);
             rsp.put("resCount", totalProducts);
             rsp.put("totalPages", totalPages);
-            rsp.put("countByAttributeCategories", null);
-            if (totalProducts.compareTo(BigInteger.valueOf(0L)) >=0) {
-                rsp.put("firstProduct", criteriaResult.get(0).getCode());
-            }
-            rsp.put("ranges", ranges);
+
             rsp.put("finalSQL", finalSQL);
             System.out.println("---------------------------");
             System.out.println(finalSQL);
 
+<<<<<<< HEAD
            
+=======
+>>>>>>> 59f1c8c8f231eb80c4f36115c2185cd0867bdc6a
 
 
             return rsp;
