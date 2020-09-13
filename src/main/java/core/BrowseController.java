@@ -241,26 +241,8 @@ public class BrowseController {
             rsp.put("finalSQL", finalSQL);
             System.out.println("---------------------------");
             System.out.println(finalSQL);
-/*
-            // ******* apply weird filter counters BEGIN *******
-            // string valued attributes
-            HashMap<String,Object> stringGrouppings = new HashMap<>();
-            List<ProductCategoryAttributes> stringCats = em.createQuery("SELECT pca FROM " +
-                    " ProductCategoryAttributes pca " +
-                    " WHERE pca.shopKey = :shopId AND pca.categoryKey=:catId " +
-                    "AND pca.isString = 1 AND pca.isisGrouppable ")
-                    .setParameter("shopId",shopId)
-                    .setParameter("catId",categoryId)
-                    .getResultList();
 
-            for (ProductCategoryAttributes strCat : stringCats)
-            {
-           //     this.groupByStringValues(strCat.getCode(), synolo);
-            }
-            // ******* apply weird filter counters END *******
-
-         //   rsp.put("groupByBools")
-*/
+           
 
 
             return rsp;
@@ -291,84 +273,6 @@ public class BrowseController {
     }
 
 
-    private List<AttributeGroupBool> GroupByBooleanValues(Predicate[] katigoroumena) {
-        //use native
-        // selects in same category count as OR!!!!! e.g (SSD) OR (NOT SSD)
-        // HOWEVER for each filter apply the rules to all the other filters
 
-        EntityManager em = HibernateUtil.getEM();
-
-        CriteriaBuilder build = em.getCriteriaBuilder();
-        CriteriaQuery<AttributeGroupBool> criteriaQry  = build.createQuery(AttributeGroupBool.class);
-        Root<ProductCategoryAttributes> rootCatAttrs = criteriaQry.from(ProductCategoryAttributes.class);
-        CollectionJoin<ProductAttributesValues,ProductCategoryAttributes> joinWithValues = rootCatAttrs.joinCollection("productAttributesValuesCollection");
-        Join<Products,ProductAttributesValues> joinProducts = joinWithValues.join("productId");
-
-        Predicate[] ProductPredicates = new Predicate[9];
-        ProductPredicates[0] = build.equal(rootCatAttrs.get("shopKey"), 2L);
-        ProductPredicates[1] = build.equal(rootCatAttrs.get("categoryKey"), 5L);
-        ProductPredicates[2] = build.equal(rootCatAttrs.get("isGrouppable"), 1);
-        ProductPredicates[3] = build.equal(rootCatAttrs.get("isBoolean"), 1);
-
-        ProductPredicates[4] = build.equal(joinProducts.get("active"), 1);
-        ProductPredicates[5] = build.equal(joinProducts.get("visible"), 1);
-        ProductPredicates[6] = build.ge(joinProducts.get("price"), 1);
-        ProductPredicates[7] = build.le(joinProducts.get("price"), 1500);
-        ProductPredicates[8] = build.or(build.equal(joinProducts.get("manufacturerKey"),4),
-                build.equal(joinProducts.get("manufacturerKey"),6));
-
-
-        return em.createQuery(
-                criteriaQry.multiselect(rootCatAttrs.get("id"),
-                        rootCatAttrs.get("code"),
-                        build.count(joinWithValues.get("id")),
-                        joinWithValues.get("valueBoolean"))
-                .where(ProductPredicates)
-                        .groupBy(rootCatAttrs.get("code"),joinWithValues.get("valueBoolean"))
-        ).getResultList();
-
-    }
-
-    private List<AttributeGroupString> groupByStringValues( String categoryCode, HashMap<String, List<ProductFilterPojo>> synolo) {
-        // use qry Builder!!!
-        System.out.println("CAT CODE " + categoryCode);
-
-        EntityManager em = HibernateUtil.getEM();
-
-        CriteriaBuilder build = em.getCriteriaBuilder();
-        CriteriaQuery<AttributeGroupString> criteriaQry  = build.createQuery(AttributeGroupString.class);
-        Root<ProductCategoryAttributes> rootCatAttrs = criteriaQry.from(ProductCategoryAttributes.class);
-        CollectionJoin<ProductAttributesValues,ProductCategoryAttributes> joinWithValues = rootCatAttrs.joinCollection("productAttributesValuesCollection");
-        Join<Products,ProductAttributesValues> joinProducts = joinWithValues.join("productId");
-
-        Predicate[] ProductPredicates = new Predicate[8];
-        ProductPredicates[0] = build.equal(rootCatAttrs.get("shopKey"), 2L);
-        ProductPredicates[1] = build.equal(rootCatAttrs.get("categoryKey"), 5L);
-        ProductPredicates[2] = build.equal(rootCatAttrs.get("isGrouppable"), 1);
-        ProductPredicates[3] = build.equal(rootCatAttrs.get("isString"), 1);
-
-        ProductPredicates[4] = build.equal(joinProducts.get("active"), 1);
-        ProductPredicates[5] = build.equal(joinProducts.get("visible"), 1);
-        ProductPredicates[6] = build.ge(joinProducts.get("price"), 1);
-        ProductPredicates[7] = build.le(joinProducts.get("price"), 1500);
-
-       // ProductPredicates[8] = build.or(build.equal(joinProducts.get("manufacturerKey"),4),
-       //         build.equal(joinProducts.get("manufacturerKey"),6));
-
-
-        return em.createQuery(
-                criteriaQry.multiselect(rootCatAttrs.get("id"),
-                        rootCatAttrs.get("code"),
-                        build.count(joinWithValues.get("id")),
-                        joinWithValues.get("value"))
-                        .where(ProductPredicates)
-                        .groupBy(rootCatAttrs.get("code"),joinWithValues.get("value"))
-        ).getResultList();
-
-    }
-
-    private void GroupByRangeValues() {
-        // the user will set ranges!!!
-    }
 
 }
