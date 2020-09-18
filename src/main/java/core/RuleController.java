@@ -9,6 +9,7 @@ import entity.rules.RestrictPaymentRules;
 import org.hibernate.transform.Transformers;
 import org.hibernate.type.StandardBasicTypes;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,10 +27,9 @@ public class RuleController {
     @Autowired
     ParameterRepo parRp;
 
-    @RequestMapping(value=  "/api/restrict/criteria" , method = RequestMethod.GET)
-    public List<RestrictPaymentCriteriaDTO> getCriteria()
+    @RequestMapping(value=  "/api/restrict/criteria/{ruleId}" , method = RequestMethod.GET)
+    public List<RestrictPaymentCriteriaDTO> getCriteria(@PathVariable Long ruleId)
     {
-        Long rlId = 1L;
         return  HibernateUtil.getEM()
                 .createNativeQuery("SELECT c.id , par.code AS parameterTitle, op.code AS operatorCode" +
                         " , c.value AS val " +
@@ -37,7 +37,7 @@ public class RuleController {
                         " JOIN  restrict_payment_rules_operators op ON op.id = c.operator_id  " +
                         " JOIN  restrict_payment_parameters par ON par.id = c.parameter_id  " +
                         " WHERE c.rule_id = :rlid ")
-                .setParameter("rlid",rlId)
+                .setParameter("rlid",ruleId)
                 .unwrap(org.hibernate.query.NativeQuery.class)
                 .addScalar("id", StandardBasicTypes.LONG)
                 .addScalar("parameterTitle",StandardBasicTypes.STRING)
@@ -60,10 +60,9 @@ public class RuleController {
         return parRp.findAll();
     }
 
-    @RequestMapping(value=  "/api/restrict/rules" , method = RequestMethod.GET)
-    public List<RestrictPaymentRules> getPaymentRestrictionRules()
+    @RequestMapping(value=  "/api/restrict/rules/{shopId}" , method = RequestMethod.GET)
+    public List<RestrictPaymentRules> getPaymentRestrictionRules(@PathVariable Long shopId)
     {
-        Long shopId = 2L;
         List<RestrictPaymentRules> rules =  HibernateUtil.getEM().createQuery("SELECT new entity.rules.RestrictPaymentRules(rul.id,rul.title) FROM " +
                 "RestrictPaymentRules rul JOIN " +
                 " rul.shopId sh WHERE sh.id = :shid AND rul.active = 1 ", RestrictPaymentRules.class)

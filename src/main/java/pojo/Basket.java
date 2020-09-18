@@ -9,6 +9,7 @@ import entity.shop.Users;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 public class Basket {
     private Shops shop;
@@ -21,7 +22,8 @@ public class Basket {
     private Date updatedAt;
     private  String currency;
     private Users usr;
-
+    private Set<Long> productIds;
+    private Set<Long> productCatIds;
 
     public Basket() {
     }
@@ -35,6 +37,10 @@ public class Basket {
         this.deliveryClass = shipMethod;
         this.items = items;
         this.usr = usr;
+
+        for (BasketItem itm: items) {
+            productIds.add(itm.getProd().getId());
+        }
     }
 
     public Shops getShop() {

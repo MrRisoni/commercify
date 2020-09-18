@@ -1,6 +1,7 @@
 package core;
 
 import com.google.gson.Gson;
+import common.Utils;
 import entity.HibernateUtil;
 import entity.JackSonViewer;
 import entity.order.*;
@@ -80,7 +81,6 @@ public class OrdersController {
         paragelia.setStatusId(stdPending);
 
         BigDecimal ttl = new BigDecimal(0);
-        BigDecimal net = new BigDecimal(0);
 
         ShippingService shipService = new ShippingService();
         TaxSrvc taxService = new TaxSrvc();
@@ -98,16 +98,8 @@ public class OrdersController {
 
         BigDecimal courierFees = new BigDecimal(0);
 
-
-        for (BasketItem itm : kalathi.getItems()) {
-
-            Products gefundenProduct  = entityManager.createQuery("SELECT new entity.product.Products(p.id,p.price) " +
-                    " FROM Products p WHERE p.id=:productId",Products.class)
-                    .setParameter("productId",itm.getProd().getId())
-                    .getSingleResult();
-
-            net =net.add(gefundenProduct.getPrice());
-        }
+        Utils.setEm(entityManager);
+        BigDecimal net = Utils.getTotalNetOfOrder(kalathi);
 
         BigDecimal commission  = net.multiply(new BigDecimal(0.1));
 

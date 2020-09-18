@@ -240,12 +240,6 @@ public class BrowseController {
             System.out.println("---------------------------");
             System.out.println(finalSQL);
 
-<<<<<<< HEAD
-           
-=======
->>>>>>> 59f1c8c8f231eb80c4f36115c2185cd0867bdc6a
-
-
             return rsp;
 
         } catch (Exception ex) {
