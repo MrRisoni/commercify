@@ -45,7 +45,18 @@ public class PaymentMethodsEvaluator {
         Optional<ShippingAddress> shipppedOptional = shipAddressRepo.findById(basket.getShipTo().getId());
         ShippingAddress savedShipAddress  = shipppedOptional.orElse(null);
 
-        String phone = savedShipAddress.getPhone;
+        String phone = savedShipAddress.getContactMobile();
+        Long shipClassId = basket.getDeliveryClass().getId();
+        String countryCode = savedShipAddress.getCountryCode();
+        Long regionId = savedShipAddress.getRegionId().getId();
+        String zip = savedShipAddress.getPostCode();
+
+        List<Long> productCats = new ArrayList<Long>();
+        String sqlCats = "SELECT category_id FROM products WHERE id IN " + basket.getStrProductIds();
+        List<Object[]> catsProductObj = em.createNativeQuery(sqlCats).getResultList();
+        for (Object[] objItm : catsProductObj) {
+            productCats.add(Long.valueOf(objItm[0].toString()));
+        }
 
         for (RestrictPaymentRules rul : rulesList) {
             boolean ruleOK = true;

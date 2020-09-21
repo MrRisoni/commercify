@@ -69,7 +69,7 @@ public class ShippingService {
             System.out.println("klass" + this.getBasket().getShipMethod().getId());
             System.out.println("shopID" + this.getBasket().getShop().getId());
 
-            BigDecimal totalWeight =  Utils.getTotalOrderWeight(this.getEm(),basket);
+            BigDecimal totalWeight =  Utils.getTotalOrderWeight(basket);
 
             System.out.println("TOTAL WEIGHT" + totalWeight);
             BigDecimal cost = new BigDecimal(0);

@@ -32,6 +32,13 @@ public class BillingAddress implements Serializable {
 
     @Basic(optional = false)
     @NotNull
+    @Size(min = 1, max = 2)
+    @Column(name = "country_code")
+    @JsonView(JackSonViewer.IOrder.class)
+    private String contactMobile;
+
+    @Basic(optional = false)
+    @NotNull
     @Size(min = 1, max = 80)
     @Column
     @JsonView(JackSonViewer.IOrder.class)
@@ -162,5 +169,13 @@ public class BillingAddress implements Serializable {
 
     public void setRegionId(GlobeRegions regionId) {
         this.regionId = regionId;
+    }
+
+    public String getContactMobile() {
+        return contactMobile;
+    }
+
+    public void setContactMobile(String contactMobile) {
+        this.contactMobile = contactMobile;
     }
 }

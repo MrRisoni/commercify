@@ -7,6 +7,7 @@ import entity.shipping.ShopCourierClasses;
 import entity.shop.Shops;
 import entity.shop.Users;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -24,6 +25,7 @@ public class Basket {
     private Users usr;
     private Set<Long> productIds;
     private Set<Long> productCatIds;
+    private String strProductIds;
 
     public Basket() {
     }
@@ -38,9 +40,12 @@ public class Basket {
         this.items = items;
         this.usr = usr;
 
+        List<String> ids = new ArrayList<>();
         for (BasketItem itm: items) {
             productIds.add(itm.getProd().getId());
+            ids.add("'" + itm.getProd().getId()  + "'");
         }
+        this.strProductIds = String.join(",",ids);
     }
 
     public Shops getShop() {
@@ -130,5 +135,13 @@ public class Basket {
 
     public void setUsr(Users usr) {
         this.usr = usr;
+    }
+
+    public String getStrProductIds() {
+        return strProductIds;
+    }
+
+    public void setStrProductIds(String strProductIds) {
+        this.strProductIds = strProductIds;
     }
 }

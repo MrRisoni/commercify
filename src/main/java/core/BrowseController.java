@@ -9,7 +9,9 @@ import entity.*;
 import entity.product.ProductAttributesValues;
 import entity.product.ProductCategoryAttributes;
 import entity.product.Products;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pojo.BrowsePojo;
 import pojo.ProductFilterPojo;
@@ -27,7 +29,7 @@ public class BrowseController {
     public int filtrCounter = 0;
 
 
-    private Subquery buildSubQry(CriteriaQuery criteriaQry, CriteriaBuilder builder, Long shopId, Long categoryId, List<ProductFilterPojo> filtra,String CritName) {
+    private Subquery buildSubQry(CriteriaQuery criteriaQry, CriteriaBuilder builder, Long shopId, Long categoryId, List<ProductFilterPojo> filtra, String CritName) {
         Subquery<Products> subQuery = criteriaQry.subquery(Products.class);
         Root<Products> subRoot = subQuery.from(Products.class);
         CollectionJoin<ProductAttributesValues, Products> joinWithAttributeValues = subRoot.joinCollection("productAttributesValuesCollection", JoinType.INNER);
@@ -62,17 +64,16 @@ public class BrowseController {
                 smallSQL += " AND value_numeric >= " + String.valueOf(filtro.getFrom()) + " AND value_numeric <=" + String.valueOf(filtro.getTo());
 
             } else if (filtro.getType().equals("str")) {
-                subQryPredicates[2] =builder.and(builder.equal(joinWithAttributeValues.get("value"), filtro.getValueStr()),
+                subQryPredicates[2] = builder.and(builder.equal(joinWithAttributeValues.get("value"), filtro.getValueStr()),
                         builder.equal(joinWithAttributeValues.get("attributeKey"), filtro.getAttributeId()));
 
-                smallSQL += " AND value = '" + filtro.getValueStr()  +"' ";
+                smallSQL += " AND value = '" + filtro.getValueStr() + "' ";
 
             } else {
                 System.out.println("UNKNOWN FILTER TYPE " + filtro.getType());
             }
             System.out.println("TYPE " + filtro.getType());
-        }
-        else {
+        } else {
             // OR
             // AND it may have many values ....
             subQryPredicates = new Predicate[3];
@@ -86,20 +87,19 @@ public class BrowseController {
             List<String> miniSQLS = new ArrayList<>();
 
             System.out.println("MINI PREDICATES LEN " + filtra.size());
-            for (int q=0;q< miniPredicates.length;q++)
-            {
+            for (int q = 0; q < miniPredicates.length; q++) {
                 System.out.println("Q IS " + q);
 
                 // for str
                 miniPredicates[q] = builder.and(builder.equal(joinWithAttributeValues.get("value"), filtra.get(q).getValueStr()),
-                        builder.equal(joinWithAttributeValues.get("attributeKey"),filtra.get(q).getAttributeId()));
+                        builder.equal(joinWithAttributeValues.get("attributeKey"), filtra.get(q).getAttributeId()));
 
-                miniSQLS.add(" value = '" + filtra.get(q).getValueStr()  +"' ");
+                miniSQLS.add(" value = '" + filtra.get(q).getValueStr() + "' ");
             }
 
 
             subQryPredicates[2] = builder.or(miniPredicates);
-            smallSQL += " AND ( " + String.join(" OR ",miniSQLS) + " ) ";
+            smallSQL += " AND ( " + String.join(" OR ", miniSQLS) + " ) ";
         }
 
         String filterId = "filtr" + String.valueOf(this.filtrCounter);
@@ -108,7 +108,6 @@ public class BrowseController {
         System.out.println("SMALL SQL");
         System.out.println(smallSQL);
         this.filtrCounter++;
-
 
 
         subQuery.select(subRoot)
@@ -122,8 +121,10 @@ public class BrowseController {
     @PostMapping(value = "/api/browse/shop/{shopId}/category/{categoryId}",
             consumes = {MediaType.APPLICATION_JSON_VALUE}
     )
-    public HashMap<String, Object> getProductsWithCriteriaBuilder(@RequestBody Object filterCriteria,
-                                                                  @PathVariable Long shopId,@PathVariable Long categoryId) {
+    public ResponseEntity<HashMap<String, Object>> getProductsWithCriteriaBuilder(@RequestBody Object filterCriteria,
+                                                                                  @PathVariable Long shopId, @PathVariable Long categoryId) {
+        HashMap<String, Object> rsp = new HashMap<>();
+
         try {
 
             this.joinSqlAttributeFiltering.clear();
@@ -134,7 +135,6 @@ public class BrowseController {
             Gson g = new Gson();
             BrowsePojo searchCriteriaPojo = new Gson().fromJson(g.toJson(filterCriteria), BrowsePojo.class);
             HashMap<String, RangeValues> ranges = new HashMap<>();
-            HashMap<String, Object> rsp = new HashMap<>();
 
             CriteriaBuilder builder = em.getCriteriaBuilder();
             CriteriaQuery<SimpleProduct> criteriaQry = builder.createQuery(SimpleProduct.class);
@@ -172,7 +172,7 @@ public class BrowseController {
                 Map.Entry xyz = (Map.Entry) iterator.next();
                 List<ProductFilterPojo> filtrouli = (List<ProductFilterPojo>) xyz.getValue();
                 System.out.println("GET PREDICATES FOR " + xyz.getKey());
-                ProductPredicates[z] =  builder.in(rootProduct.get("id")).value(buildSubQry(criteriaQry, builder, shopId, categoryId, filtrouli,xyz.getKey().toString()));
+                ProductPredicates[z] = builder.in(rootProduct.get("id")).value(buildSubQry(criteriaQry, builder, shopId, categoryId, filtrouli, xyz.getKey().toString()));
                 z++;
                 System.out.println("NEXT predicate!");
             }
@@ -228,11 +228,11 @@ public class BrowseController {
             BigInteger totalPages = totalProducts.divide(searchCriteriaPojo.getPerPage());
 
             BigInteger remainder = totalPages.remainder(searchCriteriaPojo.getPerPage());
-            if (remainder.compareTo(BigInteger.valueOf(0L)) >=0) {
-               totalPages = totalPages.add(BigInteger.valueOf(1L));
+            if (remainder.compareTo(BigInteger.valueOf(0L)) >= 0) {
+                totalPages = totalPages.add(BigInteger.valueOf(1L));
             }
 
-            rsp.put("products",criteriaResult);
+            rsp.put("products", criteriaResult);
             rsp.put("resCount", totalProducts);
             rsp.put("totalPages", totalPages);
 
@@ -240,11 +240,12 @@ public class BrowseController {
             System.out.println("---------------------------");
             System.out.println(finalSQL);
 
-            return rsp;
+            return new ResponseEntity<>(rsp, HttpStatus.OK);
 
         } catch (Exception ex) {
             ex.printStackTrace();
-            return null;
+            rsp.put("errMessage", ex.getMessage());
+            return new ResponseEntity<>(rsp, HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -266,8 +267,5 @@ public class BrowseController {
 
         return synolo;
     }
-
-
-
 
 }

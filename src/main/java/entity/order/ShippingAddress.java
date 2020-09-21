@@ -33,6 +33,13 @@ public class ShippingAddress implements Serializable {
 
     @Basic(optional = false)
     @NotNull
+    @Size(min = 1, max = 2)
+    @Column(name = "contact_mobile")
+    @JsonView(JackSonViewer.IOrder.class)
+    private String contactMobile;
+
+    @Basic(optional = false)
+    @NotNull
     @Size(min = 1, max = 80)
     @Column
     @JsonView(JackSonViewer.IOrder.class)
@@ -84,7 +91,6 @@ public class ShippingAddress implements Serializable {
         this.id = id;
     }
 
-
     public Long getId() {
         return id;
     }
@@ -108,7 +114,6 @@ public class ShippingAddress implements Serializable {
     public void setCity(String city) {
         this.city = city;
     }
-
 
     public String getFullName() {
         return fullName;
@@ -142,7 +147,6 @@ public class ShippingAddress implements Serializable {
         this.postCode = postCode;
     }
 
-
     public Collection<Orders> getOrdersCollection() {
         return ordersCollection;
     }
@@ -159,12 +163,19 @@ public class ShippingAddress implements Serializable {
         this.userId = userId;
     }
 
-
     public GlobeRegions getRegionId() {
         return regionId;
     }
 
     public void setRegionId(GlobeRegions regionId) {
         this.regionId = regionId;
+    }
+
+    public String getContactMobile() {
+        return contactMobile;
+    }
+
+    public void setContactMobile(String contactMobile) {
+        this.contactMobile = contactMobile;
     }
 }
