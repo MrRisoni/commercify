@@ -63,4 +63,6 @@ public class ShipServiceTest {
         assertEquals(shipService.getTotalShippingCosts().getShipCost(),new BigDecimal(23));
 
     }
+
+
 }
