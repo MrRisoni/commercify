@@ -33,7 +33,7 @@ public class BillingAddress implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 2)
-    @Column(name = "country_code")
+    @Column(name = "contact_mobile")
     @JsonView(JackSonViewer.IOrder.class)
     private String contactMobile;
 

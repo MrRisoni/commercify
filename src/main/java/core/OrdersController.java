@@ -76,7 +76,6 @@ public class OrdersController {
             paragelia.setShippingAddressId(savedShipAddress);
             paragelia.setCurrency(kalathi.getCurrencyCode());
             paragelia.setCurrency_rate(new BigDecimal(1.0));
-            paragelia.setShipClassId(new ShopCourierClasses(kalathi.getDeliveryClass().getId()));
             paragelia.setUserId(new Users(kalathi.getUsr().getId()));
             paragelia.setPayMethodId(new PaymentMethods(kalathi.getPay().getId()));
             OrderStatus stdPending = ordStatusRepo.findOneByTitle("Pending");

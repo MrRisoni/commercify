@@ -8,6 +8,7 @@ import entity.order.ShippingAddress;
 import entity.product.Products;
 import entity.shipping.ShopCourierClasses;
 import entity.shop.Shops;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -25,8 +26,8 @@ import static org.junit.Assert.assertEquals;
 @SpringBootTest(classes = Application.class)
 public class VolumeServiceTest {
 
-
-    public void testOrderTubaCheckVolume() {
+    @Test
+    public void testOrderDoubleBassCheckVolume() {
         VolumeService volService = new VolumeService();
 
         BillingAddress billTo = new BillingAddress();
@@ -44,12 +45,13 @@ public class VolumeServiceTest {
         basket.setBillTo(billTo);
         basket.setShipTo(shipTo);
         basket.setShop(new Shops(3L));
-        basket.setDeliveryClass(new ShopCourierClasses(1L));
 
-        BasketItem itm = new BasketItem(new Products(4409L),1);
+        BasketItem itm = new BasketItem(new Products(4408L),1,4L);
+        BasketItem itm2 = new BasketItem(new Products(4409L),1,3L);
 
         List<BasketItem> items = new ArrayList<>();
         items.add(itm);
+        items.add(itm2);
 
         basket.setItems(items);
 

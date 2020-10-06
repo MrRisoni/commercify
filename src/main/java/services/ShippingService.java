@@ -66,7 +66,6 @@ public class ShippingService {
             System.out.println("zoneId" + zoneId);
             System.out.println("regionId" + this.getBasket().getShipTo().getRegionId().getId());
             System.out.println("zip" + this.getBasket().getShipTo().getPostCode());
-            System.out.println("klass" + this.getBasket().getShipMethod().getId());
             System.out.println("shopID" + this.getBasket().getShop().getId());
 
             BigDecimal totalWeight =  Utils.getTotalOrderWeight(basket);
@@ -84,7 +83,7 @@ public class ShippingService {
                     "  WHERE w.active = 1 AND z.id = :zoneId " +
                     "  AND klass.id = :klassId AND sh.id = :shopId")
                     .setParameter("zoneId", zoneId)
-                    .setParameter("klassId", this.getBasket().getShipMethod().getId())
+                    .setParameter("klassId", 45L)
                     .setParameter("shopId", this.getBasket().getShop().getId())
                     .getResultList();
             System.out.println("NORMAL WEIGHT RESULT " + weightRules.size());
@@ -127,7 +126,7 @@ public class ShippingService {
                     " ORDER BY w.overTotalWeight DESC")
                     .setParameter("zoneId", zoneId)
                     .setParameter("kg", totalWeight)
-                    .setParameter("klassId", this.getBasket().getShipMethod().getId())
+                    .setParameter("klassId", 12L)
                     .setParameter("shopId", this.getBasket().getShop().getId())
                     .getResultList();
             if (overWeightRules.size() > 0) {

@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
-@Table(name = "shop_weight_ship_rules")
+@Table(name = "shop_volume_ship_rules")
 public class ShopVolumeShipRules implements Serializable {
 
     private static final long serialVersionUID = 1L;

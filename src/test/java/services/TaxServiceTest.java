@@ -43,8 +43,8 @@ public class TaxServiceTest {
         basket.setShipTo(shipTo);
         basket.setShop(new Shops(2L));
 
-        BasketItem itm = new BasketItem(new Products(1L),2);
-        BasketItem itm2 = new BasketItem(new Products(2L),2);
+        BasketItem itm = new BasketItem(new Products(1L),2,1L);
+        BasketItem itm2 = new BasketItem(new Products(2L),2,1L);
 
         List<BasketItem> items = new ArrayList<>();
         items.add(itm);

@@ -18,7 +18,6 @@ public class Basket {
     private ShippingAddress shipTo;
     private PaymentMethods pay;
     private String currencyCode;
-    private ShopCourierClasses deliveryClass;
     private List<BasketItem> items;
     private Date updatedAt;
     private  String currency;
@@ -30,13 +29,12 @@ public class Basket {
     public Basket() {
     }
 
-    public Basket(Shops shop, BillingAddress billTo, ShippingAddress shipTo, PaymentMethods pay, String currencyCode, ShopCourierClasses shipMethod, List<BasketItem> items,Users usr) {
+    public Basket(Shops shop, BillingAddress billTo, ShippingAddress shipTo, PaymentMethods pay, String currencyCode,  List<BasketItem> items,Users usr) {
         this.shop = shop;
         this.billTo = billTo;
         this.shipTo = shipTo;
         this.pay = pay;
         this.currencyCode = currencyCode;
-        this.deliveryClass = shipMethod;
         this.items = items;
         this.usr = usr;
 
@@ -85,14 +83,6 @@ public class Basket {
         this.currencyCode = currencyCode;
     }
 
-    public ShopCourierClasses getShipMethod() {
-        return deliveryClass;
-    }
-
-    public void setShipMethod(ShopCourierClasses shipMethod) {
-        this.deliveryClass = shipMethod;
-    }
-
     public List<BasketItem> getItems() {
         return items;
     }
@@ -113,13 +103,6 @@ public class Basket {
         this.updatedAt = updatedAt;
     }
 
-    public ShopCourierClasses getDeliveryClass() {
-        return deliveryClass;
-    }
-
-    public void setDeliveryClass(ShopCourierClasses deliveryClass) {
-        this.deliveryClass = deliveryClass;
-    }
 
     public String getCurrency() {
         return currency;

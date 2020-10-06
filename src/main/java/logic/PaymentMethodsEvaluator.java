@@ -46,7 +46,6 @@ public class PaymentMethodsEvaluator {
         ShippingAddress savedShipAddress  = shipppedOptional.orElse(null);
 
         String phone = savedShipAddress.getContactMobile();
-        Long shipClassId = basket.getDeliveryClass().getId();
         String countryCode = savedShipAddress.getCountryCode();
         Long regionId = savedShipAddress.getRegionId().getId();
         String zip = savedShipAddress.getPostCode();

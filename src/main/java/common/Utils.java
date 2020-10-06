@@ -16,17 +16,19 @@ public class Utils {
         entityManager = em;
     }
 
-    public static  BigDecimal getTotalOrderVolume(Basket bsk)
+    public static  BigDecimal getProductVolume(Long productId)
     {
-        BigDecimal totalWeight = new BigDecimal(0);
-        for (BasketItem itm : bsk.getItems()) {
+        BigDecimal productVol = new BigDecimal(1);
 
-            BigDecimal weight = entityManager.createNamedQuery("GetProductKilo", BigDecimal.class)
-                    .setParameter(1, itm.getProd().getId())
+        Products p = entityManager.createNamedQuery("GetProductDimensions", Products.class)
+                    .setParameter(1, productId)
                     .getSingleResult();
-            totalWeight = totalWeight.add(weight.multiply(new BigDecimal(itm.getQuantity())));
-        }
-        return totalWeight;
+        productVol = p.getDimL();
+
+        productVol = productVol.multiply(p.getDimW());
+        productVol = productVol.multiply(p.getDimH());
+
+        return productVol;
     }
 
     public static BigDecimal getTotalOrderWeight(Basket bsk)

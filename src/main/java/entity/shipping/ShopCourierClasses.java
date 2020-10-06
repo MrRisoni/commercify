@@ -37,7 +37,6 @@ public class ShopCourierClasses implements Serializable {
     @Column
     private boolean active;
 
-
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "shippingClassId")
     private Collection<ShopWeightShipRules> shopWeightShipRulesCollection;
 
@@ -45,9 +44,6 @@ public class ShopCourierClasses implements Serializable {
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JsonView(JackSonViewer.IOrder.class)
     private ShopCouriers shopCourierId;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "shipClassId")
-    private Collection<Orders> ordersCollection;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "shippingClassId")
     private Collection<ShopWeightCodRules> shopWeightCodRulesCollection;
@@ -103,15 +99,6 @@ public class ShopCourierClasses implements Serializable {
 
     public void setShopCourierId(ShopCouriers shopCourierId) {
         this.shopCourierId = shopCourierId;
-    }
-
-
-    public Collection<Orders> getOrdersCollection() {
-        return ordersCollection;
-    }
-
-    public void setOrdersCollection(Collection<Orders> ordersCollection) {
-        this.ordersCollection = ordersCollection;
     }
 
     public Collection<ShopWeightCodRules> getShopWeightCodRulesCollection() {

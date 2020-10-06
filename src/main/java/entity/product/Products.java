@@ -25,6 +25,10 @@ import javax.validation.constraints.Size;
         name="KiloResult",
         columns={@ColumnResult(name="kilos")})
 @NamedNativeQuery(
+        name = "GetProductDimensions",
+        query = "SELECT dimL,dimW,dimH FROM products WHERE id = ? ",
+        resultClass = Products.class)
+@NamedNativeQuery(
         name = "GetProductKilo",
         query = "SELECT kilos FROM products WHERE id = ? ",
         resultSetMapping = "KiloResult")

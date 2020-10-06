@@ -141,11 +141,6 @@ public class Orders implements Serializable {
     @JsonView(JackSonViewer.IOrder.class)
     private PaymentMethods payMethodId;
 
-    @JoinColumn(name = "ship_class_id", referencedColumnName = "id")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JsonView(JackSonViewer.IOrder.class)
-    private ShopCourierClasses shipClassId;
-
     @JoinColumn(name = "shipping_address_id", referencedColumnName = "id")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JsonView(JackSonViewer.IOrder.class)
@@ -303,14 +298,6 @@ public class Orders implements Serializable {
 
     public void setPayMethodId(PaymentMethods payMethodId) {
         this.payMethodId = payMethodId;
-    }
-
-    public ShopCourierClasses getShipClassId() {
-        return shipClassId;
-    }
-
-    public void setShipClassId(ShopCourierClasses shipClassId) {
-        this.shipClassId = shipClassId;
     }
 
     public ShippingAddress getShippingAddressId() {
