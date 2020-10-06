@@ -42,7 +42,7 @@ public class VolumeService {
         // if result is empty query  shipping_zones_regions to get the ZONE
         // finally get shipping rule from shipping_zones table based on shipping class and zone
         Long zoneId = 0L;
-
+        Utils.setEm(em);
         ShippingCosts c = new ShippingCosts();
         try {
 
@@ -80,15 +80,18 @@ public class VolumeService {
 
             Iterator<Long> itKlassId = shipClassesIds.iterator();
             while (itKlassId.hasNext()) {
+                Long checkedKlassId = itKlassId.next();
+
                 totalVolume = new BigDecimal(0);
                 for (BasketItem itm : basket.getItems()) {
-                    if (itm.getShipClassId() == itKlassId.next()) {
-                        totalVolume = totalVolume.add(Utils.getProductVolume(itm.getProd().getId()));
+
+                    if (itm.getShipClassId() == checkedKlassId) {
+                        totalVolume = totalVolume.add(Utils.getProductVolume_m3(itm.getProd().getId()));
                     }
                 }
-                System.out.println("TOTAL VOL " + totalVolume);
+                System.out.println("TOTAL VOLM " + totalVolume);
 
-               /* List<ShopVolumeShipRules> volumeRules = this.getEm().createQuery("SELECT vl FROM " +
+                List<ShopVolumeShipRules> volumeRules = this.getEm().createQuery("SELECT vl FROM " +
                         " ShopVolumeShipRules vl " +
                         " JOIN vl.shopId sh " +
                         " JOIN vl.shippingClassId klass " +
@@ -96,21 +99,20 @@ public class VolumeService {
                         "  WHERE vl.active = 1 AND z.id = :zoneId " +
                         "  AND klass.id = :klassId AND sh.id = :shopId")
                         .setParameter("zoneId", zoneId)
-                        .setParameter("klassId", this.getBasket().getShipMethod().getId())
+                        .setParameter("klassId", checkedKlassId)
                         .setParameter("shopId", this.getBasket().getShop().getId())
                         .getResultList();
                 System.out.println("NORMAL VOLUMES RESULT " + volumeRules.size());
                 for (ShopVolumeShipRules vRul : volumeRules) {
                     Double upperValue = vRul.getOverThanVolume().doubleValue();
                     Double lowerValue = vRul.getLessThanVolume().doubleValue();
-
+                    Double ogkos = totalVolume.doubleValue();
                     System.out.println(ogkos);
                     System.out.println(lowerValue);
                     System.out.println(upperValue);
 
-
-                    boolean lowerLimitOK = (ogkos > lowerValue) || (ogkos >= lowerValue && ogkos.isLessEqual());
-                    boolean upperLimitOK = (ogkos < upperValue) || (ogkos <= upperValue && ogkos.isOverEqual());
+                    boolean lowerLimitOK = (ogkos > lowerValue) || (ogkos >= lowerValue && vRul.isLessEqual());
+                    boolean upperLimitOK = (ogkos < upperValue) || (ogkos <= upperValue && vRul.isOverEqual());
 
                     if (vRul.isLessThanInfinity()) {
                         upperLimitOK = true;
@@ -123,7 +125,7 @@ public class VolumeService {
                         cost = cost.add(vRul.getBaseCost());
                         break;
                     }
-                }*/
+                }
 
             }
 

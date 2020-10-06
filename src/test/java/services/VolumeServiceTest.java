@@ -46,8 +46,8 @@ public class VolumeServiceTest {
         basket.setShipTo(shipTo);
         basket.setShop(new Shops(3L));
 
-        BasketItem itm = new BasketItem(new Products(4408L),1,4L);
-        BasketItem itm2 = new BasketItem(new Products(4409L),1,3L);
+        BasketItem itm = new BasketItem(new Products(4408L),1,4L); // double bass
+        BasketItem itm2 = new BasketItem(new Products(4409L),1,3L); // trumpet
 
         List<BasketItem> items = new ArrayList<>();
         items.add(itm);

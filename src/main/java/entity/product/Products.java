@@ -25,10 +25,6 @@ import javax.validation.constraints.Size;
         name="KiloResult",
         columns={@ColumnResult(name="kilos")})
 @NamedNativeQuery(
-        name = "GetProductDimensions",
-        query = "SELECT dimL,dimW,dimH FROM products WHERE id = ? ",
-        resultClass = Products.class)
-@NamedNativeQuery(
         name = "GetProductKilo",
         query = "SELECT kilos FROM products WHERE id = ? ",
         resultSetMapping = "KiloResult")
@@ -233,6 +229,12 @@ public class Products implements Serializable {
 
     public Products(Long id) {
         this.id = id;
+    }
+
+    public Products(@NotNull BigDecimal dimL, @NotNull BigDecimal dimW, @NotNull BigDecimal dimH) {
+        this.dimL = dimL;
+        this.dimW = dimW;
+        this.dimH = dimH;
     }
 
     public Products(Long id, @NotNull @Size(min = 1, max = 120) String code, @NotNull @Size(min = 1, max = 55) String title, @NotNull @Size(min = 1, max = 255) String thumbnailUrl, @NotNull BigDecimal price, @NotNull BigDecimal avgRating) {

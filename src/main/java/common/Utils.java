@@ -16,17 +16,22 @@ public class Utils {
         entityManager = em;
     }
 
-    public static  BigDecimal getProductVolume(Long productId)
+    public static  BigDecimal getProductVolume_m3(Long productId)
     {
         BigDecimal productVol = new BigDecimal(1);
-
-        Products p = entityManager.createNamedQuery("GetProductDimensions", Products.class)
-                    .setParameter(1, productId)
+        System.out.println("DB dimensions of product " + productId);
+        Products p = entityManager.createQuery("FROM Products WHERE id = :pid", Products.class)
+                    .setParameter("pid", productId)
                     .getSingleResult();
-        productVol = p.getDimL();
 
+        productVol = p.getDimL();
+        System.out.println("DIMS FOR PRODUCT " + productId + " " + p.getDimL() + " " + p.getDimW() + " " + p.getDimH());
         productVol = productVol.multiply(p.getDimW());
         productVol = productVol.multiply(p.getDimH());
+
+        productVol = productVol.divide(new BigDecimal(100));
+        productVol = productVol.divide(new BigDecimal(100));
+        productVol = productVol.divide(new BigDecimal(100));
 
         return productVol;
     }
