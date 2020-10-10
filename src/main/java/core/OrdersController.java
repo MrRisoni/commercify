@@ -97,7 +97,6 @@ public class OrdersController {
             BigDecimal tax = tax_info.getTotalTax();
             BigDecimal shippingCost = shipService.getTotalShippingCosts().getShipCost();
 
-
             BigDecimal courierFees = new BigDecimal(0);
 
             Utils.setEm(entityManager);
@@ -128,7 +127,6 @@ public class OrdersController {
             orderStatusHistoryObj.setOrderObj(savedOrder);
             ordStatusHistoryRepo.save(orderStatusHistoryObj);
 
-
             //save order Items
             for (BasketItem proion : kalathi.getItems()) {
                 OrderItems itemOrdered = new OrderItems();
@@ -140,8 +138,12 @@ public class OrdersController {
                 itemOrdered.setProductId(geFundenProduct);
                 itemOrdered.setStatusId(stdPending);
                 itemOrdered.setNetPrice(geFundenProduct.getPrice());
-                itemOrdered.setTaxes(tax_info.getTaxPerProduct().get(proion.getProd().getId()));
-
+                BigDecimal localTax =tax_info.getTaxPerProduct().get(proion.getProd().getId());
+                if (localTax.equals(null)) {
+                    localTax = new BigDecimal(0);
+                }
+                itemOrdered.setTaxes(localTax);
+                itemOrdered.setShipClassId(new ShopCourierClasses(proion.getShipClassId()));
                 OrderItems savedItemOrdered = orderItmRepo.save(itemOrdered);
 
                 OrderItemStatusHistory orderedItmStatusHistoryObj = new OrderItemStatusHistory();

@@ -4,6 +4,7 @@ package entity.order;
 import com.fasterxml.jackson.annotation.JsonView;
 import entity.JackSonViewer;
 import entity.product.Products;
+import entity.shipping.ShopCourierClasses;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -96,6 +97,11 @@ public class OrderItems implements Serializable {
     @JoinColumn(name = "item_id")
     @JsonView(JackSonViewer.IOrder.class)
     private List<OrderItemStatusHistory> statusHistory;
+
+    @JoinColumn(name = "shipping_class_id", referencedColumnName = "id")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JsonView(JackSonViewer.IOrder.class)
+    private ShopCourierClasses shipClassId;
 
     public OrderItems() {
     }
@@ -254,5 +260,13 @@ public class OrderItems implements Serializable {
 
     public void setArrivedOn(Date arrivedOn) {
         this.arrivedOn = arrivedOn;
+    }
+
+    public ShopCourierClasses getShipClassId() {
+        return shipClassId;
+    }
+
+    public void setShipClassId(ShopCourierClasses shipClassId) {
+        this.shipClassId = shipClassId;
     }
 }

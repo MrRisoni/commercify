@@ -33,6 +33,8 @@ public class TaxSrvc {
 
     public TaxInfo getTotalTaxData() {
         try {
+            System.out.println("getTotalTaxData total products " + basket.getItems());
+
 
             TaxInfo txnf = new TaxInfo();
 
@@ -53,8 +55,9 @@ public class TaxSrvc {
             for (BasketItem itm : basket.getItems()) {
                 System.out.println("DB PRICE OF is " + itm.getProd().getId());
                 ProductTax finalTax = new ProductTax();
+                System.out.println("calc tax of " + itm.getProd().getId());
 
-                List<Object[]> res = this.em.createNativeQuery("SELECT category_id,price FROM Products WHERE id = :pid AND taxable = 1 LIMIT 1")
+                List<Object[]> res = this.em.createNativeQuery("SELECT category_id,price FROM products WHERE id = :pid AND taxable = 1 LIMIT 1")
                         .setParameter("pid", itm.getProd().getId()).getResultList();
                 if (res.size() > 0) {
 

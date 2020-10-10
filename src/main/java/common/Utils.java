@@ -40,7 +40,7 @@ public class Utils {
     {
         BigDecimal totalWeight = new BigDecimal(0);
         for (BasketItem itm : bsk.getItems()) {
-
+            System.out.println("GET Weight of product " +  itm.getProd().getId());
             BigDecimal weight = entityManager.createNamedQuery("GetProductKilo", BigDecimal.class)
                     .setParameter(1, itm.getProd().getId())
                     .getSingleResult();

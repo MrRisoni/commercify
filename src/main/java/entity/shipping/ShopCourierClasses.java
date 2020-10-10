@@ -3,7 +3,7 @@ package entity.shipping;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import entity.JackSonViewer;
-import entity.order.Orders;
+import entity.order.OrderItems;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -47,6 +47,9 @@ public class ShopCourierClasses implements Serializable {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "shippingClassId")
     private Collection<ShopWeightCodRules> shopWeightCodRulesCollection;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "shipClassId")
+    private Collection<OrderItems> orderItemsCollection;
 
     public ShopCourierClasses() {
     }
@@ -109,5 +112,15 @@ public class ShopCourierClasses implements Serializable {
         this.shopWeightCodRulesCollection = shopWeightCodRulesCollection;
     }
 
+    public boolean isActive() {
+        return active;
+    }
 
+    public Collection<OrderItems> getOrderItemsCollection() {
+        return orderItemsCollection;
+    }
+
+    public void setOrderItemsCollection(Collection<OrderItems> orderItemsCollection) {
+        this.orderItemsCollection = orderItemsCollection;
+    }
 }

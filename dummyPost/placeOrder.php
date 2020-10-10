@@ -6,11 +6,12 @@ $postObj['shipTo'] = array('id' => 1);
 $postObj['pay'] = array('id' => 1);
 $postObj['currencyCode'] = 'EUR';
 $postObj['currency'] = 'EUR';
-$postObj['deliveryClass'] = array('id' => 1);
 $postObj['usr'] = array('id' => 1);
 
-$itm1  = array('quantity' => 1, 'prod' => array('id' => 4408));
-$postObj['items'] = [$itm1];
+$itm1  = array('quantity' => 1, 'shipClassId' => 4, 'prod' => array('id' => 4408)); // trumpet with ACS
+$itm2  = array('quantity' => 1, 'shipClassId' => 3, 'prod' => array('id' => 4409)); // double bass DHL with DHL
+
+$postObj['items'] = [$itm1,$itm2];
 
 
 echo json_encode($postObj);

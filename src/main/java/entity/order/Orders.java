@@ -3,7 +3,6 @@ package entity.order;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import entity.*;
-import entity.shipping.ShopCourierClasses;
 import entity.shop.Shops;
 import entity.shop.Users;
 import org.hibernate.annotations.CreationTimestamp;
