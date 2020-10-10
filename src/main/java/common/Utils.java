@@ -16,13 +16,24 @@ public class Utils {
         entityManager = em;
     }
 
-    public static  BigDecimal getProductVolume_m3(Long productId)
-    {
+    public static BigDecimal getProductWeight(Long productId) {
+        try {
+            Products prw = entityManager.createQuery("SELECT new entity.product.Products(kilos) FROM Products p WHERE p.id = :prid", Products.class)
+                    .setParameter("prid", productId)
+                    .getSingleResult();
+
+            return prw.getKilos();
+        } catch (Exception ex) {
+            return new BigDecimal(0);
+        }
+    }
+
+    public static BigDecimal getProductVolume_m3(Long productId) {
         BigDecimal productVol = new BigDecimal(1);
         System.out.println("DB dimensions of product " + productId);
-        Products p = entityManager.createQuery("FROM Products WHERE id = :pid", Products.class)
-                    .setParameter("pid", productId)
-                    .getSingleResult();
+        Products p = entityManager.createQuery("SELECT new entity.product.Products(dimL,dimW,dimH) FROM Products p WHERE p.id = :prid", Products.class)
+                .setParameter("prid", productId)
+                .getSingleResult();
 
         productVol = p.getDimL();
         System.out.println("DIMS FOR PRODUCT " + productId + " " + p.getDimL() + " " + p.getDimW() + " " + p.getDimH());
@@ -32,12 +43,30 @@ public class Utils {
         productVol = productVol.divide(new BigDecimal(100));
         productVol = productVol.divide(new BigDecimal(100));
         productVol = productVol.divide(new BigDecimal(100));
+        System.out.println("vol is  " + productVol);
 
         return productVol;
     }
 
-    public static BigDecimal getTotalOrderWeight(Basket bsk)
-    {
+    public static BigDecimal getProductVolume_cm3(Long productId) {
+        BigDecimal productVol = new BigDecimal(1);
+        System.out.println("DB dimensions of product " + productId);
+        Products p = entityManager.createQuery("SELECT new entity.product.Products(dimL,dimW,dimH) FROM Products p WHERE p.id = :prid", Products.class)
+                .setParameter("prid", productId)
+                .getSingleResult();
+
+        productVol = p.getDimL();
+        System.out.println("DIMS FOR PRODUCT " + productId + " " + p.getDimL() + " " + p.getDimW() + " " + p.getDimH());
+        productVol = productVol.multiply(p.getDimW());
+        productVol = productVol.multiply(p.getDimH());
+
+
+        System.out.println("vol is  " + productVol);
+
+        return productVol;
+    }
+
+    public static BigDecimal getTotalOrderWeight(Basket bsk) {
         BigDecimal totalWeight = new BigDecimal(0);
         try {
             System.out.println("getTotalOrderWeight Func bsk size = " + bsk.getItems().size());
@@ -66,12 +95,12 @@ public class Utils {
 
         for (BasketItem itm : kalathi.getItems()) {
 
-            Products gefundenProduct  = entityManager.createQuery("SELECT new entity.product.Products(p.id,p.price) " +
-                    " FROM Products p WHERE p.id=:productId",Products.class)
-                    .setParameter("productId",itm.getProd().getId())
+            Products gefundenProduct = entityManager.createQuery("SELECT new entity.product.Products(p.id,p.price) " +
+                    " FROM Products p WHERE p.id=:productId", Products.class)
+                    .setParameter("productId", itm.getProd().getId())
                     .getSingleResult();
 
-            totalNet =totalNet.add(gefundenProduct.getPrice());
+            totalNet = totalNet.add(gefundenProduct.getPrice());
         }
 
         return totalNet;

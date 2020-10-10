@@ -6,7 +6,6 @@ import entity.general.GlobeRegions;
 import entity.order.BillingAddress;
 import entity.order.ShippingAddress;
 import entity.product.Products;
-import entity.shipping.ShopCourierClasses;
 import entity.shop.Shops;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,10 +25,8 @@ import static org.junit.Assert.assertEquals;
 @SpringBootTest(classes = Application.class)
 public class ShipServiceTest {
 
-  //  @Test
+    @Test
     public void testShipCost() {
-        ShippingService shipService = new ShippingService();
-
         BillingAddress billTo = new BillingAddress();
         billTo.setCountryCode("GR");
         billTo.setPostCode("28100");
@@ -44,10 +41,10 @@ public class ShipServiceTest {
 
         basket.setBillTo(billTo);
         basket.setShipTo(shipTo);
-        basket.setShop(new Shops(2L));
+        basket.setShop(new Shops(3L));
 
-        BasketItem itm = new BasketItem(new Products(1L),2,1L);
-        BasketItem itm2 = new BasketItem(new Products(2L),2,1L);
+        BasketItem itm = new BasketItem(new Products(4408L),2,4L); // double bass
+        BasketItem itm2 = new BasketItem(new Products(4409L),3,3L); // trumpet
 
         List<BasketItem> items = new ArrayList<>();
         items.add(itm);
@@ -56,10 +53,13 @@ public class ShipServiceTest {
         basket.setItems(items);
 
         basket.setUpdatedAt(new Date());
+
+        ShippingService shipService =new ShippingService();
+
         shipService.setBasket(basket);
         shipService.setEm(HibernateUtil.getEM());
 
-        assertEquals(shipService.getTotalShippingCosts().getShipCost(),new BigDecimal(23));
+        assertEquals(shipService.getTotalWeightShippingCosts().getShipCost(),new BigDecimal(23));
 
     }
 

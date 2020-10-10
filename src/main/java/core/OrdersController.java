@@ -95,7 +95,7 @@ public class OrdersController {
 
             TaxInfo tax_info = taxService.getTotalTaxData();
             BigDecimal tax = tax_info.getTotalTax();
-            BigDecimal shippingCost = shipService.getTotalShippingCosts().getShipCost();
+            BigDecimal shippingCost = shipService.getTotalWeightShippingCosts().getShipCost();
 
             BigDecimal courierFees = new BigDecimal(0);
 

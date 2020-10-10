@@ -6,7 +6,6 @@ import entity.general.GlobeRegions;
 import entity.order.BillingAddress;
 import entity.order.ShippingAddress;
 import entity.product.Products;
-import entity.shipping.ShopCourierClasses;
 import entity.shop.Shops;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -46,7 +45,7 @@ public class VolumeServiceTest {
         basket.setShipTo(shipTo);
         basket.setShop(new Shops(3L));
 
-        BasketItem itm = new BasketItem(new Products(4408L),1,4L); // double bass
+        BasketItem itm = new BasketItem(new Products(4408L),2,4L); // double bass
         BasketItem itm2 = new BasketItem(new Products(4409L),1,3L); // trumpet
 
         List<BasketItem> items = new ArrayList<>();
@@ -59,7 +58,7 @@ public class VolumeServiceTest {
         volService.setBasket(basket);
         volService.setEm(HibernateUtil.getEM());
 
-        assertEquals(volService.getTotalShippingCosts().getShipCost(),new BigDecimal(23));
+        assertEquals(volService.getTotalVolumeShippingCosts().getShipCost(),new BigDecimal(23));
 
     }
 }

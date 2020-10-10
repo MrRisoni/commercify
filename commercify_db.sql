@@ -2,10 +2,10 @@
 -- version 5.0.2
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Oct 10, 2020 at 08:44 AM
--- Server version: 8.0.21
--- PHP Version: 7.4.10
+-- Host: 127.0.0.1
+-- Generation Time: Oct 10, 2020 at 11:57 AM
+-- Server version: 10.4.13-MariaDB
+-- PHP Version: 7.4.8
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -28,8 +28,8 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `bank_transactions` (
-  `id` bigint UNSIGNED NOT NULL,
-  `order_id` bigint UNSIGNED NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `order_id` bigint(20) UNSIGNED NOT NULL,
   `card_type` text NOT NULL,
   `card_bin` varchar(8) NOT NULL,
   `card_last_four` varchar(4) NOT NULL,
@@ -45,11 +45,11 @@ CREATE TABLE `bank_transactions` (
 --
 
 CREATE TABLE `billing_address` (
-  `id` bigint UNSIGNED NOT NULL,
-  `user_id` bigint UNSIGNED NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
   `country_code` varchar(2) NOT NULL,
-  `contact_mobile` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `region_id` bigint UNSIGNED NOT NULL DEFAULT '2',
+  `contact_mobile` varchar(20) NOT NULL,
+  `region_id` bigint(20) UNSIGNED NOT NULL DEFAULT 2,
   `city` varchar(80) NOT NULL,
   `full_name` varchar(80) NOT NULL,
   `address` varchar(80) NOT NULL,
@@ -71,7 +71,7 @@ INSERT INTO `billing_address` (`id`, `user_id`, `country_code`, `contact_mobile`
 --
 
 CREATE TABLE `continents` (
-  `id` bigint UNSIGNED NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
   `title` varchar(80) NOT NULL,
   `code` varchar(2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -90,7 +90,7 @@ INSERT INTO `continents` (`id`, `title`, `code`) VALUES
 --
 
 CREATE TABLE `countries` (
-  `id` bigint UNSIGNED NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
   `title` varchar(80) NOT NULL,
   `code` varchar(2) NOT NULL,
   `continent` varchar(2) NOT NULL
@@ -111,7 +111,7 @@ INSERT INTO `countries` (`id`, `title`, `code`, `continent`) VALUES
 --
 
 CREATE TABLE `courriers` (
-  `id` bigint UNSIGNED NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
   `title` varchar(80) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -133,9 +133,9 @@ INSERT INTO `courriers` (`id`, `title`) VALUES
 --
 
 CREATE TABLE `courrier_ships_categories` (
-  `id` bigint UNSIGNED NOT NULL,
-  `shop_courier_id` bigint UNSIGNED NOT NULL,
-  `shop_product_category_id` bigint UNSIGNED NOT NULL
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `shop_courier_id` bigint(20) UNSIGNED NOT NULL,
+  `shop_product_category_id` bigint(20) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='courriers do not ship big stuf like tables and double basses';
 
 --
@@ -153,7 +153,7 @@ INSERT INTO `courrier_ships_categories` (`id`, `shop_courier_id`, `shop_product_
 --
 
 CREATE TABLE `currencies` (
-  `id` bigint UNSIGNED NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
   `title` varchar(55) NOT NULL,
   `code` varchar(3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -173,7 +173,7 @@ INSERT INTO `currencies` (`id`, `title`, `code`) VALUES
 --
 
 CREATE TABLE `currency_rates` (
-  `id` bigint UNSIGNED NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
   `from_cur` varchar(3) NOT NULL,
   `to_cur` varchar(3) NOT NULL,
   `rate` decimal(10,2) UNSIGNED NOT NULL,
@@ -187,7 +187,7 @@ CREATE TABLE `currency_rates` (
 --
 
 CREATE TABLE `globe_regions` (
-  `id` bigint UNSIGNED NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
   `country_code` varchar(2) NOT NULL,
   `title` varchar(120) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -209,7 +209,7 @@ INSERT INTO `globe_regions` (`id`, `country_code`, `title`) VALUES
 --
 
 CREATE TABLE `languages` (
-  `id` bigint UNSIGNED NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
   `title` varchar(55) NOT NULL,
   `code` varchar(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -230,23 +230,23 @@ INSERT INTO `languages` (`id`, `title`, `code`) VALUES
 --
 
 CREATE TABLE `orders` (
-  `id` bigint UNSIGNED NOT NULL,
-  `user_id` bigint UNSIGNED NOT NULL,
-  `shipping_address_id` bigint UNSIGNED NOT NULL,
-  `billing_address_id` bigint UNSIGNED NOT NULL,
-  `shop_id` bigint UNSIGNED NOT NULL,
-  `status_id` bigint UNSIGNED NOT NULL,
-  `pay_method_id` bigint UNSIGNED NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `shipping_address_id` bigint(20) UNSIGNED NOT NULL,
+  `billing_address_id` bigint(20) UNSIGNED NOT NULL,
+  `shop_id` bigint(20) UNSIGNED NOT NULL,
+  `status_id` bigint(20) UNSIGNED NOT NULL,
+  `pay_method_id` bigint(20) UNSIGNED NOT NULL,
   `currency` varchar(3) NOT NULL,
   `currency_rate` decimal(10,2) UNSIGNED NOT NULL,
-  `total` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `net` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `commission` decimal(10,2) UNSIGNED NOT NULL DEFAULT '0.00',
-  `tax` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `courrier_fees` decimal(10,2) UNSIGNED NOT NULL DEFAULT '0.00',
-  `shipping` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `success` tinyint(1) NOT NULL DEFAULT '0',
-  `void` tinyint(1) NOT NULL DEFAULT '0',
+  `total` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `net` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `commission` decimal(10,2) UNSIGNED NOT NULL DEFAULT 0.00,
+  `tax` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `courrier_fees` decimal(10,2) UNSIGNED NOT NULL DEFAULT 0.00,
+  `shipping` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `success` tinyint(1) NOT NULL DEFAULT 0,
+  `void` tinyint(1) NOT NULL DEFAULT 0,
   `refund` tinyint(1) NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime DEFAULT NULL
@@ -281,9 +281,9 @@ INSERT INTO `orders` (`id`, `user_id`, `shipping_address_id`, `billing_address_i
 --
 
 CREATE TABLE `orders_status_history` (
-  `id` bigint UNSIGNED NOT NULL,
-  `order_id` bigint UNSIGNED NOT NULL,
-  `status_id` bigint UNSIGNED NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `order_id` bigint(20) UNSIGNED NOT NULL,
+  `status_id` bigint(20) UNSIGNED NOT NULL,
   `created_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -316,19 +316,19 @@ INSERT INTO `orders_status_history` (`id`, `order_id`, `status_id`, `created_at`
 --
 
 CREATE TABLE `order_items` (
-  `id` bigint UNSIGNED NOT NULL,
-  `order_id` bigint UNSIGNED NOT NULL,
-  `shipping_class_id` bigint UNSIGNED NOT NULL DEFAULT '1',
-  `product_id` bigint UNSIGNED NOT NULL,
-  `status_id` bigint UNSIGNED NOT NULL,
-  `quantity` int UNSIGNED NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `order_id` bigint(20) UNSIGNED NOT NULL,
+  `shipping_class_id` bigint(20) UNSIGNED NOT NULL DEFAULT 1,
+  `product_id` bigint(20) UNSIGNED NOT NULL,
+  `status_id` bigint(20) UNSIGNED NOT NULL,
+  `quantity` int(10) UNSIGNED NOT NULL,
   `tracking_no` varchar(52) DEFAULT NULL,
   `dispatched_on` datetime DEFAULT NULL,
   `expected_on` date DEFAULT NULL,
   `arrived_on` date DEFAULT NULL,
   `net_price` decimal(10,2) DEFAULT NULL,
   `taxes` decimal(10,2) DEFAULT NULL,
-  `gift_cost` decimal(10,2) DEFAULT '0.00',
+  `gift_cost` decimal(10,2) DEFAULT 0.00,
   `success` tinyint(1) DEFAULT NULL,
   `void` tinyint(1) DEFAULT NULL,
   `refund` tinyint(1) DEFAULT NULL
@@ -364,9 +364,9 @@ INSERT INTO `order_items` (`id`, `order_id`, `shipping_class_id`, `product_id`, 
 --
 
 CREATE TABLE `order_items_status_history` (
-  `id` bigint UNSIGNED NOT NULL,
-  `item_id` bigint UNSIGNED NOT NULL,
-  `status_id` bigint UNSIGNED NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `item_id` bigint(20) UNSIGNED NOT NULL,
+  `status_id` bigint(20) UNSIGNED NOT NULL,
   `created_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -400,7 +400,7 @@ INSERT INTO `order_items_status_history` (`id`, `item_id`, `status_id`, `created
 --
 
 CREATE TABLE `order_status` (
-  `id` bigint UNSIGNED NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
   `title` varchar(55) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -422,7 +422,7 @@ INSERT INTO `order_status` (`id`, `title`) VALUES
 --
 
 CREATE TABLE `payment_methods` (
-  `id` bigint UNSIGNED NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
   `title` varchar(55) NOT NULL,
   `code` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -445,13 +445,13 @@ INSERT INTO `payment_methods` (`id`, `title`, `code`) VALUES
 --
 
 CREATE TABLE `pricing_plans` (
-  `id` bigint UNSIGNED NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
   `commission_per_order` decimal(5,2) UNSIGNED NOT NULL,
-  `total_shops` tinyint UNSIGNED NOT NULL,
-  `total_products_per_shop` mediumint UNSIGNED NOT NULL,
-  `total_products` mediumint UNSIGNED NOT NULL,
-  `total_photos_per_product` tinyint UNSIGNED NOT NULL,
-  `total_photo_space_gb` smallint UNSIGNED NOT NULL
+  `total_shops` tinyint(3) UNSIGNED NOT NULL,
+  `total_products_per_shop` mediumint(8) UNSIGNED NOT NULL,
+  `total_products` mediumint(8) UNSIGNED NOT NULL,
+  `total_photos_per_product` tinyint(3) UNSIGNED NOT NULL,
+  `total_photo_space_gb` smallint(5) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -461,11 +461,11 @@ CREATE TABLE `pricing_plans` (
 --
 
 CREATE TABLE `products` (
-  `id` bigint UNSIGNED NOT NULL,
-  `shop_id` bigint UNSIGNED DEFAULT '1',
-  `category_id` bigint UNSIGNED DEFAULT '1',
-  `currency_id` bigint UNSIGNED DEFAULT '1',
-  `manufacturer_id` bigint UNSIGNED DEFAULT '1',
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `shop_id` bigint(20) UNSIGNED DEFAULT 1,
+  `category_id` bigint(20) UNSIGNED DEFAULT 1,
+  `currency_id` bigint(20) UNSIGNED DEFAULT 1,
+  `manufacturer_id` bigint(20) UNSIGNED DEFAULT 1,
   `code` varchar(120) DEFAULT NULL,
   `title` varchar(55) NOT NULL,
   `descr` varchar(55) DEFAULT NULL,
@@ -478,16 +478,16 @@ CREATE TABLE `products` (
   `dim_l` decimal(6,2) DEFAULT NULL,
   `dim_w` decimal(6,2) DEFAULT NULL,
   `dim_h` decimal(6,2) DEFAULT NULL,
-  `active` tinyint(1) DEFAULT '1',
-  `stock` bigint UNSIGNED DEFAULT NULL,
+  `active` tinyint(1) DEFAULT 1,
+  `stock` bigint(20) UNSIGNED DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   `updated` datetime DEFAULT NULL,
   `taxable` tinyint(1) DEFAULT NULL,
   `gift_wrap_cost` decimal(10,2) DEFAULT NULL,
-  `visible` tinyint(1) DEFAULT '1',
-  `total_orders` bigint UNSIGNED DEFAULT '0',
-  `avg_rating` decimal(2,1) DEFAULT '0.0',
-  `total_clicks` bigint UNSIGNED DEFAULT '0'
+  `visible` tinyint(1) DEFAULT 1,
+  `total_orders` bigint(20) UNSIGNED DEFAULT 0,
+  `avg_rating` decimal(2,1) DEFAULT 0.0,
+  `total_clicks` bigint(20) UNSIGNED DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -667,9 +667,9 @@ INSERT INTO `products` (`id`, `shop_id`, `category_id`, `currency_id`, `manufact
 --
 
 CREATE TABLE `products_discounts` (
-  `id` bigint UNSIGNED NOT NULL,
-  `product_id` bigint UNSIGNED NOT NULL,
-  `discount_per_cent` bigint UNSIGNED NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `product_id` bigint(20) UNSIGNED NOT NULL,
+  `discount_per_cent` bigint(20) UNSIGNED NOT NULL,
   `active_from` datetime NOT NULL,
   `active_until` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -681,12 +681,12 @@ CREATE TABLE `products_discounts` (
 --
 
 CREATE TABLE `product_attributes_values` (
-  `id` bigint UNSIGNED NOT NULL,
-  `product_id` bigint UNSIGNED NOT NULL,
-  `attribute_id` bigint UNSIGNED NOT NULL DEFAULT '1',
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `product_id` bigint(20) UNSIGNED NOT NULL,
+  `attribute_id` bigint(20) UNSIGNED NOT NULL DEFAULT 1,
   `value` varchar(55) DEFAULT NULL,
-  `value_numeric` decimal(10,2) UNSIGNED NOT NULL DEFAULT '0.00',
-  `value_boolean` tinyint UNSIGNED NOT NULL DEFAULT '2' COMMENT 'can either be zero or one ,2 means nothing'
+  `value_numeric` decimal(10,2) UNSIGNED NOT NULL DEFAULT 0.00,
+  `value_boolean` tinyint(3) UNSIGNED NOT NULL DEFAULT 2 COMMENT 'can either be zero or one ,2 means nothing'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -910,9 +910,9 @@ INSERT INTO `product_attributes_values` (`id`, `product_id`, `attribute_id`, `va
 --
 
 CREATE TABLE `product_attribute_ranges` (
-  `id` bigint UNSIGNED NOT NULL,
-  `shop_id` bigint UNSIGNED NOT NULL,
-  `product_attribute_id` bigint UNSIGNED NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `shop_id` bigint(20) UNSIGNED NOT NULL,
+  `product_attribute_id` bigint(20) UNSIGNED NOT NULL,
   `lowest` decimal(10,2) UNSIGNED NOT NULL,
   `highest` decimal(10,2) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='ranges for filters in e.g disk size';
@@ -935,8 +935,8 @@ INSERT INTO `product_attribute_ranges` (`id`, `shop_id`, `product_attribute_id`,
 --
 
 CREATE TABLE `product_attribute_units` (
-  `id` bigint UNSIGNED NOT NULL,
-  `attribute_id` bigint UNSIGNED NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `attribute_id` bigint(20) UNSIGNED NOT NULL,
   `units` varchar(55) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -954,9 +954,9 @@ INSERT INTO `product_attribute_units` (`id`, `attribute_id`, `units`) VALUES
 --
 
 CREATE TABLE `product_categories` (
-  `id` bigint UNSIGNED NOT NULL,
-  `shop_id` bigint UNSIGNED NOT NULL DEFAULT '1',
-  `parent_category_id` bigint UNSIGNED NOT NULL DEFAULT '0',
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `shop_id` bigint(20) UNSIGNED NOT NULL DEFAULT 1,
+  `parent_category_id` bigint(20) UNSIGNED NOT NULL DEFAULT 0,
   `title` varchar(55) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -980,16 +980,16 @@ INSERT INTO `product_categories` (`id`, `shop_id`, `parent_category_id`, `title`
 --
 
 CREATE TABLE `product_category_attributes` (
-  `id` bigint UNSIGNED NOT NULL,
-  `shop_id` bigint UNSIGNED NOT NULL,
-  `product_category_id` bigint UNSIGNED NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `shop_id` bigint(20) UNSIGNED NOT NULL,
+  `product_category_id` bigint(20) UNSIGNED NOT NULL,
   `code` varchar(55) NOT NULL,
-  `filterable` tinyint NOT NULL DEFAULT '1',
-  `rangeable` tinyint NOT NULL DEFAULT '0' COMMENT 'e.g ram size slider on filters',
-  `searchable` tinyint UNSIGNED NOT NULL DEFAULT '0',
-  `isBoolean` tinyint NOT NULL DEFAULT '0' COMMENT 'aka boolean',
-  `isString` tinyint UNSIGNED NOT NULL DEFAULT '0',
-  `isGrouppable` tinyint NOT NULL DEFAULT '0' COMMENT 'for these criteria show results per value in results page'
+  `filterable` tinyint(4) NOT NULL DEFAULT 1,
+  `rangeable` tinyint(4) NOT NULL DEFAULT 0 COMMENT 'e.g ram size slider on filters',
+  `searchable` tinyint(3) UNSIGNED NOT NULL DEFAULT 0,
+  `isBoolean` tinyint(4) NOT NULL DEFAULT 0 COMMENT 'aka boolean',
+  `isString` tinyint(3) UNSIGNED NOT NULL DEFAULT 0,
+  `isGrouppable` tinyint(4) NOT NULL DEFAULT 0 COMMENT 'for these criteria show results per value in results page'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -1032,8 +1032,8 @@ INSERT INTO `product_category_attributes` (`id`, `shop_id`, `product_category_id
 --
 
 CREATE TABLE `product_gallery` (
-  `id` bigint UNSIGNED NOT NULL,
-  `product_id` bigint UNSIGNED NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `product_id` bigint(20) UNSIGNED NOT NULL,
   `file_path` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -1051,8 +1051,8 @@ INSERT INTO `product_gallery` (`id`, `product_id`, `file_path`) VALUES
 --
 
 CREATE TABLE `product_gallery_tag` (
-  `id` bigint UNSIGNED NOT NULL,
-  `image_id` bigint UNSIGNED NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `image_id` bigint(20) UNSIGNED NOT NULL,
   `tag` varchar(55) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -1063,10 +1063,10 @@ CREATE TABLE `product_gallery_tag` (
 --
 
 CREATE TABLE `product_reviews` (
-  `id` bigint UNSIGNED NOT NULL,
-  `product_id` bigint UNSIGNED NOT NULL DEFAULT '1',
-  `shop_id` bigint UNSIGNED NOT NULL DEFAULT '1',
-  `user_id` bigint UNSIGNED NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `product_id` bigint(20) UNSIGNED NOT NULL DEFAULT 1,
+  `shop_id` bigint(20) UNSIGNED NOT NULL DEFAULT 1,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
   `stars` decimal(2,1) NOT NULL,
   `comment` varchar(255) NOT NULL,
   `created` datetime NOT NULL
@@ -1087,8 +1087,8 @@ INSERT INTO `product_reviews` (`id`, `product_id`, `shop_id`, `user_id`, `stars`
 --
 
 CREATE TABLE `product_tags` (
-  `id` bigint UNSIGNED NOT NULL,
-  `product_id` bigint UNSIGNED NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `product_id` bigint(20) UNSIGNED NOT NULL,
   `tag` varchar(55) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -1106,7 +1106,7 @@ INSERT INTO `product_tags` (`id`, `product_id`, `tag`) VALUES
 --
 
 CREATE TABLE `restrict_payment_parameters` (
-  `id` bigint UNSIGNED NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
   `code` varchar(12) NOT NULL,
   `title` varchar(55) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1140,11 +1140,11 @@ INSERT INTO `restrict_payment_parameters` (`id`, `code`, `title`) VALUES
 --
 
 CREATE TABLE `restrict_payment_rules` (
-  `id` bigint UNSIGNED NOT NULL,
-  `shop_id` bigint UNSIGNED NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `shop_id` bigint(20) UNSIGNED NOT NULL,
   `title` varchar(120) NOT NULL,
-  `active` tinyint UNSIGNED NOT NULL,
-  `priority` int NOT NULL,
+  `active` tinyint(3) UNSIGNED NOT NULL,
+  `priority` int(11) NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='rules for disabling criteria ';
@@ -1163,10 +1163,10 @@ INSERT INTO `restrict_payment_rules` (`id`, `shop_id`, `title`, `active`, `prior
 --
 
 CREATE TABLE `restrict_payment_rules_criteria` (
-  `id` bigint UNSIGNED NOT NULL,
-  `rule_id` bigint UNSIGNED NOT NULL,
-  `parameter_id` bigint UNSIGNED NOT NULL,
-  `operator_id` bigint UNSIGNED NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `rule_id` bigint(20) UNSIGNED NOT NULL,
+  `parameter_id` bigint(20) UNSIGNED NOT NULL,
+  `operator_id` bigint(20) UNSIGNED NOT NULL,
   `value` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -1184,7 +1184,7 @@ INSERT INTO `restrict_payment_rules_criteria` (`id`, `rule_id`, `parameter_id`, 
 --
 
 CREATE TABLE `restrict_payment_rules_operators` (
-  `id` bigint UNSIGNED NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
   `code` varchar(12) NOT NULL,
   `title` varchar(25) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1209,9 +1209,9 @@ INSERT INTO `restrict_payment_rules_operators` (`id`, `code`, `title`) VALUES
 --
 
 CREATE TABLE `rules_disables_methods` (
-  `id` bigint UNSIGNED NOT NULL,
-  `rule_id` bigint UNSIGNED NOT NULL,
-  `payment_method_id` bigint UNSIGNED NOT NULL
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `rule_id` bigint(20) UNSIGNED NOT NULL,
+  `payment_method_id` bigint(20) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -1229,11 +1229,11 @@ INSERT INTO `rules_disables_methods` (`id`, `rule_id`, `payment_method_id`) VALU
 --
 
 CREATE TABLE `shipping_address` (
-  `id` bigint UNSIGNED NOT NULL,
-  `user_id` bigint UNSIGNED NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
   `country_code` varchar(2) NOT NULL,
   `contact_mobile` varchar(20) NOT NULL,
-  `region_id` bigint UNSIGNED NOT NULL DEFAULT '1',
+  `region_id` bigint(20) UNSIGNED NOT NULL DEFAULT 1,
   `city` varchar(80) NOT NULL,
   `full_name` varchar(80) NOT NULL,
   `address` varchar(80) NOT NULL,
@@ -1255,8 +1255,8 @@ INSERT INTO `shipping_address` (`id`, `user_id`, `country_code`, `contact_mobile
 --
 
 CREATE TABLE `shipping_region_zips` (
-  `id` bigint UNSIGNED NOT NULL,
-  `zone_region_id` bigint UNSIGNED NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `zone_region_id` bigint(20) UNSIGNED NOT NULL,
   `code` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -1274,8 +1274,8 @@ INSERT INTO `shipping_region_zips` (`id`, `zone_region_id`, `code`) VALUES
 --
 
 CREATE TABLE `shipping_zip_codes_forbid` (
-  `id` bigint UNSIGNED NOT NULL,
-  `region_id` bigint UNSIGNED NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `region_id` bigint(20) UNSIGNED NOT NULL,
   `zip_code` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='DO NOT SHIP HERE';
 
@@ -1286,8 +1286,8 @@ CREATE TABLE `shipping_zip_codes_forbid` (
 --
 
 CREATE TABLE `shipping_zones` (
-  `id` bigint UNSIGNED NOT NULL,
-  `shop_id` bigint UNSIGNED NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `shop_id` bigint(20) UNSIGNED NOT NULL,
   `title` varchar(55) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='ship to these zones';
 
@@ -1308,9 +1308,9 @@ INSERT INTO `shipping_zones` (`id`, `shop_id`, `title`) VALUES
 --
 
 CREATE TABLE `shipping_zones_regions` (
-  `id` bigint UNSIGNED NOT NULL,
-  `zone_id` bigint UNSIGNED NOT NULL,
-  `region_id` bigint UNSIGNED NOT NULL
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `zone_id` bigint(20) UNSIGNED NOT NULL,
+  `region_id` bigint(20) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='ship to these regions';
 
 --
@@ -1329,11 +1329,11 @@ INSERT INTO `shipping_zones_regions` (`id`, `zone_id`, `region_id`) VALUES
 --
 
 CREATE TABLE `shops` (
-  `id` bigint UNSIGNED NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
   `title` varchar(55) NOT NULL,
   `basic_currency` varchar(3) NOT NULL DEFAULT 'EUR',
-  `owner_id` bigint UNSIGNED NOT NULL,
-  `default_lang_id` bigint UNSIGNED NOT NULL DEFAULT '1',
+  `owner_id` bigint(20) UNSIGNED NOT NULL,
+  `default_lang_id` bigint(20) UNSIGNED NOT NULL DEFAULT 1,
   `created` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -1353,8 +1353,8 @@ INSERT INTO `shops` (`id`, `title`, `basic_currency`, `owner_id`, `default_lang_
 --
 
 CREATE TABLE `shop_banks` (
-  `id` bigint UNSIGNED NOT NULL,
-  `shop_id` bigint UNSIGNED NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `shop_id` bigint(20) UNSIGNED NOT NULL,
   `bank` varchar(52) NOT NULL,
   `account_no` varchar(52) NOT NULL,
   `iban` varchar(52) NOT NULL,
@@ -1375,11 +1375,11 @@ INSERT INTO `shop_banks` (`id`, `shop_id`, `bank`, `account_no`, `iban`, `swift_
 --
 
 CREATE TABLE `shop_belongs_categories` (
-  `id` bigint UNSIGNED NOT NULL,
-  `shop_id` bigint UNSIGNED NOT NULL,
-  `category_id` bigint UNSIGNED NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `shop_id` bigint(20) UNSIGNED NOT NULL,
+  `category_id` bigint(20) UNSIGNED NOT NULL,
   `thumbnail_url` varchar(255) NOT NULL,
-  `show_order` int NOT NULL
+  `show_order` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -1397,7 +1397,7 @@ INSERT INTO `shop_belongs_categories` (`id`, `shop_id`, `category_id`, `thumbnai
 --
 
 CREATE TABLE `shop_categories` (
-  `id` bigint UNSIGNED NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
   `title` varchar(55) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -1417,8 +1417,8 @@ INSERT INTO `shop_categories` (`id`, `title`) VALUES
 --
 
 CREATE TABLE `shop_countries` (
-  `id` bigint UNSIGNED NOT NULL,
-  `shop_id` bigint UNSIGNED NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `shop_id` bigint(20) UNSIGNED NOT NULL,
   `country_code` varchar(2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='shops to  these countires';
 
@@ -1436,9 +1436,9 @@ INSERT INTO `shop_countries` (`id`, `shop_id`, `country_code`) VALUES
 --
 
 CREATE TABLE `shop_couriers` (
-  `id` bigint UNSIGNED NOT NULL,
-  `shop_id` bigint UNSIGNED NOT NULL,
-  `courier_id` bigint UNSIGNED NOT NULL
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `shop_id` bigint(20) UNSIGNED NOT NULL,
+  `courier_id` bigint(20) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -1457,8 +1457,8 @@ INSERT INTO `shop_couriers` (`id`, `shop_id`, `courier_id`) VALUES
 --
 
 CREATE TABLE `shop_courier_classes` (
-  `id` bigint UNSIGNED NOT NULL,
-  `shop_courier_id` bigint UNSIGNED NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `shop_courier_id` bigint(20) UNSIGNED NOT NULL,
   `title` varchar(52) NOT NULL,
   `active` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1480,9 +1480,9 @@ INSERT INTO `shop_courier_classes` (`id`, `shop_courier_id`, `title`, `active`) 
 --
 
 CREATE TABLE `shop_currencies` (
-  `id` bigint UNSIGNED NOT NULL,
-  `shop_id` bigint UNSIGNED NOT NULL,
-  `currency_id` bigint UNSIGNED NOT NULL
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `shop_id` bigint(20) UNSIGNED NOT NULL,
+  `currency_id` bigint(20) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -1501,8 +1501,8 @@ INSERT INTO `shop_currencies` (`id`, `shop_id`, `currency_id`) VALUES
 --
 
 CREATE TABLE `shop_disable_zip_codes` (
-  `id` bigint UNSIGNED NOT NULL,
-  `shop_id` bigint UNSIGNED NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `shop_id` bigint(20) UNSIGNED NOT NULL,
   `country_code` varchar(2) NOT NULL,
   `zip` varchar(12) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1514,9 +1514,9 @@ CREATE TABLE `shop_disable_zip_codes` (
 --
 
 CREATE TABLE `shop_eulas` (
-  `id` bigint UNSIGNED NOT NULL,
-  `shop_id` bigint UNSIGNED NOT NULL,
-  `language_id` bigint UNSIGNED NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `shop_id` bigint(20) UNSIGNED NOT NULL,
+  `language_id` bigint(20) UNSIGNED NOT NULL,
   `terms` longtext NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -1527,8 +1527,8 @@ CREATE TABLE `shop_eulas` (
 --
 
 CREATE TABLE `shop_giftwrap` (
-  `id` bigint UNSIGNED NOT NULL,
-  `shop_id` bigint UNSIGNED NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `shop_id` bigint(20) UNSIGNED NOT NULL,
   `image_path` varchar(52) NOT NULL,
   `active` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1540,9 +1540,9 @@ CREATE TABLE `shop_giftwrap` (
 --
 
 CREATE TABLE `shop_languages` (
-  `id` bigint UNSIGNED NOT NULL,
-  `shop_id` bigint UNSIGNED NOT NULL,
-  `language_id` bigint UNSIGNED NOT NULL
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `shop_id` bigint(20) UNSIGNED NOT NULL,
+  `language_id` bigint(20) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -1561,9 +1561,9 @@ INSERT INTO `shop_languages` (`id`, `shop_id`, `language_id`) VALUES
 --
 
 CREATE TABLE `shop_managers` (
-  `id` bigint UNSIGNED NOT NULL,
-  `shop_id` bigint UNSIGNED NOT NULL,
-  `manager_id` bigint UNSIGNED NOT NULL
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `shop_id` bigint(20) UNSIGNED NOT NULL,
+  `manager_id` bigint(20) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -1580,8 +1580,8 @@ INSERT INTO `shop_managers` (`id`, `shop_id`, `manager_id`) VALUES
 --
 
 CREATE TABLE `shop_manufacturers` (
-  `id` bigint UNSIGNED NOT NULL,
-  `shop_id` bigint UNSIGNED NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `shop_id` bigint(20) UNSIGNED NOT NULL,
   `title` varchar(55) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -1608,10 +1608,10 @@ INSERT INTO `shop_manufacturers` (`id`, `shop_id`, `title`) VALUES
 --
 
 CREATE TABLE `shop_over_weight_ship_rules` (
-  `id` bigint UNSIGNED NOT NULL,
-  `shop_id` bigint UNSIGNED NOT NULL,
-  `shipping_class_id` bigint UNSIGNED NOT NULL,
-  `zone_id` bigint UNSIGNED NOT NULL DEFAULT '1',
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `shop_id` bigint(20) UNSIGNED NOT NULL,
+  `shipping_class_id` bigint(20) UNSIGNED NOT NULL,
+  `zone_id` bigint(20) UNSIGNED NOT NULL DEFAULT 1,
   `taxable` tinyint(1) NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime DEFAULT NULL,
@@ -1636,9 +1636,9 @@ INSERT INTO `shop_over_weight_ship_rules` (`id`, `shop_id`, `shipping_class_id`,
 --
 
 CREATE TABLE `shop_reviews` (
-  `id` bigint UNSIGNED NOT NULL,
-  `shop_id` bigint UNSIGNED NOT NULL,
-  `user_id` bigint UNSIGNED NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `shop_id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
   `stars` decimal(2,1) NOT NULL,
   `comment` varchar(255) NOT NULL,
   `created` datetime NOT NULL
@@ -1651,8 +1651,8 @@ CREATE TABLE `shop_reviews` (
 --
 
 CREATE TABLE `shop_styling` (
-  `id` bigint UNSIGNED NOT NULL,
-  `shop_id` bigint UNSIGNED NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `shop_id` bigint(20) UNSIGNED NOT NULL,
   `style` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -1663,8 +1663,8 @@ CREATE TABLE `shop_styling` (
 --
 
 CREATE TABLE `shop_suppliers` (
-  `id` bigint UNSIGNED NOT NULL,
-  `shop_id` bigint UNSIGNED NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `shop_id` bigint(20) UNSIGNED NOT NULL,
   `title` varchar(55) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -1675,11 +1675,11 @@ CREATE TABLE `shop_suppliers` (
 --
 
 CREATE TABLE `shop_tax_region_rules` (
-  `id` bigint UNSIGNED NOT NULL,
-  `shop_id` bigint UNSIGNED NOT NULL,
-  `product_category_id` bigint UNSIGNED NOT NULL DEFAULT '1',
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `shop_id` bigint(20) UNSIGNED NOT NULL,
+  `product_category_id` bigint(20) UNSIGNED NOT NULL DEFAULT 1,
   `country_code` varchar(3) NOT NULL,
-  `region_id` bigint UNSIGNED NOT NULL,
+  `region_id` bigint(20) UNSIGNED NOT NULL,
   `flat_cost` decimal(10,2) NOT NULL,
   `rate` decimal(10,2) NOT NULL,
   `tax_address` varchar(4) NOT NULL DEFAULT 'ship' COMMENT 'ship or bill',
@@ -1697,9 +1697,9 @@ CREATE TABLE `shop_tax_region_rules` (
 --
 
 CREATE TABLE `shop_tax_rules` (
-  `id` bigint UNSIGNED NOT NULL,
-  `shop_id` bigint UNSIGNED NOT NULL,
-  `product_category_id` bigint UNSIGNED NOT NULL DEFAULT '1',
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `shop_id` bigint(20) UNSIGNED NOT NULL,
+  `product_category_id` bigint(20) UNSIGNED NOT NULL DEFAULT 1,
   `country_code` varchar(3) NOT NULL,
   `flat_cost` decimal(10,2) NOT NULL,
   `rate` decimal(10,2) NOT NULL,
@@ -1727,11 +1727,11 @@ INSERT INTO `shop_tax_rules` (`id`, `shop_id`, `product_category_id`, `country_c
 --
 
 CREATE TABLE `shop_tax_zipcode_rules` (
-  `id` bigint UNSIGNED NOT NULL,
-  `shop_id` bigint UNSIGNED NOT NULL,
-  `product_category_id` bigint UNSIGNED NOT NULL DEFAULT '1',
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `shop_id` bigint(20) UNSIGNED NOT NULL,
+  `product_category_id` bigint(20) UNSIGNED NOT NULL DEFAULT 1,
   `country_code` varchar(3) NOT NULL,
-  `region_id` bigint UNSIGNED NOT NULL,
+  `region_id` bigint(20) UNSIGNED NOT NULL,
   `zip_codes` text NOT NULL,
   `flat_cost` decimal(10,2) NOT NULL,
   `rate` decimal(10,2) NOT NULL,
@@ -1750,9 +1750,9 @@ CREATE TABLE `shop_tax_zipcode_rules` (
 --
 
 CREATE TABLE `shop_translations` (
-  `id` bigint UNSIGNED NOT NULL,
-  `shop_id` bigint UNSIGNED NOT NULL,
-  `language_id` bigint UNSIGNED NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `shop_id` bigint(20) UNSIGNED NOT NULL,
+  `language_id` bigint(20) UNSIGNED NOT NULL,
   `code` varchar(80) NOT NULL,
   `transltr` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1764,17 +1764,17 @@ CREATE TABLE `shop_translations` (
 --
 
 CREATE TABLE `shop_volume_ship_rules` (
-  `id` bigint UNSIGNED NOT NULL,
-  `shop_id` bigint UNSIGNED NOT NULL,
-  `shipping_class_id` bigint UNSIGNED NOT NULL,
-  `zone_id` bigint UNSIGNED NOT NULL DEFAULT '1',
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `shop_id` bigint(20) UNSIGNED NOT NULL,
+  `shipping_class_id` bigint(20) UNSIGNED NOT NULL,
+  `zone_id` bigint(20) UNSIGNED NOT NULL DEFAULT 1,
   `taxable` tinyint(1) NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime DEFAULT NULL,
-  `over_than_vol` decimal(10,2) NOT NULL COMMENT 'm3',
+  `over_than_vol` decimal(10,2) NOT NULL COMMENT 'cm3',
   `over_equal` tinyint(1) NOT NULL,
-  `less_than_vol` decimal(10,2) NOT NULL COMMENT 'm3',
-  `less_than_infinity` tinyint UNSIGNED NOT NULL DEFAULT '1',
+  `less_than_vol` decimal(10,2) NOT NULL COMMENT 'c\r\ncm3',
+  `less_than_infinity` tinyint(3) UNSIGNED NOT NULL DEFAULT 1,
   `less_equal` tinyint(1) NOT NULL,
   `base_cost` decimal(10,2) NOT NULL,
   `active` tinyint(1) NOT NULL
@@ -1785,7 +1785,7 @@ CREATE TABLE `shop_volume_ship_rules` (
 --
 
 INSERT INTO `shop_volume_ship_rules` (`id`, `shop_id`, `shipping_class_id`, `zone_id`, `taxable`, `created_at`, `updated_at`, `over_than_vol`, `over_equal`, `less_than_vol`, `less_than_infinity`, `less_equal`, `base_cost`, `active`) VALUES
-(1, 3, 4, 4, 0, '2020-08-12 08:55:50', '2020-08-12 08:55:50', '0.20', 1, '0.00', 1, 0, '15.00', 1);
+(1, 3, 4, 4, 0, '2020-08-12 08:55:50', '2020-08-12 08:55:50', '2100.00', 1, '0.00', 1, 0, '15.00', 1);
 
 -- --------------------------------------------------------
 
@@ -1794,9 +1794,9 @@ INSERT INTO `shop_volume_ship_rules` (`id`, `shop_id`, `shipping_class_id`, `zon
 --
 
 CREATE TABLE `shop_weight_cod_rules` (
-  `id` bigint UNSIGNED NOT NULL,
-  `shop_id` bigint UNSIGNED NOT NULL,
-  `shipping_class_id` bigint UNSIGNED NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `shop_id` bigint(20) UNSIGNED NOT NULL,
+  `shipping_class_id` bigint(20) UNSIGNED NOT NULL,
   `title` varchar(52) NOT NULL,
   `taxable` tinyint(1) NOT NULL,
   `less_than_kg` decimal(10,2) NOT NULL,
@@ -1819,17 +1819,17 @@ CREATE TABLE `shop_weight_cod_rules` (
 --
 
 CREATE TABLE `shop_weight_ship_rules` (
-  `id` bigint UNSIGNED NOT NULL,
-  `shop_id` bigint UNSIGNED NOT NULL,
-  `shipping_class_id` bigint UNSIGNED NOT NULL,
-  `zone_id` bigint UNSIGNED NOT NULL DEFAULT '1',
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `shop_id` bigint(20) UNSIGNED NOT NULL,
+  `shipping_class_id` bigint(20) UNSIGNED NOT NULL,
+  `zone_id` bigint(20) UNSIGNED NOT NULL DEFAULT 1,
   `taxable` tinyint(1) NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime DEFAULT NULL,
   `over_than_kg` decimal(10,2) NOT NULL,
   `over_equal` tinyint(1) NOT NULL,
   `less_than_kg` decimal(10,2) NOT NULL,
-  `less_than_infinity` tinyint UNSIGNED NOT NULL DEFAULT '1',
+  `less_than_infinity` tinyint(3) UNSIGNED NOT NULL DEFAULT 1,
   `less_equal` tinyint(1) NOT NULL,
   `base_cost` decimal(10,2) NOT NULL,
   `active` tinyint(1) NOT NULL
@@ -1852,9 +1852,9 @@ INSERT INTO `shop_weight_ship_rules` (`id`, `shop_id`, `shipping_class_id`, `zon
 --
 
 CREATE TABLE `suppliers_supplies` (
-  `id` bigint UNSIGNED NOT NULL,
-  `supplier_id` bigint UNSIGNED NOT NULL,
-  `product_id` bigint UNSIGNED NOT NULL
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `supplier_id` bigint(20) UNSIGNED NOT NULL,
+  `product_id` bigint(20) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -1864,7 +1864,7 @@ CREATE TABLE `suppliers_supplies` (
 --
 
 CREATE TABLE `users` (
-  `id` bigint UNSIGNED NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
   `username` varchar(20) NOT NULL,
   `password` varchar(40) NOT NULL,
   `password_salt` varchar(40) NOT NULL,
@@ -1891,7 +1891,7 @@ INSERT INTO `users` (`id`, `username`, `password`, `password_salt`, `email`, `fi
 --
 
 CREATE TABLE `user_roles` (
-  `id` bigint UNSIGNED NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
   `title` varchar(55) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -2418,397 +2418,397 @@ ALTER TABLE `user_roles`
 -- AUTO_INCREMENT for table `bank_transactions`
 --
 ALTER TABLE `bank_transactions`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `billing_address`
 --
 ALTER TABLE `billing_address`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `continents`
 --
 ALTER TABLE `continents`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `countries`
 --
 ALTER TABLE `countries`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `courriers`
 --
 ALTER TABLE `courriers`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `courrier_ships_categories`
 --
 ALTER TABLE `courrier_ships_categories`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `currencies`
 --
 ALTER TABLE `currencies`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `currency_rates`
 --
 ALTER TABLE `currency_rates`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `globe_regions`
 --
 ALTER TABLE `globe_regions`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `languages`
 --
 ALTER TABLE `languages`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT for table `orders_status_history`
 --
 ALTER TABLE `orders_status_history`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `order_items_status_history`
 --
 ALTER TABLE `order_items_status_history`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `order_status`
 --
 ALTER TABLE `order_status`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `payment_methods`
 --
 ALTER TABLE `payment_methods`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `pricing_plans`
 --
 ALTER TABLE `pricing_plans`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4410;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4410;
 
 --
 -- AUTO_INCREMENT for table `products_discounts`
 --
 ALTER TABLE `products_discounts`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `product_attributes_values`
 --
 ALTER TABLE `product_attributes_values`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4569;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4569;
 
 --
 -- AUTO_INCREMENT for table `product_attribute_ranges`
 --
 ALTER TABLE `product_attribute_ranges`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `product_attribute_units`
 --
 ALTER TABLE `product_attribute_units`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `product_categories`
 --
 ALTER TABLE `product_categories`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `product_category_attributes`
 --
 ALTER TABLE `product_category_attributes`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `product_gallery`
 --
 ALTER TABLE `product_gallery`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `product_gallery_tag`
 --
 ALTER TABLE `product_gallery_tag`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `product_reviews`
 --
 ALTER TABLE `product_reviews`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `product_tags`
 --
 ALTER TABLE `product_tags`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `restrict_payment_parameters`
 --
 ALTER TABLE `restrict_payment_parameters`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `restrict_payment_rules`
 --
 ALTER TABLE `restrict_payment_rules`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `restrict_payment_rules_criteria`
 --
 ALTER TABLE `restrict_payment_rules_criteria`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `restrict_payment_rules_operators`
 --
 ALTER TABLE `restrict_payment_rules_operators`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `rules_disables_methods`
 --
 ALTER TABLE `rules_disables_methods`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `shipping_address`
 --
 ALTER TABLE `shipping_address`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `shipping_region_zips`
 --
 ALTER TABLE `shipping_region_zips`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `shipping_zip_codes_forbid`
 --
 ALTER TABLE `shipping_zip_codes_forbid`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `shipping_zones`
 --
 ALTER TABLE `shipping_zones`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `shipping_zones_regions`
 --
 ALTER TABLE `shipping_zones_regions`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `shops`
 --
 ALTER TABLE `shops`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `shop_banks`
 --
 ALTER TABLE `shop_banks`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `shop_belongs_categories`
 --
 ALTER TABLE `shop_belongs_categories`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `shop_categories`
 --
 ALTER TABLE `shop_categories`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `shop_countries`
 --
 ALTER TABLE `shop_countries`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `shop_couriers`
 --
 ALTER TABLE `shop_couriers`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `shop_courier_classes`
 --
 ALTER TABLE `shop_courier_classes`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `shop_currencies`
 --
 ALTER TABLE `shop_currencies`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `shop_disable_zip_codes`
 --
 ALTER TABLE `shop_disable_zip_codes`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `shop_eulas`
 --
 ALTER TABLE `shop_eulas`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `shop_giftwrap`
 --
 ALTER TABLE `shop_giftwrap`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `shop_languages`
 --
 ALTER TABLE `shop_languages`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `shop_managers`
 --
 ALTER TABLE `shop_managers`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `shop_manufacturers`
 --
 ALTER TABLE `shop_manufacturers`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `shop_over_weight_ship_rules`
 --
 ALTER TABLE `shop_over_weight_ship_rules`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `shop_reviews`
 --
 ALTER TABLE `shop_reviews`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `shop_styling`
 --
 ALTER TABLE `shop_styling`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `shop_suppliers`
 --
 ALTER TABLE `shop_suppliers`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `shop_tax_region_rules`
 --
 ALTER TABLE `shop_tax_region_rules`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `shop_tax_rules`
 --
 ALTER TABLE `shop_tax_rules`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `shop_tax_zipcode_rules`
 --
 ALTER TABLE `shop_tax_zipcode_rules`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `shop_translations`
 --
 ALTER TABLE `shop_translations`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `shop_volume_ship_rules`
 --
 ALTER TABLE `shop_volume_ship_rules`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `shop_weight_cod_rules`
 --
 ALTER TABLE `shop_weight_cod_rules`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `shop_weight_ship_rules`
 --
 ALTER TABLE `shop_weight_ship_rules`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `suppliers_supplies`
 --
 ALTER TABLE `suppliers_supplies`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `user_roles`
 --
 ALTER TABLE `user_roles`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables
@@ -2831,8 +2831,8 @@ ALTER TABLE `billing_address`
 -- Constraints for table `courrier_ships_categories`
 --
 ALTER TABLE `courrier_ships_categories`
-  ADD CONSTRAINT `courrier_ships_categories_ibfk_1` FOREIGN KEY (`shop_courier_id`) REFERENCES `shop_couriers` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `courrier_ships_categories_ibfk_2` FOREIGN KEY (`shop_product_category_id`) REFERENCES `product_categories` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+  ADD CONSTRAINT `courrier_ships_categories_ibfk_1` FOREIGN KEY (`shop_courier_id`) REFERENCES `shop_couriers` (`id`),
+  ADD CONSTRAINT `courrier_ships_categories_ibfk_2` FOREIGN KEY (`shop_product_category_id`) REFERENCES `product_categories` (`id`);
 
 --
 -- Constraints for table `orders`
@@ -2859,7 +2859,7 @@ ALTER TABLE `order_items`
   ADD CONSTRAINT `order_items_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`),
   ADD CONSTRAINT `order_items_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`),
   ADD CONSTRAINT `order_items_ibfk_3` FOREIGN KEY (`status_id`) REFERENCES `order_status` (`id`),
-  ADD CONSTRAINT `order_items_ibfk_4` FOREIGN KEY (`shipping_class_id`) REFERENCES `shop_courier_classes` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+  ADD CONSTRAINT `order_items_ibfk_4` FOREIGN KEY (`shipping_class_id`) REFERENCES `shop_courier_classes` (`id`);
 
 --
 -- Constraints for table `order_items_status_history`
@@ -3141,9 +3141,9 @@ ALTER TABLE `shop_translations`
 -- Constraints for table `shop_volume_ship_rules`
 --
 ALTER TABLE `shop_volume_ship_rules`
-  ADD CONSTRAINT `shop_volume_ship_rules_ibfk_1` FOREIGN KEY (`shop_id`) REFERENCES `shops` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `shop_volume_ship_rules_ibfk_2` FOREIGN KEY (`zone_id`) REFERENCES `shipping_zones` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `shop_volume_ship_rules_ibfk_3` FOREIGN KEY (`shipping_class_id`) REFERENCES `shop_courier_classes` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+  ADD CONSTRAINT `shop_volume_ship_rules_ibfk_1` FOREIGN KEY (`shop_id`) REFERENCES `shops` (`id`),
+  ADD CONSTRAINT `shop_volume_ship_rules_ibfk_2` FOREIGN KEY (`zone_id`) REFERENCES `shipping_zones` (`id`),
+  ADD CONSTRAINT `shop_volume_ship_rules_ibfk_3` FOREIGN KEY (`shipping_class_id`) REFERENCES `shop_courier_classes` (`id`);
 
 --
 -- Constraints for table `shop_weight_cod_rules`

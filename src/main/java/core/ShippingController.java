@@ -13,7 +13,6 @@ import pojo.Basket;
 import repositories.BillAddressRepo;
 import repositories.ShipAddressRepo;
 import services.ShippingService;
-import services.TaxSrvc;
 
 import javax.persistence.EntityManager;
 import java.math.BigDecimal;
@@ -48,7 +47,7 @@ public class ShippingController {
 
         shipService.setBasket(kalathi);
         shipService.setEm(entityManager);
-        BigDecimal shippingCost = shipService.getTotalShippingCosts().getShipCost();
+        BigDecimal shippingCost = shipService.getTotalWeightShippingCosts().getShipCost();
         HibernateUtil.getEM().close();
         return shippingCost;
     }
