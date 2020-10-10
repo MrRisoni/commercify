@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Oct 03, 2020 at 08:55 AM
+-- Generation Time: Oct 10, 2020 at 08:44 AM
 -- Server version: 8.0.21
 -- PHP Version: 7.4.10
 
@@ -129,6 +129,26 @@ INSERT INTO `courriers` (`id`, `title`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `courrier_ships_categories`
+--
+
+CREATE TABLE `courrier_ships_categories` (
+  `id` bigint UNSIGNED NOT NULL,
+  `shop_courier_id` bigint UNSIGNED NOT NULL,
+  `shop_product_category_id` bigint UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='courriers do not ship big stuf like tables and double basses';
+
+--
+-- Dumping data for table `courrier_ships_categories`
+--
+
+INSERT INTO `courrier_ships_categories` (`id`, `shop_courier_id`, `shop_product_category_id`) VALUES
+(1, 2, 7),
+(2, 3, 6);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `currencies`
 --
 
@@ -217,7 +237,6 @@ CREATE TABLE `orders` (
   `shop_id` bigint UNSIGNED NOT NULL,
   `status_id` bigint UNSIGNED NOT NULL,
   `pay_method_id` bigint UNSIGNED NOT NULL,
-  `ship_class_id` bigint UNSIGNED NOT NULL,
   `currency` varchar(3) NOT NULL,
   `currency_rate` decimal(10,2) UNSIGNED NOT NULL,
   `total` decimal(10,2) NOT NULL DEFAULT '0.00',
@@ -237,24 +256,23 @@ CREATE TABLE `orders` (
 -- Dumping data for table `orders`
 --
 
-INSERT INTO `orders` (`id`, `user_id`, `shipping_address_id`, `billing_address_id`, `shop_id`, `status_id`, `pay_method_id`, `ship_class_id`, `currency`, `currency_rate`, `total`, `net`, `commission`, `tax`, `courrier_fees`, `shipping`, `success`, `void`, `refund`, `created_at`, `updated_at`) VALUES
-(1, 3, 1, 1, 2, 3, 4, 1, 'EUR', '1.00', '3560.00', '3520.00', '0.00', '50.00', '0.00', '30.00', 1, 0, 0, '2020-07-12 08:55:50', '2020-07-12 08:55:50'),
-(2, 3, 1, 1, 2, 3, 3, 1, 'CHF', '1.89', '2560.00', '2520.00', '0.00', '10.00', '0.00', '25.00', 1, 0, 0, '2020-08-12 18:35:10', '2020-08-12 18:15:10'),
-(6, 1, 1, 1, 3, 1, 1, 1, 'EUR', '1.00', '120.00', '120.00', '12.00', '0.00', '0.00', '0.00', 0, 0, 0, '2020-08-31 10:38:09', '2020-08-31 10:38:09'),
-(7, 1, 1, 1, 3, 1, 1, 1, 'EUR', '1.00', '120.00', '120.00', '12.00', '0.00', '0.00', '0.00', 0, 0, 0, '2020-08-31 10:41:25', '2020-08-31 10:41:25'),
-(8, 1, 1, 1, 3, 1, 1, 1, 'EUR', '1.00', '120.00', '120.00', '12.00', '0.00', '0.00', '0.00', 0, 0, 0, '2020-08-31 10:42:44', '2020-08-31 10:42:44'),
-(9, 1, 1, 1, 3, 1, 1, 1, 'EUR', '1.00', '120.00', '120.00', '12.00', '0.00', '0.00', '0.00', 0, 0, 0, '2020-08-31 10:48:24', '2020-08-31 10:48:24'),
-(10, 1, 1, 1, 3, 1, 1, 1, 'EUR', '1.00', '120.00', '120.00', '12.00', '0.00', '0.00', '0.00', 0, 0, 0, '2020-08-31 10:49:38', '2020-08-31 10:49:38'),
-(11, 1, 1, 1, 3, 1, 1, 1, 'EUR', '1.00', '120.00', '120.00', '12.00', '0.00', '0.00', '0.00', 0, 0, 0, '2020-08-31 10:52:00', '2020-08-31 10:52:00'),
-(12, 1, 1, 1, 3, 1, 1, 1, 'EUR', '1.00', '120.00', '120.00', '12.00', '0.00', '0.00', '0.00', 0, 0, 0, '2020-08-31 10:53:17', '2020-08-31 10:53:17'),
-(13, 1, 1, 1, 3, 1, 1, 1, 'EUR', '1.00', '120.00', '120.00', '12.00', '0.00', '0.00', '0.00', 0, 0, 0, '2020-08-31 10:56:57', '2020-08-31 10:56:57'),
-(14, 1, 1, 1, 3, 1, 1, 1, 'EUR', '1.00', '120.00', '120.00', '12.00', '0.00', '0.00', '0.00', 0, 0, 0, '2020-08-31 14:20:51', '2020-08-31 14:20:51'),
-(15, 1, 1, 1, 3, 1, 1, 1, 'EUR', '1.00', '120.00', '120.00', '12.00', '0.00', '0.00', '0.00', 0, 0, 0, '2020-08-31 14:46:13', '2020-08-31 14:46:13'),
-(16, 1, 1, 1, 3, 1, 1, 1, 'EUR', '1.00', '125.00', '120.00', '12.00', '0.00', '0.00', '5.00', 0, 0, 0, '2020-08-31 14:57:57', '2020-08-31 14:57:57'),
-(17, 1, 1, 1, 3, 1, 1, 1, 'EUR', '1.00', '125.00', '120.00', '12.00', '0.00', '0.00', '5.00', 0, 0, 0, '2020-08-31 15:03:37', '2020-08-31 15:03:37'),
-(18, 1, 1, 1, 3, 1, 1, 1, 'EUR', '1.00', '125.00', '120.00', '12.00', '0.00', '0.00', '5.00', 0, 0, 0, '2020-08-31 15:05:27', '2020-08-31 15:05:27'),
-(19, 1, 1, 1, 3, 1, 1, 1, 'EUR', '1.00', '125.00', '120.00', '12.00', '0.00', '0.00', '5.00', 0, 0, 0, '2020-08-31 15:09:10', '2020-08-31 15:09:10'),
-(20, 1, 1, 1, 3, 1, 1, 1, 'EUR', '1.00', '142.10', '120.00', '12.00', '17.10', '0.00', '5.00', 0, 0, 0, '2020-08-31 15:13:17', '2020-08-31 15:13:17');
+INSERT INTO `orders` (`id`, `user_id`, `shipping_address_id`, `billing_address_id`, `shop_id`, `status_id`, `pay_method_id`, `currency`, `currency_rate`, `total`, `net`, `commission`, `tax`, `courrier_fees`, `shipping`, `success`, `void`, `refund`, `created_at`, `updated_at`) VALUES
+(28, 1, 1, 1, 3, 1, 1, 'EUR', '1.00', '1034.10', '1017.00', '101.70', '17.10', '0.00', '0.00', 0, 0, 0, '2020-10-10 06:30:14', '2020-10-10 06:30:14'),
+(29, 1, 1, 1, 3, 1, 1, 'EUR', '1.00', '1034.10', '1017.00', '101.70', '17.10', '0.00', '0.00', 0, 0, 0, '2020-10-10 06:37:46', '2020-10-10 06:37:46'),
+(30, 1, 1, 1, 3, 1, 1, 'EUR', '1.00', '1034.10', '1017.00', '101.70', '17.10', '0.00', '0.00', 0, 0, 0, '2020-10-10 06:39:47', '2020-10-10 06:39:47'),
+(31, 1, 1, 1, 3, 1, 1, 'EUR', '1.00', '1034.10', '1017.00', '101.70', '17.10', '0.00', '0.00', 0, 0, 0, '2020-10-10 06:45:16', '2020-10-10 06:45:16'),
+(32, 1, 1, 1, 3, 1, 1, 'EUR', '1.00', '1034.10', '1017.00', '101.70', '17.10', '0.00', '0.00', 0, 0, 0, '2020-10-10 06:49:23', '2020-10-10 06:49:23'),
+(33, 1, 1, 1, 3, 1, 1, 'EUR', '1.00', '1034.10', '1017.00', '101.70', '17.10', '0.00', '0.00', 0, 0, 0, '2020-10-10 06:52:28', '2020-10-10 06:52:28'),
+(34, 1, 1, 1, 3, 1, 1, 'EUR', '1.00', '1034.10', '1017.00', '101.70', '17.10', '0.00', '0.00', 0, 0, 0, '2020-10-10 06:56:19', '2020-10-10 06:56:19'),
+(35, 1, 1, 1, 3, 1, 1, 'EUR', '1.00', '1034.10', '1017.00', '101.70', '17.10', '0.00', '0.00', 0, 0, 0, '2020-10-10 06:58:48', '2020-10-10 06:58:48'),
+(36, 1, 1, 1, 3, 1, 1, 'EUR', '1.00', '1034.10', '1017.00', '101.70', '17.10', '0.00', '0.00', 0, 0, 0, '2020-10-10 07:01:28', '2020-10-10 07:01:28'),
+(37, 1, 1, 1, 3, 1, 1, 'EUR', '1.00', '1034.10', '1017.00', '101.70', '17.10', '0.00', '0.00', 0, 0, 0, '2020-10-10 07:08:32', '2020-10-10 07:08:32'),
+(38, 1, 1, 1, 3, 1, 1, 'EUR', '1.00', '1034.10', '1017.00', '101.70', '17.10', '0.00', '0.00', 0, 0, 0, '2020-10-10 07:12:00', '2020-10-10 07:12:00'),
+(39, 1, 1, 1, 3, 1, 1, 'EUR', '1.00', '1034.10', '1017.00', '101.70', '17.10', '0.00', '0.00', 0, 0, 0, '2020-10-10 07:12:54', '2020-10-10 07:12:54'),
+(40, 1, 1, 1, 3, 1, 1, 'EUR', '1.00', '1034.10', '1017.00', '101.70', '17.10', '0.00', '0.00', 0, 0, 0, '2020-10-10 07:14:43', '2020-10-10 07:14:43'),
+(41, 1, 1, 1, 3, 1, 1, 'EUR', '1.00', '1034.10', '1017.00', '101.70', '17.10', '0.00', '0.00', 0, 0, 0, '2020-10-10 07:15:35', '2020-10-10 07:15:35'),
+(42, 1, 1, 1, 3, 1, 1, 'EUR', '1.00', '1034.10', '1017.00', '101.70', '17.10', '0.00', '0.00', 0, 0, 0, '2020-10-10 07:17:33', '2020-10-10 07:17:33'),
+(43, 1, 1, 1, 3, 1, 1, 'EUR', '1.00', '1034.10', '1017.00', '101.70', '17.10', '0.00', '0.00', 1, 0, 0, '2020-10-10 07:19:28', '2020-10-10 07:19:28');
 
 -- --------------------------------------------------------
 
@@ -274,20 +292,22 @@ CREATE TABLE `orders_status_history` (
 --
 
 INSERT INTO `orders_status_history` (`id`, `order_id`, `status_id`, `created_at`) VALUES
-(1, 2, 1, '2020-08-12 08:55:50'),
-(2, 8, 1, '2020-08-31 10:42:44'),
-(3, 9, 1, '2020-08-31 10:48:24'),
-(4, 10, 1, '2020-08-31 10:49:38'),
-(5, 11, 1, '2020-08-31 10:52:00'),
-(6, 12, 1, '2020-08-31 10:53:17'),
-(7, 13, 1, '2020-08-31 10:56:57'),
-(8, 14, 1, '2020-08-31 14:20:51'),
-(9, 15, 1, '2020-08-31 14:46:13'),
-(10, 16, 1, '2020-08-31 14:57:57'),
-(11, 17, 1, '2020-08-31 15:03:37'),
-(12, 18, 1, '2020-08-31 15:05:27'),
-(13, 19, 1, '2020-08-31 15:09:10'),
-(14, 20, 1, '2020-08-31 15:13:17');
+(1, 28, 1, '2020-10-10 06:30:14'),
+(2, 29, 1, '2020-10-10 06:37:46'),
+(3, 30, 1, '2020-10-10 06:39:47'),
+(4, 31, 1, '2020-10-10 06:45:16'),
+(5, 32, 1, '2020-10-10 06:49:23'),
+(6, 33, 1, '2020-10-10 06:52:29'),
+(7, 34, 1, '2020-10-10 06:56:19'),
+(8, 35, 1, '2020-10-10 06:58:48'),
+(9, 36, 1, '2020-10-10 07:01:29'),
+(10, 37, 1, '2020-10-10 07:08:32'),
+(11, 38, 1, '2020-10-10 07:12:00'),
+(12, 39, 1, '2020-10-10 07:12:54'),
+(13, 40, 1, '2020-10-10 07:14:43'),
+(14, 41, 1, '2020-10-10 07:15:35'),
+(15, 42, 1, '2020-10-10 07:17:33'),
+(16, 43, 1, '2020-10-10 07:19:28');
 
 -- --------------------------------------------------------
 
@@ -298,6 +318,7 @@ INSERT INTO `orders_status_history` (`id`, `order_id`, `status_id`, `created_at`
 CREATE TABLE `order_items` (
   `id` bigint UNSIGNED NOT NULL,
   `order_id` bigint UNSIGNED NOT NULL,
+  `shipping_class_id` bigint UNSIGNED NOT NULL DEFAULT '1',
   `product_id` bigint UNSIGNED NOT NULL,
   `status_id` bigint UNSIGNED NOT NULL,
   `quantity` int UNSIGNED NOT NULL,
@@ -305,22 +326,36 @@ CREATE TABLE `order_items` (
   `dispatched_on` datetime DEFAULT NULL,
   `expected_on` date DEFAULT NULL,
   `arrived_on` date DEFAULT NULL,
-  `net_price` decimal(10,2) NOT NULL,
-  `taxes` decimal(10,2) NOT NULL,
+  `net_price` decimal(10,2) DEFAULT NULL,
+  `taxes` decimal(10,2) DEFAULT NULL,
   `gift_cost` decimal(10,2) DEFAULT '0.00',
-  `success` tinyint(1) NOT NULL,
-  `void` tinyint(1) NOT NULL,
-  `refund` tinyint(1) NOT NULL
+  `success` tinyint(1) DEFAULT NULL,
+  `void` tinyint(1) DEFAULT NULL,
+  `refund` tinyint(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `order_items`
 --
 
-INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `status_id`, `quantity`, `tracking_no`, `dispatched_on`, `expected_on`, `arrived_on`, `net_price`, `taxes`, `gift_cost`, `success`, `void`, `refund`) VALUES
-(1, 1, 9, 3, 2, '', NULL, NULL, NULL, '3560.00', '12.00', '0.00', 1, 0, 0),
-(2, 2, 8, 3, 2, '', NULL, NULL, NULL, '1456.00', '234.00', '1.00', 1, 0, 0),
-(3, 2, 7, 3, 1, '', NULL, NULL, NULL, '567.00', '23.00', '0.00', 1, 0, 0);
+INSERT INTO `order_items` (`id`, `order_id`, `shipping_class_id`, `product_id`, `status_id`, `quantity`, `tracking_no`, `dispatched_on`, `expected_on`, `arrived_on`, `net_price`, `taxes`, `gift_cost`, `success`, `void`, `refund`) VALUES
+(6, 28, 4, 4408, 1, 1, NULL, NULL, NULL, NULL, '120.00', '17.10', NULL, 0, 0, 0),
+(7, 29, 4, 4408, 1, 1, NULL, NULL, NULL, NULL, '120.00', '17.10', NULL, 0, 0, 0),
+(8, 30, 4, 4408, 1, 1, NULL, NULL, NULL, NULL, '120.00', '17.10', NULL, 0, 0, 0),
+(9, 31, 4, 4408, 1, 1, NULL, NULL, NULL, NULL, '120.00', '17.10', NULL, 0, 0, 0),
+(10, 32, 4, 4408, 1, 1, NULL, NULL, NULL, NULL, '120.00', '17.10', NULL, 0, 0, 0),
+(11, 33, 4, 4408, 1, 1, NULL, NULL, NULL, NULL, '120.00', '17.10', NULL, 0, 0, 0),
+(12, 34, 4, 4408, 1, 1, NULL, NULL, NULL, NULL, '120.00', '17.10', NULL, 0, 0, 0),
+(13, 35, 4, 4408, 1, 1, NULL, NULL, NULL, NULL, '120.00', '17.10', NULL, 0, 0, 0),
+(14, 36, 4, 4408, 1, 1, NULL, NULL, NULL, NULL, '120.00', '17.10', NULL, 0, 0, 0),
+(15, 37, 4, 4408, 1, 1, NULL, NULL, NULL, NULL, '120.00', '17.10', NULL, 0, 0, 0),
+(16, 38, 4, 4408, 1, 1, NULL, NULL, NULL, NULL, '120.00', '17.10', NULL, 0, 0, 0),
+(17, 39, 4, 4408, 1, 1, NULL, NULL, NULL, NULL, '120.00', '17.10', NULL, 0, 0, 0),
+(18, 40, 4, 4408, 1, 1, NULL, NULL, NULL, NULL, '120.00', '17.10', NULL, 0, 0, 0),
+(19, 41, 4, 4408, 1, 1, NULL, NULL, NULL, NULL, '120.00', '17.10', NULL, 0, 0, 0),
+(20, 42, 4, 4408, 1, 1, NULL, NULL, NULL, NULL, '120.00', '17.10', NULL, 0, 0, 0),
+(21, 43, 4, 4408, 1, 1, NULL, NULL, NULL, NULL, '120.00', '17.10', NULL, 0, 0, 0),
+(22, 43, 3, 4409, 1, 1, NULL, NULL, NULL, NULL, '897.00', '0.00', NULL, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -340,8 +375,23 @@ CREATE TABLE `order_items_status_history` (
 --
 
 INSERT INTO `order_items_status_history` (`id`, `item_id`, `status_id`, `created_at`) VALUES
-(1, 2, 1, '2020-08-21 08:20:26'),
-(2, 2, 3, '2020-08-21 08:20:26');
+(1, 6, 1, '2020-10-10 06:30:14'),
+(2, 7, 1, '2020-10-10 06:37:46'),
+(3, 8, 1, '2020-10-10 06:39:47'),
+(4, 9, 1, '2020-10-10 06:45:17'),
+(5, 10, 1, '2020-10-10 06:49:23'),
+(6, 11, 1, '2020-10-10 06:52:29'),
+(7, 12, 1, '2020-10-10 06:56:19'),
+(8, 13, 1, '2020-10-10 06:58:48'),
+(9, 14, 1, '2020-10-10 07:01:29'),
+(10, 15, 1, '2020-10-10 07:08:32'),
+(11, 16, 1, '2020-10-10 07:12:00'),
+(12, 17, 1, '2020-10-10 07:12:54'),
+(13, 18, 1, '2020-10-10 07:14:43'),
+(14, 19, 1, '2020-10-10 07:15:36'),
+(15, 20, 1, '2020-10-10 07:17:33'),
+(16, 21, 1, '2020-10-10 07:19:28'),
+(17, 22, 1, '2020-10-10 07:19:28');
 
 -- --------------------------------------------------------
 
@@ -607,7 +657,8 @@ INSERT INTO `products` (`id`, `shop_id`, `category_id`, `currency_id`, `manufact
 (4405, 3, 6, 1, 10, 'M13GN00000', 'PRESTIGE TR-30L Τρομπέτα', NULL, NULL, NULL, NULL, '138.00', NULL, '7.89', NULL, NULL, NULL, 1, 50, '2020-08-19 08:34:31', '2020-08-17 07:48:09', 1, NULL, 1, 0, '0.0', 0),
 (4406, 3, 6, 1, 7, 'M130.37070', 'YAMAHA YTR-5335GII Τρομπέτα', NULL, NULL, NULL, NULL, '1238.00', NULL, '9.10', NULL, NULL, NULL, 1, 50, '2020-08-19 08:34:31', '2020-08-17 07:48:09', 1, NULL, 1, 0, '0.0', 0),
 (4407, 3, 6, 1, 8, 'M13PB00000', 'PTRUMPET Green Τρομπέτα Βb', NULL, NULL, NULL, NULL, '120.00', NULL, '6.81', NULL, NULL, NULL, 1, 50, '2020-08-19 08:34:31', '2020-08-17 07:48:09', 1, NULL, 1, 0, '0.0', 0),
-(4408, 3, 6, 1, 8, 'M13PB00001', 'PTRUMPET Red Τρομπέτα Βb', NULL, NULL, NULL, NULL, '120.00', NULL, '6.78', NULL, NULL, NULL, 1, 50, '2020-08-19 08:34:31', '2020-08-17 07:48:09', 1, NULL, 1, 0, '0.0', 0);
+(4408, 3, 6, 1, 8, 'M13PB00001', 'PTRUMPET Red Τρομπέτα Βb', 'trumpet', NULL, NULL, NULL, '120.00', '0.00', '1.02', '35.00', '12.00', '11.00', 1, 50, '2020-08-19 08:34:31', '2020-08-17 07:48:09', 1, '0.00', 1, 0, '0.0', 0),
+(4409, 3, 7, 1, 7, 'tuba', 'Double Bass', NULL, NULL, NULL, NULL, '897.00', '0.00', '2.45', '40.00', '35.00', '180.00', 1, 120, '2020-10-06 17:28:50', '2020-10-06 17:28:50', 0, '0.00', 1, 0, '0.0', 0);
 
 -- --------------------------------------------------------
 
@@ -919,7 +970,8 @@ INSERT INTO `product_categories` (`id`, `shop_id`, `parent_category_id`, `title`
 (3, 1, 0, 'Clothing'),
 (4, 1, 0, 'Shoes'),
 (5, 2, 0, 'Laptops'),
-(6, 3, 0, 'Brass');
+(6, 3, 0, 'Brass'),
+(7, 3, 0, 'Big wood instruments');
 
 -- --------------------------------------------------------
 
@@ -1394,7 +1446,9 @@ CREATE TABLE `shop_couriers` (
 --
 
 INSERT INTO `shop_couriers` (`id`, `shop_id`, `courier_id`) VALUES
-(1, 1, 1);
+(1, 1, 1),
+(2, 3, 4),
+(3, 3, 1);
 
 -- --------------------------------------------------------
 
@@ -1415,7 +1469,9 @@ CREATE TABLE `shop_courier_classes` (
 
 INSERT INTO `shop_courier_classes` (`id`, `shop_courier_id`, `title`, `active`) VALUES
 (1, 1, 'Standard', 1),
-(2, 1, 'Express', 1);
+(2, 1, 'Express', 1),
+(3, 2, 'Standand DHL', 1),
+(4, 3, 'Standand ACS', 1);
 
 -- --------------------------------------------------------
 
@@ -1661,7 +1717,8 @@ CREATE TABLE `shop_tax_rules` (
 
 INSERT INTO `shop_tax_rules` (`id`, `shop_id`, `product_category_id`, `country_code`, `flat_cost`, `rate`, `tax_address`, `created`, `updated`, `active`, `active_from`, `active_until`) VALUES
 (1, 1, 1, 'GR', '1.50', '13.00', 'ship', '2020-08-22 07:46:58', '2020-08-22 07:46:58', 1, '2020-05-31', '2030-01-01'),
-(4, 3, 6, 'GR', '1.50', '13.00', 'ship', '2020-08-22 07:46:58', '2020-08-22 07:46:58', 1, '2020-05-31', '2030-01-01');
+(4, 3, 6, 'GR', '1.50', '13.00', 'ship', '2020-08-22 07:46:58', '2020-08-22 07:46:58', 1, '2020-05-31', '2030-01-01'),
+(5, 3, 7, 'GR', '1.50', '13.00', 'ship', '2020-08-22 07:46:58', '2020-08-22 07:46:58', 1, '2020-05-31', '2030-01-01');
 
 -- --------------------------------------------------------
 
@@ -1699,6 +1756,36 @@ CREATE TABLE `shop_translations` (
   `code` varchar(80) NOT NULL,
   `transltr` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `shop_volume_ship_rules`
+--
+
+CREATE TABLE `shop_volume_ship_rules` (
+  `id` bigint UNSIGNED NOT NULL,
+  `shop_id` bigint UNSIGNED NOT NULL,
+  `shipping_class_id` bigint UNSIGNED NOT NULL,
+  `zone_id` bigint UNSIGNED NOT NULL DEFAULT '1',
+  `taxable` tinyint(1) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `over_than_vol` decimal(10,2) NOT NULL COMMENT 'm3',
+  `over_equal` tinyint(1) NOT NULL,
+  `less_than_vol` decimal(10,2) NOT NULL COMMENT 'm3',
+  `less_than_infinity` tinyint UNSIGNED NOT NULL DEFAULT '1',
+  `less_equal` tinyint(1) NOT NULL,
+  `base_cost` decimal(10,2) NOT NULL,
+  `active` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `shop_volume_ship_rules`
+--
+
+INSERT INTO `shop_volume_ship_rules` (`id`, `shop_id`, `shipping_class_id`, `zone_id`, `taxable`, `created_at`, `updated_at`, `over_than_vol`, `over_equal`, `less_than_vol`, `less_than_infinity`, `less_equal`, `base_cost`, `active`) VALUES
+(1, 3, 4, 4, 0, '2020-08-12 08:55:50', '2020-08-12 08:55:50', '0.20', 1, '0.00', 1, 0, '15.00', 1);
 
 -- --------------------------------------------------------
 
@@ -1848,6 +1935,15 @@ ALTER TABLE `courriers`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `courrier_ships_categories`
+--
+ALTER TABLE `courrier_ships_categories`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `shop_courier_id` (`shop_courier_id`,`shop_product_category_id`),
+  ADD KEY `shop_courier` (`shop_courier_id`),
+  ADD KEY `shop_product_category_id` (`shop_product_category_id`);
+
+--
 -- Indexes for table `currencies`
 --
 ALTER TABLE `currencies`
@@ -1884,7 +1980,6 @@ ALTER TABLE `orders`
   ADD KEY `shop_id` (`shop_id`),
   ADD KEY `status_id` (`status_id`),
   ADD KEY `pay_method_id` (`pay_method_id`),
-  ADD KEY `ship_class_id` (`ship_class_id`),
   ADD KEY `shipping_address_id` (`shipping_address_id`),
   ADD KEY `billing_address_id` (`billing_address_id`);
 
@@ -1903,7 +1998,8 @@ ALTER TABLE `order_items`
   ADD PRIMARY KEY (`id`),
   ADD KEY `order_id` (`order_id`),
   ADD KEY `product_id` (`product_id`),
-  ADD KEY `status_id` (`status_id`);
+  ADD KEY `status_id` (`status_id`),
+  ADD KEY `shipping_class_id` (`shipping_class_id`);
 
 --
 -- Indexes for table `order_items_status_history`
@@ -2267,6 +2363,15 @@ ALTER TABLE `shop_translations`
   ADD KEY `language_id` (`language_id`);
 
 --
+-- Indexes for table `shop_volume_ship_rules`
+--
+ALTER TABLE `shop_volume_ship_rules`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `shop_id` (`shop_id`),
+  ADD KEY `shipping_class_id` (`shipping_class_id`),
+  ADD KEY `zone_id` (`zone_id`);
+
+--
 -- Indexes for table `shop_weight_cod_rules`
 --
 ALTER TABLE `shop_weight_cod_rules`
@@ -2340,6 +2445,12 @@ ALTER TABLE `courriers`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
+-- AUTO_INCREMENT for table `courrier_ships_categories`
+--
+ALTER TABLE `courrier_ships_categories`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `currencies`
 --
 ALTER TABLE `currencies`
@@ -2367,25 +2478,25 @@ ALTER TABLE `languages`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT for table `orders_status_history`
 --
 ALTER TABLE `orders_status_history`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `order_items_status_history`
 --
 ALTER TABLE `order_items_status_history`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `order_status`
@@ -2409,7 +2520,7 @@ ALTER TABLE `pricing_plans`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4409;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4410;
 
 --
 -- AUTO_INCREMENT for table `products_discounts`
@@ -2439,7 +2550,7 @@ ALTER TABLE `product_attribute_units`
 -- AUTO_INCREMENT for table `product_categories`
 --
 ALTER TABLE `product_categories`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `product_category_attributes`
@@ -2565,13 +2676,13 @@ ALTER TABLE `shop_countries`
 -- AUTO_INCREMENT for table `shop_couriers`
 --
 ALTER TABLE `shop_couriers`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `shop_courier_classes`
 --
 ALTER TABLE `shop_courier_classes`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `shop_currencies`
@@ -2649,7 +2760,7 @@ ALTER TABLE `shop_tax_region_rules`
 -- AUTO_INCREMENT for table `shop_tax_rules`
 --
 ALTER TABLE `shop_tax_rules`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `shop_tax_zipcode_rules`
@@ -2662,6 +2773,12 @@ ALTER TABLE `shop_tax_zipcode_rules`
 --
 ALTER TABLE `shop_translations`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `shop_volume_ship_rules`
+--
+ALTER TABLE `shop_volume_ship_rules`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `shop_weight_cod_rules`
@@ -2711,6 +2828,13 @@ ALTER TABLE `billing_address`
   ADD CONSTRAINT `billing_address_ibfk_2` FOREIGN KEY (`region_id`) REFERENCES `globe_regions` (`id`);
 
 --
+-- Constraints for table `courrier_ships_categories`
+--
+ALTER TABLE `courrier_ships_categories`
+  ADD CONSTRAINT `courrier_ships_categories_ibfk_1` FOREIGN KEY (`shop_courier_id`) REFERENCES `shop_couriers` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `courrier_ships_categories_ibfk_2` FOREIGN KEY (`shop_product_category_id`) REFERENCES `product_categories` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+--
 -- Constraints for table `orders`
 --
 ALTER TABLE `orders`
@@ -2718,7 +2842,6 @@ ALTER TABLE `orders`
   ADD CONSTRAINT `orders_ibfk_2` FOREIGN KEY (`shop_id`) REFERENCES `shops` (`id`),
   ADD CONSTRAINT `orders_ibfk_3` FOREIGN KEY (`status_id`) REFERENCES `order_status` (`id`),
   ADD CONSTRAINT `orders_ibfk_4` FOREIGN KEY (`pay_method_id`) REFERENCES `payment_methods` (`id`),
-  ADD CONSTRAINT `orders_ibfk_5` FOREIGN KEY (`ship_class_id`) REFERENCES `shop_courier_classes` (`id`),
   ADD CONSTRAINT `orders_ibfk_6` FOREIGN KEY (`shipping_address_id`) REFERENCES `shipping_address` (`id`),
   ADD CONSTRAINT `orders_ibfk_7` FOREIGN KEY (`billing_address_id`) REFERENCES `billing_address` (`id`);
 
@@ -2735,7 +2858,8 @@ ALTER TABLE `orders_status_history`
 ALTER TABLE `order_items`
   ADD CONSTRAINT `order_items_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`),
   ADD CONSTRAINT `order_items_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`),
-  ADD CONSTRAINT `order_items_ibfk_3` FOREIGN KEY (`status_id`) REFERENCES `order_status` (`id`);
+  ADD CONSTRAINT `order_items_ibfk_3` FOREIGN KEY (`status_id`) REFERENCES `order_status` (`id`),
+  ADD CONSTRAINT `order_items_ibfk_4` FOREIGN KEY (`shipping_class_id`) REFERENCES `shop_courier_classes` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 --
 -- Constraints for table `order_items_status_history`
@@ -3012,6 +3136,14 @@ ALTER TABLE `shop_tax_zipcode_rules`
 ALTER TABLE `shop_translations`
   ADD CONSTRAINT `shop_translations_ibfk_1` FOREIGN KEY (`language_id`) REFERENCES `languages` (`id`),
   ADD CONSTRAINT `shop_translations_ibfk_2` FOREIGN KEY (`shop_id`) REFERENCES `shops` (`id`);
+
+--
+-- Constraints for table `shop_volume_ship_rules`
+--
+ALTER TABLE `shop_volume_ship_rules`
+  ADD CONSTRAINT `shop_volume_ship_rules_ibfk_1` FOREIGN KEY (`shop_id`) REFERENCES `shops` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `shop_volume_ship_rules_ibfk_2` FOREIGN KEY (`zone_id`) REFERENCES `shipping_zones` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `shop_volume_ship_rules_ibfk_3` FOREIGN KEY (`shipping_class_id`) REFERENCES `shop_courier_classes` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 --
 -- Constraints for table `shop_weight_cod_rules`
