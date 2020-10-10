@@ -231,6 +231,10 @@ public class Products implements Serializable {
         this.id = id;
     }
 
+    public Products(@NotNull BigDecimal kilos) {
+        this.kilos = kilos;
+    }
+
     public Products(@NotNull BigDecimal dimL, @NotNull BigDecimal dimW, @NotNull BigDecimal dimH) {
         this.dimL = dimL;
         this.dimW = dimW;

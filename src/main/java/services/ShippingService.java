@@ -41,7 +41,7 @@ public class ShippingService {
         // if result is empty query  shipping_zones_regions to get the ZONE
         // finally get shipping rule from shipping_zones table based on shipping class and zone
         Long zoneId = 0L;
-
+        Utils.setEm(this.em);
         ShippingCosts c = new ShippingCosts();
         try {
 

@@ -39,14 +39,24 @@ public class Utils {
     public static BigDecimal getTotalOrderWeight(Basket bsk)
     {
         BigDecimal totalWeight = new BigDecimal(0);
-        for (BasketItem itm : bsk.getItems()) {
-            System.out.println("GET Weight of product " +  itm.getProd().getId());
-            BigDecimal weight = entityManager.createNamedQuery("GetProductKilo", BigDecimal.class)
-                    .setParameter(1, itm.getProd().getId())
-                    .getSingleResult();
-            totalWeight = totalWeight.add(weight.multiply(new BigDecimal(itm.getQuantity())));
+        try {
+            System.out.println("getTotalOrderWeight Func bsk size = " + bsk.getItems().size());
+            for (BasketItem itm : bsk.getItems()) {
+                System.out.println("GET Weight of product " + itm.getProd().getId());
+
+                Products prw = entityManager.createQuery("SELECT new entity.product.Products(kilos) FROM Products p WHERE p.id = :prid", Products.class)
+                        .setParameter("prid", itm.getProd().getId())
+                        .getSingleResult();
+
+                System.out.println("getTotalOrderWeight kilo of product " + itm.getProd().getId() + " = " + prw.getKilos());
+
+                totalWeight = totalWeight.add(prw.getKilos().multiply(new BigDecimal(itm.getQuantity())));
+            }
+            return totalWeight;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return new BigDecimal(100);
         }
-        return totalWeight;
     }
 
 

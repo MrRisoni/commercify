@@ -129,6 +129,7 @@ public class OrdersController {
 
             //save order Items
             for (BasketItem proion : kalathi.getItems()) {
+                System.out.println("OrderCtrl saving item " + proion.getProd().getId());
                 OrderItems itemOrdered = new OrderItems();
                 itemOrdered.setOrderId(savedOrder);
                 itemOrdered.setQuantity(proion.getQuantity());
@@ -139,11 +140,12 @@ public class OrdersController {
                 itemOrdered.setStatusId(stdPending);
                 itemOrdered.setNetPrice(geFundenProduct.getPrice());
                 BigDecimal localTax =tax_info.getTaxPerProduct().get(proion.getProd().getId());
-                if (localTax.equals(null)) {
+                if (localTax == null) {
                     localTax = new BigDecimal(0);
                 }
                 itemOrdered.setTaxes(localTax);
                 itemOrdered.setShipClassId(new ShopCourierClasses(proion.getShipClassId()));
+                System.out.println("itm to save has id " + itemOrdered.getProductId().getId());
                 OrderItems savedItemOrdered = orderItmRepo.save(itemOrdered);
 
                 OrderItemStatusHistory orderedItmStatusHistoryObj = new OrderItemStatusHistory();
@@ -151,6 +153,7 @@ public class OrdersController {
                 orderedItmStatusHistoryObj.setItemObj(savedItemOrdered);
                 orderedItmStatusHistoryObj.setCreatedAt(new Date());
                 ordItmStatusHistoryRepo.save(orderedItmStatusHistoryObj);
+
             }
 
 
@@ -168,6 +171,8 @@ public class OrdersController {
         }
         catch (Exception ex)
         {
+            System.out.println("OrdCtrl Exception");
+            ex.printStackTrace();
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_GATEWAY);
         }
 
