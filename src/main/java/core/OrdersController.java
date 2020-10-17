@@ -2,6 +2,8 @@ package core;
 
 import com.google.gson.Gson;
 import common.Utils;
+import dto.OrderCsvExportRow;
+import dto.OrderDto;
 import entity.HibernateUtil;
 import entity.JackSonViewer;
 import entity.order.*;
@@ -9,6 +11,8 @@ import entity.product.Products;
 import entity.shipping.ShopCourierClasses;
 import entity.shop.Shops;
 import entity.shop.Users;
+import org.hibernate.transform.Transformers;
+import org.hibernate.type.StandardBasicTypes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +26,9 @@ import services.TaxSrvc;
 
 import javax.persistence.EntityManager;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -190,5 +196,26 @@ public class OrdersController {
         } catch (Exception ex) {
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_GATEWAY);
         }
+    }
+
+    @RequestMapping(value = "/api/order/list",method = RequestMethod.GET)
+    public List<OrderDto> getOrdersList()
+    {
+        EntityManager entityManager = HibernateUtil.getEM();
+        Long userId = 2L;
+        List<OrderDto> lista = entityManager.createNativeQuery("SELECT o.id AS orderId," +
+                "  o.total,o.net,o.commission, o.tax AS taxes, o.shipping AS ship" +
+                " FROM orders o ")
+                .unwrap(org.hibernate.query.NativeQuery.class)
+                .addScalar("orderId", StandardBasicTypes.LONG)
+                .addScalar("total",StandardBasicTypes.BIG_DECIMAL)
+                .addScalar("net",StandardBasicTypes.BIG_DECIMAL)
+                .addScalar("commission",StandardBasicTypes.BIG_DECIMAL)
+                .addScalar("taxes",StandardBasicTypes.BIG_DECIMAL)
+                .addScalar("ship",StandardBasicTypes.BIG_DECIMAL)
+                .setResultTransformer(Transformers.aliasToBean(dto.OrderDto.class))
+                .getResultList();
+        return lista;
+
     }
 }
