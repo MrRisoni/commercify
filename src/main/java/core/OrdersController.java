@@ -207,8 +207,11 @@ public class OrdersController {
                 "  o.total,o.net,o.commission, o.tax AS taxes, o.shipping AS ship," +
                 " o.created_at AS createdAt, o.updated_at AS updatedAt," +
                 " o.currency_rate AS rate, o.currency, " +
-                " CONCAT(u.first_name,' ',u.last_name) AS customerName , u.email AS customerEmail " +
+                " CONCAT(u.first_name,' ',u.last_name) AS customerName , u.email AS customerEmail, " +
+                " s.title AS shopName, os.title  AS status " +
                 " FROM orders o" +
+                " JOIN order_status os ON os.id =  o.status_id " +
+                " JOIN shops s ON s.id = o.shop_id" +
                 " JOIN users u ON u.id = o.user_id ")
                 .unwrap(org.hibernate.query.NativeQuery.class)
                 .addScalar("orderId", StandardBasicTypes.LONG)
@@ -223,6 +226,8 @@ public class OrdersController {
                 .addScalar("rate",StandardBasicTypes.BIG_DECIMAL)
                 .addScalar("customerName",StandardBasicTypes.STRING)
                 .addScalar("customerEmail",StandardBasicTypes.STRING)
+                .addScalar("shopName",StandardBasicTypes.STRING)
+                .addScalar("status",StandardBasicTypes.STRING)
                 .setResultTransformer(Transformers.aliasToBean(dto.OrderDto.class))
                 .getResultList();
         return lista;

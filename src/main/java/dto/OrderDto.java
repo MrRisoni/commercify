@@ -23,7 +23,7 @@ public class OrderDto {
 
     public OrderDto(){}
 
-    public OrderDto(Long orderId, BigDecimal total, BigDecimal net, BigDecimal commission, BigDecimal taxes, BigDecimal ship,Date created, Date updated,String currencyCode,BigDecimal currencyRate, String customer_name, String mail) {
+    public OrderDto(Long orderId, BigDecimal total, BigDecimal net, BigDecimal commission, BigDecimal taxes, BigDecimal ship,Date created, Date updated,String currencyCode,BigDecimal currencyRate, String customer_name, String mail,String shopName,String status) {
         this.orderId = orderId;
         this.total = total;
         this.net = net;
@@ -36,6 +36,8 @@ public class OrderDto {
         this.rate = currencyRate;
         this.customerName = customer_name;
         this.customerEmail = mail;
+        this.shopName= shopName;
+        this.status = status;
     }
 
     public Long getOrderId() {
