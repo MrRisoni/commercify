@@ -21,16 +21,21 @@ public class OrderDto {
     private BigDecimal rate;
 
 
-
     public OrderDto(){}
 
-    public OrderDto(Long orderId, BigDecimal total, BigDecimal net, BigDecimal commission, BigDecimal taxes, BigDecimal ship) {
+    public OrderDto(Long orderId, BigDecimal total, BigDecimal net, BigDecimal commission, BigDecimal taxes, BigDecimal ship,Date created, Date updated,String currencyCode,BigDecimal currencyRate, String customer_name, String mail) {
         this.orderId = orderId;
         this.total = total;
         this.net = net;
         this.taxes = taxes;
         this.ship = ship;
         this.commission = commission;
+        this.createdAt = created;
+        this.updatedAt = updated;
+        this.currency = currencyCode;
+        this.rate = currencyRate;
+        this.customerName = customer_name;
+        this.customerEmail = mail;
     }
 
     public Long getOrderId() {

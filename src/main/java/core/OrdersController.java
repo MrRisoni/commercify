@@ -204,8 +204,12 @@ public class OrdersController {
         EntityManager entityManager = HibernateUtil.getEM();
         Long userId = 2L;
         List<OrderDto> lista = entityManager.createNativeQuery("SELECT o.id AS orderId," +
-                "  o.total,o.net,o.commission, o.tax AS taxes, o.shipping AS ship" +
-                " FROM orders o ")
+                "  o.total,o.net,o.commission, o.tax AS taxes, o.shipping AS ship," +
+                " o.created_at AS createdAt, o.updated_at AS updatedAt," +
+                " o.currency_rate AS rate, o.currency, " +
+                " CONCAT(u.first_name,' ',u.last_name) AS customerName , u.email AS customerEmail " +
+                " FROM orders o" +
+                " JOIN users u ON u.id = o.user_id ")
                 .unwrap(org.hibernate.query.NativeQuery.class)
                 .addScalar("orderId", StandardBasicTypes.LONG)
                 .addScalar("total",StandardBasicTypes.BIG_DECIMAL)
@@ -213,6 +217,12 @@ public class OrdersController {
                 .addScalar("commission",StandardBasicTypes.BIG_DECIMAL)
                 .addScalar("taxes",StandardBasicTypes.BIG_DECIMAL)
                 .addScalar("ship",StandardBasicTypes.BIG_DECIMAL)
+                .addScalar("createdAt",StandardBasicTypes.DATE)
+                .addScalar("updatedAt",StandardBasicTypes.DATE)
+                .addScalar("currency",StandardBasicTypes.STRING)
+                .addScalar("rate",StandardBasicTypes.BIG_DECIMAL)
+                .addScalar("customerName",StandardBasicTypes.STRING)
+                .addScalar("customerEmail",StandardBasicTypes.STRING)
                 .setResultTransformer(Transformers.aliasToBean(dto.OrderDto.class))
                 .getResultList();
         return lista;
