@@ -9,7 +9,10 @@ import pojo.ShippingCosts;
 
 import javax.persistence.EntityManager;
 import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 public class ShippingService {
 
@@ -35,7 +38,7 @@ public class ShippingService {
         this.em = em;
     }
 
-    public ShippingCosts getTotalShippingCosts()
+    public ShippingCosts getTotalWeightShippingCosts()
     {
         // query table  shipping_region_zips to get region and then ZONE
         // if result is empty query  shipping_zones_regions to get the ZONE
@@ -58,6 +61,7 @@ public class ShippingService {
                         .setParameter("regionId", this.getBasket().getShipTo().getRegionId().getId())
                         .getResultList();
                 if (zoneIdByRegion.size() > 0) {
+                    zoneId = Long.parseLong(zoneIdByRegion.get(0).toString());
 
                 }
             } else {
@@ -68,76 +72,85 @@ public class ShippingService {
             System.out.println("zip" + this.getBasket().getShipTo().getPostCode());
             System.out.println("shopID" + this.getBasket().getShop().getId());
 
-            BigDecimal totalWeight =  Utils.getTotalOrderWeight(basket);
-
-            System.out.println("TOTAL WEIGHT" + totalWeight);
-            BigDecimal cost = new BigDecimal(0);
-
-            Double varos = totalWeight.doubleValue();
-
-            List<ShopWeightShipRules> weightRules = this.getEm().createQuery("SELECT w FROM " +
-                    " ShopWeightShipRules w " +
-                    " JOIN w.shopId sh " +
-                    " JOIN w.shippingClassId klass " +
-                    " JOIN w.zoneId z " +
-                    "  WHERE w.active = 1 AND z.id = :zoneId " +
-                    "  AND klass.id = :klassId AND sh.id = :shopId")
-                    .setParameter("zoneId", zoneId)
-                    .setParameter("klassId", 45L)
-                    .setParameter("shopId", this.getBasket().getShop().getId())
-                    .getResultList();
-            System.out.println("NORMAL WEIGHT RESULT " + weightRules.size());
-            for (ShopWeightShipRules wRul : weightRules) {
-                Double upperValue = wRul.getOverThanKg().doubleValue();
-                Double lowerValue = wRul.getLessThanKg().doubleValue();
-
-                System.out.println(varos);
-                System.out.println(lowerValue);
-                System.out.println(upperValue);
-
-
-                boolean lowerLimitOK = (varos > lowerValue) || (varos >= lowerValue && wRul.isLessEqual());
-                boolean upperLimitOK = (varos < upperValue) || (varos <= upperValue && wRul.isOverEqual());
-
-                if (wRul.isLessThanInfinity()) {
-                    upperLimitOK = true;
-                }
-
-                System.out.println("lowerLimitOK " + lowerLimitOK);
-                System.out.println("upperLimitOK " + upperLimitOK);
-
-                if (lowerLimitOK && upperLimitOK) {
-                    cost = cost.add(wRul.getBaseCost());
-                    break;
-                }
+            // group products by shipping class
+            Set<Long> shipClassesIds = new HashSet<>();
+            for (BasketItem itm : basket.getItems()) {
+                shipClassesIds.add(itm.getShipClassId());
             }
+            BigDecimal classWeight;
+            BigDecimal costTotal = new BigDecimal(0);
 
+            Iterator<Long> itKlassId = shipClassesIds.iterator();
+            while (itKlassId.hasNext()) {
+                Long checkedKlassId = itKlassId.next();
 
-            // what if order is eg 15 kilos and there are two rules ,one for 5 kilos and one for 8 kilos
+                classWeight = new BigDecimal(0);
+                for (BasketItem itm : basket.getItems()) {
 
-            List<ShopWeightOverShipRules> overWeightRules = this.getEm().createQuery("SELECT w FROM " +
-                    " ShopWeightOverShipRules w " +
-                    " JOIN w.shopId sh " +
-                    " JOIN w.shippingClassId klass " +
-                    " JOIN w.zoneId z " +
-                    "  WHERE w.active = 1 AND z.id = :zoneId " +
-                    "  AND klass.id = :klassId AND sh.id = :shopId" +
-                    " AND w.overTotalWeight >= :kg " +
-                    " ORDER BY w.overTotalWeight DESC")
-                    .setParameter("zoneId", zoneId)
-                    .setParameter("kg", totalWeight)
-                    .setParameter("klassId", 12L)
-                    .setParameter("shopId", this.getBasket().getShop().getId())
-                    .getResultList();
-            if (overWeightRules.size() > 0) {
-                //  Double overLimit = overWeightRules.get(0).getOverTotalWeight().doubleValue();
-                //   Double extraWeight =  varos - overLimit;
-                BigDecimal overLimit = totalWeight.subtract(overWeightRules.get(0).getOverTotalWeight());
-                cost = cost.add(overLimit.multiply(overWeightRules.get(0).getCharge()));
+                    if (itm.getShipClassId() == checkedKlassId) {
+                        BigDecimal produktGewicht = Utils.getProductWeight(itm.getProd().getId());
+                        produktGewicht = produktGewicht.multiply(new BigDecimal(itm.getQuantity()));
+                        classWeight = classWeight.add(produktGewicht);
+                    }
+                }
+                System.out.println("TOTAL WEIGHT of this class" + classWeight);
+                Double varos = classWeight.doubleValue();
+
+                List<ShopWeightShipRules> weightRules = this.getEm().createQuery("SELECT w FROM " +
+                        " ShopWeightShipRules w " +
+                        " JOIN w.shopId sh " +
+                        " JOIN w.shippingClassId klass " +
+                        " JOIN w.zoneId z " +
+                        "  WHERE w.active = 1 AND z.id = :zoneId " +
+                        "  AND klass.id = :klassId AND sh.id = :shopId")
+                        .setParameter("zoneId", zoneId)
+                        .setParameter("klassId", checkedKlassId)
+                        .setParameter("shopId", this.getBasket().getShop().getId())
+                        .getResultList();
+                System.out.println("NORMAL WEIGHT RESULT " + weightRules.size());
+                for (ShopWeightShipRules wRul : weightRules) {
+                    Double upperValue = wRul.getOverThanKg().doubleValue();
+                    Double lowerValue = wRul.getLessThanKg().doubleValue();
+
+                    boolean lowerLimitOK = (varos > lowerValue) || (varos >= lowerValue && wRul.isLessEqual());
+                    boolean upperLimitOK = (varos < upperValue) || (varos <= upperValue && wRul.isOverEqual());
+
+                    if (wRul.isLessThanInfinity()) {
+                        upperLimitOK = true;
+                    }
+
+                    if (lowerLimitOK && upperLimitOK) {
+                        costTotal = costTotal.add(wRul.getBaseCost());
+                        break;
+                    }
+                }
+
+                // what if order is eg 15 kilos and there are two rules ,one for 5 kilos and one for 8 kilos
+
+                List<ShopWeightOverShipRules> overWeightRules = this.getEm().createQuery("SELECT w FROM " +
+                        " ShopWeightOverShipRules w " +
+                        " JOIN w.shopId sh " +
+                        " JOIN w.shippingClassId klass " +
+                        " JOIN w.zoneId z " +
+                        "  WHERE w.active = 1 AND z.id = :zoneId " +
+                        "  AND klass.id = :klassId AND sh.id = :shopId" +
+                        " AND w.overTotalWeight >= :kg " +
+                        " ORDER BY w.overTotalWeight DESC")
+                        .setParameter("zoneId", zoneId)
+                        .setParameter("kg", varos)
+                        .setParameter("klassId", checkedKlassId)
+                        .setParameter("shopId", this.getBasket().getShop().getId())
+                        .getResultList();
+                if (overWeightRules.size() > 0) {
+                    //  Double overLimit = overWeightRules.get(0).getOverTotalWeight().doubleValue();
+                    //   Double extraWeight =  varos - overLimit;
+                    BigDecimal overLimit = classWeight.subtract(overWeightRules.get(0).getOverTotalWeight());
+                    costTotal = costTotal.add(overLimit.multiply(overWeightRules.get(0).getCharge()));
+                }
             }
 
             // convert to selected currency ....
-            c.setShipCost(cost);
+            c.setShipCost(costTotal);
             return c;
         }
         catch (Exception ex)
