@@ -231,6 +231,7 @@ public class Products implements Serializable {
         this.id = id;
     }
 
+
     public Products(@NotNull BigDecimal kilos) {
         this.kilos = kilos;
     }

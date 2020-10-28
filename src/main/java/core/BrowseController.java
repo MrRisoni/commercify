@@ -149,8 +149,13 @@ public class BrowseController {
                 predicatesLen++;
             }
 
-            HashMap<String, List<ProductFilterPojo>> synolo = this.groupByFilterAttribute(searchCriteriaPojo.getFilters());
-
+            HashMap<String, List<ProductFilterPojo>> synolo = new HashMap<>();
+            if (
+                (searchCriteriaPojo.getFilters() != null) &&
+                (searchCriteriaPojo.getFilters().size() >0)
+            )  {
+                synolo = this.groupByFilterAttribute(searchCriteriaPojo.getFilters());
+            }
 
             predicatesLen = 6 + synolo.size();
             System.out.println("TOTAL PREDICATES SIZE " + predicatesLen);
