@@ -26,4 +26,12 @@ public class GeneralController {
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_GATEWAY);
         }
     }
+
+
+    @RequestMapping(value=  "/api/version" , method = RequestMethod.GET)
+    public ResponseEntity<String> getVersion() {
+        
+        return new ResponseEntity<>("4.5.0.11", HttpStatus.OK);
+        
+    }
 }
