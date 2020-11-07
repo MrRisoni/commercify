@@ -1,14 +1,13 @@
 package core;
 
 import com.google.gson.Gson;
-import dto.AttributeGroupBool;
-import dto.AttributeGroupString;
-import dto.RangeValues;
-import dto.SimpleProduct;
+import dto.*;
 import entity.*;
 import entity.product.ProductAttributesValues;
 import entity.product.ProductCategoryAttributes;
 import entity.product.Products;
+import org.hibernate.transform.Transformers;
+import org.hibernate.type.StandardBasicTypes;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -271,6 +270,29 @@ public class BrowseController {
         }
 
         return synolo;
+    }
+
+    @RequestMapping(value = "/api/product/boughtwith", method = RequestMethod.GET)
+    public List<Products> getFrequentlyBoughtByThis()
+    {
+        Long productId = 4L;
+
+        String sql = " SELECT oi2.product_id ,p.title,p.thumbnail_url FROM order_items oi2 " +
+        " JOIN order_items oi1 ON oi1.order_id = oi2.order_id  " +
+        " JOIN products p ON p.id = oi2.product_id  " +
+        " WHERE  oi1.product_id = :pid  " +
+        " AND oi2.product_id != :pid  " +
+        " GROUP BY  oi2.product_id  " +
+        " ORDER BY COUNT(oi2.id) DESC LIMIT 5";
+
+       return  HibernateUtil.getEM().createNativeQuery(sql)
+               .setParameter("pid",productId)
+               .unwrap(org.hibernate.query.NativeQuery.class)
+               .addScalar("product_id", StandardBasicTypes.LONG)
+               .addScalar("title",StandardBasicTypes.STRING)
+               .addScalar("thumbnail_url",StandardBasicTypes.STRING)
+               .setResultTransformer(Transformers.aliasToBean(Products.class))
+               .getResultList();
     }
 
 }

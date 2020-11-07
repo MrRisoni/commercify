@@ -285,6 +285,12 @@ public class Products implements Serializable {
         this.price = price;
     }
 
+    public Products(Long id, String title, String thumbnailUrl) {
+        this.id = id;
+        this.title = title;
+        this.thumbnailUrl = thumbnailUrl;
+    }
+
     public Long getId() {
         return id;
     }
