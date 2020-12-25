@@ -1,12 +1,13 @@
 package entity.product;
 
-
 import com.fasterxml.jackson.annotation.JsonView;
 import entity.JackSonViewer;
+import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
+@Data
 @Entity
 @Table(name = "product_attribute_units")
 public class ProductAttributeUnit implements Serializable {
@@ -28,29 +29,5 @@ public class ProductAttributeUnit implements Serializable {
     private ProductCategoryAttributes attrObj;
 
     public ProductAttributeUnit() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getUnits() {
-        return units;
-    }
-
-    public void setUnits(String units) {
-        this.units = units;
-    }
-
-    public ProductCategoryAttributes getAttrObj() {
-        return attrObj;
-    }
-
-    public void setAttrObj(ProductCategoryAttributes attrObj) {
-        this.attrObj = attrObj;
     }
 }

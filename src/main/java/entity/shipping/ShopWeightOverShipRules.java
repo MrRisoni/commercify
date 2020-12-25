@@ -1,6 +1,7 @@
 package entity.shipping;
 
 import entity.shop.Shops;
+import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.io.Serializable;
@@ -9,6 +10,7 @@ import java.util.Date;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+@Data
 @Entity
 @Table(name = "shop_over_weight_ship_rules")
 public class ShopWeightOverShipRules implements Serializable {
@@ -71,106 +73,4 @@ public class ShopWeightOverShipRules implements Serializable {
     public ShopWeightOverShipRules() {
     }
 
-    public ShopWeightOverShipRules(Long id) {
-        this.id = id;
-    }
-
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-
-    public boolean getTaxable() {
-        return taxable;
-    }
-
-    public void setTaxable(boolean taxable) {
-        this.taxable = taxable;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-
-    public BigDecimal getCharge() {
-        return charge;
-    }
-
-    public void setCharge(BigDecimal charge) {
-        this.charge = charge;
-    }
-
-    public BigDecimal getOverTotalWeight() {
-        return overTotalWeight;
-    }
-
-    public void setOverTotalWeight(BigDecimal overTotalWeight) {
-        this.overTotalWeight = overTotalWeight;
-    }
-
-    public BigDecimal getForEachKg() {
-        return forEachKg;
-    }
-
-    public void setForEachKg(BigDecimal forEachKg) {
-        this.forEachKg = forEachKg;
-    }
-
-    public boolean getActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
-    public Shops getShopId() {
-        return shopId;
-    }
-
-    public void setShopId(Shops shopId) {
-        this.shopId = shopId;
-    }
-
-    public ShopCourierClasses getShippingClassId() {
-        return shippingClassId;
-    }
-
-    public void setShippingClassId(ShopCourierClasses shippingClassId) {
-        this.shippingClassId = shippingClassId;
-    }
-
-    public boolean isTaxable() {
-        return taxable;
-    }
-
-      public boolean isActive() {
-        return active;
-    }
-
-    public ShippingZones getZoneId() {
-        return zoneId;
-    }
-
-    public void setZoneId(ShippingZones zoneId) {
-        this.zoneId = zoneId;
-    }
 }

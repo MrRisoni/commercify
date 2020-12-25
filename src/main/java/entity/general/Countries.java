@@ -1,5 +1,6 @@
-
 package entity.general;
+
+import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -7,7 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-
+@Data
 @Entity
 @Table(name = "countries")
 public class Countries implements Serializable {
@@ -50,38 +51,4 @@ public class Countries implements Serializable {
         this.code = code;
         this.continent = continent;
     }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public String getContinent() {
-        return continent;
-    }
-
-    public void setContinent(String continent) {
-        this.continent = continent;
-    }
-
-
 }

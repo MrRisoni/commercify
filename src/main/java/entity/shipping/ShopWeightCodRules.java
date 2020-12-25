@@ -1,7 +1,7 @@
-
 package entity.shipping;
 
 import entity.shop.Shops;
+import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.io.Serializable;
@@ -11,7 +11,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-
+@Data
 @Entity
 @Table(name = "shop_weight_cod_rules")
 public class ShopWeightCodRules implements Serializable {
@@ -26,7 +26,7 @@ public class ShopWeightCodRules implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 52)
-     @Column
+    @Column
     private String title;
 
     @Basic(optional = false)
@@ -120,133 +120,4 @@ public class ShopWeightCodRules implements Serializable {
         this.active = active;
         this.createdAt = createdAt;
     }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public boolean getTaxable() {
-        return taxable;
-    }
-
-    public void setTaxable(boolean taxable) {
-        this.taxable = taxable;
-    }
-
-    public BigDecimal getLessThanKg() {
-        return lessThanKg;
-    }
-
-    public void setLessThanKg(BigDecimal lessThanKg) {
-        this.lessThanKg = lessThanKg;
-    }
-
-    public boolean getLessEqual() {
-        return lessEqual;
-    }
-
-    public void setLessEqual(boolean lessEqual) {
-        this.lessEqual = lessEqual;
-    }
-
-    public BigDecimal getOverThanKg() {
-        return overThanKg;
-    }
-
-    public void setOverThanKg(BigDecimal overThanKg) {
-        this.overThanKg = overThanKg;
-    }
-
-    public boolean getOverEqual() {
-        return overEqual;
-    }
-
-    public void setOverEqual(boolean overEqual) {
-        this.overEqual = overEqual;
-    }
-
-    public BigDecimal getBaseCost() {
-        return baseCost;
-    }
-
-    public void setBaseCost(BigDecimal baseCost) {
-        this.baseCost = baseCost;
-    }
-
-    public BigDecimal getCharge() {
-        return charge;
-    }
-
-    public void setCharge(BigDecimal charge) {
-        this.charge = charge;
-    }
-
-    public BigDecimal getOverTotalWeight() {
-        return overTotalWeight;
-    }
-
-    public void setOverTotalWeight(BigDecimal overTotalWeight) {
-        this.overTotalWeight = overTotalWeight;
-    }
-
-    public BigDecimal getForEachKg() {
-        return forEachKg;
-    }
-
-    public void setForEachKg(BigDecimal forEachKg) {
-        this.forEachKg = forEachKg;
-    }
-
-    public boolean getActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    public Shops getShopId() {
-        return shopId;
-    }
-
-    public void setShopId(Shops shopId) {
-        this.shopId = shopId;
-    }
-
-    public ShopCourierClasses getShippingClassId() {
-        return shippingClassId;
-    }
-
-    public void setShippingClassId(ShopCourierClasses shippingClassId) {
-        this.shippingClassId = shippingClassId;
-    }
-
 }

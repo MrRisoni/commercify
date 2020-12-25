@@ -1,10 +1,11 @@
-
 package entity.shop;
+
+import lombok.Data;
 
 import java.io.Serializable;
 import javax.persistence.*;
 
-
+@Data
 @Entity
 @Table(name = "shop_managers")
 public class ShopManagers implements Serializable {
@@ -26,33 +27,4 @@ public class ShopManagers implements Serializable {
 
     public ShopManagers() {
     }
-
-    public ShopManagers(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Shops getShopId() {
-        return shopId;
-    }
-
-    public void setShopId(Shops shopId) {
-        this.shopId = shopId;
-    }
-
-    public Users getManagerId() {
-        return managerId;
-    }
-
-    public void setManagerId(Users managerId) {
-        this.managerId = managerId;
-    }
-
 }

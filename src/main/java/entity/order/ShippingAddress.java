@@ -1,10 +1,10 @@
-
 package entity.order;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import entity.JackSonViewer;
 import entity.shop.Users;
 import entity.general.GlobeRegions;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -13,6 +13,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 
+@Data
 @Entity
 @Table(name = "shipping_address")
 public class ShippingAddress implements Serializable {
@@ -85,97 +86,5 @@ public class ShippingAddress implements Serializable {
     private GlobeRegions regionId;
 
     public ShippingAddress() {
-    }
-
-    public ShippingAddress(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getCountryCode() {
-        return countryCode;
-    }
-
-    public void setCountryCode(String countryCode) {
-        this.countryCode = countryCode;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getFullName() {
-        return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getStreetNo() {
-        return streetNo;
-    }
-
-    public void setStreetNo(String streetNo) {
-        this.streetNo = streetNo;
-    }
-
-    public String getPostCode() {
-        return postCode;
-    }
-
-    public void setPostCode(String postCode) {
-        this.postCode = postCode;
-    }
-
-    public Collection<Orders> getOrdersCollection() {
-        return ordersCollection;
-    }
-
-    public void setOrdersCollection(Collection<Orders> ordersCollection) {
-        this.ordersCollection = ordersCollection;
-    }
-
-    public Users getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Users userId) {
-        this.userId = userId;
-    }
-
-    public GlobeRegions getRegionId() {
-        return regionId;
-    }
-
-    public void setRegionId(GlobeRegions regionId) {
-        this.regionId = regionId;
-    }
-
-    public String getContactMobile() {
-        return contactMobile;
-    }
-
-    public void setContactMobile(String contactMobile) {
-        this.contactMobile = contactMobile;
     }
 }

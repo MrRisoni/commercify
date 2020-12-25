@@ -1,9 +1,9 @@
-
 package entity.product;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import entity.JackSonViewer;
 import entity.shop.Shops;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -11,7 +11,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-
+@Data
 @Entity
 @Table(name = "product_categories")
 @org.hibernate.annotations.NamedQuery(name = "ProductCategories_fetchByShopId",
@@ -61,56 +61,4 @@ public class ProductCategories implements Serializable {
         this.parentCategoryId = parentCategoryId;
         this.title = title;
     }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public long getParentCategoryId() {
-        return parentCategoryId;
-    }
-
-    public void setParentCategoryId(long parentCategoryId) {
-        this.parentCategoryId = parentCategoryId;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-
-    public Collection<Products> getProductsCollection() {
-        return productsCollection;
-    }
-
-    public void setProductsCollection(Collection<Products> productsCollection) {
-        this.productsCollection = productsCollection;
-    }
-
-
-    public Collection<ProductCategoryAttributes> getProductCategoryAttributesCollection() {
-        return productCategoryAttributesCollection;
-    }
-
-    public void setProductCategoryAttributesCollection(Collection<ProductCategoryAttributes> productCategoryAttributesCollection) {
-        this.productCategoryAttributesCollection = productCategoryAttributesCollection;
-    }
-
-    public Shops getShopId() {
-        return shopId;
-    }
-
-    public void setShopId(Shops shopId) {
-        this.shopId = shopId;
-    }
-
-
 }

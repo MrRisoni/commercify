@@ -1,10 +1,10 @@
-
 package entity.order;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import entity.*;
 import entity.shop.Shops;
 import entity.shop.Users;
+import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -17,7 +17,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-
+@Data
 @Entity
 @Table(name = "orders")
 public class Orders implements Serializable {
@@ -168,194 +168,5 @@ public class Orders implements Serializable {
         this.isVoid = void1;
         this.refund = refund;
         this.createdAt = createdAt;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getCurrency() {
-        return currency;
-    }
-
-    public void setCurrency(String currency) {
-        this.currency = currency;
-    }
-
-    public BigDecimal getTotal() {
-        return total;
-    }
-
-    public void setTotal(BigDecimal total) {
-        this.total = total;
-    }
-
-    public BigDecimal getNet() {
-        return net;
-    }
-
-    public void setNet(BigDecimal net) {
-        this.net = net;
-    }
-
-    public BigDecimal getTax() {
-        return tax;
-    }
-
-    public void setTax(BigDecimal tax) {
-        this.tax = tax;
-    }
-
-    public BigDecimal getShipping() {
-        return shipping;
-    }
-
-    public void setShipping(BigDecimal shipping) {
-        this.shipping = shipping;
-    }
-
-    public boolean getSuccess() {
-        return success;
-    }
-
-    public void setSuccess(boolean success) {
-        this.success = success;
-    }
-
-    public boolean getVoid() {
-        return isVoid;
-    }
-
-    public void setVoid(boolean aVoid) {
-        this.isVoid = aVoid;
-    }
-
-    public boolean getRefund() {
-        return refund;
-    }
-
-    public void setRefund(boolean refund) {
-        this.refund = refund;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-
-    public Collection<OrderItems> getOrderItemsCollection() {
-        return orderItemsCollection;
-    }
-
-    public void setOrderItemsCollection(Collection<OrderItems> orderItemsCollection) {
-        this.orderItemsCollection = orderItemsCollection;
-    }
-
-    public Users getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Users userId) {
-        this.userId = userId;
-    }
-
-    public Shops getShopId() {
-        return shopId;
-    }
-
-    public void setShopId(Shops shopId) {
-        this.shopId = shopId;
-    }
-
-    public OrderStatus getStatusId() {
-        return statusId;
-    }
-
-    public void setStatusId(OrderStatus statusId) {
-        this.statusId = statusId;
-    }
-
-    public PaymentMethods getPayMethodId() {
-        return payMethodId;
-    }
-
-    public void setPayMethodId(PaymentMethods payMethodId) {
-        this.payMethodId = payMethodId;
-    }
-
-    public ShippingAddress getShippingAddressId() {
-        return shippingAddressId;
-    }
-
-    public void setShippingAddressId(ShippingAddress shippingAddressId) {
-        this.shippingAddressId = shippingAddressId;
-    }
-
-    public BillingAddress getBillingAddressId() {
-        return billingAddressId;
-    }
-
-    public void setBillingAddressId(BillingAddress billingAddressId) {
-        this.billingAddressId = billingAddressId;
-    }
-
-    public BigDecimal getCurrency_rate() {
-        return currency_rate;
-    }
-
-    public void setCurrency_rate(BigDecimal currency_rate) {
-        this.currency_rate = currency_rate;
-    }
-
-    public boolean isSuccess() {
-        return success;
-    }
-
-    public boolean isVoid() {
-        return isVoid;
-    }
-
-    public boolean isRefund() {
-        return refund;
-    }
-
-    public List<OrderStatusHistory> getStatusHistory() {
-        return statusHistory;
-    }
-
-    public void setStatusHistory(List<OrderStatusHistory> statusHistory) {
-        this.statusHistory = statusHistory;
-    }
-
-    public BigDecimal getCourrierFees() {
-        return courrierFees;
-    }
-
-    public void setCourrierFees(BigDecimal courrierFees) {
-        this.courrierFees = courrierFees;
-    }
-
-    public BigDecimal getCommission() {
-        return commission;
-    }
-
-    public void setCommission(BigDecimal commission) {
-        this.commission = commission;
     }
 }

@@ -1,12 +1,13 @@
-
 package entity.shop;
+
+import lombok.Data;
 
 import java.io.Serializable;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-
+@Data
 @Entity
 @Table(name = "shop_countries")
 public class ShopCountries implements Serializable {
@@ -29,38 +30,5 @@ public class ShopCountries implements Serializable {
     private Shops shopId;
 
     public ShopCountries() {
-    }
-
-    public ShopCountries(Long id) {
-        this.id = id;
-    }
-
-    public ShopCountries(Long id, String countryCode) {
-        this.id = id;
-        this.countryCode = countryCode;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getCountryCode() {
-        return countryCode;
-    }
-
-    public void setCountryCode(String countryCode) {
-        this.countryCode = countryCode;
-    }
-
-    public Shops getShopId() {
-        return shopId;
-    }
-
-    public void setShopId(Shops shopId) {
-        this.shopId = shopId;
     }
 }

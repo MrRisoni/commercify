@@ -1,7 +1,7 @@
-
 package entity.shipping;
 
 import entity.shop.Shops;
+import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
+@Data
 @Entity
 @Table(name = "shop_volume_ship_rules")
 public class ShopVolumeShipRules implements Serializable {
@@ -69,7 +70,7 @@ public class ShopVolumeShipRules implements Serializable {
 
     @Basic(optional = false)
     @NotNull
-    @Column(name="less_than_infinity")
+    @Column(name = "less_than_infinity")
     private boolean lessThanInfinity;
 
     @JoinColumn(name = "shop_id", referencedColumnName = "id")
@@ -104,132 +105,4 @@ public class ShopVolumeShipRules implements Serializable {
         this.lessThanInfinity = lessThanInfinite;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public boolean getTaxable() {
-        return taxable;
-    }
-
-    public void setTaxable(boolean taxable) {
-        this.taxable = taxable;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    public BigDecimal getLessThanVolume() {
-        return lessThanVolume;
-    }
-
-    public void setLessThanVolume(BigDecimal lessThanVolume) {
-        this.lessThanVolume = lessThanVolume;
-    }
-
-    public boolean getLessEqual() {
-        return lessEqual;
-    }
-
-    public void setLessEqual(boolean lessEqual) {
-        this.lessEqual = lessEqual;
-    }
-
-    public BigDecimal getOverThanVolume() {
-        return overThanVolume;
-    }
-
-    public void setOverThanVolume(BigDecimal overThanVolume) {
-        this.overThanVolume = overThanVolume;
-    }
-
-    public boolean getOverEqual() {
-        return overEqual;
-    }
-
-    public void setOverEqual(boolean overEqual) {
-        this.overEqual = overEqual;
-    }
-
-    public BigDecimal getBaseCost() {
-        return baseCost;
-    }
-
-    public void setBaseCost(BigDecimal baseCost) {
-        this.baseCost = baseCost;
-    }
-
-
-    public boolean getActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
-    public Shops getShopId() {
-        return shopId;
-    }
-
-    public void setShopId(Shops shopId) {
-        this.shopId = shopId;
-    }
-
-    public ShopCourierClasses getShippingClassId() {
-        return shippingClassId;
-    }
-
-    public void setShippingClassId(ShopCourierClasses shippingClassId) {
-        this.shippingClassId = shippingClassId;
-    }
-
-    public boolean isTaxable() {
-        return taxable;
-    }
-
-    public boolean isLessEqual() {
-        return lessEqual;
-    }
-
-    public boolean isOverEqual() {
-        return overEqual;
-    }
-
-    public boolean isActive() {
-        return active;
-    }
-
-    public ShippingZones getZoneId() {
-        return zoneId;
-    }
-
-    public void setZoneId(ShippingZones zoneId) {
-        this.zoneId = zoneId;
-    }
-
-    public boolean isLessThanInfinity() {
-        return lessThanInfinity;
-    }
-
-    public void setLessThanInfinity(boolean lessThanInfinity) {
-        this.lessThanInfinity = lessThanInfinity;
-    }
 }

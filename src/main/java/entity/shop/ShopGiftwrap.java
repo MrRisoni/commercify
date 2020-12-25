@@ -1,12 +1,12 @@
-
 package entity.shop;
 
+import lombok.Data;
 import java.io.Serializable;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-
+@Data
 @Entity
 @Table(name = "shop_giftwrap")
 public class ShopGiftwrap implements Serializable {
@@ -36,45 +36,4 @@ public class ShopGiftwrap implements Serializable {
     public ShopGiftwrap() {
     }
 
-    public ShopGiftwrap(Long id) {
-        this.id = id;
-    }
-
-    public ShopGiftwrap(Long id, String imagePath, boolean active) {
-        this.id = id;
-        this.imagePath = imagePath;
-        this.active = active;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getImagePath() {
-        return imagePath;
-    }
-
-    public void setImagePath(String imagePath) {
-        this.imagePath = imagePath;
-    }
-
-    public boolean getActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
-    public Shops getShopId() {
-        return shopId;
-    }
-
-    public void setShopId(Shops shopId) {
-        this.shopId = shopId;
-    }
 }

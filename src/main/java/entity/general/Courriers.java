@@ -1,9 +1,9 @@
-
 package entity.general;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import entity.JackSonViewer;
 import entity.shipping.ShopCouriers;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -11,7 +11,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-
+@Data
 @Entity
 @Table(name = "courriers")
 public class Courriers implements Serializable {
@@ -45,31 +45,4 @@ public class Courriers implements Serializable {
         this.id = id;
         this.title = title;
     }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-
-    public Collection<ShopCouriers> getShopCouriersCollection() {
-        return shopCouriersCollection;
-    }
-
-    public void setShopCouriersCollection(Collection<ShopCouriers> shopCouriersCollection) {
-        this.shopCouriersCollection = shopCouriersCollection;
-    }
-
-
 }

@@ -1,8 +1,8 @@
-
 package entity.taxes;
 
 import entity.shop.Shops;
 import entity.product.ProductCategories;
+import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.io.Serializable;
@@ -12,7 +12,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-
+@Data
 @Entity
 @Table(name = "shop_tax_rules")
 public class ShopTaxRules implements Serializable {
@@ -92,105 +92,5 @@ public class ShopTaxRules implements Serializable {
         this.rate = rate;
         this.created = created;
         this.active = active;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getCountryCode() {
-        return countryCode;
-    }
-
-    public void setCountryCode(String countryCode) {
-        this.countryCode = countryCode;
-    }
-
-    public BigDecimal getFlatCost() {
-        return flatCost;
-    }
-
-    public void setFlatCost(BigDecimal flatCost) {
-        this.flatCost = flatCost;
-    }
-
-    public BigDecimal getRate() {
-        return rate;
-    }
-
-    public void setRate(BigDecimal rate) {
-        this.rate = rate;
-    }
-
-    public Date getCreated() {
-        return created;
-    }
-
-    public void setCreated(Date created) {
-        this.created = created;
-    }
-
-    public Date getUpdated() {
-        return updated;
-    }
-
-    public void setUpdated(Date updated) {
-        this.updated = updated;
-    }
-
-    public boolean getActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
-    public Shops getShopId() {
-        return shopId;
-    }
-
-    public void setShopId(Shops shopId) {
-        this.shopId = shopId;
-    }
-
-    public String getTaxAddress() {
-        return taxAddress;
-    }
-
-    public void setTaxAddress(String taxAddress) {
-        this.taxAddress = taxAddress;
-    }
-
-    public boolean isActive() {
-        return active;
-    }
-
-    public ProductCategories getProductCategoryId() {
-        return productCategoryId;
-    }
-
-    public void setProductCategoryId(ProductCategories productCategoryId) {
-        this.productCategoryId = productCategoryId;
-    }
-
-    public Date getActiveFrom() {
-        return activeFrom;
-    }
-
-    public void setActiveFrom(Date activeFrom) {
-        this.activeFrom = activeFrom;
-    }
-
-    public Date getActiveUntil() {
-        return activeUntil;
-    }
-
-    public void setActiveUntil(Date activeUntil) {
-        this.activeUntil = activeUntil;
     }
 }

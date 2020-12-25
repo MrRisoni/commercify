@@ -1,12 +1,13 @@
-
 package entity.shipping;
+
+import lombok.Data;
 
 import java.io.Serializable;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-
+@Data
 @Entity
 @Table(name = "shipping_region_zips")
 public class ShippingRegionsZipCodes implements Serializable {
@@ -40,28 +41,4 @@ public class ShippingRegionsZipCodes implements Serializable {
         this.zipCode = zipCode;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-
-    public String getZipCode() {
-        return zipCode;
-    }
-
-    public void setZipCode(String zipCode) {
-        this.zipCode = zipCode;
-    }
-
-    public ShippingZonesRegions getRegionId() {
-        return regionId;
-    }
-
-    public void setRegionId(ShippingZonesRegions regionId) {
-        this.regionId = regionId;
-    }
 }

@@ -1,12 +1,13 @@
-
 package entity.shop;
+
+import lombok.Data;
 
 import java.io.Serializable;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-
+@Data
 @Entity
 @Table(name = "shop_banks")
 public class ShopBanks implements Serializable {
@@ -60,54 +61,4 @@ public class ShopBanks implements Serializable {
         this.iban = iban;
         this.swiftCode = swiftCode;
     }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getBank() {
-        return bank;
-    }
-
-    public void setBank(String bank) {
-        this.bank = bank;
-    }
-
-    public String getAccountNo() {
-        return accountNo;
-    }
-
-    public void setAccountNo(String accountNo) {
-        this.accountNo = accountNo;
-    }
-
-    public String getIban() {
-        return iban;
-    }
-
-    public void setIban(String iban) {
-        this.iban = iban;
-    }
-
-    public String getSwiftCode() {
-        return swiftCode;
-    }
-
-    public void setSwiftCode(String swiftCode) {
-        this.swiftCode = swiftCode;
-    }
-
-    public Shops getShopId() {
-        return shopId;
-    }
-
-    public void setShopId(Shops shopId) {
-        this.shopId = shopId;
-    }
-
-
 }

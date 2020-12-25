@@ -1,8 +1,8 @@
-
 package entity.order;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import entity.JackSonViewer;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -10,7 +10,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-
+@Data
 @Entity
 @Table(name = "order_status")
 public class OrderStatus implements Serializable {
@@ -47,39 +47,4 @@ public class OrderStatus implements Serializable {
         this.id = id;
         this.title = title;
     }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-
-    public Collection<OrderItems> getOrderItemsCollection() {
-        return orderItemsCollection;
-    }
-
-    public void setOrderItemsCollection(Collection<OrderItems> orderItemsCollection) {
-        this.orderItemsCollection = orderItemsCollection;
-    }
-
-
-    public Collection<Orders> getOrdersCollection() {
-        return ordersCollection;
-    }
-
-    public void setOrdersCollection(Collection<Orders> ordersCollection) {
-        this.ordersCollection = ordersCollection;
-    }
-
 }

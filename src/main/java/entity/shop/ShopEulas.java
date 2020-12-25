@@ -1,14 +1,14 @@
-
 package entity.shop;
 
 import entity.general.Languages;
+import lombok.Data;
 
 import java.io.Serializable;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-
+@Data
 @Entity
 @Table(name = "shop_eulas")
 public class ShopEulas implements Serializable {
@@ -37,46 +37,4 @@ public class ShopEulas implements Serializable {
 
     public ShopEulas() {
     }
-
-    public ShopEulas(Long id) {
-        this.id = id;
-    }
-
-    public ShopEulas(Long id, String terms) {
-        this.id = id;
-        this.terms = terms;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTerms() {
-        return terms;
-    }
-
-    public void setTerms(String terms) {
-        this.terms = terms;
-    }
-
-    public Shops getShopId() {
-        return shopId;
-    }
-
-    public void setShopId(Shops shopId) {
-        this.shopId = shopId;
-    }
-
-    public Languages getLanguageId() {
-        return languageId;
-    }
-
-    public void setLanguageId(Languages languageId) {
-        this.languageId = languageId;
-    }
-
 }

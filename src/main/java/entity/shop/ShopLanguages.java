@@ -1,12 +1,11 @@
-
 package entity.shop;
 
 import entity.general.Languages;
-
+import lombok.Data;
 import java.io.Serializable;
 import javax.persistence.*;
 
-
+@Data
 @Entity
 @Table(name = "shop_languages")
 public class ShopLanguages implements Serializable {
@@ -28,33 +27,4 @@ public class ShopLanguages implements Serializable {
 
     public ShopLanguages() {
     }
-
-    public ShopLanguages(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Shops getShopId() {
-        return shopId;
-    }
-
-    public void setShopId(Shops shopId) {
-        this.shopId = shopId;
-    }
-
-    public Languages getLanguageId() {
-        return languageId;
-    }
-
-    public void setLanguageId(Languages languageId) {
-        this.languageId = languageId;
-    }
-
 }

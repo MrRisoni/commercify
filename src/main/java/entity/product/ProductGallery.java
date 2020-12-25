@@ -1,8 +1,8 @@
-
 package entity.product;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import entity.JackSonViewer;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -10,7 +10,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-
+@Data
 @Entity
 @Table(name = "product_gallery")
 public class ProductGallery implements Serializable {
@@ -47,38 +47,5 @@ public class ProductGallery implements Serializable {
     public ProductGallery(Long id, String filePath) {
         this.id = id;
         this.filePath = filePath;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getFilePath() {
-        return filePath;
-    }
-
-    public void setFilePath(String filePath) {
-        this.filePath = filePath;
-    }
-
-
-    public Collection<ProductGalleryTag> getProductGalleryTagCollection() {
-        return productGalleryTagCollection;
-    }
-
-    public void setProductGalleryTagCollection(Collection<ProductGalleryTag> productGalleryTagCollection) {
-        this.productGalleryTagCollection = productGalleryTagCollection;
-    }
-
-    public Products getProductId() {
-        return productId;
-    }
-
-    public void setProductId(Products productId) {
-        this.productId = productId;
     }
 }

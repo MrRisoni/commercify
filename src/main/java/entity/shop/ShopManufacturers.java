@@ -1,9 +1,9 @@
-
 package entity.shop;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import entity.JackSonViewer;
 import entity.product.Products;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -11,7 +11,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-
+@Data
 @Entity
 @Table(name = "shop_manufacturers")
 public class ShopManufacturers implements Serializable {
@@ -27,7 +27,7 @@ public class ShopManufacturers implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 55)
-     @Column
+    @Column
     @JsonView({JackSonViewer.IShopProduct.class, JackSonViewer.IOrder.class})
     private String title;
 
@@ -39,47 +39,5 @@ public class ShopManufacturers implements Serializable {
     private Collection<Products> productsCollection;
 
     public ShopManufacturers() {
-    }
-
-    public ShopManufacturers(Long id) {
-        this.id = id;
-    }
-
-    public ShopManufacturers(Long id, String title) {
-        this.id = id;
-        this.title = title;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public Shops getShopId() {
-        return shopId;
-    }
-
-    public void setShopId(Shops shopId) {
-        this.shopId = shopId;
-    }
-
-
-    public Collection<Products> getProductsCollection() {
-        return productsCollection;
-    }
-
-    public void setProductsCollection(Collection<Products> productsCollection) {
-        this.productsCollection = productsCollection;
     }
 }

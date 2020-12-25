@@ -1,12 +1,12 @@
-
 package entity.shipping;
 
 import entity.general.GlobeRegions;
+import lombok.Data;
 
 import java.io.Serializable;
 import javax.persistence.*;
 
-
+@Data
 @Entity
 @Table(name = "shipping_zones_regions")
 public class ShippingZonesRegions implements Serializable {
@@ -29,31 +29,4 @@ public class ShippingZonesRegions implements Serializable {
     public ShippingZonesRegions() {
     }
 
-    public ShippingZonesRegions(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public GlobeRegions getRegionId() {
-        return regionId;
-    }
-
-    public void setRegionId(GlobeRegions regionId) {
-        this.regionId = regionId;
-    }
-
-    public ShippingZones getZoneId() {
-        return zoneId;
-    }
-
-    public void setZoneId(ShippingZones zoneId) {
-        this.zoneId = zoneId;
-    }
 }

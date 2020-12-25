@@ -1,10 +1,10 @@
-
 package entity.order;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import entity.JackSonViewer;
 import entity.product.Products;
 import entity.shipping.ShopCourierClasses;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -14,6 +14,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+@Data
 @Entity
 @Table(name = "order_items")
 public class OrderItems implements Serializable {
@@ -122,151 +123,4 @@ public class OrderItems implements Serializable {
         this.refund = refund;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public String getTrackingNo() {
-        return trackingNo;
-    }
-
-    public void setTrackingNo(String trackingNo) {
-        this.trackingNo = trackingNo;
-    }
-
-    public BigDecimal getNetPrice() {
-        return netPrice;
-    }
-
-    public void setNetPrice(BigDecimal netPrice) {
-        this.netPrice = netPrice;
-    }
-
-    public BigDecimal getTaxes() {
-        return taxes;
-    }
-
-    public void setTaxes(BigDecimal taxes) {
-        this.taxes = taxes;
-    }
-
-    public BigDecimal getGiftCost() {
-        return giftCost;
-    }
-
-    public void setGiftCost(BigDecimal giftCost) {
-        this.giftCost = giftCost;
-    }
-
-    public boolean getSuccess() {
-        return success;
-    }
-
-    public void setSuccess(boolean success) {
-        this.success = success;
-    }
-
-    public boolean getVoid() {
-        return isVoid;
-    }
-
-    public void setVoid(boolean aVoid) {
-        this.isVoid = aVoid;
-    }
-
-    public boolean getRefund() {
-        return refund;
-    }
-
-    public void setRefund(boolean refund) {
-        this.refund = refund;
-    }
-
-    public Orders getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(Orders orderId) {
-        this.orderId = orderId;
-    }
-
-    public Products getProductId() {
-        return productId;
-    }
-
-    public void setProductId(Products productId) {
-        this.productId = productId;
-    }
-
-    public OrderStatus getStatusId() {
-        return statusId;
-    }
-
-    public void setStatusId(OrderStatus statusId) {
-        this.statusId = statusId;
-    }
-
-    public boolean isSuccess() {
-        return success;
-    }
-
-    public boolean isVoid() {
-        return isVoid;
-    }
-
-    public boolean isRefund() {
-        return refund;
-    }
-
-    public List<OrderItemStatusHistory> getStatusHistory() {
-        return statusHistory;
-    }
-
-    public void setStatusHistory(List<OrderItemStatusHistory> statusHistory) {
-        this.statusHistory = statusHistory;
-    }
-
-    public Date getDispatchedOn() {
-        return dispatchedOn;
-    }
-
-    public void setDispatchedOn(Date dispatchedOn) {
-        this.dispatchedOn = dispatchedOn;
-    }
-
-    public Date getExpectedOn() {
-        return expectedOn;
-    }
-
-    public void setExpectedOn(Date expectedOn) {
-        this.expectedOn = expectedOn;
-    }
-
-    public Date getArrivedOn() {
-        return arrivedOn;
-    }
-
-    public void setArrivedOn(Date arrivedOn) {
-        this.arrivedOn = arrivedOn;
-    }
-
-    public ShopCourierClasses getShipClassId() {
-        return shipClassId;
-    }
-
-    public void setShipClassId(ShopCourierClasses shipClassId) {
-        this.shipClassId = shipClassId;
-    }
 }

@@ -1,10 +1,10 @@
-
 package entity.general;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import entity.JackSonViewer;
 import entity.shop.ShopCurrencies;
 import entity.product.Products;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -12,7 +12,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-
+@Data
 @Entity
 @Table(name = "currencies")
 public class Currencies implements Serializable {
@@ -56,46 +56,4 @@ public class Currencies implements Serializable {
         this.title = title;
         this.code = code;
     }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-
-    public Collection<Products> getProductsCollection() {
-        return productsCollection;
-    }
-
-    public void setProductsCollection(Collection<Products> productsCollection) {
-        this.productsCollection = productsCollection;
-    }
-
-    public Collection<ShopCurrencies> getShopCurrenciesCollection() {
-        return shopCurrenciesCollection;
-    }
-
-    public void setShopCurrenciesCollection(Collection<ShopCurrencies> shopCurrenciesCollection) {
-        this.shopCurrenciesCollection = shopCurrenciesCollection;
-    }
-
 }

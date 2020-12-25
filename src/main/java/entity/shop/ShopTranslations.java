@@ -1,14 +1,14 @@
-
 package entity.shop;
 
 import entity.general.Languages;
+import lombok.Data;
 
 import java.io.Serializable;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-
+@Data
 @Entity
 @Table(name = "shop_translations")
 public class ShopTranslations implements Serializable {
@@ -54,43 +54,4 @@ public class ShopTranslations implements Serializable {
         this.transltr = transltr;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public String getTransltr() {
-        return transltr;
-    }
-
-    public void setTransltr(String transltr) {
-        this.transltr = transltr;
-    }
-
-    public Languages getLanguageId() {
-        return languageId;
-    }
-
-    public void setLanguageId(Languages languageId) {
-        this.languageId = languageId;
-    }
-
-    public Shops getShopId() {
-        return shopId;
-    }
-
-    public void setShopId(Shops shopId) {
-        this.shopId = shopId;
-    }
 }

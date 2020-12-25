@@ -7,6 +7,7 @@ import entity.order.BillingAddress;
 import entity.order.Orders;
 import entity.order.ShippingAddress;
 import entity.product.ProductReviews;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -18,8 +19,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 
-
-
+@Data
 @Entity
 @Table(name = "users")
 @NamedQueries({
@@ -123,140 +123,4 @@ public class Users implements Serializable {
         this.lastName = lastName;
         this.created = created;
     }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getPasswordSalt() {
-        return passwordSalt;
-    }
-
-    public void setPasswordSalt(String passwordSalt) {
-        this.passwordSalt = passwordSalt;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public Date getCreated() {
-        return created;
-    }
-
-    public void setCreated(Date created) {
-        this.created = created;
-    }
-
-    public Date getUpdated() {
-        return updated;
-    }
-
-    public void setUpdated(Date updated) {
-        this.updated = updated;
-    }
-
-
-    public Collection<BillingAddress> getBillingAddressCollection() {
-        return billingAddressCollection;
-    }
-
-    public void setBillingAddressCollection(Collection<BillingAddress> billingAddressCollection) {
-        this.billingAddressCollection = billingAddressCollection;
-    }
-
-
-    public Collection<ShopManagers> getShopManagersCollection() {
-        return shopManagersCollection;
-    }
-
-    public void setShopManagersCollection(Collection<ShopManagers> shopManagersCollection) {
-        this.shopManagersCollection = shopManagersCollection;
-    }
-
-
-    public Collection<Shops> getShopsCollection() {
-        return shopsCollection;
-    }
-
-    public void setShopsCollection(Collection<Shops> shopsCollection) {
-        this.shopsCollection = shopsCollection;
-    }
-
-
-    public Collection<Orders> getOrdersCollection() {
-        return ordersCollection;
-    }
-
-    public void setOrdersCollection(Collection<Orders> ordersCollection) {
-        this.ordersCollection = ordersCollection;
-    }
-
-
-    public Collection<ShopReviews> getShopReviewsCollection() {
-        return shopReviewsCollection;
-    }
-
-    public void setShopReviewsCollection(Collection<ShopReviews> shopReviewsCollection) {
-        this.shopReviewsCollection = shopReviewsCollection;
-    }
-
-
-    public Collection<ProductReviews> getProductReviewsCollection() {
-        return productReviewsCollection;
-    }
-
-    public void setProductReviewsCollection(Collection<ProductReviews> productReviewsCollection) {
-        this.productReviewsCollection = productReviewsCollection;
-    }
-
-
-    public Collection<ShippingAddress> getShippingAddressCollection() {
-        return shippingAddressCollection;
-    }
-
-    public void setShippingAddressCollection(Collection<ShippingAddress> shippingAddressCollection) {
-        this.shippingAddressCollection = shippingAddressCollection;
-    }
-
 }

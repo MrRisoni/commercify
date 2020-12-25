@@ -1,9 +1,9 @@
-
 package entity.shipping;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import entity.JackSonViewer;
 import entity.order.OrderItems;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -12,7 +12,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-
+@Data
 @Entity
 @Table(name = "shop_courier_classes")
 public class ShopCourierClasses implements Serializable {
@@ -62,65 +62,5 @@ public class ShopCourierClasses implements Serializable {
         this.id = id;
         this.title = title;
         this.active = active;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public boolean getActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
-    public Collection<ShopWeightShipRules> getShopWeightShipRulesCollection() {
-        return shopWeightShipRulesCollection;
-    }
-
-    public void setShopWeightShipRulesCollection(Collection<ShopWeightShipRules> shopWeightShipRulesCollection) {
-        this.shopWeightShipRulesCollection = shopWeightShipRulesCollection;
-    }
-
-    public ShopCouriers getShopCourierId() {
-        return shopCourierId;
-    }
-
-    public void setShopCourierId(ShopCouriers shopCourierId) {
-        this.shopCourierId = shopCourierId;
-    }
-
-    public Collection<ShopWeightCodRules> getShopWeightCodRulesCollection() {
-        return shopWeightCodRulesCollection;
-    }
-
-    public void setShopWeightCodRulesCollection(Collection<ShopWeightCodRules> shopWeightCodRulesCollection) {
-        this.shopWeightCodRulesCollection = shopWeightCodRulesCollection;
-    }
-
-    public boolean isActive() {
-        return active;
-    }
-
-    public Collection<OrderItems> getOrderItemsCollection() {
-        return orderItemsCollection;
-    }
-
-    public void setOrderItemsCollection(Collection<OrderItems> orderItemsCollection) {
-        this.orderItemsCollection = orderItemsCollection;
     }
 }

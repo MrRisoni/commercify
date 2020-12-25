@@ -1,8 +1,8 @@
-
 package entity.product;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import entity.JackSonViewer;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -10,7 +10,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-
+@Data
 @Entity
 @Table(name = "product_attributes_values")
 public class ProductAttributesValues implements Serializable {
@@ -23,7 +23,7 @@ public class ProductAttributesValues implements Serializable {
     @JsonView(JackSonViewer.IShopProduct.class)
     private Long id;
 
-    @Column(name="attribute_id")
+    @Column(name = "attribute_id")
     private Long attributeKey;
 
     @Basic(optional = false)
@@ -45,7 +45,7 @@ public class ProductAttributesValues implements Serializable {
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Products productId;
 
-    @JoinColumn(name = "attribute_id", referencedColumnName = "id",insertable=false, updatable=false)
+    @JoinColumn(name = "attribute_id", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JsonView(JackSonViewer.IShopProduct.class)
     private ProductCategoryAttributes attributeId;
@@ -57,64 +57,4 @@ public class ProductAttributesValues implements Serializable {
         this.id = id;
     }
 
-    public ProductAttributesValues(Long id, String value) {
-        this.id = id;
-        this.value = value;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
-    }
-
-    public Products getProductId() {
-        return productId;
-    }
-
-    public void setProductId(Products productId) {
-        this.productId = productId;
-    }
-
-    public ProductCategoryAttributes getAttributeId() {
-        return attributeId;
-    }
-
-    public void setAttributeId(ProductCategoryAttributes attributeId) {
-        this.attributeId = attributeId;
-    }
-
-    public BigDecimal getValueNumeric() {
-        return valueNumeric;
-    }
-
-    public void setValueNumeric(BigDecimal valueNumeric) {
-        this.valueNumeric = valueNumeric;
-    }
-
-    public int getValueBoolean() {
-        return valueBoolean;
-    }
-
-    public void setValueBoolean(int valueBoolean) {
-        this.valueBoolean = valueBoolean;
-    }
-
-    public Long getAttributeKey() {
-        return attributeKey;
-    }
-
-    public void setAttributeKey(Long attributeKey) {
-        this.attributeKey = attributeKey;
-    }
 }

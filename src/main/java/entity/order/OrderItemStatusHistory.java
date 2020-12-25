@@ -2,12 +2,14 @@ package entity.order;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import entity.JackSonViewer;
+import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
+@Data
 @Entity
 @Table(name = "order_items_status_history")
 public class OrderItemStatusHistory {
@@ -37,37 +39,5 @@ public class OrderItemStatusHistory {
     private OrderItems itemObj;
 
     public OrderItemStatusHistory() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public OrderStatus getStatusObj() {
-        return statusObj;
-    }
-
-    public void setStatusObj(OrderStatus statusObj) {
-        this.statusObj = statusObj;
-    }
-
-    public OrderItems getItemObj() {
-        return itemObj;
-    }
-
-    public void setItemObj(OrderItems itemObj) {
-        this.itemObj = itemObj;
     }
 }

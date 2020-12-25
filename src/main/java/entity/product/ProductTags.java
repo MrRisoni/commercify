@@ -1,15 +1,15 @@
-
 package entity.product;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import entity.JackSonViewer;
+import lombok.Data;
 
 import java.io.Serializable;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-
+@Data
 @Entity
 @Table(name = "product_tags")
 public class ProductTags implements Serializable {
@@ -44,29 +44,4 @@ public class ProductTags implements Serializable {
         this.id = id;
         this.tag = tag;
     }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTag() {
-        return tag;
-    }
-
-    public void setTag(String tag) {
-        this.tag = tag;
-    }
-
-    public Products getProductId() {
-        return productId;
-    }
-
-    public void setProductId(Products productId) {
-        this.productId = productId;
-    }
-
 }

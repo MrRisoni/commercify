@@ -1,16 +1,16 @@
-
 package entity.shipping;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import entity.JackSonViewer;
 import entity.shop.Shops;
 import entity.general.Courriers;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.*;
 
-
+@Data
 @Entity
 @Table(name = "shop_couriers")
 public class ShopCouriers implements Serializable {

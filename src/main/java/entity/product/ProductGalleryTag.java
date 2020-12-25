@@ -1,12 +1,13 @@
-
 package entity.product;
+
+import lombok.Data;
 
 import java.io.Serializable;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-
+@Data
 @Entity
 @Table(name = "product_gallery_tag")
 public class ProductGalleryTag implements Serializable {
@@ -38,29 +39,5 @@ public class ProductGalleryTag implements Serializable {
     public ProductGalleryTag(Long id, String tag) {
         this.id = id;
         this.tag = tag;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTag() {
-        return tag;
-    }
-
-    public void setTag(String tag) {
-        this.tag = tag;
-    }
-
-    public ProductGallery getImageId() {
-        return imageId;
-    }
-
-    public void setImageId(ProductGallery imageId) {
-        this.imageId = imageId;
     }
 }

@@ -1,12 +1,13 @@
 package entity.rules;
 
-
 import entity.shop.Shops;
+import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+@Data
 @Entity
 @Table(name = "restrict_payment_rules_criteria")
 public class RestrictPaymentCriteria {
@@ -28,7 +29,7 @@ public class RestrictPaymentCriteria {
     @Basic(optional = false)
     @NotNull
     @Column
-    private String 	value;
+    private String value;
 
     @JoinColumn(name = "rule_id", referencedColumnName = "id")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
@@ -41,39 +42,6 @@ public class RestrictPaymentCriteria {
         this.id = id;
         this.operatorObj = operatorObj;
         this.parameterObj = parameterObj;
-        this.value = value;
-    }
-
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public RestrictPaymentOperator getOperatorObj() {
-        return operatorObj;
-    }
-
-    public void setOperatorObj(RestrictPaymentOperator operatorObj) {
-        this.operatorObj = operatorObj;
-    }
-
-    public RestrictPaymentParameters getParameterObj() {
-        return parameterObj;
-    }
-
-    public void setParameterObj(RestrictPaymentParameters parameterObj) {
-        this.parameterObj = parameterObj;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
         this.value = value;
     }
 }

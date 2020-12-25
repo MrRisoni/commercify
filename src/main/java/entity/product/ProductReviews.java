@@ -1,10 +1,10 @@
-
 package entity.product;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import entity.JackSonViewer;
 import entity.shop.Shops;
 import entity.shop.Users;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -13,7 +13,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-
+@Data
 @Entity
 @Table(name = "product_reviews")
 public class ProductReviews implements Serializable {
@@ -72,61 +72,4 @@ public class ProductReviews implements Serializable {
         this.comment = comment;
         this.created = created;
     }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public BigDecimal getStars() {
-        return stars;
-    }
-
-    public void setStars(BigDecimal stars) {
-        this.stars = stars;
-    }
-
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
-
-    public Date getCreated() {
-        return created;
-    }
-
-    public void setCreated(Date created) {
-        this.created = created;
-    }
-
-    public Users getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Users userId) {
-        this.userId = userId;
-    }
-
-    public Shops getShopId() {
-        return shopId;
-    }
-
-    public void setShopId(Shops shopId) {
-        this.shopId = shopId;
-    }
-
-    public Products getProductId() {
-        return productId;
-    }
-
-    public void setProductId(Products productId) {
-        this.productId = productId;
-    }
-
 }

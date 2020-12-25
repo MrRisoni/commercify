@@ -1,13 +1,13 @@
-
 package entity.shop;
 
 import entity.general.Currencies;
+import lombok.Data;
 
 import java.io.Serializable;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
-
+@Data
 @Entity
 @Table(name = "shop_currencies")
 public class ShopCurrencies implements Serializable {
@@ -29,34 +29,4 @@ public class ShopCurrencies implements Serializable {
 
     public ShopCurrencies() {
     }
-
-    public ShopCurrencies(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Shops getShopId() {
-        return shopId;
-    }
-
-    public void setShopId(Shops shopId) {
-        this.shopId = shopId;
-    }
-
-    public Currencies getCurrencyId() {
-        return currencyId;
-    }
-
-    public void setCurrencyId(Currencies currencyId) {
-        this.currencyId = currencyId;
-    }
-
-
 }

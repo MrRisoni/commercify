@@ -1,7 +1,7 @@
-
 package entity.shipping;
 
 import entity.shop.Shops;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -9,7 +9,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-
+@Data
 @Entity
 @Table(name = "shipping_zones")
 public class ShippingZones implements Serializable {
@@ -49,44 +49,5 @@ public class ShippingZones implements Serializable {
         this.title = title;
     }
 
-    public Long getId() {
-        return id;
-    }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-
-    public Collection<ShippingZonesRegions> getShippingZonesRegionsCollection() {
-        return shippingZonesRegionsCollection;
-    }
-
-    public void setShippingZonesRegionsCollection(Collection<ShippingZonesRegions> shippingZonesRegionsCollection) {
-        this.shippingZonesRegionsCollection = shippingZonesRegionsCollection;
-    }
-
-    public Shops getShopId() {
-        return shopId;
-    }
-
-    public void setShopId(Shops shopId) {
-        this.shopId = shopId;
-    }
-
-    public Collection<ShopWeightShipRules> getShipWeightRulesCollection() {
-        return shipWeightRulesCollection;
-    }
-
-    public void setShipWeightRulesCollection(Collection<ShopWeightShipRules> shipWeightRulesCollection) {
-        this.shipWeightRulesCollection = shipWeightRulesCollection;
-    }
 }
