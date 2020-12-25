@@ -2,10 +2,8 @@ package controllers;
 
 import com.google.gson.Gson;
 import common.Utils;
-import dto.OrderCsvExportRow;
 import dto.OrderDto;
 import entity.HibernateUtil;
-import entity.JackSonViewer;
 import entity.order.*;
 import entity.product.Products;
 import entity.shipping.ShopCourierClasses;
@@ -13,6 +11,7 @@ import entity.shop.Shops;
 import entity.shop.Users;
 import org.hibernate.transform.Transformers;
 import org.hibernate.type.StandardBasicTypes;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,10 +22,10 @@ import pojo.TaxInfo;
 import repositories.*;
 import services.ShippingService;
 import services.TaxSrvc;
+import org.modelmapper.ModelMapper;
 
 import javax.persistence.EntityManager;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -57,6 +56,9 @@ public class OrdersController {
 
     @Autowired
     ShipAddressRepo shipAddressRepo;
+
+    @Autowired
+    ModelMapper modelMapper;
 
     @RequestMapping(value=  "/api/order/place_order" , method = RequestMethod.POST)
     public ResponseEntity<String> placeOrder(@RequestBody Object postData) {
@@ -185,16 +187,18 @@ public class OrdersController {
     }
 
     @RequestMapping(value = "/api/order/{orderId}", method = RequestMethod.GET)
-    public ResponseEntity<String> getOrderDetails(@PathVariable Long orderId) {
+    public ResponseEntity<OrderDto> getOrderDetails(@PathVariable Long orderId) {
         try {
-            Optional<Orders> fetch = orderRepo.findById(2L);
-            Orders paragellia = fetch.orElse(null);
+            Optional<Orders> fetch = orderRepo.findById(orderId);
+            Orders orderDB = fetch.orElse(null);
 
-            String json = HibernateUtil.getCustomMapper().writerWithView(JackSonViewer.IOrder.class).writeValueAsString(paragellia);
-            return new ResponseEntity<>(json, HttpStatus.BAD_GATEWAY);
+            OrderDto orderRsp = modelMapper.map(orderDB,OrderDto.class);
+
+            return new ResponseEntity<>(orderRsp, HttpStatus.BAD_GATEWAY);
 
         } catch (Exception ex) {
-            return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_GATEWAY);
+            ex.printStackTrace();
+            return new ResponseEntity<>(null, HttpStatus.BAD_GATEWAY);
         }
     }
 

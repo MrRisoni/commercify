@@ -1,7 +1,5 @@
 package entity.shipping;
 
-import com.fasterxml.jackson.annotation.JsonView;
-import entity.JackSonViewer;
 import entity.shop.Shops;
 import entity.general.Courriers;
 import lombok.Data;
@@ -20,7 +18,6 @@ public class ShopCouriers implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column
-    @JsonView(JackSonViewer.IOrder.class)
     private Long id;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "shopCourierId")
@@ -32,7 +29,6 @@ public class ShopCouriers implements Serializable {
 
     @JoinColumn(name = "courier_id", referencedColumnName = "id")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JsonView(JackSonViewer.IOrder.class)
     private Courriers courierId;
 
     public ShopCouriers() {

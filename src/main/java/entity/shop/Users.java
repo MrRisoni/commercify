@@ -1,7 +1,7 @@
 package entity.shop;
 
-import com.fasterxml.jackson.annotation.JsonView;
-import entity.JackSonViewer;
+
+
 import entity.order.BillingAddress;
 import entity.order.Orders;
 import entity.order.ShippingAddress;
@@ -29,7 +29,6 @@ public class Users implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column
-    @JsonView(JackSonViewer.IOrder.class)
     private Long id;
 
     @Basic(optional = false)
@@ -55,21 +54,18 @@ public class Users implements Serializable {
     @NotNull
     @Size(min = 1, max = 100)
     @Column
-    @JsonView(JackSonViewer.IOrder.class)
     private String email;
 
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 30)
     @Column(name = "first_name")
-    @JsonView(JackSonViewer.IOrder.class)
     private String firstName;
 
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 30)
     @Column(name = "last_name")
-    @JsonView(JackSonViewer.IOrder.class)
     private String lastName;
 
     @Basic(optional = false)

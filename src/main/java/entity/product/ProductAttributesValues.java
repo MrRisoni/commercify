@@ -1,7 +1,5 @@
 package entity.product;
 
-import com.fasterxml.jackson.annotation.JsonView;
-import entity.JackSonViewer;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -31,12 +29,10 @@ public class ProductAttributesValues implements Serializable {
     @Column(name = "value")
     private String value;
 
-    @JsonView({JackSonViewer.IOrder.class})
     @Column(name = "value_numeric")
     private BigDecimal valueNumeric;
 
     @Column(name = "value_boolean")
-    @JsonView({JackSonViewer.IOrder.class})
     private int valueBoolean;
 
     @JoinColumn(name = "product_id", referencedColumnName = "id")
@@ -53,5 +49,4 @@ public class ProductAttributesValues implements Serializable {
     public ProductAttributesValues(Long id) {
         this.id = id;
     }
-
 }

@@ -1,7 +1,7 @@
 package entity.product;
 
-import com.fasterxml.jackson.annotation.JsonView;
-import entity.JackSonViewer;
+
+
 import entity.shop.Shops;
 import entity.shop.Users;
 import lombok.Data;

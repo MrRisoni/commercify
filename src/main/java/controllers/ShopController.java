@@ -1,8 +1,7 @@
 package controllers;
 
-
 import entity.HibernateUtil;
-import entity.JackSonViewer;
+
 import entity.product.ProductCategories;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,7 +32,7 @@ public class ShopController {
             List<ProductCategories> result = query.getResultList();
             rsp.put("favorites",result);
             System.out.println("Count RESULT !!!" + result.size());
-           rsp.put("favorites", HibernateUtil.getCustomMapper().writerWithView(JackSonViewer.IShopProductCategory.class).writeValueAsString(result));
+         //  rsp.put("favorites", HibernateUtil.getCustomMapper().writerWithView(JackSonViewer.IShopProductCategory.class).writeValueAsString(result));
             return rsp;
         }
         catch (Exception ex)

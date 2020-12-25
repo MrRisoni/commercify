@@ -1,6 +1,5 @@
 package entity.product;
 
-import com.fasterxml.jackson.annotation.JsonView;
 import entity.*;
 import entity.general.Currencies;
 import entity.order.OrderItems;
@@ -35,7 +34,6 @@ public class Products implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column
-    @JsonView({ JackSonViewer.IOrder.class})
     private Long id;
 
     @Column(name = "shop_id")
@@ -51,14 +49,12 @@ public class Products implements Serializable {
     @NotNull
     @Size(min = 1, max = 120)
     @Column
-    @JsonView({ JackSonViewer.IOrder.class})
     private String code;
 
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 55)
     @Column
-    @JsonView({JackSonViewer.IOrder.class})
     private String title;
 
     @Basic(optional = false)
@@ -83,7 +79,6 @@ public class Products implements Serializable {
     @NotNull
     @Size(min = 1, max = 255)
     @Column(name = "thumbnail_url")
-    @JsonView({ JackSonViewer.IOrder.class})
     private String thumbnailUrl;
 
     @Basic(optional = false)
@@ -99,7 +94,6 @@ public class Products implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column
-    @JsonView({ JackSonViewer.IOrder.class})
     private BigDecimal kilos;
 
     @Basic(optional = false)
@@ -125,7 +119,6 @@ public class Products implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column
-    @JsonView({ JackSonViewer.IOrder.class})
     private long stock;
 
     @Basic(optional = false)
@@ -192,7 +185,6 @@ public class Products implements Serializable {
 
     @JoinColumn(name = "category_id", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JsonView(JackSonViewer.IOrder.class)
     private ProductCategories categoryId;
 
     @JoinColumn(name = "currency_id", referencedColumnName = "id")
@@ -201,7 +193,6 @@ public class Products implements Serializable {
 
     @JoinColumn(name = "manufacturer_id", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JsonView(JackSonViewer.IOrder.class)
     private ShopManufacturers manufacturerId;
 
     public Products() {
@@ -210,7 +201,6 @@ public class Products implements Serializable {
     public Products(Long id) {
         this.id = id;
     }
-
 
     public Products(@NotNull BigDecimal kilos) {
         this.kilos = kilos;

@@ -1,7 +1,7 @@
 package entity.order;
 
-import com.fasterxml.jackson.annotation.JsonView;
-import entity.JackSonViewer;
+
+
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -18,19 +18,16 @@ public class OrderStatusHistory {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column
-    @JsonView(JackSonViewer.IOrder.class)
     private Long id;
 
     @Basic(optional = false)
     @CreationTimestamp
     @Column(name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)
-    @JsonView(JackSonViewer.IOrder.class)
     private Date createdAt;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "status_id")
-    @JsonView(JackSonViewer.IOrder.class)
     private OrderStatus statusObj;
 
 
@@ -39,5 +36,9 @@ public class OrderStatusHistory {
     private Orders orderObj;
 
     public OrderStatusHistory() {
+    }
+
+    public OrderStatus getStatusObj() {
+        return statusObj;
     }
 }

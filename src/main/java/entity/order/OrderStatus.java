@@ -1,7 +1,7 @@
 package entity.order;
 
-import com.fasterxml.jackson.annotation.JsonView;
-import entity.JackSonViewer;
+
+
 import lombok.Data;
 
 import java.io.Serializable;
@@ -20,14 +20,12 @@ public class OrderStatus implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column
-    @JsonView(JackSonViewer.IOrder.class)
     private Long id;
 
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 55)
     @Column
-    @JsonView(JackSonViewer.IOrder.class)
     private String title;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "statusId")

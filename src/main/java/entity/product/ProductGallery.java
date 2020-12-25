@@ -1,7 +1,7 @@
 package entity.product;
 
-import com.fasterxml.jackson.annotation.JsonView;
-import entity.JackSonViewer;
+
+
 import lombok.Data;
 
 import java.io.Serializable;

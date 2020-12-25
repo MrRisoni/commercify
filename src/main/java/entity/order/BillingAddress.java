@@ -1,7 +1,7 @@
 package entity.order;
 
-import com.fasterxml.jackson.annotation.JsonView;
-import entity.JackSonViewer;
+
+
 import entity.shop.Users;
 import entity.general.GlobeRegions;
 import lombok.Data;
@@ -27,49 +27,42 @@ public class BillingAddress implements Serializable {
     @NotNull
     @Size(min = 1, max = 2)
     @Column(name = "country_code")
-    @JsonView(JackSonViewer.IOrder.class)
     private String countryCode;
 
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 2)
     @Column(name = "contact_mobile")
-    @JsonView(JackSonViewer.IOrder.class)
     private String contactMobile;
 
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 80)
     @Column
-    @JsonView(JackSonViewer.IOrder.class)
     private String city;
 
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 80)
     @Column(name = "full_name")
-    @JsonView(JackSonViewer.IOrder.class)
     private String fullName;
 
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 80)
     @Column
-    @JsonView(JackSonViewer.IOrder.class)
     private String address;
 
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 20)
     @Column(name = "street_no")
-    @JsonView(JackSonViewer.IOrder.class)
     private String streetNo;
 
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 20)
     @Column(name = "post_code")
-    @JsonView(JackSonViewer.IOrder.class)
     private String postCode;
 
     @JoinColumn(name = "user_id", referencedColumnName = "id")

@@ -1,7 +1,7 @@
 package entity.shop;
 
-import com.fasterxml.jackson.annotation.JsonView;
-import entity.JackSonViewer;
+
+
 import entity.product.Products;
 import lombok.Data;
 
@@ -21,14 +21,12 @@ public class ShopManufacturers implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column
-    @JsonView(JackSonViewer.IOrder.class)
     private Long id;
 
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 55)
     @Column
-    @JsonView(JackSonViewer.IOrder.class)
     private String title;
 
     @JoinColumn(name = "shop_id", referencedColumnName = "id")

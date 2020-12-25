@@ -1,7 +1,6 @@
 package entity.order;
 
-import com.fasterxml.jackson.annotation.JsonView;
-import entity.JackSonViewer;
+
 import entity.product.Products;
 import entity.shipping.ShopCourierClasses;
 import lombok.Data;
@@ -24,51 +23,42 @@ public class OrderItems implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column
-    @JsonView(JackSonViewer.IOrder.class)
     private Long id;
 
     @Basic(optional = false)
     @NotNull
     @Column
-    @JsonView(JackSonViewer.IOrder.class)
     private int quantity;
 
     @Basic(optional = false)
     @Size(min = 1, max = 52)
     @Column(name = "tracking_no")
-    @JsonView(JackSonViewer.IOrder.class)
     private String trackingNo;
 
     @Basic(optional = false)
     @NotNull
     @Column(name = "net_price")
-    @JsonView(JackSonViewer.IOrder.class)
     private BigDecimal netPrice;
 
     @Basic(optional = false)
     @NotNull
     @Column
-    @JsonView(JackSonViewer.IOrder.class)
     private BigDecimal taxes;
 
     @Basic(optional = false)
     @Column(name = "gift_cost")
-    @JsonView(JackSonViewer.IOrder.class)
     private BigDecimal giftCost;
 
     @Basic(optional = false)
     @Column
-    @JsonView(JackSonViewer.IOrder.class)
     private boolean success;
 
     @Basic(optional = false)
     @Column(name = "void")
-    @JsonView(JackSonViewer.IOrder.class)
     private boolean isVoid;
 
     @Basic(optional = false)
     @Column
-    @JsonView(JackSonViewer.IOrder.class)
     private boolean refund;
 
     @Column(name = "dispatched_on")
@@ -86,22 +76,18 @@ public class OrderItems implements Serializable {
 
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JsonView(JackSonViewer.IOrder.class)
     private Products productId;
 
     @JoinColumn(name = "status_id", referencedColumnName = "id")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JsonView(JackSonViewer.IOrder.class)
     private OrderStatus statusId;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "item_id")
-    @JsonView(JackSonViewer.IOrder.class)
     private List<OrderItemStatusHistory> statusHistory;
 
     @JoinColumn(name = "shipping_class_id", referencedColumnName = "id")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JsonView(JackSonViewer.IOrder.class)
     private ShopCourierClasses shipClassId;
 
     public OrderItems() {

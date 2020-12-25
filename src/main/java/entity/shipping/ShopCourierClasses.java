@@ -1,12 +1,9 @@
 package entity.shipping;
 
-import com.fasterxml.jackson.annotation.JsonView;
-import entity.JackSonViewer;
 import entity.order.OrderItems;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Collection;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -22,14 +19,12 @@ public class ShopCourierClasses implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column
-    @JsonView(JackSonViewer.IOrder.class)
     private Long id;
 
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 52)
     @Column
-    @JsonView(JackSonViewer.IOrder.class)
     private String title;
 
     @Basic(optional = false)
@@ -42,7 +37,6 @@ public class ShopCourierClasses implements Serializable {
 
     @JoinColumn(name = "shop_courier_id", referencedColumnName = "id")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JsonView(JackSonViewer.IOrder.class)
     private ShopCouriers shopCourierId;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "shippingClassId")
