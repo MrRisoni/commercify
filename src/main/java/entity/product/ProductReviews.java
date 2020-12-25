@@ -23,32 +23,27 @@ public class ProductReviews implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column
-    @JsonView(JackSonViewer.IShopProduct.class)
     private Long id;
 
     @Basic(optional = false)
     @NotNull
     @Column
-    @JsonView(JackSonViewer.IShopProduct.class)
     private BigDecimal stars;
 
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
     @Column
-    @JsonView(JackSonViewer.IShopProduct.class)
     private String comment;
 
     @Basic(optional = false)
     @NotNull
     @Column
     @Temporal(TemporalType.TIMESTAMP)
-    @JsonView(JackSonViewer.IShopProduct.class)
     private Date created;
 
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JsonView(JackSonViewer.IShopProduct.class)
     private Users userId;
 
     @JoinColumn(name = "shop_id", referencedColumnName = "id")

@@ -35,7 +35,7 @@ public class Products implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column
-    @JsonView({JackSonViewer.IShopProduct.class, JackSonViewer.IOrder.class})
+    @JsonView({ JackSonViewer.IOrder.class})
     private Long id;
 
     @Column(name = "shop_id")
@@ -51,34 +51,31 @@ public class Products implements Serializable {
     @NotNull
     @Size(min = 1, max = 120)
     @Column
-    @JsonView({JackSonViewer.IShopProduct.class, JackSonViewer.IOrder.class})
+    @JsonView({ JackSonViewer.IOrder.class})
     private String code;
 
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 55)
     @Column
-    @JsonView({JackSonViewer.IShopProduct.class, JackSonViewer.IOrder.class})
+    @JsonView({JackSonViewer.IOrder.class})
     private String title;
 
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 55)
-    @JsonView(JackSonViewer.IShopProduct.class)
     @Column
     private String descr;
 
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 50)
-    @JsonView(JackSonViewer.IShopProduct.class)
     @Column
     private String sku;
 
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
-    @JsonView(JackSonViewer.IShopProduct.class)
     @Column(name = "img_url")
     private String imgUrl;
 
@@ -86,55 +83,49 @@ public class Products implements Serializable {
     @NotNull
     @Size(min = 1, max = 255)
     @Column(name = "thumbnail_url")
-    @JsonView({JackSonViewer.IShopProduct.class, JackSonViewer.IOrder.class})
+    @JsonView({ JackSonViewer.IOrder.class})
     private String thumbnailUrl;
 
     @Basic(optional = false)
     @NotNull
     @Column
-    @JsonView(JackSonViewer.IShopProduct.class)
     private BigDecimal price;
 
     @Basic(optional = false)
     @NotNull
     @Column(name = "discount_percent")
-    @JsonView(JackSonViewer.IShopProduct.class)
     private BigDecimal discountPercent;
 
     @Basic(optional = false)
     @NotNull
     @Column
-    @JsonView({JackSonViewer.IShopProduct.class, JackSonViewer.IOrder.class})
+    @JsonView({ JackSonViewer.IOrder.class})
     private BigDecimal kilos;
 
     @Basic(optional = false)
     @NotNull
     @Column(name = "dim_l")
-    @JsonView(JackSonViewer.IShopProduct.class)
     private BigDecimal dimL;
 
     @Basic(optional = false)
     @NotNull
     @Column(name = "dim_w")
-    @JsonView(JackSonViewer.IShopProduct.class)
     private BigDecimal dimW;
 
     @Basic(optional = false)
     @NotNull
     @Column(name = "dim_h")
-    @JsonView(JackSonViewer.IShopProduct.class)
     private BigDecimal dimH;
 
     @Basic(optional = false)
     @NotNull
     @Column
-    @JsonView(JackSonViewer.IShopProduct.class)
     private boolean active;
 
     @Basic(optional = false)
     @NotNull
     @Column
-    @JsonView({JackSonViewer.IShopProduct.class, JackSonViewer.IOrder.class})
+    @JsonView({ JackSonViewer.IOrder.class})
     private long stock;
 
     @Basic(optional = false)
@@ -142,30 +133,25 @@ public class Products implements Serializable {
     @Column
     @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp
-    @JsonView(JackSonViewer.IShopProduct.class)
     private Date created;
 
     @Column
     @Temporal(TemporalType.TIMESTAMP)
-    @JsonView(JackSonViewer.IShopProduct.class)
     private Date updated;
 
     @Basic(optional = false)
     @NotNull
     @Column
-    @JsonView(JackSonViewer.IShopProduct.class)
     private boolean taxable;
 
     @Basic(optional = false)
     @NotNull
     @Column(name = "gift_wrap_cost")
-    @JsonView(JackSonViewer.IShopProduct.class)
     private BigDecimal giftWrapCost;
 
     @Basic(optional = false)
     @NotNull
     @Column
-    @JsonView(JackSonViewer.IShopProduct.class)
     private boolean visible;
 
     @Basic(optional = false)
@@ -181,11 +167,9 @@ public class Products implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "avg_rating")
-    @JsonView(JackSonViewer.IShopProduct.class)
     private BigDecimal avgRating;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId", fetch = FetchType.LAZY)
-    @JsonView(JackSonViewer.IShopProduct.class)
     private Collection<ProductTags> productTagsCollection;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId", fetch = FetchType.LAZY)
@@ -194,15 +178,12 @@ public class Products implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId", fetch = FetchType.LAZY)
     private Collection<OrderItems> orderItemsCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId")
-    @JsonView(JackSonViewer.IShopProduct.class)
     private Collection<ProductAttributesValues> productAttributesValuesCollection;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId", fetch = FetchType.LAZY)
-    @JsonView(JackSonViewer.IShopProduct.class)
     private Collection<ProductGallery> productGalleryCollection;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId", fetch = FetchType.LAZY)
-    @JsonView(JackSonViewer.IShopProduct.class)
     private Collection<ProductReviews> productReviewsCollection;
 
     @JoinColumn(name = "shop_id", referencedColumnName = "id", insertable = false, updatable = false)
@@ -211,17 +192,16 @@ public class Products implements Serializable {
 
     @JoinColumn(name = "category_id", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JsonView({JackSonViewer.IShopProduct.class, JackSonViewer.IOrder.class})
+    @JsonView(JackSonViewer.IOrder.class)
     private ProductCategories categoryId;
 
     @JoinColumn(name = "currency_id", referencedColumnName = "id")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JsonView(JackSonViewer.IShopProduct.class)
     private Currencies currencyId;
 
     @JoinColumn(name = "manufacturer_id", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JsonView({JackSonViewer.IShopProduct.class, JackSonViewer.IOrder.class})
+    @JsonView(JackSonViewer.IOrder.class)
     private ShopManufacturers manufacturerId;
 
     public Products() {

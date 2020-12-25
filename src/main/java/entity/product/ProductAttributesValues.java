@@ -20,7 +20,6 @@ public class ProductAttributesValues implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column
-    @JsonView(JackSonViewer.IShopProduct.class)
     private Long id;
 
     @Column(name = "attribute_id")
@@ -30,15 +29,14 @@ public class ProductAttributesValues implements Serializable {
     @NotNull
     @Size(min = 1, max = 55)
     @Column(name = "value")
-    @JsonView(JackSonViewer.IShopProduct.class)
     private String value;
 
-    @JsonView({JackSonViewer.IOrder.class, JackSonViewer.IShopProduct.class})
+    @JsonView({JackSonViewer.IOrder.class})
     @Column(name = "value_numeric")
     private BigDecimal valueNumeric;
 
     @Column(name = "value_boolean")
-    @JsonView({JackSonViewer.IOrder.class, JackSonViewer.IShopProduct.class})
+    @JsonView({JackSonViewer.IOrder.class})
     private int valueBoolean;
 
     @JoinColumn(name = "product_id", referencedColumnName = "id")
@@ -47,7 +45,6 @@ public class ProductAttributesValues implements Serializable {
 
     @JoinColumn(name = "attribute_id", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JsonView(JackSonViewer.IShopProduct.class)
     private ProductCategoryAttributes attributeId;
 
     public ProductAttributesValues() {

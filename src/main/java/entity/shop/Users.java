@@ -1,4 +1,3 @@
-
 package entity.shop;
 
 import com.fasterxml.jackson.annotation.JsonView;
@@ -18,7 +17,6 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-
 @Data
 @Entity
 @Table(name = "users")
@@ -31,7 +29,7 @@ public class Users implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column
-    @JsonView({JackSonViewer.IShopProduct.class, JackSonViewer.IOrder.class})
+    @JsonView(JackSonViewer.IOrder.class)
     private Long id;
 
     @Basic(optional = false)

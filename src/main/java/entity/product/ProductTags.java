@@ -19,14 +19,12 @@ public class ProductTags implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column
-    @JsonView(JackSonViewer.IShopProduct.class)
     private Long id;
 
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 55)
     @Column
-    @JsonView(JackSonViewer.IShopProduct.class)
     private String tag;
 
     @JoinColumn(name = "product_id", referencedColumnName = "id")

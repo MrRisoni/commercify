@@ -22,7 +22,6 @@ public class Currencies implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column
-    @JsonView(JackSonViewer.IShopProduct.class)
     private Long id;
 
     @Basic(optional = false)
@@ -35,7 +34,6 @@ public class Currencies implements Serializable {
     @NotNull
     @Size(min = 1, max = 3)
     @Column
-    @JsonView(JackSonViewer.IShopProduct.class)
     private String code;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "currencyId")

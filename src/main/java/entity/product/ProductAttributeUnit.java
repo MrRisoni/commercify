@@ -17,11 +17,9 @@ public class ProductAttributeUnit implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column
-    @JsonView(JackSonViewer.IShopProduct.class)
     private Long id;
 
     @Column
-    @JsonView(JackSonViewer.IShopProduct.class)
     private String units;
 
     @JoinColumn(name = "attribute_id", referencedColumnName = "id")

@@ -25,6 +25,9 @@ public class ProductsDto {
     private Collection<ProductGalleryDto> productGalleryCollection;
     private Collection<ProductReviewDto> productReviewsCollection;
     private ManufacturerDto manufacturerId;
+    private ShopDto shopId;
+    private ProductCategoryDto categoryId;
+    private Collection<ProductAttributeValDto> productAttributesValuesCollection;
 
     public ProductsDto() {
     }
