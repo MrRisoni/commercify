@@ -37,7 +37,6 @@ public class Users implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 20)
-    @JsonView(JackSonViewer.IShopProduct.class)
     @Column
     private String username;
     @Basic(optional = false)

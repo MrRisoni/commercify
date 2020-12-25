@@ -5,6 +5,7 @@ import lombok.Data;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.Date;
 
 @Data
@@ -21,6 +22,9 @@ public class ProductsDto {
     private  long totalOrders;
     private  long totalClicks;
     private  BigDecimal avgRating;
+    private Collection<ProductGalleryDto> productGalleryCollection;
+    private Collection<ProductReviewDto> productReviewsCollection;
+    private ManufacturerDto manufacturerId;
 
     public ProductsDto() {
     }

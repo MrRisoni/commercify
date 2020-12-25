@@ -5,13 +5,13 @@ import lombok.Data;
 import java.math.BigDecimal;
 
 @Data
-public class ProductPreview {
+public class ProductPreviewDto {
     private long id;
     private String title;
     private String thumbnailUrl;
     private BigDecimal price;
 
-    public ProductPreview(long id, String title, String thumbnailUrl, BigDecimal price) {
+    public ProductPreviewDto(long id, String title, String thumbnailUrl, BigDecimal price) {
         this.id = id;
         this.title = title;
         this.thumbnailUrl = thumbnailUrl;

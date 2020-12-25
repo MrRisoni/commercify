@@ -1,10 +1,9 @@
-package core.analytics;
+package controllers.analytics;
 
 import dto.*;
 import entity.HibernateUtil;
 import org.hibernate.transform.Transformers;
 import org.hibernate.type.StandardBasicTypes;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -100,7 +99,6 @@ public class RevenueController {
         }
     }
 
-
     @RequestMapping(value="/api/revenue/orders",method = RequestMethod.GET)
     public List<OrderReport> getOrders() {
         try {
@@ -174,7 +172,4 @@ public class RevenueController {
             return null;
         }
     }
-
-
-
 }

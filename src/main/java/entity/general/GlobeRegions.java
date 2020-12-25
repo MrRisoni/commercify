@@ -42,4 +42,8 @@ public class GlobeRegions implements Serializable {
 
     public GlobeRegions() {
     }
+
+    public GlobeRegions(Long id) {
+        this.id = id;
+    }
 }

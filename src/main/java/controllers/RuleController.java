@@ -1,4 +1,4 @@
-package core;
+package controllers;
 
 import dto.RestrictPaymentCriteriaDTO;
 import entity.HibernateUtil;

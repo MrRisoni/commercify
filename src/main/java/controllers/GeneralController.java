@@ -1,4 +1,4 @@
-package core;
+package controllers;
 
 import entity.HibernateUtil;
 import entity.general.Currencies;
